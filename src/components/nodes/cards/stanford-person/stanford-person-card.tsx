@@ -14,7 +14,11 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <article aria-labelledby={node.id} className="mx-auto text-center overflow-hidden" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="mx-auto text-center overflow-hidden"
+      {...props}
+    >
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">
           <Image

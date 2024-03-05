@@ -23,7 +23,11 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   }) : undefined;
 
   return (
-    <article aria-labelledby={node.id} className="@container" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="@container"
+      {...props}
+    >
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
         <div className="order-2 @3xl::order-1">
 

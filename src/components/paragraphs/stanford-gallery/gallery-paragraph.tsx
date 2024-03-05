@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import Image from "next/image";
 import {H2} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
+import {ElementType, HtmlHTMLAttributes} from "react";
 import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d";
 import Link from "@components/elements/link";
 
@@ -11,10 +11,16 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const GalleryParagraph = ({paragraph, ...props}: Props) => {
+  const GalleryWrapper: ElementType = paragraph.suGalleryHeadline ? 'article' : 'div';
+
   return (
-    <div className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
+    <GalleryWrapper
+      className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
+      aria-labelledby={paragraph.suGalleryHeadline ? paragraph.id : undefined}
+      {...props}
+    >
       {paragraph.suGalleryHeadline &&
-        <H2>{paragraph.suGalleryHeadline}</H2>
+        <H2 id={paragraph.id}>{paragraph.suGalleryHeadline}</H2>
       }
 
       <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
@@ -36,7 +42,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
           </Button>
         </div>
       }
-    </div>
+    </GalleryWrapper>
   )
 }
 

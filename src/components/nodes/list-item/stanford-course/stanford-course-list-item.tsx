@@ -11,7 +11,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <article aria-labelledby={node.id} {...props}>
+    <article
+      aria-labelledby={node.id}
+      {...props}
+    >
       <Heading className="text-m2" id={node.id}>
         <Link href={node.path}>
           {node.title}

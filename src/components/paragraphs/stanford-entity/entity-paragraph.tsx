@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
+import {ElementType, HtmlHTMLAttributes} from "react";
 import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
 import {twMerge} from "tailwind-merge";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
@@ -21,10 +21,16 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   ];
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
+  const EntityWrapper: ElementType = paragraph.suEntityHeadline ? 'section' : 'div';
+
   return (
-    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
+    <EntityWrapper
+      className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
+      aria-labelledby={paragraph.suEntityHeadline ? paragraph.id : undefined}
+      {...props}
+    >
       {paragraph.suEntityHeadline &&
-        <H2 className={twMerge("text-center", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
+        <H2 id={paragraph.id} className={twMerge("text-center", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
           {paragraph.suEntityHeadline}
         </H2>
       }
@@ -44,7 +50,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
           </Button>
         </div>
       }
-    </div>
+    </EntityWrapper>
   )
 }
 export default EntityParagraph

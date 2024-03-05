@@ -23,7 +23,11 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
   }) : undefined;
 
   return (
-    <article aria-labelledby={node.id} className="mx-auto shadow-xl border border-black-20 overflow-hidden" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="mx-auto shadow-xl border border-black-20 overflow-hidden"
+      {...props}
+    >
 
       {image?.url &&
         <div className="relative aspect-[16/9] w-full">

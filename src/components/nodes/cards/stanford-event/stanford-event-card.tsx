@@ -24,8 +24,11 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <article aria-labelledby={node.id}
-             className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-5 overflow-hidden" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-5 overflow-hidden"
+      {...props}
+    >
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

@@ -14,7 +14,11 @@ const StanfordPersonListItem = ({node, headingLevel, ...props}: Props) => {
 
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <article aria-labelledby={node.id} className="max-w-[500px] w-full mx-auto shadow-lg p-20 text-center" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="max-w-[500px] w-full mx-auto shadow-lg p-20 text-center"
+      {...props}
+    >
       {imageUrl &&
         <div className="relative aspect-[1/1] w-full mx-auto mb-20">
           <Image

@@ -27,9 +27,9 @@ const InteriorPage = async ({children, currentPath, ...props}: Props) => {
         </aside>
       }
 
-      <section className="flex-grow" id="page-content">
+      <div className="flex-grow" id="page-content">
         {children}
-      </section>
+      </div>
     </div>
   )
 }

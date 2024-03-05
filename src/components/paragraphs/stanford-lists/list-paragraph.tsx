@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import Button from "@components/elements/button";
 import View from "@components/views/view";
 import {H2} from "@components/elements/headers";
-import {cache, HtmlHTMLAttributes} from "react";
+import {cache, ElementType, HtmlHTMLAttributes} from "react";
 import {
   Maybe,
   NodeStanfordCourse, NodeStanfordEvent, NodeStanfordNews,
@@ -27,10 +27,16 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 
   if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null;
 
+  const ListWrapper: ElementType = paragraph.suListHeadline ? 'section' : 'div';
+
   return (
-    <div className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20" {...props}>
+    <ListWrapper
+      className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
+      aria-labelledby={paragraph.suListHeadline ? paragraph.id : undefined}
+      {...props}
+    >
       {paragraph.suListHeadline &&
-        <H2 className={twMerge("text-center", behaviors.list_paragraph?.hide_heading && "sr-only")}>
+        <H2 id={paragraph.id} className={twMerge("text-center", behaviors.list_paragraph?.hide_heading && "sr-only")}>
           {paragraph.suListHeadline}
         </H2>
       }
@@ -57,7 +63,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
           </Button>
         </div>
       }
-    </div>
+    </ListWrapper>
   )
 }
 

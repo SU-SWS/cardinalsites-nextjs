@@ -25,7 +25,11 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
 
   return (
-    <article aria-labelledby={node.id} className="w-full mx-auto py-10 flex gap-10" {...props}>
+    <article
+      aria-labelledby={node.id}
+      className="w-full mx-auto py-10 flex gap-10"
+      {...props}
+    >
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}

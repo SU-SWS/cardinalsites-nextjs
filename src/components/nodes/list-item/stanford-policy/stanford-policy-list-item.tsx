@@ -13,7 +13,8 @@ const StanfordPolicyListItem = ({node, headingLevel, ...props}: Props) => {
   return (
     <article
       aria-labelledby={node.id}
-      className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10" {...props}
+      className="max-w-[500px] w-full mx-auto shadow-xl border border-black-20 p-10"
+      {...props}
     >
 
       <Heading className="text-m2" id={node.id}>
