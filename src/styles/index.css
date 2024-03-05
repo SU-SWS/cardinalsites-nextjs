@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles for react-tiny-oembed containers */
+.aspect-\[16\/9\] .__embed_column {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.aspect-\[16\/9\] .__embed_column iframe {
+  width: 100%;
+  height: 100%;
+}

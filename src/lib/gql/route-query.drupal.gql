@@ -1,0 +1,18 @@
+# Query based on the url path string to find the entity that matches. Return the redirect or the entity.
+query Route($path: String!) {
+    route(path: $path) {
+        __typename
+        ... on RouteRedirect {
+            url
+            internal
+            status
+            redirect
+        }
+        ... on RouteInternal {
+            entity {
+                ...FragmentNodeUnion
+                ...FragmentTermInterface
+            }
+        }
+    }
+}

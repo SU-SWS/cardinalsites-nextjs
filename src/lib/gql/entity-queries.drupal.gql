@@ -1,0 +1,310 @@
+# Query specific entity types by their UUID value.
+query Node($uuid: ID!) {
+    node(id: $uuid) {
+        ...FragmentNodeUnion
+    }
+}
+
+query AllNodes($pageSize: Int = 100) {
+    nodeStanfordCourses(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordEventSeriesItems(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordEvents(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordNewsItems(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordPages(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordPeople(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordPolicies(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+    nodeStanfordPublications(first: $pageSize, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeInterface
+        }
+    }
+}
+
+query Courses($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordCourses(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordCourse
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query EventSeries($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordEventSeriesItems(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordEventSeries
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query Events($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordEvents(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordEvent
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query News($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordNewsItems(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordNews
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query BasicPages($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordPages(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordPage
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query People($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordPeople(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordPerson
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query Policies($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordPolicies(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordPolicy
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+query Publications($pageSize: Int = 100, $after: Cursor) {
+    nodeStanfordPublications(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+        nodes {
+            ...FragmentNodeStanfordPublication
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+    }
+}
+
+
+query Media($uuid: ID!) {
+    media(id: $uuid) {
+        ...FragmentMediaUnion
+    }
+}
+
+query Term($uuid: ID!) {
+    term(id: $uuid) {
+        ...FragmentTermInterface
+    }
+}
+
+query ConfigPages {
+    stanfordBasicSiteSettings(first: 1) {
+        nodes {
+            __typename
+            suGoogleAnalytics
+            suSiteAlgolia
+            suSiteAlgoliaId
+            suSiteAlgoliaIndex
+            suSiteAlgoliaSearch
+            suSiteDropdowns
+            suSiteMenuLevels
+            suSiteName
+            suSiteNobots
+        }
+    }
+    stanfordGlobalMessages(first: 1) {
+        nodes {
+            __typename
+            suGlobalMsgEnabled
+            suGlobalMsgHeader
+            suGlobalMsgLabel
+            suGlobalMsgLink {
+                title
+                url
+            }
+            suGlobalMsgMessage {
+                processed
+            }
+            suGlobalMsgType
+        }
+    }
+    stanfordLocalFooters(first: 1) {
+        nodes {
+            __typename
+            suFooterEnabled
+            suLocalFootAction {
+                title
+                url
+            }
+            suLocalFootAddress {
+                additionalName
+                addressLine1
+                addressLine2
+                administrativeArea
+                country {
+                    code
+                    name
+                }
+                dependentLocality
+                familyName
+                givenName
+                langcode
+                locality
+                organization
+                postalCode
+                sortingCode
+            }
+            suLocalFootFButton
+            suLocalFootFIntro {
+                processed
+            }
+            suLocalFootFMethod
+            suLocalFootFUrl {
+                url
+                title
+            }
+            suLocalFootLine1
+            suLocalFootLine4
+            suLocalFootLine2
+            suLocalFootLine3
+            suLocalFootLine5
+            suLocalFootLocImg {
+                alt
+                height
+                url
+                width
+            }
+            suLocalFootLocLink {
+                title
+                url
+            }
+            suLocalFootLocOp
+            suLocalFootPrCo {
+                processed
+            }
+            suLocalFootPrimary {
+                title
+                url
+            }
+            suLocalFootPrimeH
+            suLocalFootSeCo {
+                processed
+            }
+            suLocalFootSecond {
+                title
+                url
+            }
+            suLocalFootSecondH
+            suLocalFootSocial {
+                title
+                url
+            }
+            suLocalFootSunetT
+            suLocalFootTr2Co {
+                processed
+            }
+            suLocalFootTrCo {
+                processed
+            }
+            suLocalFootUseLoc
+            suLocalFootUseLogo
+        }
+    }
+    stanfordSuperFooters(first: 1) {
+        nodes {
+            __typename
+            suSuperFootEnabled
+            suSuperFootIntranet {
+                title
+                url
+            }
+            suSuperFootLink {
+                title
+                url
+            }
+            suSuperFootText {
+                processed
+            }
+            suSuperFootTitle
+        }
+    }
+    lockupSettings(first: 1) {
+       nodes {
+           __typename
+            suLine1
+            suLine2
+            suLine3
+            suLine4
+            suLine5
+            suLockupEnabled
+            suLockupOptions
+            suUploadLogoImage {
+                alt
+                height
+                url
+                width
+            }
+            suUseThemeLogo
+        }
+    }
+}

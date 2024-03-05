@@ -1,0 +1,26 @@
+fragment FragmentMenuLink on MenuItem {
+    url
+    title
+    id
+    expanded
+}
+
+query Menu($name: MenuAvailable = MAIN) {
+    menu(name: $name) {
+        items {
+            ...FragmentMenuLink
+            children {
+                ...FragmentMenuLink
+                children {
+                    ...FragmentMenuLink
+                    children {
+                        ...FragmentMenuLink
+                        children {
+                            ...FragmentMenuLink
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

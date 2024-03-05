@@ -1,0 +1,30 @@
+
+name: Build & Lint
+on: [push]
+jobs:
+  lint:
+    name: Lint & TS Check
+    runs-on: ubuntu-latest
+    container:
+      image: node:20
+      env:
+        NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ secrets.NEXT_PUBLIC_DRUPAL_BASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+          key: 1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+            1.x-${{ hashFiles('package.json') }}-
+            1.x-
+      - name: Lint
+        run: |
+          yarn
+          yarn lint
+      - name: Build
+        run: |
+          yarn build
