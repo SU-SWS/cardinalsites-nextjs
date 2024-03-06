@@ -9,7 +9,7 @@ const LockupH = ({line1, line3, line4, siteName, logoUrl}: FooterLockupProps) =>
         <div className="flex flex-col lg:flex-row gap-4">
           <div>
             <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
-            <div className="font-semibold uppercase text-m1">{line4}</div>
+            <div className="font-semibold uppercase text-m1 mt-1">{line4}</div>
           </div>
 
           <div className="w-[1px] bg-black shrink-0"/>
