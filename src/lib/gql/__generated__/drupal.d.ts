@@ -2328,7 +2328,7 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTag
   suHideExtLinkIcons?: Maybe<Scalars['Boolean']['output']>;
   /** Check this box to disable the site search box. */
   suHideSiteSearch?: Maybe<Scalars['Boolean']['output']>;
-  /** Use Algolia */
+  /** Send content data to Algolia using the configured credentials below. */
   suSiteAlgolia?: Maybe<Scalars['Boolean']['output']>;
   /**
    * This is your unique application identifier. It's used to identify you when
@@ -2336,7 +2336,7 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTag
    * href="https://dashboard.algolia.com/account/api-keys/all>Algolia
    */
   suSiteAlgoliaId?: Maybe<Scalars['String']['output']>;
-  /** Algolia Search Index */
+  /** Algolia index machine name. This can be found at the top of the Algolia UI when on the "Search" configuration page. */
   suSiteAlgoliaIndex?: Maybe<Scalars['String']['output']>;
   /**
    * This is the public API key to use in your frontend code. This key is only

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "@components/elements/link";
-import {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
 import useNavigationEvent from "@lib/hooks/useNavigationEvent";
@@ -65,6 +65,7 @@ type MenuItemProps = MenuItemType & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps) => {
+  const linkId = useId();
   const sublistRef = useRef<HTMLLIElement>(null);
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -138,6 +139,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
+          id={linkId}
           href={url || '#'}
           className={linkStyles}
           aria-current={isCurrent ? "true" : undefined}
@@ -153,12 +155,12 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
               className="shrink-0 mb-[6px] relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
               onClick={toggleSubmenu}
               aria-expanded={submenuOpen}
+              aria-labelledby={linkId}
             >
               <ChevronDownIcon
                 height={35}
                 className={clsx("transition group-hocus:scale-125 group-hocus:text-black ease-in-out duration-150", submenuOpen && "rotate-180")}
               />
-              <span className="sr-only">{submenuOpen ? "Close" : "Open"} {title} Submenu</span>
             </button>
 
           </>
