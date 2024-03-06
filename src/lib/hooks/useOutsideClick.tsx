@@ -1,7 +1,7 @@
 import {RefObject} from "react";
 import {useOnClickOutside} from "usehooks-ts";
 
-const useOutsideClick = (ref: RefObject<any>, onClickOutside: () => void) => {
+const useOutsideClick = (ref: RefObject<HTMLElement>, onClickOutside: () => void) => {
   useOnClickOutside(ref, onClickOutside, "mousedown")
   useOnClickOutside(ref, onClickOutside, "touchstart")
 
