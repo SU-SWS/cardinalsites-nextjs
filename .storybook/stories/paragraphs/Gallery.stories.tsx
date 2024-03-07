@@ -34,25 +34,30 @@ export const Gallery: Story = {
         time: new Date().toISOString(),
         timezone: "America/Los_Angeles"
       },
-      
-      id: "a3a6bb56-8ad2-467e-af49-d070848ee4b9",
+      id: "1e0c21ee-7cb8-4eff-8877-862d16c9885c",
       suGalleryButton: {
-        url:"/about",
-        title:"Link text",
+        url: "http://stanford.edu",
+        title: "Button text",
+        internal: {},
       },
       suGalleryDescription: {
-        processed: "<p>Please enter the description here. </p>"
+        processed: "<p>Pepper jack fromage frais pecorino cheesecake cheesy grin camembert de normandie macaroni cheese the big cheese.</p>"
       },
-      suGalleryHeadline:"New Gallery",
+      suGalleryHeadline: "This is a Gallery Headline",
       suGalleryImages: [
         {
-          id: "c9bfa54a-7a54-4892-b3e5-72a1423fb221",
-          suGalleryCaption:"This is a caption",
+          id: "1645a861-ce72-41da-937d-e931a9671f5f",
+          suGalleryCaption: "This is an image caption.",
           suGalleryImage: getStoryBookImage(),
         },
         {
           id: "6906300d-cd67-41cf-b5bb-165f839bdf1b",
-          suGalleryCaption:"This is a caption",
+          suGalleryCaption: "This is an image caption.",
+          suGalleryImage: getStoryBookImage(),
+        },
+        {
+          id:"c9bfa54a-7a54-4892-b3e5-72a1423fb221",
+          suGalleryCaption: "This is an image caption.",
           suGalleryImage: getStoryBookImage(),
         }
       ]

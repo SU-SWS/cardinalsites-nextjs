@@ -37,7 +37,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
 
       {paragraph.suGalleryButton &&
         <div>
-          <Button href={paragraph.suGalleryButton.url}>
+          <Button href={paragraph.suGalleryButton.url} className="mt-14">
             {paragraph.suGalleryButton.title}
           </Button>
         </div>
