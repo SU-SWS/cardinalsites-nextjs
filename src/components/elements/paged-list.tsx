@@ -6,6 +6,7 @@ import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useBoolean, useCounter} from "usehooks-ts";
 import {useRouter, useSearchParams} from "next/navigation";
 import usePagination from "@lib/hooks/usePagination";
+import useFocusOnRender from "@lib/hooks/useFocusOnRender";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   ulProps?: HtmlHTMLAttributes<HTMLUListElement>
@@ -24,7 +25,7 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
   const {count: page, setCount: setPage} = useCounter(Math.max(1, Math.min(Math.ceil(items.length / itemsPerPage), parseInt(searchParams.get('page') || '') || 1)))
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
-  const ref = useRef<HTMLLIElement>(null);
+  const focusItemRef = useRef<HTMLLIElement>(null);
   const [animationParent] = useAutoAnimate();
 
   const goToPage = (page: number) => {
@@ -32,9 +33,11 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
     setPage(page);
   }
 
+  const setFocusOnItem = useFocusOnRender(focusItemRef, false);
+
   useLayoutEffect(() => {
-    if (focusOnElement) ref.current?.focus()
-  }, [focusOnElement]);
+    if (focusOnElement) setFocusOnItem()
+  }, [focusOnElement, setFocusOnItem]);
 
   useEffect(() => {
     router.replace(page > 1 ? `?page=${page}` : '?', {scroll: false})
@@ -42,13 +45,14 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
 
   const paginationButtons = usePagination(items.length, page, itemsPerPage, 2);
 
+
   return (
     <div {...props}>
       <ul {...ulProps} ref={animationParent}>
         {items.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((item, i) =>
           <li
             key={`pager--${i}`}
-            ref={i === 0 ? ref : null}
+            ref={i === 0 ? focusItemRef : null}
             tabIndex={i === 0 && focusOnElement ? 0 : undefined}
             onBlur={disableFocusElement}
             {...liProps}
