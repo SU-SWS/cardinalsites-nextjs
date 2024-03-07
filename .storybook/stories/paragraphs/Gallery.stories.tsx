@@ -39,23 +39,23 @@ export const Gallery: Story = {
       suGalleryButton: {
         url:"/about",
         title:"Link text",
-        internal:true
       },
       suGalleryDescription: {
-        processed: "<p>this is a description</p>"
+        processed: "<p>Please enter the description here. </p>"
       },
       suGalleryHeadline:"New Gallery",
       suGalleryImages: [
         {
-          suGalleryCaption:"Very big spider",
+          id: "c9bfa54a-7a54-4892-b3e5-72a1423fb221",
+          suGalleryCaption:"This is a caption",
           suGalleryImage: getStoryBookImage(),
         },
         {
-          suGalleryCaption:"Poppies poppies my dear.",
+          id: "6906300d-cd67-41cf-b5bb-165f839bdf1b",
+          suGalleryCaption:"This is a caption",
           suGalleryImage: getStoryBookImage(),
         }
       ]
-      
     }
   }
 };

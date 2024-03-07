@@ -20,7 +20,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       {...props}
     >
       {paragraph.suGalleryHeadline &&
-        <H2 id={paragraph.id}>{paragraph.suGalleryHeadline}</H2>
+        <H2 id={paragraph.id} className="text-center">{paragraph.suGalleryHeadline}</H2>
       }
 
       <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
