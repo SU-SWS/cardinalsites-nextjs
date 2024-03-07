@@ -7,7 +7,7 @@ const LockupO = ({line4, siteName, logoUrl}: FooterLockupProps) => {
     <div className="py-10">
       <Link href="/" className="no-underline text-black">
         <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
-        <div className="font-semibold text-m1 uppercase">{line4}</div>
+        <div className="font-semibold text-m1 uppercase mt-1">{line4}</div>
       </Link>
     </div>
   )
