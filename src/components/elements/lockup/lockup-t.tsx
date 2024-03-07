@@ -8,7 +8,7 @@ const LockupT = ({line1, line2, line3, line4, siteName, logoUrl}: FooterLockupPr
       <Link href="/" className="no-underline text-black">
 
         <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
-        <div className="text-m1 font-semibold uppercase border-b border-black">{line4}</div>
+        <div className="text-m1 font-semibold uppercase border-b border-black mt-1">{line4}</div>
         <div className="font-normal">
           <div className="text-m1">{line1 || siteName}</div>
           <div className="text-m1">{line2}</div>

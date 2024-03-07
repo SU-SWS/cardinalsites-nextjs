@@ -3,6 +3,9 @@
 import {usePathname} from 'next/navigation';
 import {useEffect, useState} from "react";
 
+/**
+ * When the user navigates to another page, get the url.
+ */
 const useNavigationEvent = () => {
   const [url, setUrl] = useState<string>();
   const pathname = usePathname();

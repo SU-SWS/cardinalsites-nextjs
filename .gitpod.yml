@@ -44,8 +44,11 @@ tasks:
       blt blt:telemetry:disable --no-interaction &&
       blt settings &&
       blt drupal:install -n &&
+      drush cset system.theme default claro -y &&
       cd /workspace/front &&
       cp .env.example .env.local &&
+      sed -i 's/#DRUPAL_REVALIDATE_SECRET/DRUPAL_REVALIDATE_SECRET/' .env.local &&
+      sed -i 's/#DRUPAL_PREVIEW_SECRET/DRUPAL_PREVIEW_SECRET/' .env.local &&
       yarn install
     command: |
       cd /workspace/back &&
@@ -64,6 +67,7 @@ tasks:
       drush uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL | xargs gp preview --external &&
       git config core.fileMode false &&
       echo 'Connecting Drupal to Frontend' &&
+      drush su-next-connect "$(gp url 3000)" --preview-secret=DRUPAL_PREVIEW_SECRET --revalidation-secret=DRUPAL_REVALIDATION_SECRET &&
       cd /workspace/front &&
       yarn install &&
       sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL|g" .env.local &&
