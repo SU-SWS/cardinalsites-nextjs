@@ -12,7 +12,12 @@ const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Gallery',
   component: GalleryParagraph,
   tags: ['autodocs'],
-  argTypes: {}
+  argTypes: {
+    numberofimages: {
+      options: ['4', '5', '6', '6'],
+      control: { type: 'select' },
+    },
+  }
 };
 
 export default meta;
@@ -45,7 +50,9 @@ export const Gallery: Story = {
       },
       suGalleryHeadline: "This is a Gallery Headline",
       suGalleryImages: [
-        getStoryBookGalleryImage()
+        getStoryBookGalleryImage(),
+        getStoryBookGalleryImage(),
+        getStoryBookGalleryImage(),
       ]
     }
   }
