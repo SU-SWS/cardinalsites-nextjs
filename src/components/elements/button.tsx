@@ -14,6 +14,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   onClick?: MouseEventHandler
   prefetch?: boolean
   type?: HTMLButtonElement["type"]
+  disabled?: boolean
 }
 
 export const Button = ({

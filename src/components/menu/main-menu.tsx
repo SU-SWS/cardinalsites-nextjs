@@ -13,6 +13,8 @@ import {useBoolean, useEventListener} from "usehooks-ts";
 import {clsx} from "clsx";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 
+const menuLevelsToShow = 2;
+
 const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null);
@@ -24,14 +26,14 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   useOutsideClick(menuRef, closeMenu);
 
   const handleEscape = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape" && menuOpen) {
-      closeMenu()
-      buttonRef.current?.focus();
-    }
+    if (event.key !== "Escape" || !menuOpen) return;
+
+    closeMenu()
+    buttonRef.current?.focus();
   }, [menuOpen, closeMenu]);
 
   useEffect(() => closeMenu(), [browserUrl, closeMenu]);
-  useEventListener("keydown", handleEscape);
+  useEventListener("keydown", handleEscape, menuRef);
 
   return (
     <nav aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
@@ -85,13 +87,13 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
   // If the user presses escape on the keyboard, close the submenus.
   const handleEscape = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape" && submenuOpen) {
-      closeSubmenu()
-      if (level === 0) buttonRef.current?.focus();
-    }
+    if (event.key !== "Escape" || !submenuOpen) return;
+
+    closeSubmenu()
+    if (level === 0) buttonRef.current?.focus();
   }, [level, submenuOpen, closeSubmenu]);
 
-  useEventListener("keydown", handleEscape)
+  useEventListener("keydown", handleEscape, sublistRef)
 
   // List out the specific classes so tailwind will include them. Dynamic classes values don't get compiled.
   const zIndexes = ["z-[1]", "z-[2]", "z-[3]", "z-[4]", "z-[5]"]
@@ -147,7 +149,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
           {title}
         </Link>
 
-        {(children && children.length > 0) &&
+        {(children.length > 0 && level < menuLevelsToShow) &&
           <>
             {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
             <button
@@ -168,7 +170,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
       </div>
 
-      {children &&
+      {(children.length > 0 && level < menuLevelsToShow) &&
         <ul className={subMenuStyles}>
           {children.map(item =>
             <MenuItem
