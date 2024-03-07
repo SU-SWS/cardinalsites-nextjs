@@ -7,7 +7,7 @@ const LockupA = ({line1, line5, siteName, logoUrl}: FooterLockupProps) => {
     <div className="py-10">
       <Link href="/" className="no-underline text-black">
         <div className="flex flex-col lg:flex-row gap-4">
-        <div className="mt-auto">
+          <div className="mt-auto">
             <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
           </div>
 
