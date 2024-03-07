@@ -1,4 +1,4 @@
-import {MediaImage, MediaVideo, TermInterface} from "../../src/lib/gql/__generated__/drupal";
+import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "../../src/lib/gql/__generated__/drupal";
 
 export const getStoryBookImage = (imageUrl?: string): MediaImage => {
   return {
@@ -22,6 +22,38 @@ export const getStoryBookImage = (imageUrl?: string): MediaImage => {
     langcode: {},
     metatag: [],
     mediaImage: {
+      url: imageUrl || "https://placekitten.com/1500/1500",
+      height: 1500,
+      width: 1500,
+      alt: "kittens",
+      size: 123,
+    }
+  }
+}
+
+export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: string): MediaStanfordGalleryImage => {
+  return {
+    __typename: 'MediaStanfordGalleryImage',
+    name: makeid(),
+    path: "",
+    status: true,
+    id: makeid(),
+    changed: {
+      offset: "",
+      timestamp: Math.round(new Date().getTime() / 1000),
+      time: new Date().toISOString(),
+      timezone: "America/Los_Angeles"
+    },
+    created: {
+      offset: "",
+      timestamp: Math.round(new Date().getTime() / 1000),
+      time: new Date().toISOString(),
+      timezone: "America/Los_Angeles"
+    },
+    langcode: {},
+    metatag: [],
+    suGalleryCaption: imageCaption,
+    suGalleryImage: {
       url: imageUrl || "https://placekitten.com/1500/1500",
       height: 1500,
       width: 1500,
