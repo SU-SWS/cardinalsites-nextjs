@@ -44,6 +44,7 @@ tasks:
       blt blt:telemetry:disable --no-interaction &&
       blt settings &&
       blt drupal:install -n &&
+      drush cset system.theme default claro -y &&
       cd /workspace/front &&
       cp .env.example .env.local &&
       sed -i 's/#DRUPAL_REVALIDATE_SECRET/DRUPAL_REVALIDATE_SECRET/' .env.local &&
