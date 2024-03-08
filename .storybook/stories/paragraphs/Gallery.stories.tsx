@@ -13,9 +13,9 @@ const meta: Meta<ComponentStoryProps> = {
   component: GalleryParagraph,
   tags: ['autodocs'],
   argTypes: {
-    numberofimages: {
-      options: ['4', '5', '6', '6'],
-      control: { type: 'select' },
+    sugalleryimages: {
+      options: [],
+      control: { type: 'number', min: 0, max: 50, },
     },
   }
 };
