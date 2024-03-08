@@ -21,7 +21,7 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const sitemap: MetadataRoute.Sitemap = [];
 
   nodes.map(node => sitemap.push({
-    url: `https://localhost:3000${node.path}`,
+    url: `${process.env.NEXT_PUBLIC_DOMAIN || ''}${node.path}`,
     lastModified: new Date(node.changed.time),
     priority: node.__typename === "NodeStanfordPage" ? 1 : .8,
     changeFrequency: node.__typename === "NodeStanfordPage" ? "weekly": "monthly"
