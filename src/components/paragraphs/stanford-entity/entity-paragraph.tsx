@@ -30,7 +30,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
       {...props}
     >
       {paragraph.suEntityHeadline &&
-        <H2 id={paragraph.id} className={twMerge("text-center", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
+        <H2 id={paragraph.id} className={twMerge("text-center mb-0", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
           {paragraph.suEntityHeadline}
         </H2>
       }

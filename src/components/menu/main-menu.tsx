@@ -154,7 +154,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
             {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
             <button
               ref={buttonRef}
-              className="shrink-0 mb-[6px] relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
+              className="shrink-0 relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
               onClick={toggleSubmenu}
               aria-expanded={submenuOpen}
               aria-labelledby={linkId}

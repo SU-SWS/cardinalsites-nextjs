@@ -37,6 +37,10 @@ const options: HTMLReactParserOptions = {
 
       switch (domNode.name) {
         case "a":
+          delete nodeProps["data-entity-substitution"]
+          delete nodeProps["data-entity-type"]
+          delete nodeProps["data-entity-uuid"]
+
           return (
             <Link href={nodeProps.href as string} prefetch={false} {...nodeProps}>
               {domToReact(children, options)}
@@ -242,7 +246,7 @@ const WysiwygImage = ({src, alt, height, width, className}: {
   if (width && height) {
     return (
       <Image
-        className={fixClasses(className)}
+        className={twMerge(fixClasses(className), "mb-10")}
         src={src.trim()}
         alt={alt ? alt.trim() : ""}
         height={parseInt(height)}

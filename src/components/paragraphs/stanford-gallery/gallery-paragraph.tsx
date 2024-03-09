@@ -20,7 +20,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       {...props}
     >
       {paragraph.suGalleryHeadline &&
-        <H2 id={paragraph.id}>{paragraph.suGalleryHeadline}</H2>
+        <H2 id={paragraph.id} className="text-center">{paragraph.suGalleryHeadline}</H2>
       }
 
       <Wysiwyg html={paragraph.suGalleryDescription?.processed}/>
@@ -29,7 +29,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
         <ul className="list-unstyled grid @3xl:grid-cols-2 @6xl:grid-cols-3 gap-20">
           {paragraph.suGalleryImages.map(image =>
             <li key={image.id} className="m-0">
-              <GalleryImage image={image}/>
+              <GalleryImage image={image} galleryId={paragraph.id}/>
             </li>
           )}
         </ul>
@@ -46,21 +46,22 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
   )
 }
 
-const GalleryImage = ({image}: { image: MediaStanfordGalleryImage }) => {
+const GalleryImage = ({image, galleryId}: { image: MediaStanfordGalleryImage, galleryId: ParagraphStanfordGallery["id"] }) => {
   const imageUrl = image.suGalleryImage?.url
   if (!imageUrl) return;
 
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery-image/${image.id}`} className="block relative w-full h-full" rel="nofollow">
+        <Link href={`/gallery/${galleryId}/${image.id}`} className="block relative w-full h-full" rel="nofollow">
           <Image
             className="object-cover"
             src={imageUrl}
             alt={image.suGalleryImage?.alt || ''}
             fill
-            sizes="(max-width: 768px) 100vw, 1000px"
+            sizes="(max-width: 768px) 100vw, 500px"
           />
+          <span className="sr-only">Opens a dialog of this image.</span>
         </Link>
       </div>
 
