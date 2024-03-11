@@ -12,12 +12,7 @@ const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Gallery',
   component: GalleryParagraph,
   tags: ['autodocs'],
-  argTypes: {
-    sugalleryimages: {
-      options: [],
-      control: { type: 'number', min: 1, max: 50, },
-    },
-  }
+  argTypes: {}
 };
 
 export default meta;
