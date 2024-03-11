@@ -74,7 +74,7 @@ const LocalFooter = ({
             }
 
             {suLocalFootAction &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-16 font-semibold">
                 {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -104,14 +104,14 @@ const LocalFooter = ({
               </ul>
             }
 
-            <Wysiwyg html={suLocalFootPrCo?.processed}/>
+            <Wysiwyg html={suLocalFootPrCo?.processed} className="text-19"/>
           </div>
 
           <div>
             {suLocalFootPrimeH &&
               <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
             {suLocalFootPrimary &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-19">
                 {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -124,16 +124,16 @@ const LocalFooter = ({
                 })}
               </ul>
             }
-            <Wysiwyg html={suLocalFootSeCo?.processed}/>
+            <Wysiwyg html={suLocalFootSeCo?.processed} className="text-19"/>
 
           </div>
 
           <div>
             {suLocalFootSecondH &&
-              <H2 className="text-m1">{suLocalFootSecondH}</H2>}
+              <H2 className="text-m0">{suLocalFootSecondH}</H2>}
 
             {suLocalFootSecond &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-19">
                 {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -147,11 +147,11 @@ const LocalFooter = ({
               </ul>
             }
 
-            <Wysiwyg html={suLocalFootTr2Co?.processed}/>
+            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-19"/>
 
           </div>
 
-          <Wysiwyg html={suLocalFootTrCo?.processed}/>
+          <Wysiwyg html={suLocalFootTrCo?.processed} className="text-19"/>
 
         </div>
       </div>
