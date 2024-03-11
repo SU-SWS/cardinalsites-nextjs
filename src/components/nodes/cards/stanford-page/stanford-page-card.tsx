@@ -3,6 +3,7 @@ import Image from "next/image";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -17,9 +18,9 @@ const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article
-      aria-labelledby={node.id}
-      className="mx-auto shadow-xl border border-black-20 overflow-hidden"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("mx-auto shadow-xl border border-black-20 overflow-hidden", props.className)}
     >
       {image &&
         <div

@@ -24,9 +24,9 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
 
   return (
     <BannerWrapper
-      className="@container md:min-h-[400px] rs-mb-5"
-      aria-labelledby={paragraph.suBannerHeader ? paragraph.id : undefined}
       {...props}
+      className={twMerge("@container md:min-h-[400px] rs-mb-5", props.className)}
+      aria-labelledby={paragraph.suBannerHeader ? paragraph.id : undefined}
     >
       <div
         className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">

@@ -1,9 +1,12 @@
 import {Address as AddressType} from "@lib/gql/__generated__/drupal.d";
-type Props = AddressType & {
+import {HTMLAttributes} from "react";
+
+type Props = AddressType & HTMLAttributes<HTMLElement> & {
   singleLine?: boolean
 }
 
 const Address = ({
+  additionalName: _a,
   addressLine1,
   addressLine2,
   administrativeArea,
@@ -11,9 +14,14 @@ const Address = ({
   locality,
   organization,
   postalCode,
-  singleLine = false
+  dependentLocality: _d,
+  familyName: _f,
+  givenName: _g,
+  langcode: _l,
+  sortingCode: _s,
+  singleLine = false,
+  ...props
 }: Props) => {
-
 
   if (singleLine) {
     const parts = [
@@ -25,12 +33,12 @@ const Address = ({
       `${country?.code}`
     ];
     return (
-      <address>{parts.filter(part => !!part).join(', ')}</address>
+      <address {...props}>{parts.filter(part => !!part).join(', ')}</address>
     )
   }
 
   return (
-    <address>
+    <address {...props}>
       {organization && <div className="font-semibold">{organization}</div>}
       {(addressLine1) && <div>{addressLine1}</div>}
       {(addressLine2) && <div>{addressLine2}</div>}

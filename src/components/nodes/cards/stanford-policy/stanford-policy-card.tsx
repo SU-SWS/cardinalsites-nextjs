@@ -3,6 +3,7 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
@@ -20,9 +21,9 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
   const teaserSummary = node.body?.summary || (trimmedBodyText + '...');
   return (
     <article
-      aria-labelledby={node.id}
-      className="mx-auto shadow-xl border border-black-20 p-10 overflow-hidden"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("mx-auto shadow-xl border border-black-20 p-10 overflow-hidden", props.className)}
     >
       <Heading className="text-m2" id={node.id}>
         <Link href={node.path}>

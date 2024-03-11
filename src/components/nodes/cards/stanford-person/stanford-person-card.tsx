@@ -3,6 +3,7 @@ import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -15,9 +16,9 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article
-      aria-labelledby={node.id}
-      className="mx-auto text-center overflow-hidden"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("mx-auto text-center overflow-hidden", props.className)}
     >
       {imageUrl &&
         <div className="relative aspect-[1/1] mx-auto mb-20 w-3/5">

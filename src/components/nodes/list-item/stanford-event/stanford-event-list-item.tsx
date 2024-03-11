@@ -5,6 +5,7 @@ import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -26,9 +27,9 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
 
   return (
     <article
-      aria-labelledby={node.id}
-      className="w-full mx-auto py-10 flex gap-10"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("w-full mx-auto py-10 flex gap-10", props.className)}
     >
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">

@@ -28,9 +28,9 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
 
   return (
     <CardWrapper
-      className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10"
-      aria-labelledby={paragraph.suCardHeader ? paragraph.id : undefined}
       {...props}
+      className={twMerge("centered lg:max-w-[980px] w-full shadow-lg border border-black-10", props.className)}
+      aria-labelledby={paragraph.suCardHeader ? paragraph.id : undefined}
     >
 
       {image?.url &&

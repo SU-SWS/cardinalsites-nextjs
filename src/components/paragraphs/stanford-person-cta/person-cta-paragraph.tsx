@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "@components/elements/link";
 import {HtmlHTMLAttributes} from "react";
 import {ParagraphStanfordPersonCtum,} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPersonCtum
@@ -10,7 +11,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
   const image = paragraph.suPersonCtaImage?.mediaImage
   return (
-    <div className="centered flex gap-10" {...props}>
+    <div {...props} className={twMerge("centered flex gap-10", props.className)}>
       {image?.url &&
         <div className="relative aspect-[1/1] w-[200px]">
           <Image

@@ -8,7 +8,7 @@ export type LayoutParagraphBehaviors = {
 export type ListParagraphBehaviors = {
   hide_empty?: boolean
   empty_message?: string
-  hide_heading?: boolean
+  heading_behavior?: 'show' | 'hide' | 'remove'
 }
 
 export type CardParagraphBehaviors = {
@@ -24,7 +24,7 @@ export type BannerParagraphBehaviors = {
 }
 
 export type TeaserParagraphBehaviors = {
-  hide_heading?: boolean
+  heading_behavior?: 'show' | 'hide' | 'remove'
 }
 
 export type ParagraphBehaviors = {

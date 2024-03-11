@@ -1,10 +1,16 @@
 import Link from "@components/elements/link";
 import {clsx} from "clsx";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
+import {HTMLAttributes} from "react";
 
-const SideNav = ({menuItems, activeTrail}: { menuItems: MenuItemType[], activeTrail: string[] }) => {
+type Props = HTMLAttributes<HTMLElement> & {
+  menuItems: MenuItemType[]
+  activeTrail: string[]
+}
+
+const SideNav = ({menuItems, activeTrail, ...props}: Props) => {
   return (
-    <nav aria-label="Secondary Navigation">
+    <nav aria-label="Secondary Navigation" {...props}>
       <ul className="list-unstyled">
         {menuItems.map(item =>
           <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0}/>

@@ -27,16 +27,19 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 
   if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null;
 
-  const ListWrapper: ElementType = paragraph.suListHeadline ? 'section' : 'div';
+  const ListWrapper: ElementType = (paragraph.suListHeadline && behaviors.list_paragraph?.heading_behavior !== 'remove') ? 'section' : 'div';
 
   return (
     <ListWrapper
-      className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
-      aria-labelledby={paragraph.suListHeadline ? paragraph.id : undefined}
       {...props}
+      className={twMerge("centered lg:max-w-[980px] flex flex-col gap-10 mb-20", props.className)}
+      aria-labelledby={ListWrapper === 'section' ? paragraph.id : undefined}
     >
-      {paragraph.suListHeadline &&
-        <H2 id={paragraph.id} className={twMerge("text-center", behaviors.list_paragraph?.hide_heading && "sr-only")}>
+      {ListWrapper === 'section' &&
+        <H2
+          id={paragraph.id}
+          className={twMerge("text-center", behaviors.list_paragraph?.heading_behavior === 'hide' && "sr-only")}
+        >
           {paragraph.suListHeadline}
         </H2>
       }
@@ -57,11 +60,9 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
       }
 
       {paragraph.suListButton?.url &&
-        <div>
-          <Button centered href={paragraph.suListButton.url}>
-            {paragraph.suListButton.title}
-          </Button>
-        </div>
+        <Button centered href={paragraph.suListButton.url}>
+          {paragraph.suListButton.title}
+        </Button>
       }
     </ListWrapper>
   )
@@ -72,7 +73,7 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
   const itemsPerPage = pageSize ? Math.ceil(pageSize / 3) * 3 : undefined;
   const queryVariables = {pageSize: itemsPerPage, page, offset};
-  
+
   const tags = ['views'];
   switch (`${viewId}--${displayId}`) {
     case 'stanford_shared_tags--card_grid':

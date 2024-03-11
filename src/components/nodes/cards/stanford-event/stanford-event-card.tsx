@@ -4,6 +4,7 @@ import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import Address from "@components/elements/address";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -25,9 +26,9 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article
-      aria-labelledby={node.id}
-      className="mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-5 overflow-hidden"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("mx-auto shadow-lg border border-black-20 p-10 flex flex-col gap-5 overflow-hidden", props.className)}
     >
       <div aria-hidden className="flex flex-col items-start w-fit">
         <div className="text-m0 font-semibold mb-4 w-full text-center">

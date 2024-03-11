@@ -5,6 +5,7 @@ import {H2} from "@components/elements/headers";
 import {ElementType, HtmlHTMLAttributes} from "react";
 import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d";
 import Link from "@components/elements/link";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordGallery
@@ -15,9 +16,9 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
 
   return (
     <GalleryWrapper
-      className="@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
-      aria-labelledby={paragraph.suGalleryHeadline ? paragraph.id : undefined}
       {...props}
+      className={twMerge("@container centered lg:max-w-[980px] flex flex-col gap-10 mb-20", props.className)}
+      aria-labelledby={paragraph.suGalleryHeadline ? paragraph.id : undefined}
     >
       {paragraph.suGalleryHeadline &&
         <H2 id={paragraph.id} className="text-center">{paragraph.suGalleryHeadline}</H2>
@@ -36,24 +37,25 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       }
 
       {paragraph.suGalleryButton &&
-        <div>
-          <Button href={paragraph.suGalleryButton.url}>
-            {paragraph.suGalleryButton.title}
-          </Button>
-        </div>
+        <Button href={paragraph.suGalleryButton.url}>
+          {paragraph.suGalleryButton.title}
+        </Button>
       }
     </GalleryWrapper>
   )
 }
 
-const GalleryImage = ({image, galleryId}: { image: MediaStanfordGalleryImage, galleryId: ParagraphStanfordGallery["id"] }) => {
+const GalleryImage = ({image, galleryId}: {
+  image: MediaStanfordGalleryImage,
+  galleryId: ParagraphStanfordGallery["id"]
+}) => {
   const imageUrl = image.suGalleryImage?.url
   if (!imageUrl) return;
 
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery/${galleryId}/${image.id}`} className="block relative w-full h-full" rel="nofollow">
+        <Link href={`/gallery/${galleryId}/${image.id}`} className="block relative w-full h-full" rel="nofollow" scroll={false}>
           <Image
             className="object-cover"
             src={imageUrl}
