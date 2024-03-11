@@ -21,16 +21,19 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   ];
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
-  const EntityWrapper: ElementType = paragraph.suEntityHeadline ? 'section' : 'div';
+  const EntityWrapper: ElementType = (paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== 'remove') ? 'section' : 'div';
 
   return (
     <EntityWrapper
-      className="centered lg:max-w-[980px] flex flex-col gap-10 mb-20"
-      aria-labelledby={paragraph.suEntityHeadline ? paragraph.id : undefined}
       {...props}
+      className={twMerge("centered lg:max-w-[980px] flex flex-col gap-10 mb-20", props.className)}
+      aria-labelledby={EntityWrapper === 'section' ? paragraph.id : undefined}
     >
-      {paragraph.suEntityHeadline &&
-        <H2 id={paragraph.id} className={twMerge("text-center", behaviors.stanford_teaser?.hide_heading && "sr-only")}>
+      {EntityWrapper === 'section' &&
+        <H2
+          id={paragraph.id}
+          className={twMerge("text-center mb-0", behaviors.stanford_teaser?.heading_behavior === 'hide' && "sr-only")}
+        >
           {paragraph.suEntityHeadline}
         </H2>
       }
@@ -44,11 +47,9 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
       </div>
 
       {paragraph.suEntityButton?.url &&
-        <div>
-          <Button href={paragraph.suEntityButton.url} centered>
-            {paragraph.suEntityButton.title}
-          </Button>
-        </div>
+        <Button href={paragraph.suEntityButton.url} centered>
+          {paragraph.suEntityButton.title}
+        </Button>
       }
     </EntityWrapper>
   )

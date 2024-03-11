@@ -12,9 +12,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   ulProps?: HtmlHTMLAttributes<HTMLUListElement>
   liProps?: HtmlHTMLAttributes<HTMLLIElement>,
   itemsPerPage?: number
+  pageKey?: string
 }
 
-const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Props) => {
+const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, pageKey = 'page', ...props}: Props) => {
   const items = Array.isArray(children) ? children : [children]
 
   const router = useRouter();
@@ -22,11 +23,11 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: page, setCount: setPage} = useCounter(Math.max(1, Math.min(Math.ceil(items.length / itemsPerPage), parseInt(searchParams.get('page') || '') || 1)))
+  const {count: page, setCount: setPage} = useCounter(Math.max(1, Math.min(Math.ceil(items.length / itemsPerPage), parseInt(searchParams.get(pageKey) || '') || 1)))
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null);
-  const [animationParent] = useAutoAnimate();
+  const [animationParent] = useAutoAnimate<HTMLUListElement>();
 
   const goToPage = (page: number) => {
     enableFocusElement();
@@ -40,11 +41,17 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
   }, [focusOnElement, setFocusOnItem]);
 
   useEffect(() => {
-    router.replace(page > 1 ? `?page=${page}` : '?', {scroll: false})
-  }, [router, page]);
+    // Use search params to retain any other parameters.
+    const params = new URLSearchParams(searchParams.toString());
+    if (page > 1) {
+      params.set(pageKey, `${page}`)
+    } else {
+      params.delete(pageKey)
+    }
 
+    router.replace(`?${params.toString()}`, {scroll: false})
+  }, [router, page, pageKey, searchParams]);
   const paginationButtons = usePagination(items.length, page, itemsPerPage, 2);
-
 
   return (
     <div {...props}>
@@ -62,19 +69,21 @@ const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, ...props}: Pr
         )}
       </ul>
 
-      <nav aria-label="Pager">
-        <ul className="list-unstyled flex justify-between">
-          {paginationButtons.map((pageNum, i) => (
-            <PaginationButton
-              key={`page-button-${pageNum}--${i}`}
-              page={pageNum}
-              currentPage={page}
-              total={Math.ceil(items.length / itemsPerPage)}
-              onClick={() => goToPage(pageNum)}
-            />
-          ))}
-        </ul>
-      </nav>
+      {paginationButtons.length > 1 &&
+        <nav aria-label="Pager">
+          <ul className="list-unstyled flex justify-between">
+            {paginationButtons.map((pageNum, i) => (
+              <PaginationButton
+                key={`page-button-${pageNum}--${i}`}
+                page={pageNum}
+                currentPage={page}
+                total={Math.ceil(items.length / itemsPerPage)}
+                onClick={() => goToPage(pageNum)}
+              />
+            ))}
+          </ul>
+        </nav>
+      }
     </div>
   )
 }

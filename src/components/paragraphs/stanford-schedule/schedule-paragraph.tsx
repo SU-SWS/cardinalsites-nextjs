@@ -4,6 +4,7 @@ import {H3} from "@components/elements/headers";
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
 import {HtmlHTMLAttributes} from "react";
 import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSchedule
@@ -22,7 +23,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   }
 
   return (
-    <div className="centered" {...props}>
+    <div {...props} className={twMerge("centered", props.className)}>
       {start &&
         <H3>{start}</H3>
       }

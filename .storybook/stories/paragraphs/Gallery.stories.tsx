@@ -15,7 +15,7 @@ const meta: Meta<ComponentStoryProps> = {
   argTypes: {
     sugalleryimages: {
       options: [],
-      control: { type: 'number', min: 0, max: 50, },
+      control: { type: 'number', min: 1, max: 50, },
     },
   }
 };

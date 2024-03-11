@@ -1,6 +1,7 @@
 import Link from "@components/elements/link";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import {HtmlHTMLAttributes} from "react";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
   href: string
@@ -8,7 +9,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
 
 const ActionLink = ({children, ...props}: Props) => {
   return (
-    <Link {...props} className="relative">
+    <Link {...props} className={twMerge("relative", props.className)}>
       {children}
       <ChevronRightIcon height={25} className="ml-2 inline-block"/>
     </Link>

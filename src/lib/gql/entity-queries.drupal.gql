@@ -157,6 +157,12 @@ query Term($uuid: ID!) {
     }
 }
 
+query Paragraph($uuid: ID!) {
+    paragraph(id: $uuid) {
+        ...FragmentParagraphUnion
+    }
+}
+
 query ConfigPages {
     stanfordBasicSiteSettings(first: 1) {
         nodes {

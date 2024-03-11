@@ -4,6 +4,7 @@ import {HtmlHTMLAttributes} from "react";
 import {isDraftMode} from "@lib/drupal/utils";
 import {MenuAvailable} from "@lib/gql/__generated__/drupal.d";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   currentPath: string
@@ -18,7 +19,7 @@ const InteriorPage = async ({children, currentPath, ...props}: Props) => {
   const subTree = topMenuItem ? topMenuItem.children : [];
 
   return (
-    <div className="centered flex gap-20" {...props}>
+    <div {...props} className={twMerge("centered flex gap-20", props.className)}>
 
       {(subTree.length > 1 || subTree[0]?.children) &&
         <aside className="hidden lg:block w-1/4 shrink-0">

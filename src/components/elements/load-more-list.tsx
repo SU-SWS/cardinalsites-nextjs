@@ -19,7 +19,7 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, itemsPerPage = 10
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null);
-  const [animationParent] = useAutoAnimate();
+  const [animationParent] = useAutoAnimate<HTMLUListElement>();
 
   const showMoreItems = () => {
     enableFocusElement();

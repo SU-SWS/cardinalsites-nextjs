@@ -979,6 +979,13 @@ export const TermDocument = gql`
   }
 }
     ${FragmentTermInterfaceFragmentDoc}`;
+export const ParagraphDocument = gql`
+    query Paragraph($uuid: ID!) {
+  paragraph(id: $uuid) {
+    ...FragmentParagraphUnion
+  }
+}
+    ${FragmentParagraphUnionFragmentDoc}`;
 export const ConfigPagesDocument = gql`
     query ConfigPages {
   stanfordBasicSiteSettings(first: 1) {
@@ -1450,6 +1457,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     Term(variables: DrupalTypes.TermQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.TermQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.TermQuery>(TermDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Term', 'query', variables);
+    },
+    Paragraph(variables: DrupalTypes.ParagraphQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.ParagraphQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.ParagraphQuery>(ParagraphDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Paragraph', 'query', variables);
     },
     ConfigPages(variables?: DrupalTypes.ConfigPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.ConfigPagesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.ConfigPagesQuery>(ConfigPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ConfigPages', 'query', variables);

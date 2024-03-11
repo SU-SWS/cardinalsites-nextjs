@@ -3,6 +3,7 @@ import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
+import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -24,9 +25,9 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
 
   return (
     <article
-      aria-labelledby={node.id}
-      className="mx-auto shadow-xl border border-black-20 overflow-hidden"
       {...props}
+      aria-labelledby={node.id}
+      className={twMerge("mx-auto shadow-xl border border-black-20 overflow-hidden", props.className)}
     >
 
       {image?.url &&
@@ -43,17 +44,17 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
       <div className="p-20">
 
         <div className="flex flex-col">
-        <Heading className="text-m2 [&_a]:text-black" id={node.id}>
-          <Link href={node.suNewsSource?.url || node.path}>
-            {node.title}
-          </Link>
-        </Heading>
+          <Heading className="text-m2 [&_a]:text-black" id={node.id}>
+            <Link href={node.suNewsSource?.url || node.path}>
+              {node.title}
+            </Link>
+          </Heading>
 
-        {publishDate &&
-          <div className="order-first">
-            {publishDate}
-          </div>
-        }
+          {publishDate &&
+            <div className="order-first">
+              {publishDate}
+            </div>
+          }
         </div>
 
         {topics &&

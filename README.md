@@ -92,6 +92,10 @@ file. To make it easy, Drupal provides fragments you can copy as a starting poin
 to view those fragments. Once the fragments and/or queries have been modified, simply run `yarn graphql` to rebuild the
 typescript types and fetcher queries.
 
+If a field is added in the Drupal environment that is "required", that field must be populated for each entity. GraphQL
+is strict and will throw an error if you include that field in a query, but the data is null. To solve this, either
+populate the data in Drupal or make the field optional.
+
 ## Cache
 
 Next.js caches data fetches pretty heavy. On top of that, in production builds, the data and pages are build and cached.
