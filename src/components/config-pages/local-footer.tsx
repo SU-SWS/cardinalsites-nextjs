@@ -21,7 +21,7 @@ import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
-import {LockClosedIcon} from "@heroicons/react/24/outline";
+import WebLogin from "@components/elements/web-login";
 
 const LocalFooter = ({
   suFooterEnabled,
@@ -151,16 +151,23 @@ const LocalFooter = ({
             <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-19"/>
 
           </div>
+          
+          <div>
+            
+            <div  className="su-signup-form">
+            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-19"/>
+              <form>
+                <input type="email" id="" aria-label="signup email" name="signup email" placeholder="email address" />
+                <Link href="/" className="button" type="submit" id="signup-submit">
+                  Sign-up
+                </Link>
+              </form>
+            </div>
 
-          <Wysiwyg html={suLocalFootTrCo?.processed}/>
-
-        </div>
-        <div className=" border-t border-black-20 my-5 mb-5 pt-9">
-          <Link href="/saml/login?destination=/" className="button">
-            Web Login
-            <LockClosedIcon width={20} className="ml-2 inline-block"/>
-          </Link>
-        </div>
+            <Wysiwyg html={suLocalFootTrCo?.processed}/>
+          </div>
+        </div>  
+        <WebLogin/>
       </div>
     </div>
   )
