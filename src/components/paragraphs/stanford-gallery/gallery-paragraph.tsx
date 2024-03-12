@@ -57,7 +57,7 @@ const GalleryImage = ({image, galleryId}: {
   return (
     <figure>
       <div className="relative aspect-[4/3] w-full">
-        <Link href={`/gallery/${galleryId}/${image.id}`} className="block relative w-full h-full" rel="nofollow" scroll={false}>
+        <Link href={`/gallery/${galleryId}/${image.id}`} className="block relative w-full h-full" rel="nofollow" scroll={false} prefetch={false}>
           <Image
             className="object-cover"
             src={imageUrl}

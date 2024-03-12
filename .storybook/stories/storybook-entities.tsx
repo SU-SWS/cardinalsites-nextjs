@@ -1,4 +1,4 @@
-import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "../../src/lib/gql/__generated__/drupal";
+import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "@lib/gql/__generated__/drupal";
 
 export const getStoryBookImage = (imageUrl?: string): MediaImage => {
   return {
@@ -22,10 +22,10 @@ export const getStoryBookImage = (imageUrl?: string): MediaImage => {
     langcode: {},
     metatag: [],
     mediaImage: {
-      url: imageUrl || "https://placekitten.com/1500/1500",
+      url: imageUrl || "https://placehold.co/1500x1500",
       height: 1500,
       width: 1500,
-      alt: "kittens",
+      alt: "Placeholder Image",
       size: 123,
     }
   }

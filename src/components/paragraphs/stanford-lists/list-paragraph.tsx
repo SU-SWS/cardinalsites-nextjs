@@ -71,7 +71,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>, pageSize?: Maybe<number>, page?: Maybe<number>, offset?: Maybe<number>): Promise<NodeUnion[]> => {
   let items: NodeUnion[] = []
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
-  const itemsPerPage = pageSize ? Math.ceil(pageSize / 3) * 3 : undefined;
+  const itemsPerPage = pageSize ? Math.min(Math.ceil(pageSize / 3) * 3, 99) : undefined;
   const queryVariables = {pageSize: itemsPerPage, page, offset};
 
   const tags = ['views'];
@@ -119,7 +119,7 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
   switch (`${viewId}--${displayId}`) {
     case 'stanford_basic_pages--basic_page_type_list':
     case 'stanford_basic_pages--viewfield_block_1':
-      filters = getViewFilters(['term_node_taxonomy_name_depth', 'nid'], contextualFilter)
+      filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
       graphqlResponse = await client.stanfordBasicPages({filters, ...queryVariables});
       items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeStanfordPage[]
       break
@@ -160,8 +160,8 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
       break
 
     case 'stanford_shared_tags--card_grid':
+      console.log('queryVariables', queryVariables)
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
-      if (filters && Object.keys(filters).length === 2) filters.nid = '0'
       graphqlResponse = await client.stanfordSharedTags({filters, ...queryVariables});
       items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
       break
@@ -174,14 +174,14 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
   return pageSize ? items.slice(0, pageSize) : items;
 })
 
-const getViewFilters = (keys: string[], values?: Maybe<string[]>) => {
+const getViewFilters = (keys: string[], values?: Maybe<string[]>, defaults: Record<string, string|undefined> = {}) => {
   if (!keys || !values) return;
   const filters: Record<string, string | undefined> = keys.reduce((obj, key, index) => ({
     ...obj,
-    [key]: values[index]
+    [key]: values[index]?.trim()
   }), {})
   Object.keys(filters).forEach(key => filters[key] === undefined && delete filters[key]);
-  return filters;
+  return {...defaults, ...filters};
 }
 
 export default ListParagraph;

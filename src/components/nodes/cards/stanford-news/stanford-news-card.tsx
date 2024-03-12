@@ -1,9 +1,8 @@
-import Image from "next/image";
 import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
-import {twMerge} from "tailwind-merge";
+import ImageCard from "@components/patterns/image-card";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -24,47 +23,34 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
   }) : undefined;
 
   return (
-    <article
+    <ImageCard
       {...props}
       aria-labelledby={node.id}
-      className={twMerge("mx-auto shadow-xl border border-black-20 overflow-hidden", props.className)}
+      imageUrl={image?.url}
+      imageAlt={image?.alt}
+      isArticle
     >
+      <div className="flex flex-col">
+        <Heading className="text-m2 [&_a]:text-black" id={node.id}>
+          <Link href={node.suNewsSource?.url || node.path}>
+            {node.title}
+          </Link>
+        </Heading>
 
-      {image?.url &&
-        <div className="relative aspect-[16/9] w-full">
-          <Image
-            className="object-cover"
-            src={image.url}
-            alt={image.alt || ''}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
-          />
-        </div>
-      }
-      <div className="p-20">
-
-        <div className="flex flex-col">
-          <Heading className="text-m2 [&_a]:text-black" id={node.id}>
-            <Link href={node.suNewsSource?.url || node.path}>
-              {node.title}
-            </Link>
-          </Heading>
-
-          {publishDate &&
-            <div className="order-first">
-              {publishDate}
-            </div>
-          }
-        </div>
-
-        {topics &&
-          <div>
-            {topics.map(topic => topic.name).join(', ')}
+        {publishDate &&
+          <div className="order-first">
+            {publishDate}
           </div>
         }
-
       </div>
-    </article>
+
+      {topics &&
+        <div>
+          {topics.map(topic => topic.name).join(', ')}
+        </div>
+      }
+
+    </ImageCard>
   )
 }
 export default StanfordNewsCard;

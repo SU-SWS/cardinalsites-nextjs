@@ -4,7 +4,6 @@ import Link from "@components/elements/link";
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
 import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
 import {XCircleIcon} from "@heroicons/react/24/outline";
-import useNavigationEvent from "@lib/hooks/useNavigationEvent";
 import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
@@ -20,7 +19,7 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
-  const browserUrl = useNavigationEvent()
+  const browserUrl = usePathname()
   const activeTrail = useActiveTrail(menuItems, usePathname() || '');
 
   useOutsideClick(menuRef, closeMenu);
@@ -72,7 +71,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const {value: submenuOpen, setFalse: closeSubmenu, toggle: toggleSubmenu} = useBoolean(false)
-  const browserUrl = useNavigationEvent()
+  const browserUrl = usePathname()
 
   useOutsideClick(sublistRef, closeSubmenu);
 

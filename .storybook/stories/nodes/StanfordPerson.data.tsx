@@ -35,7 +35,7 @@ export const StanfordPersonData = () => {
       name: "Shea Ross McKinney",
       mediaImage: {
         url: "https://placehold.co/2000x1000",
-        alt: "Person",
+        alt: "Placeholder Image",
         height: 522,
         width: 350
       }

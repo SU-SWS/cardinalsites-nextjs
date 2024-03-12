@@ -10,6 +10,7 @@ import Link from "@components/elements/link";
 import {getConfigPage} from "@lib/gql/gql-queries";
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import {GoogleAnalytics} from "@next/third-parties/google";
+import DrupalWindowSync from "@components/elements/drupal-window-sync";
 
 export const metadata = {
   // Update the metadataBase to the production domain.
@@ -26,7 +27,7 @@ const RootLayout = async ({children, modal}: { children: React.ReactNode, modal:
   const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
   return (
     <html lang="en" className={sourceSans3.className}>
-    {draftMode && <Editori11y/>}
+    {draftMode && <><Editori11y/><DrupalWindowSync/></>}
 
     {/* Add Google Analytics and SiteImprove when not in draft mode. */}
     {(!draftMode && siteSettingsConfig?.suGoogleAnalytics) &&
