@@ -46,10 +46,12 @@ export const LocalFooterDisplay: Story = {
       postalCode: "Postal Code",
       sortingCode: "Sorting Code",
     },
+    // Signup form details 
     suLocalFootFButton: "suLocalFoot_f_button",
     suLocalFootFIntro: {processed: "suLocalFoot_f_intro"},
     suLocalFootFMethod: "suLocalFoot_f_method",
     suLocalFootFUrl: {title: "Form Action url", url: "https://localhost", internal: false},
+    // Footer lockup lines
     suLocalFootLine1: "suLocalFoot_line_1",
     suLocalFootLine2: "suLocalFoot_line_2",
     suLocalFootLine3: "suLocalFoot_line_3",
@@ -57,13 +59,17 @@ export const LocalFooterDisplay: Story = {
     suLocalFootLine5: "suLocalFoot_line_5",
     suLocalFootLocImg: null,
     suLocalFootLocLink: {title: "suLocalFoot_loc_link", url: "https://localhost", internal: false},
+    // Wysiwyg Content Block 1
     suLocalFootPrCo: {processed: "Content Block 1"},
+    // Primary links
     suLocalFootPrimary: [
       {title: "Primary link 1", url: "https://localhost", internal: false},
       {title: "Primary link 2", url: "https://localhost", internal: false}
     ],
     suLocalFootPrimeH: "Primary links",
+    // Wysiwyg Content Block 2
     suLocalFootSeCo: {processed: "Content Block 2"},
+    // Secondary Links
     suLocalFootSecond: [
       {title: "Second Link 1", url: "https://localhost", internal: false},
       {title: "Second Link 2", url: "https://localhost", internal: false}
@@ -74,7 +80,9 @@ export const LocalFooterDisplay: Story = {
       {title: "YouTube", url: "https://localhost", internal: false}
     ],
     suLocalFootSunetT: "suLocalFoot_sunet_t",
+    // Wysiwyg Content Block 3
     suLocalFootTr2Co: {processed: "Content Block 3"},
+    // Wysiwyg Content Block 4
     suLocalFootTrCo: {processed: "Content Block 4"},
     suLocalFootUseLoc: true,
     suLocalFootUseLogo: true,
