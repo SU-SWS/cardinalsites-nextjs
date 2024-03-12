@@ -27,22 +27,24 @@ type Story = StoryObj<ComponentStoryProps>;
 export const LocalFooterDisplay: Story = {
   args: {
     suFooterEnabled: true,
+    // Action links
     suLocalFootAction: [
       {title: "Action link 1", url: "https://localhost", internal: false},
       {title: "Action link 2", url: "https://localhost", internal: false}
     ],
+    // Office location
     suLocalFootAddress: {
-      additionalName: "additional_name",
-      addressLine1: "address_line1",
-      addressLine2: "address_line2",
-      administrativeArea: "administrative_area",
+      additionalName: "Additional Organization Name",
+      addressLine1: "450 Jane Stanford Way",
+      addressLine2: "address line 2",
+      administrativeArea: "State",
       country: {code: "country_code"},
       familyName: "family_name",
       givenName: "given_name",
-      locality: "locality",
-      organization: "organization",
-      postalCode: "postal_code",
-      sortingCode: "sorting_code",
+      locality: "Locality",
+      organization: "Organization",
+      postalCode: "Postal Code",
+      sortingCode: "Sorting Code",
     },
     suLocalFootFButton: "suLocalFoot_f_button",
     suLocalFootFIntro: {processed: "suLocalFoot_f_intro"},
@@ -55,25 +57,25 @@ export const LocalFooterDisplay: Story = {
     suLocalFootLine5: "suLocalFoot_line_5",
     suLocalFootLocImg: null,
     suLocalFootLocLink: {title: "suLocalFoot_loc_link", url: "https://localhost", internal: false},
-    suLocalFootPrCo: {processed: "suLocalFoot_pr_co"},
+    suLocalFootPrCo: {processed: "Content Block 1"},
     suLocalFootPrimary: [
       {title: "Primary link 1", url: "https://localhost", internal: false},
       {title: "Primary link 2", url: "https://localhost", internal: false}
     ],
-    suLocalFootPrimeH: "suLocalFoot_prime_h",
-    suLocalFootSeCo: {processed: "suLocalFoot_se_co"},
+    suLocalFootPrimeH: "Primary links",
+    suLocalFootSeCo: {processed: "Content Block 2"},
     suLocalFootSecond: [
       {title: "Second Link 1", url: "https://localhost", internal: false},
       {title: "Second Link 2", url: "https://localhost", internal: false}
     ],
-    suLocalFootSecondH: "suLocalFoot_second_h",
+    suLocalFootSecondH: "Secondary links",
     suLocalFootSocial: [
       {title: "Facebook", url: "https://localhost", internal: false},
       {title: "YouTube", url: "https://localhost", internal: false}
     ],
     suLocalFootSunetT: "suLocalFoot_sunet_t",
-    suLocalFootTr2Co: {processed: "suLocalFoot_tr2_co"},
-    suLocalFootTrCo: {processed: "suLocalFoot_tr_co"},
+    suLocalFootTr2Co: {processed: "Content Block 3"},
+    suLocalFootTrCo: {processed: "Content Block 4"},
     suLocalFootUseLoc: true,
     suLocalFootUseLogo: true,
     suLocalFootLocOp: "suLocalFoot_loc_op",
