@@ -21,6 +21,7 @@ import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
+import {LockClosedIcon} from "@heroicons/react/24/outline";
 
 const LocalFooter = ({
   suFooterEnabled,
@@ -74,7 +75,7 @@ const LocalFooter = ({
             }
 
             {suLocalFootAction &&
-              <ul className="list-unstyled text-16 font-semibold">
+              <ul className="list-unstyled text-16 font-semibold rs-mb-3">
                 {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -111,7 +112,7 @@ const LocalFooter = ({
             {suLocalFootPrimeH &&
               <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
             {suLocalFootPrimary &&
-              <ul className="list-unstyled text-19">
+              <ul className="list-unstyled text-19 rs-mb-2">
                 {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -133,7 +134,7 @@ const LocalFooter = ({
               <H2 className="text-m0">{suLocalFootSecondH}</H2>}
 
             {suLocalFootSecond &&
-              <ul className="list-unstyled text-19">
+              <ul className="list-unstyled text-19 rs-mb-2">
                 {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -154,6 +155,12 @@ const LocalFooter = ({
           <Wysiwyg html={suLocalFootTrCo?.processed} className="text-19"/>
 
         </div>
+        <div className=" border-t border-black-20 my-5 mb-5 pt-9">
+          <Link href="/saml/login?destination=/" className="button">
+            Web Login
+            <LockClosedIcon width={20} className="ml-2 inline-block"/>
+          </Link>
+          </div>
       </div>
     </div>
   )
