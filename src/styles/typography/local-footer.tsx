@@ -4,13 +4,16 @@ module.exports = function () {
     const components = {
       ".local-footer": {
         "h2": {
-          fontSize: "1.5em",
+          fontSize: "1em",
         },
         "h3": {
-          fontSize: "1.3em",
+          fontSize: ".9em",
         },
         "h4": {
-          fontSize: "1.1em",
+          fontSize: ".9em",
+        },
+        "p": {
+          fontSize: ".9em",
         }
       },
     };
