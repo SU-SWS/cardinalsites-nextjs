@@ -1397,7 +1397,7 @@ export const StanfordPublicationsChicagoDocument = gql`
     ${FragmentNodeStanfordPublicationTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordSharedTagsDocument = gql`
-    query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int, $page: Int = 3, $offset: Int) {
+    query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
   stanfordSharedTags(
     contextualFilter: $filters
     pageSize: $pageSize

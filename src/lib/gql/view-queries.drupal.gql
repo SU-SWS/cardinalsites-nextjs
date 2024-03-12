@@ -137,7 +137,7 @@ query stanfordPublicationsChicago($filters: StanfordPublicationsChicagoContextua
     }
 }
 
-query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int, $page: Int = 3, $offset: Int) {
+query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int $offset: Int) {
     stanfordSharedTags(contextualFilter: $filters, pageSize: $pageSize, page: $page, offset: $offset) {
         results {
             ...FragmentNodeTeaserUnion

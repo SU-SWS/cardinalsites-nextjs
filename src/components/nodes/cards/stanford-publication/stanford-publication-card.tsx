@@ -2,7 +2,7 @@ import Link from "@components/elements/link";
 import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d";
-import {twMerge} from "tailwind-merge";
+import ImageCard from "@components/patterns/image-card";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -12,10 +12,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
-    <article
+    <ImageCard
       {...props}
       aria-labelledby={node.id}
-      className={twMerge("mx-auto shadow-xl border border-black-20 p-10 overflow-hidden", props.className)}
+      isArticle
     >
 
       <div className="flex flex-col">
@@ -36,7 +36,7 @@ const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
           )}
         </div>
       }
-    </article>
+    </ImageCard>
   )
 }
 export default StanfordPublicationCard;

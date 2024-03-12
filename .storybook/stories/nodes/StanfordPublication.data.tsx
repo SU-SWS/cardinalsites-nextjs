@@ -23,7 +23,7 @@ export const StanfordPublicationData = () => {
         name: "Foo bar",
         mediaImage: {
           url: "https://placehold.co/2000x1000",
-          alt: "Dena N DeBry",
+          alt: "Placeholder Image",
           height: 522,
           width: 350
         }

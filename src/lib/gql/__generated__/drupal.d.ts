@@ -2140,6 +2140,7 @@ export type QueryStanfordSharedTagsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
 };
 
 
@@ -2257,7 +2258,6 @@ export enum SortDirection {
 }
 
 export type StanfordBasicPagesCardsContextualFilterInput = {
-  nid?: InputMaybe<Scalars['String']['input']>;
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2283,7 +2283,6 @@ export type StanfordBasicPagesCardsResult = View & {
 };
 
 export type StanfordBasicPagesContextualFilterInput = {
-  nid?: InputMaybe<Scalars['String']['input']>;
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2764,7 +2763,6 @@ export type StanfordPublicationsChicagoResult = View & {
 };
 
 export type StanfordSharedTagsContextualFilterInput = {
-  nid?: InputMaybe<Scalars['String']['input']>;
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
 };

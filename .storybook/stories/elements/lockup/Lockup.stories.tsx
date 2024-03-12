@@ -43,7 +43,7 @@ export const LockupDisplay: Story = {
     suLine5: "Line 5",
     suSiteName: "Site Name",
     suUseThemeLogo: true,
-    logoUrl: "https://placekitten.com/300/50",
+    logoUrl: "https://placehold.co/300x50",
     suLockupEnabled: true,
     suLockupOptions: "none",
   },
