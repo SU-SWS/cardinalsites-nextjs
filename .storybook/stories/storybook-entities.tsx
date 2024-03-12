@@ -54,7 +54,7 @@ export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: strin
     metatag: [],
     suGalleryCaption: imageCaption,
     suGalleryImage: {
-      url: imageUrl || "https://placekitten.com/1500/1500",
+      url: imageUrl || "https://placehold.co/1500x1500",
       height: 1500,
       width: 1500,
       alt: "kittens",
