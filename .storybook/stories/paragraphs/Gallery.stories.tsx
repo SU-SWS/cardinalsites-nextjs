@@ -12,7 +12,15 @@ const meta: Meta<ComponentStoryProps> = {
   title: 'Design/Paragraphs/Gallery',
   component: GalleryParagraph,
   tags: ['autodocs'],
-  argTypes: {}
+  argTypes: {
+    numberofimages: {
+      control: {
+        type: 'number',
+        min: 1,
+        max: 20,
+      }
+    },
+  },
 };
 
 export default meta;
@@ -20,8 +28,8 @@ type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Gallery: Story = {
-  render: ({...args}) => {
-    return <GalleryParagraph {...args}/>
+  render: ({numberofimages, ...args}) => {
+    return <GalleryParagraph { ...args} />
   },
   args: {
     paragraph:{
@@ -44,9 +52,8 @@ export const Gallery: Story = {
         processed: "<p>Pepper jack fromage frais pecorino cheesecake cheesy grin camembert de normandie macaroni cheese the big cheese.</p>"
       },
       suGalleryHeadline: "This is a Gallery Headline",
-      suGalleryImages: [
-        getStoryBookGalleryImage(),
-        getStoryBookGalleryImage(),
+      numberofimages: 4,
+      suGalleryImages: [ 
         getStoryBookGalleryImage(),
       ]
     }
