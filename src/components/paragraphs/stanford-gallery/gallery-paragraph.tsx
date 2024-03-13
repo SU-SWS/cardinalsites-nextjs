@@ -70,7 +70,7 @@ const GalleryImage = ({image, galleryId}: {
       </div>
 
       {image.suGalleryCaption &&
-        <figcaption className="text-right">
+        <figcaption className="text-right basefont-19">
           {image.suGalleryCaption}
         </figcaption>
       }
