@@ -41,6 +41,6 @@ const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {
         </Suspense>
       )
   }
-  console.log(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.id}.`);
+  console.warn(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.id}.`);
 }
 export default Paragraph;

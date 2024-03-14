@@ -1,7 +1,7 @@
 "use client";
 
 const ErrorPage = ({error, reset}: { error: Error; reset: () => void }) => {
-  console.error(error.message);
+  console.warn(error.message);
   return (
     <div className="centered my-50 mt-32">
       <h1>Something went wrong!</h1>
