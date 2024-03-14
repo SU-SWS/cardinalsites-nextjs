@@ -4,6 +4,7 @@ import {H2, H3} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d";
 import {twMerge} from "tailwind-merge";
+import FavoriteButton from "@components/elements/favorite-button";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -29,18 +30,23 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
       aria-labelledby={node.id}
       className={twMerge("@container", props.className)}
     >
+
       <div className="flex w-full justify-between flex-col @3xl:flex-row py-10">
         <div className="order-2 @3xl::order-1">
 
           <div className="flex flex-col gap-10">
-            <Heading className="order-last font-bold text-m2" id={node.id}>
-              <Link
-                href={node.suNewsSource?.url || node.path}
-                className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
-              >
-                {node.title}
-              </Link>
-            </Heading>
+            <div className="order-last flex gap-5 mb-5">
+              <Heading className="order-last font-bold text-m2 mb-0" id={node.id}>
+                <Link
+                  href={node.suNewsSource?.url || node.path}
+                  className="text-digital-red no-underline hocus:text-black hocus:underline order-2"
+                >
+                  {node.title}
+                </Link>
+              </Heading>
+
+              <FavoriteButton uuid={node.id} title={node.title} aria-labelledby={node.id}/>
+            </div>
 
             {publishDate &&
               <div>

@@ -160,7 +160,6 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
       break
 
     case 'stanford_shared_tags--card_grid':
-      console.log('queryVariables', queryVariables)
       filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
       graphqlResponse = await client.stanfordSharedTags({filters, ...queryVariables});
       items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
