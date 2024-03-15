@@ -13,7 +13,6 @@ const useNavigationEvent = () => {
     if (!pathname) return;
 
     if (pathname && !pathname?.startsWith('/gallery/') && window && window.top !== window.self) {
-      // console.log('pathname', pathname);
       window.parent.postMessage(
         {type: "NEXT_DRUPAL_ROUTE_SYNC", path: pathname},
         process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string

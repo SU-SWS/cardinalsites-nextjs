@@ -1,13 +1,6 @@
-import {decode} from 'html-entities';
+import {Maybe, NodeStanfordEvent, NodeStanfordNews, NodeStanfordPage, NodeStanfordPerson, NodeStanfordPolicy, NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {Metadata} from "next";
-import {
-  Maybe,
-  NodeStanfordEvent,
-  NodeStanfordNews,
-  NodeStanfordPage,
-  NodeStanfordPerson, NodeStanfordPolicy,
-  NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion
-} from "@lib/gql/__generated__/drupal.d";
+import {decode} from 'html-entities';
 
 export const getNodeMetadata = (node: NodeUnion): Metadata => {
   const defaultData = {

@@ -37,9 +37,11 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       }
 
       {paragraph.suGalleryButton &&
-        <Button href={paragraph.suGalleryButton.url}>
-          {paragraph.suGalleryButton.title}
-        </Button>
+        <div>
+          <Button href={paragraph.suGalleryButton.url}>
+            {paragraph.suGalleryButton.title}
+          </Button>
+        </div>
       }
     </GalleryWrapper>
   )
@@ -68,7 +70,7 @@ const GalleryImage = ({image, galleryId}: {
       </div>
 
       {image.suGalleryCaption &&
-        <figcaption className="text-right">
+        <figcaption className="text-right basefont-19">
           {image.suGalleryCaption}
         </figcaption>
       }

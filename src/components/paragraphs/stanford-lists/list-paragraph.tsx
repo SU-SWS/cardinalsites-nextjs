@@ -116,59 +116,63 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
   let filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
   let graphqlResponse;
 
-  switch (`${viewId}--${displayId}`) {
-    case 'stanford_basic_pages--basic_page_type_list':
-    case 'stanford_basic_pages--viewfield_block_1':
-      filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
-      graphqlResponse = await client.stanfordBasicPages({filters, ...queryVariables});
-      items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeStanfordPage[]
-      break
+  try {
+    switch (`${viewId}--${displayId}`) {
+      case 'stanford_basic_pages--basic_page_type_list':
+      case 'stanford_basic_pages--viewfield_block_1':
+        filters = getViewFilters(['term_node_taxonomy_name_depth'], contextualFilter)
+        graphqlResponse = await client.stanfordBasicPages({filters, ...queryVariables});
+        items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeStanfordPage[]
+        break
 
-    case 'stanford_courses--default_list_viewfield_block':
-    case 'stanford_courses--vertical_teaser_viewfield_block':
-      graphqlResponse = await client.stanfordCourses({filters, ...queryVariables});
-      items = graphqlResponse.stanfordCourses?.results as unknown as NodeStanfordCourse[]
-      break
+      case 'stanford_courses--default_list_viewfield_block':
+      case 'stanford_courses--vertical_teaser_viewfield_block':
+        graphqlResponse = await client.stanfordCourses({filters, ...queryVariables});
+        items = graphqlResponse.stanfordCourses?.results as unknown as NodeStanfordCourse[]
+        break
 
-    case 'stanford_events--cards':
-    case 'stanford_events--list_page':
-      filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter)
-      graphqlResponse = await client.stanfordEventsCardGrid({filters, ...queryVariables});
-      items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeStanfordEvent[]
-      break
+      case 'stanford_events--cards':
+      case 'stanford_events--list_page':
+        filters = getViewFilters(['term_node_taxonomy_name_depth', 'term_node_taxonomy_name_depth_1', 'term_node_taxonomy_name_depth_2', 'term_node_taxonomy_name_depth_3'], contextualFilter)
+        graphqlResponse = await client.stanfordEventsCardGrid({filters, ...queryVariables});
+        items = graphqlResponse.stanfordEventsCardGrid?.results as unknown as NodeStanfordEvent[]
+        break
 
-    case 'stanford_events--past_events_list_block':
-      graphqlResponse = await client.stanfordEventsPastEvents({filters, ...queryVariables});
-      items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeStanfordEvent[]
-      break
+      case 'stanford_events--past_events_list_block':
+        graphqlResponse = await client.stanfordEventsPastEvents({filters, ...queryVariables});
+        items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeStanfordEvent[]
+        break
 
-    case 'stanford_news--block_1':
-    case 'stanford_news--vertical_cards':
-      graphqlResponse = await client.stanfordNewsDefaultList({filters, ...queryVariables});
-      items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeStanfordNews[]
-      break
+      case 'stanford_news--block_1':
+      case 'stanford_news--vertical_cards':
+        graphqlResponse = await client.stanfordNewsDefaultList({filters, ...queryVariables});
+        items = graphqlResponse.stanfordNewsDefaultList?.results as unknown as NodeStanfordNews[]
+        break
 
-    case 'stanford_person--grid_list_all':
-      graphqlResponse = await client.stanfordPerson({filters, ...queryVariables});
-      items = graphqlResponse.stanfordPerson?.results as unknown as NodeStanfordPerson[]
-      break
+      case 'stanford_person--grid_list_all':
+        graphqlResponse = await client.stanfordPerson({filters, ...queryVariables});
+        items = graphqlResponse.stanfordPerson?.results as unknown as NodeStanfordPerson[]
+        break
 
-    case 'stanford_publications--apa_list':
-    case 'stanford_publications--chicago_list':
-      graphqlResponse = await client.stanfordPublicationsApa({filters, ...queryVariables});
-      items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeStanfordPublication[]
-      break
+      case 'stanford_publications--apa_list':
+      case 'stanford_publications--chicago_list':
+        graphqlResponse = await client.stanfordPublicationsApa({filters, ...queryVariables});
+        items = graphqlResponse.stanfordPublicationsApa?.results as unknown as NodeStanfordPublication[]
+        break
 
-    case 'stanford_shared_tags--card_grid':
-      console.log('queryVariables', queryVariables)
-      filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
-      graphqlResponse = await client.stanfordSharedTags({filters, ...queryVariables});
-      items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
-      break
+      case 'stanford_shared_tags--card_grid':
+        filters = getViewFilters(['term_node_taxonomy_name_depth', 'type'], contextualFilter)
+        graphqlResponse = await client.stanfordSharedTags({filters, ...queryVariables});
+        items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
+        break
 
-    default:
-      console.error(`Unable to find query for view: ${viewId} display: ${displayId}`)
-      break;
+      default:
+        console.warn(`Unable to find query for view: ${viewId} display: ${displayId}`)
+        break;
+    }
+  } catch (e) {
+    if (e instanceof Error) console.warn(e.message);
+    return [];
   }
 
   return pageSize ? items.slice(0, pageSize) : items;

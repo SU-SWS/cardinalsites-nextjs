@@ -16,7 +16,8 @@
     "unused-imports/no-unused-vars": [
       "warn",
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-    ]
+    ],
+    "no-console": ["error", { "allow": ["warn"] }]
   },
   "plugins": ["unused-imports"],
   "ignorePatterns": ["**/__generated__/**/*"]

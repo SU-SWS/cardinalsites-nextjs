@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {revalidatePath, revalidateTag} from "next/cache";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
+import {revalidatePath, revalidateTag} from "next/cache";
 
 export const revalidate = 0;
 

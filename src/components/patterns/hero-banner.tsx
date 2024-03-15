@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosition, children, ...props}: Props) => {
   const BannerWrapper: ElementType = isSection ? 'section' : 'div';
-console.log(imageUrl);
+
   return (
     <BannerWrapper
       {...props}

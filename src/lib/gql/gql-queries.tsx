@@ -27,7 +27,7 @@ export const getEntityFromPath = cache(async <T extends NodeUnion | TermUnion, >
   try {
     query = await graphqlClient({headers, next: {tags: [`paths:${path}`]}}).Route({path});
   } catch (e) {
-    console.log(e instanceof Error ? e.message : 'An error occurred');
+    console.warn(e instanceof Error ? e.message : 'An error occurred');
     return {entity: undefined, redirect: undefined, error: e instanceof Error ? e.message : 'An error occurred'}
   }
 
@@ -43,7 +43,7 @@ export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType
   try {
     query = await getConfigPagesData();
   } catch (e) {
-    console.error('Unable to fetch config pages');
+    console.warn('Unable to fetch config pages');
     return;
   }
 

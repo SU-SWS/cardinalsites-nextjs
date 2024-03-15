@@ -58,7 +58,7 @@ const options: HTMLReactParserOptions = {
           return cleanMediaMarkup(domNode);
 
         case 'p':
-          nodeProps.className = twMerge(nodeProps.className, 'max-w-[100ch] leading-relaxed');
+          nodeProps.className = twMerge(nodeProps.className, 'max-w-[100ch] leading-[1.7] text-21');
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case 'script':
