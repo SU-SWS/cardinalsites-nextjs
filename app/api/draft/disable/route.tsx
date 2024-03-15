@@ -1,5 +1,5 @@
-import {draftMode} from 'next/headers'
 import {NextResponse} from "next/server";
+import {draftMode} from 'next/headers'
 
 export const revalidate = 0;
 

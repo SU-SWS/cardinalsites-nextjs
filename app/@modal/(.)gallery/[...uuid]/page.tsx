@@ -1,10 +1,10 @@
-import InterceptionModal from "@components/elements/interception-modal";
 import Image from "next/image";
-import {graphqlClient} from "@lib/gql/gql-client";
+import InterceptionModal from "@components/elements/interception-modal";
+import Link from "@components/elements/link";
 import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d";
+import {graphqlClient} from "@lib/gql/gql-client";
 import {notFound} from "next/navigation";
 import {useId} from "react";
-import Link from "@components/elements/link";
 
 type Props = {
   params: { uuid: string[] }
