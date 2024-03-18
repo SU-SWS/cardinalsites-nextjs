@@ -11,6 +11,9 @@ module.exports = function () {
         },
         'h4': {
           fontSize: '.8em',
+        },
+        'p': {
+          fontSize: '.8em',
         }
       },
     };

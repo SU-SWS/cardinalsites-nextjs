@@ -43,6 +43,7 @@ const LocalFooter = ({
   suLocalFootSocial,
   suLocalFootTr2Co,
   suLocalFootTrCo,
+  suLocalFootFIntro,
   suLocalFootUseLoc,
   suLocalFootUseLogo,
 }: StanfordLocalFooter) => {
@@ -154,13 +155,13 @@ const LocalFooter = ({
           
           <div>
             
-            <div  className="su-signup-form">
-            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-19"/>
+            <div className="su-signup-form">
+            <Wysiwyg html={suLocalFootFIntro?.processed} className="text-19"/>
               <form>
                 <input type="email" id="" aria-label="signup email" name="signup email" placeholder="email address" />
-                <Link href="/" className="button" type="submit" id="signup-submit">
+                <button href="/" className="button m-t-3 my-2" type="submit" id="signup-submit">
                   Sign-up
-                </Link>
+                </button>
               </form>
             </div>
 
