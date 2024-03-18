@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "@components/elements/link";
-import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
-import {Bars3Icon, ChevronDownIcon} from "@heroicons/react/20/solid";
-import {XCircleIcon} from "@heroicons/react/24/outline";
 import SiteSearchForm from "@components/search/site-search-form";
 import useActiveTrail from "@lib/hooks/useActiveTrail";
 import useOutsideClick from "@lib/hooks/useOutsideClick";
-import {usePathname} from "next/navigation";
-import {useBoolean, useEventListener} from "usehooks-ts";
-import {clsx} from "clsx";
+import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
+import {clsx} from "clsx";
+import {useBoolean, useEventListener, useIsClient} from "usehooks-ts";
+import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
+import {usePathname} from "next/navigation";
 
 const menuLevelsToShow = 2;
 
 const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null);
+  const navId = useId();
 
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = usePathname()
@@ -35,16 +35,14 @@ const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
   useEventListener("keydown", handleEscape, menuRef);
 
   return (
-    <nav aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
-      <button
-        ref={buttonRef}
-        className="flex flex-col items-center lg:hidden absolute top-5 right-10 group"
-        onClick={toggleMenu}
-        aria-expanded={menuOpen}
-      >
-        {menuOpen && <XCircleIcon height={40}/>}
-        {!menuOpen && <Bars3Icon height={40}/>}
-        <span className="group-hocus:underline">{menuOpen ? "Close" : "Menu"}</span>
+    <nav id={navId} aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
+      <button ref={buttonRef} className="flex flex-col items-center lg:hidden absolute top-5 right-10 group" onClick={toggleMenu} aria-expanded={menuOpen} aria-labelledby={navId}>
+        <span className="flex flex-col justify-center items-center w-[30px] h-[30px]">
+          <span className={clsx('bg-black-true block transition-all duration-300 ease-out h-[3px] w-full rounded-sm', {'rotate-45 translate-y-4': menuOpen, '-translate-y-0.5': !menuOpen})}/>
+          <span className={clsx('bg-black-true block transition-all duration-300 ease-out h-[3px] w-full rounded-sm my-3',{'opacity-0' :menuOpen , 'opacity-100': !menuOpen})}/>
+          <span className={clsx('bg-black-true block transition-all duration-300 ease-out h-[3px] w-full rounded-sm', {'-rotate-45 -translate-y-4': menuOpen, 'translate-y-0.5': !menuOpen})}/>
+        </span>
+        <span className="group-hocus:underline" aria-hidden>{menuOpen ? "Close" : "Menu"}</span>
       </button>
 
       <div
@@ -66,21 +64,24 @@ type MenuItemProps = MenuItemType & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps) => {
+  const isClient = useIsClient();
   const linkId = useId();
-  const sublistRef = useRef<HTMLLIElement>(null);
+  const menuItemRef = useRef<HTMLLIElement>(null);
+  const belowListRef = useRef<HTMLUListElement>(null);
+
   const [positionRight, setPositionRight] = useState<boolean>(true)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const {value: submenuOpen, setFalse: closeSubmenu, toggle: toggleSubmenu} = useBoolean(false)
   const browserUrl = usePathname()
 
-  useOutsideClick(sublistRef, closeSubmenu);
+  useOutsideClick(menuItemRef, closeSubmenu);
 
   // Close the submenu if the url changes.
   useEffect(() => closeSubmenu(), [browserUrl, closeSubmenu]);
 
   useLayoutEffect(() => {
     // If the right side of the submenu is not visible, set the position to be on the left of the menu item.
-    const {x, width} = sublistRef.current?.getBoundingClientRect() || {x: 0, width: 0}
+    const {x, width} = belowListRef.current?.getBoundingClientRect() || {x: 0, width: 0}
     if (x + width > window.innerWidth) setPositionRight(false);
   }, [submenuOpen])
 
@@ -92,7 +93,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
     if (level === 0) buttonRef.current?.focus();
   }, [level, submenuOpen, closeSubmenu]);
 
-  useEventListener("keydown", handleEscape, sublistRef)
+  useEventListener("keydown", handleEscape, menuItemRef)
 
   // List out the specific classes so tailwind will include them. Dynamic classes values don't get compiled.
   const zIndexes = ["z-[1]", "z-[2]", "z-[3]", "z-[4]", "z-[5]"]
@@ -135,8 +136,8 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
   return (
     <li
-      ref={sublistRef}
-      className={clsx("m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0", level === 0 && "lg:border-b-0 first:border-t-0")}
+      ref={menuItemRef}
+      className={clsx("m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0", {"lg:border-b-0 first:border-t-0": level === 0})}
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
@@ -150,7 +151,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
         {(children.length > 0 && level < menuLevelsToShow) &&
           <>
-            {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px]  bg-archway-light shrink-0"/>}
+            {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px] bg-archway-light shrink-0"/>}
             <button
               ref={buttonRef}
               className="shrink-0 relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"
@@ -160,7 +161,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
             >
               <ChevronDownIcon
                 height={35}
-                className={clsx("transition group-hocus:scale-125 group-hocus:text-black ease-in-out duration-150", submenuOpen && "rotate-180")}
+                className={clsx("transition group-hocus:scale-125 group-hocus:text-black ease-in-out duration-150", {"rotate-180": submenuOpen})}
               />
             </button>
 
@@ -170,7 +171,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
       </div>
 
       {(children.length > 0 && level < menuLevelsToShow) &&
-        <ul className={subMenuStyles}>
+        <ul className={subMenuStyles} ref={belowListRef}>
           {children.map(item =>
             <MenuItem
               key={item.id}
