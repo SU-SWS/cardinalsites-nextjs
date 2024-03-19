@@ -18,7 +18,7 @@ const SiteSearchForm = ({...props}: ComponentProps<any>) => {
           required
         />
         <button type="submit" className="absolute top-2 right-5">
-          <MagnifyingGlassIcon width={30} color="#b1040e"/>
+          <MagnifyingGlassIcon width={30} className="text-digital-red" />
           <span className="sr-only">Submit Search</span>
         </button>
       </div>
