@@ -10,6 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPublicationListItem = ({node, headingLevel, ...props}: Props) => {
+  const citationUrl = node.suPublicationCitation?.suUrl?.url;
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <article
@@ -19,7 +20,7 @@ const StanfordPublicationListItem = ({node, headingLevel, ...props}: Props) => {
     >
       <div className="flex flex-col">
         <Heading className="text-m2 order-first" id={node.id}>
-          <Link href={node.path}>
+          <Link href={citationUrl || node.path}>
             {node.title}
           </Link>
         </Heading>
