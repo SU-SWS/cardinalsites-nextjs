@@ -10,15 +10,15 @@ const SiteSearchForm = ({...props}: ComponentProps<any>) => {
           Search this site
         </label>
         <input
-          className="rounded-full h-20 w-full lg:w-100 text-20"
+          className="rounded-full h-15 w-full lg:w-100 text-19 lg:border-black-20"
           type="text"
           placeholder="Search this site"
           id={inputId}
           name="q"
           required
         />
-        <button type="submit" className="absolute top-5 right-5">
-          <MagnifyingGlassIcon width={30}/>
+        <button type="submit" className="absolute top-2 right-5">
+          <MagnifyingGlassIcon width={25} className="text-digital-red" />
           <span className="sr-only">Submit Search</span>
         </button>
       </div>

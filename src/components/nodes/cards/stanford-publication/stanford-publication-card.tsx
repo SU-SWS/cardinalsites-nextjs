@@ -10,6 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
+  const citationUrl = node.suPublicationCitation?.suUrl?.url;
   const Heading = headingLevel === 'h3' ? H3 : H2;
   return (
     <ImageCard
@@ -20,7 +21,7 @@ const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
 
       <div className="flex flex-col">
         <Heading className="text-m2 order-last [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
-          <Link href={node.path}>
+          <Link href={citationUrl || node.path}>
             {node.title}
           </Link>
         </Heading>

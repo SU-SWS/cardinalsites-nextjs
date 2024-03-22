@@ -4,6 +4,7 @@ import Button from "@components/elements/button";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d";
+import {redirect} from "next/navigation";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -11,6 +12,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPublicationPage = ({node, ...props}: Props) => {
+  const citationUrl = node.suPublicationCitation?.suUrl?.url;
+  if (citationUrl) redirect(citationUrl);
   return (
     <article className="centered pt-32" {...props}>
       <div className="flex flex-col gap-10">
