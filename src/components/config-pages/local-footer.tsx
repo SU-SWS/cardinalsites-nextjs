@@ -22,6 +22,7 @@ import FacebookIcon from "@components/elements/icons/FacebookIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
 import WebLogin from "@components/elements/web-login";
+import Subscribe from "@components/elements/subscribe";
 
 const LocalFooter = ({
   suFooterEnabled,
@@ -154,18 +155,12 @@ const LocalFooter = ({
           </div>
           
           <div>
-            
             <div className="su-signup-form">
-            <Wysiwyg html={suLocalFootFIntro?.processed} className="text-19"/>
-              <form>
-                <input type="email" id="" aria-label="signup email" name="signup email" placeholder="email address" />
-                <button href="/" className="button m-t-3 my-2" type="submit" id="signup-submit">
-                  Sign-up
-                </button>
-              </form>
+              <Wysiwyg html={suLocalFootFIntro?.processed}/>
+              <Subscribe/>
             </div>
 
-            <Wysiwyg html={suLocalFootTrCo?.processed}/>
+            <Wysiwyg html={suLocalFootTrCo?.processed} className="text-19"/>
           </div>
         </div>  
         <WebLogin/>
