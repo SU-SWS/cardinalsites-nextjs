@@ -19,6 +19,8 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
+import InstagramIcon from "@components/elements/icons/InstagramIcon";
+import LinkedInIcon from "@components/elements/icons/LinkedInIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
 import WebLogin from "@components/elements/web-login";
@@ -92,7 +94,7 @@ const LocalFooter = ({
             }
 
             {suLocalFootSocial &&
-              <ul className="list-unstyled flex gap-2">
+              <ul className="list-unstyled flex gap-8">
                 {suLocalFootSocial.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -173,6 +175,9 @@ const SocialIcon = ({url}: { url: string }) => {
   if (url.includes("twitter.com")) return <TwitterIcon/>
   if (url.includes("youtube.com")) return <YoutubeIcon/>
   if (url.includes("facebook")) return <FacebookIcon/>
+  if (url.includes("instagram")) return <InstagramIcon/>
+  if (url.includes("linkedin")) return <LinkedInIcon/>
+
   return null;
 }
 
