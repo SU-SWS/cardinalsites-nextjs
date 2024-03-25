@@ -7,7 +7,7 @@ import useOutsideClick from "@lib/hooks/useOutsideClick";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 import {clsx} from "clsx";
-import {useBoolean, useEventListener, useIsClient} from "usehooks-ts";
+import {useBoolean, useEventListener} from "usehooks-ts";
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
 import {usePathname} from "next/navigation";
 
@@ -64,7 +64,6 @@ type MenuItemProps = MenuItemType & {
 }
 
 const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps) => {
-  const isClient = useIsClient();
   const linkId = useId();
   const menuItemRef = useRef<HTMLLIElement>(null);
   const belowListRef = useRef<HTMLUListElement>(null);

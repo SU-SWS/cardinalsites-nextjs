@@ -17,7 +17,7 @@ const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosit
   return (
     <BannerWrapper
       {...props}
-      className={twMerge("@container md:min-h-[400px] rs-mb-5 flex items-center", props.className)}
+      className={twMerge("@container md:min-h-[400px] rs-mb-5", props.className)}
     >
       <div className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">
         {imageUrl &&
