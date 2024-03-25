@@ -21,9 +21,9 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const ListParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors(paragraph);
-  const viewId = paragraph.suListView?.view || '';
-  const displayId = paragraph.suListView?.display || '';
-  const viewItems = await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter, paragraph.suListView?.pageSize);
+  const viewId = paragraph.suListView?.view;
+  const displayId = paragraph.suListView?.display;
+  const viewItems = viewId && displayId ? await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter, paragraph.suListView?.pageSize) : [];
 
   if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null;
 
@@ -46,7 +46,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 
       <Wysiwyg html={paragraph.suListDescription?.processed}/>
 
-      {viewItems &&
+      {(viewId && displayId && viewItems) &&
         <View
           viewId={viewId}
           displayId={displayId}
