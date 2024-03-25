@@ -3,7 +3,9 @@ import type {Meta, StoryObj} from '@storybook/react';
 import LocalFooter from "@components/config-pages/local-footer";
 import {ComponentProps} from "react";
 
-type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {}
+type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {
+  numberoflinks: number
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<ComponentStoryProps> = {
@@ -16,7 +18,14 @@ const meta: Meta<ComponentStoryProps> = {
       options: ['a', 'b', 'd', 'e', 'h', 'i', 'm', 'o', 'p', 'r', 's', 't', 'none'],
       control: {type: "select"}
     },
-    suFooterEnabled: {control: "boolean"}
+    suFooterEnabled: {control: "boolean"},
+    numberoflinks: {
+      control: {
+        type: 'number',
+        min: 1,
+        max: 20,
+      }
+    },
   }
 };
 
@@ -28,6 +37,7 @@ export const LocalFooterDisplay: Story = {
   args: {
     suFooterEnabled: true,
     // Action links
+    numberoflinks: 3,
     suLocalFootAction: [
       {
         title: "Action link 1",
@@ -105,8 +115,11 @@ export const LocalFooterDisplay: Story = {
     ],
    // Social Links
     suLocalFootSocial: [
-      {title: "Facebook", url: "https://localhost", internal: false},
-      {title: "YouTube", url: "https://localhost", internal: false}
+      {title: "Facebook", url: "https://www.facebook.com/stanford", internal: false},
+      {title: "Twitter", url: "https://twitter.com/stanford", internal: false},
+      {title: "Instagram", url: "https://www.instagram.com/stanford/", internal: false},
+      {title: "LinkedIn", url: "https://www.linkedin.com/school/stanford-university/", internal: false},
+      {title: "YouTube", url: "https://www.youtube.com/stanford", internal: false},
     ],
     // What does this one do?
     suLocalFootSunetT: "suLocalFoot_sunet_t",
