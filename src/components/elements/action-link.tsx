@@ -4,6 +4,9 @@ import {HtmlHTMLAttributes} from "react";
 import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
+  /**
+   * Link url.
+   */
   href: string
 }
 

@@ -4,6 +4,9 @@ import {HtmlHTMLAttributes} from "react";
 import {useIsClient} from "usehooks-ts";
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
+  /**
+   * Telephone number.
+   */
   tel: string
 }
 

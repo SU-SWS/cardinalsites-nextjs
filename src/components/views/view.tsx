@@ -21,9 +21,21 @@ import {
 } from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
+  /**
+   * View Machine Name.
+   */
   viewId: string;
+  /**
+   * Display machine name.
+   */
   displayId: string;
+  /**
+   * List of nodes to display.
+   */
   items: NodeUnion[]
+  /**
+   * If those nodes titles should display as <h2> or <h3>
+   */
   headingLevel?: "h2" | "h3"
 }
 

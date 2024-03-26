@@ -13,14 +13,24 @@ import {UseTabsListParameters} from "@mui/base/useTabsList/useTabsList.types";
 import {UseTabPanelParameters} from "@mui/base/useTabPanel/useTabPanel.types";
 import {useRouter, useSearchParams} from "next/navigation";
 
+// View the API for all the tab components here: https://mui.com/base-ui/react-tabs/hooks-api/.
 type TabsProps = HTMLAttributes<HTMLDivElement> & {
+  /**
+   * The query parameter in the URL for sharing or reloading.
+   */
   paramId?: string
+  /**
+   * Default tab for initial rendering.
+   */
   defaultTab?: UseTabsParameters["defaultValue"]
+  /**
+   * Which direction the tabs are displayed.
+   */
   orientation?: UseTabsParameters["orientation"]
 }
 
-export const Tabs = ({paramId = 'tab', orientation,defaultTab, children, ...props}: TabsProps) => {
-  const searchParams =useSearchParams();
+export const Tabs = ({paramId = 'tab', orientation, defaultTab, children, ...props}: TabsProps) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const onChange = (_e: SyntheticEvent | null, value: number | string | null) => {
     const params = new URLSearchParams(searchParams);
@@ -30,7 +40,7 @@ export const Tabs = ({paramId = 'tab', orientation,defaultTab, children, ...prop
   const paramValue = searchParams.get(paramId)
   const initialTab = defaultTab || (paramValue && parseInt(paramValue))
 
-  const {contextValue} = useTabs({orientation, defaultValue: initialTab || 0, onChange})
+  const {contextValue} = useTabs({orientation, defaultValue: initialTab || 0, onChange, selectionFollowsFocus: true})
 
   return (
     <TabsProvider value={contextValue}>
@@ -42,8 +52,17 @@ export const Tabs = ({paramId = 'tab', orientation,defaultTab, children, ...prop
 }
 
 type TabsListProps = Omit<UseTabsListParameters, "rootRef"> & {
+  /**
+   * <Tab> components.
+   */
   children: ReactNode
+  /**
+   * Classes for the tab list.
+   */
   className?: HTMLAttributes<HTMLDivElement>["className"]
+  /**
+   * Attributes for the tab list.
+   */
   containerProps?: Omit<HTMLAttributes<HTMLDivElement>, "className">
 }
 
@@ -65,8 +84,17 @@ export const TabsList = ({containerProps, className, children, ...props}: TabsLi
 }
 
 type TabProps = UseTabParameters & {
+  /**
+   * React node or string for the tab.
+   */
   children: ReactNode
+  /**
+   * Classes for the button element.
+   */
   className?: HTMLAttributes<HTMLDivElement>["className"]
+  /**
+   * Extra attributes for the button element.
+   */
   buttonProps?: HTMLAttributes<HTMLButtonElement>
 }
 
@@ -86,8 +114,17 @@ export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
 }
 
 type TabPanelProps = UseTabPanelParameters & {
+  /**
+   * Panel contents.
+   */
   children: ReactNode
+  /**
+   * Classes for the panel.
+   */
   className?: HTMLAttributes<HTMLDivElement>["className"]
+  /**
+   * Extra attributes for the panel.
+   */
   panelProps?: HTMLAttributes<HTMLElement>
 }
 

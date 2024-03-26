@@ -1,6 +1,6 @@
-import {ComponentProps} from "react";
+import {HTMLAttributes} from "react";
 
-const TwitterIcon = (props: ComponentProps<any>) => (
+const TwitterIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
     width={28}
     viewBox="0 0 512 512"

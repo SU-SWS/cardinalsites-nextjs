@@ -1,7 +1,7 @@
-import {ComponentProps, useId} from "react";
+import {HTMLAttributes, useId} from "react";
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid";
 
-const SiteSearchForm = ({...props}: ComponentProps<any>) => {
+const SiteSearchForm = ({...props}: HTMLAttributes<HTMLFormElement>) => {
   const inputId = useId();
   return (
     <form aria-label="Site Search" action="/search" {...props}>
@@ -18,7 +18,7 @@ const SiteSearchForm = ({...props}: ComponentProps<any>) => {
           required
         />
         <button type="submit" className="absolute top-2 right-5">
-          <MagnifyingGlassIcon width={25} className="text-digital-red" />
+          <MagnifyingGlassIcon width={25} className="text-digital-red"/>
           <span className="sr-only">Submit Search</span>
         </button>
       </div>
