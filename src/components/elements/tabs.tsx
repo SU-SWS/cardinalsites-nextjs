@@ -4,16 +4,34 @@ import {TabsProvider, useTabs} from '@mui/base/useTabs';
 import {useTab} from '@mui/base/useTab';
 import {useTabPanel} from '@mui/base/useTabPanel';
 import {TabsListProvider, useTabsList} from '@mui/base/useTabsList';
-import {HTMLAttributes, useRef} from "react";
+import {HTMLAttributes, ReactNode, SyntheticEvent, useRef} from "react";
 import {UseTabParameters} from "@mui/base/useTab/useTab.types";
 import {clsx} from "clsx";
 import {twMerge} from "tailwind-merge";
 import {UseTabsParameters} from "@mui/base/useTabs/useTabs.types";
+import {UseTabsListParameters} from "@mui/base/useTabsList/useTabsList.types";
+import {UseTabPanelParameters} from "@mui/base/useTabPanel/useTabPanel.types";
+import {useRouter, useSearchParams} from "next/navigation";
 
-type TabsProps = HTMLAttributes<HTMLDivElement> & UseTabsParameters & {}
+type TabsProps = HTMLAttributes<HTMLDivElement> & {
+  paramId?: string
+  defaultTab?: UseTabsParameters["defaultValue"]
+  orientation?: UseTabsParameters["orientation"]
+}
 
-export const Tabs = ({orientation, children, ...props}: TabsProps) => {
-  const {contextValue} = useTabs({orientation, defaultValue: 0})
+export const Tabs = ({paramId = 'tab', orientation,defaultTab, children, ...props}: TabsProps) => {
+  const searchParams =useSearchParams();
+  const router = useRouter();
+  const onChange = (_e: SyntheticEvent | null, value: number | string | null) => {
+    const params = new URLSearchParams(searchParams);
+    value ? params.set(paramId, `${value}`) : params.delete(paramId);
+    router.replace(`?${params.toString()}`, {scroll: false})
+  }
+  const paramValue = searchParams.get(paramId)
+  const initialTab = defaultTab || (paramValue && parseInt(paramValue))
+
+  const {contextValue} = useTabs({orientation, defaultValue: initialTab || 0, onChange})
+
   return (
     <TabsProvider value={contextValue}>
       <div {...props}>
@@ -23,30 +41,43 @@ export const Tabs = ({orientation, children, ...props}: TabsProps) => {
   )
 }
 
-type TabsListProps = HTMLAttributes<HTMLDivElement> & {}
+type TabsListProps = Omit<UseTabsListParameters, "rootRef"> & {
+  children: ReactNode
+  className?: HTMLAttributes<HTMLDivElement>["className"]
+  containerProps?: Omit<HTMLAttributes<HTMLDivElement>, "className">
+}
 
-export const TabsList = ({children, ...props}: TabsListProps) => {
+export const TabsList = ({containerProps, className, children, ...props}: TabsListProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const {contextValue, orientation, getRootProps} = useTabsList({...props, rootRef});
   const isVertical = orientation === "vertical";
   return (
     <TabsListProvider value={contextValue}>
-      <div {...getRootProps()} className={twMerge(clsx("flex", {"flex-col": isVertical}))}>
+      <div
+        {...getRootProps()}
+        {...containerProps}
+        className={twMerge(clsx("flex", {"flex-col": isVertical}), className)}
+      >
         {children}
       </div>
     </TabsListProvider>
   )
 }
 
-type TabProps = HTMLAttributes<HTMLButtonElement> & UseTabParameters & {}
+type TabProps = UseTabParameters & {
+  children: ReactNode
+  className?: HTMLAttributes<HTMLDivElement>["className"]
+  buttonProps?: HTMLAttributes<HTMLButtonElement>
+}
 
-export const Tab = ({className, children, ...props}: TabProps) => {
+export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
   const rootRef = useRef<HTMLButtonElement>(null);
   const {selected, getRootProps} = useTab({...props, rootRef});
 
   return (
     <button
       {...getRootProps()}
+      {...buttonProps}
       className={twMerge(clsx("text-left p-3 border-b-3 border-transparent", {"border-cardinal-red": selected}), className)}
     >
       {children}
@@ -54,13 +85,17 @@ export const Tab = ({className, children, ...props}: TabProps) => {
   )
 }
 
-type TabPanelProps = HTMLAttributes<HTMLDivElement> & {}
+type TabPanelProps = UseTabPanelParameters & {
+  children: ReactNode
+  className?: HTMLAttributes<HTMLDivElement>["className"]
+  panelProps?: HTMLAttributes<HTMLElement>
+}
 
-export const TabPanel = ({children}: TabPanelProps) => {
+export const TabPanel = ({panelProps, className, children}: TabPanelProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const {getRootProps} = useTabPanel({rootRef});
   return (
-    <section {...getRootProps()}>
+    <section {...getRootProps()} {...panelProps} role="tabpanel" className={className}>
       {children}
     </section>
   )
