@@ -7,6 +7,9 @@ import {useIntersectionObserver} from "usehooks-ts";
 import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Oembed URL.
+   */
   url: string
 }
 

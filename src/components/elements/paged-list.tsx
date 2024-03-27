@@ -9,9 +9,21 @@ import usePagination from "@lib/hooks/usePagination";
 import useFocusOnRender from "@lib/hooks/useFocusOnRender";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Attributes for the <ul> container.
+   */
   ulProps?: HtmlHTMLAttributes<HTMLUListElement>
+  /**
+   * Attributes for each <li> element.
+   */
   liProps?: HtmlHTMLAttributes<HTMLLIElement>,
+  /**
+   * The number of items per page.
+   */
   itemsPerPage?: number
+  /**
+   * URL parameter used to save the users page position.
+   */
   pageKey?: string
 }
 

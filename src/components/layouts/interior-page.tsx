@@ -7,6 +7,9 @@ import useActiveTrail from "@lib/hooks/useActiveTrail";
 import {twMerge} from "tailwind-merge";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Current url path.
+   */
   currentPath: string
 }
 

@@ -6,6 +6,9 @@ import Button from "@components/elements/button";
 import {LinkProps} from "next/dist/client/link";
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & LinkProps & {
+  /**
+   * Link URL.
+   */
   href: string
 }
 

@@ -3,8 +3,14 @@ import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
 import PagedList from "@components/elements/paged-list";
 
 interface Props {
+  /**
+   * List of nodes to display.
+   */
+  items: NodeStanfordNews[]
+  /**
+   * If those nodes titles should display as <h2> or <h3>
+   */
   headingLevel?: "h2" | "h3"
-  items?: NodeStanfordNews[]
 }
 
 const NewsListView = async ({items = [], headingLevel}: Props) => {

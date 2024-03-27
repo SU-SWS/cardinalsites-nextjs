@@ -3,8 +3,14 @@ import LoadMoreList from "@components/elements/load-more-list";
 import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
+  /**
+   * List of nodes to display.
+   */
+  items: NodeStanfordCourse[]
+  /**
+   * If those nodes titles should display as <h2> or <h3>
+   */
   headingLevel?: "h2" | "h3"
-  items?: NodeStanfordCourse[]
 }
 
 const CourseListView = async ({items = [], headingLevel}: Props) => {

@@ -28,7 +28,13 @@ type Props = HTMLAttributes<HTMLElement> & {
    * Panel visibility state if the component is controlled.
    */
   isVisible?: boolean
+  /**
+   * Extra attributes on the button element.
+   */
   buttonProps?: HTMLAttributes<HTMLButtonElement>
+  /**
+   * Extra attributes on the panel element.
+   */
   panelProps?: HTMLAttributes<HTMLDivElement>
 }
 

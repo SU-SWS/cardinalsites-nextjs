@@ -5,9 +5,21 @@ import {ElementType, HTMLAttributes} from "react";
 import {Maybe} from "@lib/gql/__generated__/drupal";
 
 type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
+  /**
+   * Absolute image url path.
+   */
   imageUrl?: Maybe<string>
+  /**
+   * Image alt string.
+   */
   imageAlt?: Maybe<string>
+  /**
+   * Absolute url for the video, typically an oembed url.
+   */
   videoUrl?: Maybe<string>
+  /**
+   * If the wrapper should be an article or a div, use an article if an appropriate heading is within the card.
+   */
   isArticle?: Maybe<boolean>
 }
 

@@ -7,9 +7,21 @@ import {useBoolean, useCounter} from "usehooks-ts";
 import useFocusOnRender from "@lib/hooks/useFocusOnRender";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Load more button text/element.
+   */
   buttonText?: string | JSX.Element
+  /**
+   * Attributes for the <ul> container.
+   */
   ulProps?: HtmlHTMLAttributes<HTMLUListElement>
-  liProps?: HtmlHTMLAttributes<HTMLLIElement>,
+  /**
+   * Attributes for each <li> element.
+   */
+  liProps?: HtmlHTMLAttributes<HTMLLIElement>
+  /**
+   * The number of items per page.
+   */
   itemsPerPage?: number
 }
 

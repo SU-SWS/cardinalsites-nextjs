@@ -10,7 +10,14 @@ import {isDraftMode} from "@lib/drupal/utils";
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {Suspense} from "react";
 
-const Paragraph = async ({paragraph}: { paragraph: ParagraphUnion }) => {
+type Props = {
+  /**
+   * Paragraph entity todisplay.
+   */
+  paragraph: ParagraphUnion
+}
+
+const Paragraph = async ({paragraph}: Props) => {
   const draftMode = isDraftMode()
 
   const itemProps: Record<string, string> = {}

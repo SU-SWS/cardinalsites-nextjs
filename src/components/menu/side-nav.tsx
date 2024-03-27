@@ -4,7 +4,13 @@ import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d";
 import {HTMLAttributes} from "react";
 
 type Props = HTMLAttributes<HTMLElement> & {
+  /**
+   * Array of nested menu items.
+   */
   menuItems: MenuItemType[]
+  /**
+   * The trail of the current page within the menu items.
+   */
   activeTrail: string[]
 }
 

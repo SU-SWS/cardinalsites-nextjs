@@ -2,6 +2,9 @@ import {HTMLAttributes} from "react";
 import {twMerge} from "tailwind-merge";
 
 type Props = HTMLAttributes<HTMLDivElement> & {
+  /**
+   * If the item is published or not.
+   */
   status?: boolean
 }
 const UnpublishedBanner = ({status, children, ...props}: Props) => {

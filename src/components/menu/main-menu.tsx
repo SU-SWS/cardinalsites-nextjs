@@ -13,7 +13,14 @@ import {usePathname} from "next/navigation";
 
 const menuLevelsToShow = 2;
 
-const MainMenu = ({menuItems}: { menuItems: MenuItemType[] }) => {
+type Props = {
+  /**
+   * Array of nested menu items.
+   */
+  menuItems: MenuItemType[]
+}
+
+const MainMenu = ({menuItems}: Props) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null);
   const navId = useId();

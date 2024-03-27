@@ -1,6 +1,6 @@
-import {ComponentProps} from "react";
+import {HTMLAttributes} from "react";
 
-const YoutubeIcon = (props: ComponentProps<any>) => {
+const YoutubeIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => {
   return (
     <svg width={28} viewBox="0 0 16 16" {...props}>
       <path

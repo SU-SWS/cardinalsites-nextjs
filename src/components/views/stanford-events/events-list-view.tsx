@@ -4,8 +4,14 @@ import EventsFilteredListView from "@components/views/stanford-events/events-fil
 import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal.d";
 
 interface Props {
+  /**
+   * List of nodes to display.
+   */
+  items: NodeStanfordEvent[]
+  /**
+   * If those nodes titles should display as <h2> or <h3>
+   */
   headingLevel?: "h2" | "h3"
-  items?: NodeStanfordEvent[]
 }
 
 const EventsListView = async ({items = [], headingLevel}: Props) => {

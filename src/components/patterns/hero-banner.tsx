@@ -4,10 +4,25 @@ import {twMerge} from "tailwind-merge";
 import {Maybe} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Absolute image url path.
+   */
   imageUrl?: Maybe<string>
+  /**
+   * Image alt string.
+   */
   imageAlt?: Maybe<string>
+  /**
+   * Is the banner supposed to be a section or a div.
+   */
   isSection?:Maybe<boolean>
+  /**
+   * Eagerly load the banner image.
+   */
   eagerLoadImage?: Maybe<boolean>
+  /**
+   * Position of the text over the image.
+   */
   overlayPosition?: Maybe<'left' | 'right'>
 }
 
