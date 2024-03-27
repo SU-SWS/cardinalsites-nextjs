@@ -116,12 +116,12 @@ export const LocalFooterDisplay: Story = {
    // Social Links
     suLocalFootSocial: [
       {title: "Facebook", url: "https://www.facebook.com/stanford", internal: false},
-      {title: "Twitter", url: "https://twitter.com/stanford", internal: false},
       {title: "Instagram", url: "https://www.instagram.com/stanford/", internal: false},
       {title: "LinkedIn", url: "https://www.linkedin.com/school/stanford-university/", internal: false},
       {title: "YouTube", url: "https://www.youtube.com/stanford", internal: false},
+      {title: "Twitter", url: "https://twitter.com/stanford", internal: false},
     ],
-    // What does this one do?
+    // SUNet
     suLocalFootSunetT: "suLocalFoot_sunet_t",
   },
 };
