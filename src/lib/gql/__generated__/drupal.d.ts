@@ -1674,6 +1674,10 @@ export type Query = {
   nodeStanfordPublications: NodeStanfordPublicationConnection;
   /** Load a Paragraph entity by id. */
   paragraph?: Maybe<ParagraphUnion>;
+  /** Load a Redirect entity by id. */
+  redirect?: Maybe<Redirect>;
+  /** List of all Redirect on the platform. */
+  redirects: RedirectConnection;
   /** Load a Route by path. */
   route?: Maybe<RouteUnion>;
   /** Query for view stanford_basic_pages display basic_page_type_list_graphql. */
@@ -1911,6 +1915,33 @@ export type QueryNodeStanfordPublicationsArgs = {
 export type QueryParagraphArgs = {
   id: Scalars['ID']['input'];
   langcode?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/**
+ * The schema's entry-point for queries.
+ *
+ * This acts as the public, top-level API from which all queries must start.
+ */
+export type QueryRedirectArgs = {
+  id: Scalars['ID']['input'];
+  langcode?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/**
+ * The schema's entry-point for queries.
+ *
+ * This acts as the public, top-level API from which all queries must start.
+ */
+export type QueryRedirectsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  langcode?: InputMaybe<Scalars['String']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  sortKey?: InputMaybe<ConnectionSortKeys>;
 };
 
 
@@ -2169,6 +2200,70 @@ export type QueryTermArgs = {
   id: Scalars['ID']['input'];
   langcode?: InputMaybe<Scalars['String']['input']>;
 };
+
+/** Entity type redirect. */
+export type Redirect = EdgeNode & MetaTagInterface & RedirectInterface & {
+  __typename?: 'Redirect';
+  /** The Universally Unique IDentifier (UUID). */
+  id: Scalars['ID']['output'];
+  /** The computed meta tags for the entity. */
+  metatag: Array<MetaTagUnion>;
+  /** To */
+  redirectRedirect: Link;
+  /**
+   * Enter an internal Drupal path or path alias to redirect (e.g. <em
+   * class="placeholder">node/123</em> or <em
+   * class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em
+   * class="placeholder">#anchor</em>) are <strong>not</strong> allowed.
+   */
+  redirectSource: RedirectSourceType;
+  /** The redirect status code. */
+  statusCode: Scalars['Int']['output'];
+};
+
+/** A paginated set of results for Redirect. */
+export type RedirectConnection = Connection & {
+  __typename?: 'RedirectConnection';
+  edges: Array<RedirectEdge>;
+  nodes: Array<Redirect>;
+  pageInfo: ConnectionPageInfo;
+};
+
+/** Edge for Redirect. */
+export type RedirectEdge = Edge & {
+  __typename?: 'RedirectEdge';
+  cursor: Scalars['Cursor']['output'];
+  node: Redirect;
+};
+
+/** Entity type redirect. */
+export type RedirectInterface = {
+  /** The Universally Unique IDentifier (UUID). */
+  id: Scalars['ID']['output'];
+  /** The computed meta tags for the entity. */
+  metatag: Array<MetaTagUnion>;
+  /** To */
+  redirectRedirect: Link;
+  /**
+   * Enter an internal Drupal path or path alias to redirect (e.g. <em
+   * class="placeholder">node/123</em> or <em
+   * class="placeholder">taxonomy/term/123</em>). Fragment anchors (e.g. <em
+   * class="placeholder">#anchor</em>) are <strong>not</strong> allowed.
+   */
+  redirectSource: RedirectSourceType;
+  /** The redirect status code. */
+  statusCode: Scalars['Int']['output'];
+};
+
+/** Redirect Source data. */
+export type RedirectSourceType = {
+  __typename?: 'RedirectSourceType';
+  /** Source URL */
+  url: Scalars['String']['output'];
+};
+
+/** Entity type redirect. */
+export type RedirectUnion = Redirect;
 
 /** Routes represent incoming requests that resolve to content. */
 export type Route = {
@@ -2850,7 +2945,7 @@ export type SuArticleJournal = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of thie publication will link
+   * By adding an external source URL, all listings of this publication will link
    * to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
@@ -2876,7 +2971,7 @@ export type SuArticleNewspaper = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of thie publication will link
+   * By adding an external source URL, all listings of this publication will link
    * to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
@@ -2913,7 +3008,7 @@ export type SuBook = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of thie publication will link
+   * By adding an external source URL, all listings of this publication will link
    * to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;
@@ -2990,7 +3085,7 @@ export type SuThesi = CitationInterface & {
   /**
    * Add a URL to an external source for this publication item such as https://example.com/.
    * This can be the same url as the DOI link.
-   * By adding an external source URL, all listings of thie publication will link
+   * By adding an external source URL, all listings of this publication will link
    * to the external source instead of a page on this website.
    */
   suUrl?: Maybe<Link>;

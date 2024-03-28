@@ -46,7 +46,6 @@ export const metadata = {
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
-export const dynamic = 'force-static';
 
 const RootLayout = async ({children, modal}: { children: React.ReactNode, modal: React.ReactNode }) => {
   const draftMode = isDraftMode();
