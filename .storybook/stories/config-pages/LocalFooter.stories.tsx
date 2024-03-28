@@ -3,7 +3,9 @@ import type {Meta, StoryObj} from '@storybook/react';
 import LocalFooter from "@components/config-pages/local-footer";
 import {ComponentProps} from "react";
 
-type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {}
+type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {
+  numberoflinks: number
+}
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<ComponentStoryProps> = {
@@ -16,7 +18,14 @@ const meta: Meta<ComponentStoryProps> = {
       options: ['a', 'b', 'd', 'e', 'h', 'i', 'm', 'o', 'p', 'r', 's', 't', 'none'],
       control: {type: "select"}
     },
-    suFooterEnabled: {control: "boolean"}
+    suFooterEnabled: {control: "boolean"},
+    numberoflinks: {
+      control: {
+        type: 'number',
+        min: 1,
+        max: 20,
+      }
+    },
   }
 };
 
@@ -27,55 +36,92 @@ type Story = StoryObj<ComponentStoryProps>;
 export const LocalFooterDisplay: Story = {
   args: {
     suFooterEnabled: true,
+    // Action links
+    numberoflinks: 3,
     suLocalFootAction: [
-      {title: "Action link 1", url: "https://localhost", internal: false},
-      {title: "Action link 2", url: "https://localhost", internal: false}
+      {
+        title: "Action link 1",
+        url: "https://localhost",
+        internal: false
+      },
+      {
+        title: "Action link 2",
+        url: "https://localhost",
+        internal: false
+      }
     ],
+    // Office location
     suLocalFootAddress: {
-      additionalName: "additional_name",
-      addressLine1: "address_line1",
-      addressLine2: "address_line2",
-      administrativeArea: "administrative_area",
-      country: {code: "country_code"},
-      familyName: "family_name",
-      givenName: "given_name",
-      locality: "locality",
-      organization: "organization",
-      postalCode: "postal_code",
-      sortingCode: "sorting_code",
+      additionalName: "Additional Organization Name",
+      addressLine1: "450 Jane Stanford Way",
+      addressLine2: "Address Line 2",
+      administrativeArea: "State",
+      country: {
+        code: "Country Code"
+      },
+      familyName: "Family Name",
+      givenName: "Given Name",
+      locality: "Locality",
+      organization: "Organization",
+      postalCode: "Postal Code",
+      sortingCode: "Sorting Code",
     },
-    suLocalFootFButton: "suLocalFoot_f_button",
-    suLocalFootFIntro: {processed: "suLocalFoot_f_intro"},
-    suLocalFootFMethod: "suLocalFoot_f_method",
-    suLocalFootFUrl: {title: "Form Action url", url: "https://localhost", internal: false},
-    suLocalFootLine1: "suLocalFoot_line_1",
-    suLocalFootLine2: "suLocalFoot_line_2",
-    suLocalFootLine3: "suLocalFoot_line_3",
-    suLocalFootLine4: "suLocalFoot_line_4",
-    suLocalFootLine5: "suLocalFoot_line_5",
+    // Signup form details 
+    suLocalFootFButton: "Sign up footer button",
+    suLocalFootFIntro: {
+      processed: "<h2>Signup Form</h2><p>This is an example of a signup form.</p>"
+    },
+    suLocalFootFMethod: "Sign up footer method",
+    suLocalFootFUrl: {
+      title: "Form Action url",
+      url: "https://localhost",
+      internal: false
+    },
+    // Footer lockup controls
+    suLocalFootUseLoc: true,
+    suLocalFootUseLogo: true,
+    suLocalFootLocOp: "suLocalFoot_loc_op",
+    // Footer lockup lines
+    suLocalFootLine1: "Line 1",
+    suLocalFootLine2: "Line 2",
+    suLocalFootLine3: "Line 3",
+    suLocalFootLine4: "Line 4",
+    suLocalFootLine5: "Line 5",
     suLocalFootLocImg: null,
-    suLocalFootLocLink: {title: "suLocalFoot_loc_link", url: "https://localhost", internal: false},
-    suLocalFootPrCo: {processed: "suLocalFoot_pr_co"},
+    suLocalFootLocLink: {
+      title: "suLocalFoot_loc_link",
+      url: "https://localhost",
+      internal: false
+    },
+    // Wysiwyg Content Block 1
+    suLocalFootPrCo: {processed: "Content Block 1"},
+    // Wysiwyg Content Block 2
+    suLocalFootSeCo: {processed: "Content Block 2"},
+    // Wysiwyg Content Block 3
+    suLocalFootTr2Co: {processed: "Content Block 3"},
+    // Wysiwyg Content Block 4
+    suLocalFootTrCo: {processed: "Content Block 4"},
+    // Primary links
+    suLocalFootPrimeH: "Primary links",
     suLocalFootPrimary: [
       {title: "Primary link 1", url: "https://localhost", internal: false},
       {title: "Primary link 2", url: "https://localhost", internal: false}
     ],
-    suLocalFootPrimeH: "suLocalFoot_prime_h",
-    suLocalFootSeCo: {processed: "suLocalFoot_se_co"},
+    // Secondary Links
+    suLocalFootSecondH: "Secondary links",
     suLocalFootSecond: [
       {title: "Second Link 1", url: "https://localhost", internal: false},
       {title: "Second Link 2", url: "https://localhost", internal: false}
     ],
-    suLocalFootSecondH: "suLocalFoot_second_h",
+   // Social Links
     suLocalFootSocial: [
-      {title: "Facebook", url: "https://localhost", internal: false},
-      {title: "YouTube", url: "https://localhost", internal: false}
+      {title: "Facebook", url: "https://www.facebook.com/stanford", internal: false},
+      {title: "Instagram", url: "https://www.instagram.com/stanford/", internal: false},
+      {title: "LinkedIn", url: "https://www.linkedin.com/school/stanford-university/", internal: false},
+      {title: "YouTube", url: "https://www.youtube.com/stanford", internal: false},
+      {title: "Twitter", url: "https://twitter.com/stanford", internal: false},
     ],
+    // SUNet
     suLocalFootSunetT: "suLocalFoot_sunet_t",
-    suLocalFootTr2Co: {processed: "suLocalFoot_tr2_co"},
-    suLocalFootTrCo: {processed: "suLocalFoot_tr_co"},
-    suLocalFootUseLoc: true,
-    suLocalFootUseLogo: true,
-    suLocalFootLocOp: "suLocalFoot_loc_op",
   },
 };
