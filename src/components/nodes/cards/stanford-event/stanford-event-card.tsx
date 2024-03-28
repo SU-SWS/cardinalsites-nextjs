@@ -5,6 +5,7 @@ import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import Address from "@components/elements/address";
 import ImageCard from "@components/patterns/image-card";
+import EventDateHoriz from "@components/elements/event-date-horiz";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -28,7 +29,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
 
-  const endDate = "<span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span><time dateTime='2023-07-03 00:00Z' className='flex flex-col'><span className='text-m0 font-semibold w-full text-center'>{endMonth.toUpperCase()}</span><span className='text-m4 font-bold w-full text-center'>{endDay}</span></time>"
+  const endDate = ""
   endDate ? (startDay != endDay)|| (startMonth != endMonth) : null;
 
   return (
@@ -37,15 +38,9 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
       aria-labelledby={node.id}
       isArticle
     >
-      <div aria-hidden className="flex w-fit justify-start  flex-row items-center min-w-[9rem] h-90">
-        <time dateTime="2023-06-24 00:00Z" className="flex flex-col">
-          <span className="text-m0 font-semibold w-full text-center"> {startMonth.toUpperCase()}</span>
-          <span className="text-m4 font-bold w-full text-center">{startDay}</span>
-        </time>
-        
-        {endDate}
-        
-      </div>
+      <EventDateHoriz 
+        {...props}
+      />
 
       <div className="flex flex-col">
         <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
