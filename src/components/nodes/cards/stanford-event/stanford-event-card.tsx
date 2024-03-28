@@ -21,22 +21,30 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
+  const endMonth = end.toLocaleDateString("en-US", {month: "short", timeZone})
+  const endDay = parseInt(end.toLocaleDateString("en-US", {day: "numeric", timeZone}))
+
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
+
+  const endDate = "<span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span><time dateTime='2023-07-03 00:00Z' className='flex flex-col'><span className='text-m0 font-semibold w-full text-center'>{endMonth.toUpperCase()}</span><span className='text-m4 font-bold w-full text-center'>{endDay}</span></time>"
+  endDate ? (startDay != endDay)|| (startMonth != endMonth) : null;
+
   return (
     <ImageCard
       {...props}
       aria-labelledby={node.id}
       isArticle
     >
-      <div aria-hidden className="flex flex-col items-start w-fit">
-        <div className="text-m0 font-semibold mb-4 w-full text-center">
-          {startMonth.toUpperCase()}
-        </div>
-        <div className="text-m4 font-bold w-full text-center">
-          {startDay}
-        </div>
+      <div aria-hidden className="flex w-fit justify-start  flex-row items-center min-w-[9rem] h-90">
+        <time dateTime="2023-06-24 00:00Z" className="flex flex-col">
+          <span className="text-m0 font-semibold w-full text-center"> {startMonth.toUpperCase()}</span>
+          <span className="text-m4 font-bold w-full text-center">{startDay}</span>
+        </time>
+        
+        {endDate}
+        
       </div>
 
       <div className="flex flex-col">
