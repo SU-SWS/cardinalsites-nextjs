@@ -4,6 +4,9 @@ import {
   MenuAvailable,
   MenuItem,
   NodeUnion,
+  Redirect,
+  RedirectsQuery,
+  RedirectsQueryVariables,
   RouteQuery,
   RouteRedirect,
   TermUnion
@@ -86,7 +89,7 @@ export const getMenu = cache(async (name?: MenuAvailable, draftMode?: boolean): 
 export const getAllNodePaths = cache(async () => {
   "use server";
 
-  const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes();
+  const nodeQuery = await graphqlClient({next: {tags: ['paths']}}).AllNodes({first: 1000});
   const nodePaths: string[] = [];
   nodeQuery.nodeStanfordCourses.nodes.map(node => nodePaths.push(node.path));
   nodeQuery.nodeStanfordEventSeriesItems.nodes.map(node => nodePaths.push(node.path));
@@ -97,3 +100,19 @@ export const getAllNodePaths = cache(async () => {
   nodeQuery.nodeStanfordPolicies.nodes.map(node => nodePaths.push(node.path));
   return nodePaths;
 })
+
+export const getAllRedirects = async (): Promise<Redirect[]> => {
+  "use server";
+
+  let fetchMore = true;
+  let queryResponse: RedirectsQuery;
+  let variables: RedirectsQueryVariables = {first: 1000};
+  let redirects: Redirect[] = [];
+  while (fetchMore) {
+    queryResponse = await graphqlClient({next: {tags: ['paths']}}).Redirects(variables)
+    redirects = [...redirects, ...queryResponse.redirects.redirects as Redirect[]]
+    fetchMore = queryResponse.redirects.redirects.length === 1000;
+    variables.after = queryResponse.redirects.pageInfo.endCursor;
+  }
+  return redirects;
+}

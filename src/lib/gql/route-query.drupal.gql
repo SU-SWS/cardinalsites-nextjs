@@ -16,3 +16,21 @@ query Route($path: String!) {
         }
     }
 }
+
+query Redirects($first: Int = 1000, $after: Cursor) {
+    redirects(first: $first, after: $after) {
+        redirects: nodes {
+            id
+            redirectSource {
+                url
+            }
+            redirectRedirect {
+                url
+            }
+            statusCode
+        }
+        pageInfo {
+            endCursor
+        }
+    }
+}
