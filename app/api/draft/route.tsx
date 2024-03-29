@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {draftMode} from 'next/headers'
 import {redirect} from 'next/navigation'
+import {cookies} from "next/headers";
 
 export const revalidate = 0;
 
@@ -18,10 +18,15 @@ export async function GET(request: NextRequest) {
   if (!slug) {
     return NextResponse.json({message: 'Invalid slug path'}, {status: 401})
   }
-
-  draftMode().enable()
+  cookies().set('preview', secret, {
+    maxAge: 60 * 60,
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+    partitioned: true,
+  });
 
   // Redirect to the path from the fetched post
   // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
-  redirect(slug)
+  redirect(`/preview/${slug}`)
 }

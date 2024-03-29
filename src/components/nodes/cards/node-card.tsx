@@ -6,7 +6,7 @@ import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-pag
 import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 type Props = {
@@ -21,9 +21,9 @@ type Props = {
 }
 
 const NodeCard = ({node, headingLevel}: Props) => {
-  const draftMode = isDraftMode();
+  const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
-  if (draftMode) {
+  if (previewMode) {
     itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }

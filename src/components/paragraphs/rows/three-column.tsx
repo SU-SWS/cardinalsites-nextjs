@@ -1,7 +1,7 @@
 import OneColumn from "@components/paragraphs/rows/one-column";
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 
 const ThreeColumn = ({items}: { items: ParagraphUnion[] }) => {
   const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === 'left');
@@ -9,7 +9,7 @@ const ThreeColumn = ({items}: { items: ParagraphUnion[] }) => {
   const rightItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === 'right');
 
   const draftProps: Record<string, string> = {};
-  if (isDraftMode()) {
+  if (isPreviewMode()) {
     draftProps["data-columns"] = "3";
   }
 

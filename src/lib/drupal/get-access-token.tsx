@@ -9,9 +9,9 @@ type AccessToken = {
 
 const CACHE_KEY = "NEXT_DRUPAL_ACCESS_TOKEN"
 
-export const getAccessToken = async (draftMode: boolean = false): Promise<AccessToken | undefined> => {
+export const getAccessToken = async (previewMode: boolean = false): Promise<AccessToken | undefined> => {
 
-  if (!(process.env.DRUPAL_DRAFT_CLIENT && process.env.DRUPAL_DRAFT_SECRET && draftMode)) return;
+  if (!(process.env.DRUPAL_DRAFT_CLIENT && process.env.DRUPAL_DRAFT_SECRET && previewMode)) return;
 
   const cached = cache.get<AccessToken | false>(CACHE_KEY)
   if (cached && cached?.access_token) return cached

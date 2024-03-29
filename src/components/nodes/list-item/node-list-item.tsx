@@ -8,7 +8,7 @@ import StanfordPersonListItem from "@components/nodes/list-item/stanford-person/
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item";
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 type Props = {
@@ -23,9 +23,9 @@ type Props = {
 }
 
 const NodeListItem = ({node, headingLevel}: Props) => {
-  const draftMode = isDraftMode();
+  const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
-  if (draftMode) {
+  if (previewMode) {
     itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }
