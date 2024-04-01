@@ -5,7 +5,6 @@ import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
 import Address from "@components/elements/address";
 import ImageCard from "@components/patterns/image-card";
-import EventDateHoriz from "@components/elements/event-date-horiz";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -41,7 +40,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
           <span className="text-m4 font-bold w-full text-center">{startDay}</span>
         </time>
 
-        {startDay != endDay && startMonth != endMonth ? 
+        {(startDay != endDay) && (startMonth != endMonth) ? 
         <><span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span><time dateTime='2023-07-03 00:00Z' className='flex flex-col'>
           <span className='text-m0 font-semibold w-full text-center'>{endMonth.toUpperCase()}</span>
           <span className='text-m4 font-bold w-full text-center'>{endDay}</span>
