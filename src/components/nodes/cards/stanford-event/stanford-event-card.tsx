@@ -38,9 +38,21 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
       aria-labelledby={node.id}
       isArticle
     >
-      <EventDateHoriz 
-        {...props}
-      />
+      <div aria-hidden className="flex w-fit justify-start  flex-row items-center min-w-[9rem] h-90">
+        <time dateTime="2023-06-24 00:00Z" className="flex flex-col">
+          <span className="text-m0 font-semibold w-full text-center"> {startMonth.toUpperCase()}</span>
+          <span className="text-m4 font-bold w-full text-center">{startDay}</span>
+        </time>
+
+        {startDay != endDay && startMonth != endMonth ? 
+        <><span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span><time dateTime='2023-07-03 00:00Z' className='flex flex-col'>
+          <span className='text-m0 font-semibold w-full text-center'>{endMonth.toUpperCase()}</span>
+          <span className='text-m4 font-bold w-full text-center'>{endDay}</span>
+         </time>
+        </>
+        : null
+        }
+      </div>
 
       <div className="flex flex-col">
         <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
@@ -85,7 +97,6 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
     </ImageCard>
   )
 }
-
 
 export const getEventTimeString = (start: Date, end: Date, timeZone: string): string => {
   const startHour = parseInt(start.toLocaleTimeString("en-US", {
