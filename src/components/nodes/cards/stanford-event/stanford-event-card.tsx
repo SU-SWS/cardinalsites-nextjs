@@ -29,9 +29,6 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
   const Heading = headingLevel === 'h3' ? H3 : H2;
 
-  const endDate = ""
-  endDate ? (startDay != endDay)|| (startMonth != endMonth) : null;
-
   return (
     <ImageCard
       {...props}
