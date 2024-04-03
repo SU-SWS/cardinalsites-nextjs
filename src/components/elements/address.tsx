@@ -38,7 +38,7 @@ const Address = ({
   }
 
   return (
-    <address {...props} className="text-16 leading-9 rs-mb-3">
+    <address {...props}>
       {organization && <div className="font-semibold">{organization}</div>}
       {(addressLine1) && <div>{addressLine1}</div>}
       {(addressLine2) && <div>{addressLine2}</div>}

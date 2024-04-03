@@ -66,17 +66,6 @@ export const LocalFooterDisplay: Story = {
       postalCode: "Postal Code",
       sortingCode: "Sorting Code",
     },
-    // Signup form details 
-    suLocalFootFButton: "Sign up footer button",
-    suLocalFootFIntro: {
-      processed: "<h2>Signup Form</h2><p>This is an example of a signup form.</p>"
-    },
-    suLocalFootFMethod: "Sign up footer method",
-    suLocalFootFUrl: {
-      title: "Form Action url",
-      url: "https://localhost",
-      internal: false
-    },
     // Footer lockup controls
     suLocalFootUseLoc: true,
     suLocalFootUseLogo: true,

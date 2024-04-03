@@ -23,8 +23,6 @@ import InstagramIcon from "@components/elements/icons/InstagramIcon";
 import LinkedInIcon from "@components/elements/icons/LinkedInIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
-import WebLogin from "@components/elements/web-login";
-import Subscribe from "@components/elements/subscribe";
 
 const LocalFooter = ({
   suFooterEnabled,
@@ -75,11 +73,11 @@ const LocalFooter = ({
           <div>
 
             {suLocalFootAddress &&
-              <Address {...suLocalFootAddress}/>
+              <Address {...suLocalFootAddress} className="text-19 leading-9 rs-mb-3"/>
             }
 
             {suLocalFootAction &&
-              <ul className="list-unstyled text-16 font-semibold rs-mb-3">
+              <ul className="list-unstyled text-19 font-semibold rs-mb-3">
                 {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -114,9 +112,9 @@ const LocalFooter = ({
 
           <div>
             {suLocalFootPrimeH &&
-              <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
+              <H2>{suLocalFootPrimeH}</H2>}
             {suLocalFootPrimary &&
-              <ul className="list-unstyled text-19 rs-mb-2">
+              <ul className="list-unstyled text-21 rs-mb-2">
                 {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -138,7 +136,7 @@ const LocalFooter = ({
               <H2 className="text-m0">{suLocalFootSecondH}</H2>}
 
             {suLocalFootSecond &&
-              <ul className="list-unstyled text-19 rs-mb-2">
+              <ul className="list-unstyled text-21 rs-mb-2">
                 {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -152,20 +150,16 @@ const LocalFooter = ({
               </ul>
             }
 
-            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-19"/>
+            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-21"/>
 
           </div>
           
           <div>
-            <div className="su-signup-form">
-              <Wysiwyg html={suLocalFootFIntro?.processed}/>
-              <Subscribe/>
-            </div>
+            <Wysiwyg html={suLocalFootFIntro?.processed}/>
 
-            <Wysiwyg html={suLocalFootTrCo?.processed} className="text-19"/>
+            <Wysiwyg html={suLocalFootTrCo?.processed} className="text-21"/>
           </div>
         </div>  
-        <WebLogin/>
       </div>
     </div>
   )
