@@ -36,7 +36,7 @@ export const LocalFooterDisplay: Story = {
   render: ({numberOfLinks, ...args}) => {
     const linkList = []
     for (let i=0; i< numberOfLinks; i++) {
-      linkList.push("<a href='http://localhost'>Primary Link</a>")
+     linkList.push({url: "http://localhost", title: "Primary Link"})
     }
     return <LocalFooter {...args} />
   },
