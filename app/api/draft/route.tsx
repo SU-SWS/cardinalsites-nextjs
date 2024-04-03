@@ -28,5 +28,5 @@ export async function GET(request: NextRequest) {
 
   // Redirect to the path from the fetched post
   // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
-  redirect(`/preview/${slug}`)
+  redirect(`/preview${slug === "/home" ? "" : slug}`)
 }
