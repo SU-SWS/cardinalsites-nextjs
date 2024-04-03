@@ -1,10 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
-
 import LocalFooter from "@components/config-pages/local-footer";
 import {ComponentProps} from "react";
 
 type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {
-  numberoflinks: number
+  numberOfLinks: number
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -19,7 +18,7 @@ const meta: Meta<ComponentStoryProps> = {
       control: {type: "select"}
     },
     suFooterEnabled: {control: "boolean"},
-    numberoflinks: {
+    numberOfLinks: {
       control: {
         type: 'number',
         min: 1,
@@ -34,22 +33,18 @@ type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const LocalFooterDisplay: Story = {
+  render: ({numberOfLinks, ...args}) => {
+    const linkList = []
+    for (let i=0; i< numberOfLinks; i++) {
+      linkList.push("<a href='http://localhost'>Primary Link</a>")
+    }
+    return <LocalFooter {...args} />
+  },
   args: {
     suFooterEnabled: true,
     // Action links
-    numberoflinks: 3,
-    suLocalFootAction: [
-      {
-        title: "Action link 1",
-        url: "https://localhost",
-        internal: false
-      },
-      {
-        title: "Action link 2",
-        url: "https://localhost",
-        internal: false
-      }
-    ],
+    numberOfLinks: 3,
+    suLocalFootAction: [],
     // Office location
     suLocalFootAddress: {
       additionalName: "Additional Organization Name",
