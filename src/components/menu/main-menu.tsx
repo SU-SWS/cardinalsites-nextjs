@@ -11,7 +11,7 @@ import {useBoolean, useEventListener} from "usehooks-ts";
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
 import {usePathname} from "next/navigation";
 
-const menuLevelsToShow = 2;
+const menuLevelsToShow = 4;
 
 type Props = {
   /**
@@ -143,7 +143,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
   return (
     <li
       ref={menuItemRef}
-      className={clsx("m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:mr-5 last:lg:mr-0", {"lg:border-b-0 first:border-t-0": level === 0})}
+      className={clsx("m-0 py-2 lg:py-0 relative border-b first:border-t last:border-0 border-cool-grey lg:border-black-20 lg:relative lg:pr-5 last:lg:mr-0", {"lg:border-b-0 first:border-t-0": level === 0})}
     >
       <div className="flex items-center justify-between lg:justify-end">
         <Link
@@ -157,7 +157,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
         {(children.length > 0 && level < menuLevelsToShow) &&
           <>
-            {level === 0 && <div className="block ml-5 w-[1px] h-[25px] mb-[6px] bg-archway-light shrink-0"/>}
+            {level === 0 && <div className="block ml-5 w-[1px] h-[20px] mb-[6px] bg-archway-light shrink-0"/>}
             <button
               ref={buttonRef}
               className="shrink-0 relative right-10 lg:right-0 text-white lg:text-digital-red bg-digital-red lg:bg-transparent rounded-full lg:rounded-none group border-b border-transparent hocus:border-black hocus:bg-white"

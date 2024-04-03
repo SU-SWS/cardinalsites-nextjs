@@ -33,7 +33,17 @@ export const MainMenuComponent: Story = {
             ...defaultMenuProps,
             children: [
               {id: "8", title: "First Item", url: "#", ...defaultMenuProps},
-              {id: "9", title: "Second Item", url: "#", ...defaultMenuProps},
+              {
+                id: "9",
+                title: "More Second Items!",
+                url: "#",
+                ...defaultMenuProps,
+                children: [
+                  {id: "8", title: "First Item", url: "#", ...defaultMenuProps},
+                  {id: "9", title: "Second Item", url: "#", ...defaultMenuProps},
+                  {id: "10", title: "Third Item", url: "#", ...defaultMenuProps},
+                ]
+              },
               {id: "10", title: "Third Item", url: "#", ...defaultMenuProps},
             ]
           },
