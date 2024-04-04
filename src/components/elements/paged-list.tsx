@@ -27,15 +27,15 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   pageKey?: string
 }
 
-const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, pageKey = 'page', ...props}: Props) => {
+const PagedList = ({children, ulProps, liProps, itemsPerPage = 10, pageKey = "page", ...props}: Props) => {
   const items = Array.isArray(children) ? children : [children]
 
   const router = useRouter();
   const searchParams = useSearchParams()
 
-  // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
+  // Use the GET param for page, but make sure that it is between 1 and the last page. If it"s a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: page, setCount: setPage} = useCounter(Math.max(1, Math.min(Math.ceil(items.length / itemsPerPage), parseInt(searchParams.get(pageKey) || '') || 1)))
+  const {count: page, setCount: setPage} = useCounter(Math.max(1, Math.min(Math.ceil(items.length / itemsPerPage), parseInt(searchParams.get(pageKey) || "") || 1)))
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null);

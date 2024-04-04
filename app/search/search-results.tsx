@@ -30,7 +30,7 @@ const SearchResults = ({search, initialSearchString, initialResults}: Props) => 
 
   const [searchState, setSearchState] = useState<SearchState>({
     results: initialResults,
-    searchString: initialSearchString || '',
+    searchString: initialSearchString || "",
     isLoading: false
   });
 
@@ -38,7 +38,7 @@ const SearchResults = ({search, initialSearchString, initialResults}: Props) => 
     e.preventDefault();
     setSearchState({...searchState, isLoading: true})
 
-    const searchString = inputRef.current?.value || '';
+    const searchString = inputRef.current?.value || "";
     router.push(`/search?q=${searchString}`, {scroll: false})
 
     search(searchString).then(results => {
@@ -68,7 +68,7 @@ const SearchResults = ({search, initialSearchString, initialResults}: Props) => 
       </form>
 
       <div className="sr-only" aria-live="polite">
-        Showing {searchState.results.length} {!searchState.searchString ? 'suggestions.' : `results for ${searchState.searchString}.`}
+        Showing {searchState.results.length} {!searchState.searchString ? "suggestions." : `results for ${searchState.searchString}.`}
       </div>
       {searchState.isLoading &&
         <div className="fixed top-0 left-0 bg-black w-screen h-screen opacity-30">
@@ -86,10 +86,10 @@ const SearchResults = ({search, initialSearchString, initialResults}: Props) => 
                 {result.title}
               </Link>
               <div>Last
-                Updated: {new Date(result.changed).toLocaleDateString('en-us', {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
+                Updated: {new Date(result.changed).toLocaleDateString("en-us", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric"
                 })}</div>
             </li>
           )}

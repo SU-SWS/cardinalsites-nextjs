@@ -10,7 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordEventSeriesCard = ({node, headingLevel, ...props}: Props) => {
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
       {...props}

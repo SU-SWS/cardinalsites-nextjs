@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const GalleryParagraph = ({paragraph, ...props}: Props) => {
-  const GalleryWrapper: ElementType = paragraph.suGalleryHeadline ? 'article' : 'div';
+  const GalleryWrapper: ElementType = paragraph.suGalleryHeadline ? "article" : "div";
 
   return (
     <GalleryWrapper
@@ -61,7 +61,7 @@ const GalleryImage = ({image, galleryId}: {
           <Image
             className="object-cover"
             src={imageUrl}
-            alt={image.suGalleryImage?.alt || ''}
+            alt={image.suGalleryImage?.alt || ""}
             fill
             sizes="(max-width: 768px) 100vw, 500px"
           />

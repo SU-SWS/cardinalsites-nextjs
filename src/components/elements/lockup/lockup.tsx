@@ -60,43 +60,43 @@ export const Lockup = ({
   }
 
   switch (suLockupOptions) {
-    case 'a':
+    case "a":
       return <LockupA {...lockupProps}/>;
 
-    case 'b':
+    case "b":
       return <LockupB {...lockupProps}/>;
 
-    case 'd':
+    case "d":
       return <LockupD {...lockupProps}/>;
 
-    case 'e':
+    case "e":
       return <LockupE {...lockupProps}/>;
 
-    case 'h':
+    case "h":
       return <LockupH {...lockupProps}/>;
 
-    case 'i':
+    case "i":
       return <LockupI {...lockupProps}/>;
 
-    case 'm':
+    case "m":
       return <LockupM {...lockupProps}/>;
 
-    case 'o':
+    case "o":
       return <LockupO {...lockupProps}/>;
 
-    case 'p':
+    case "p":
       return <LockupP {...lockupProps}/>;
 
-    case 'r':
+    case "r":
       return <LockupR {...lockupProps}/>;
 
-    case 's':
+    case "s":
       return <LockupS {...lockupProps}/>;
 
-    case 't':
+    case "t":
       return <LockupT {...lockupProps}/>;
 
-    case 'none':
+    case "none":
     default:
       return (
         <div className="py-10">

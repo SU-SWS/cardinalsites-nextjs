@@ -24,7 +24,7 @@ type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
 }
 
 const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, children, ...props}: Props) => {
-  const CardWrapper: ElementType = isArticle ? 'article' : 'div';
+  const CardWrapper: ElementType = isArticle ? "article" : "div";
 
   return (
     <CardWrapper

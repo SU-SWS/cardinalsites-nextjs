@@ -22,26 +22,26 @@ const Paragraph = async ({paragraph}: Props) => {
 
   const itemProps: Record<string, string> = {}
   if (previewMode) {
-    itemProps['data-type'] = paragraph.__typename || 'unknown';
-    itemProps['data-id'] = paragraph.id;
+    itemProps["data-type"] = paragraph.__typename || "unknown";
+    itemProps["data-id"] = paragraph.id;
   }
 
   switch (paragraph.__typename) {
-    case 'ParagraphStanfordBanner':
+    case "ParagraphStanfordBanner":
       return <BannerParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordCard':
+    case "ParagraphStanfordCard":
       return <CardParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordEntity':
+    case "ParagraphStanfordEntity":
       return <EntityParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordGallery':
+    case "ParagraphStanfordGallery":
       return <GalleryParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordMediaCaption':
+    case "ParagraphStanfordMediaCaption":
       return <MediaCaptionParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordSpacer':
+    case "ParagraphStanfordSpacer":
       return <SpacerParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordWysiwyg':
+    case "ParagraphStanfordWysiwyg":
       return <WysiwygParagraph paragraph={paragraph} {...itemProps}/>
-    case 'ParagraphStanfordList':
+    case "ParagraphStanfordList":
       return (
         <Suspense>
           <ListParagraph paragraph={paragraph} {...itemProps}/>

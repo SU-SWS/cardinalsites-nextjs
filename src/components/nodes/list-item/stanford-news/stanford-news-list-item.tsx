@@ -14,7 +14,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   const image = node.suNewsFeaturedMedia?.mediaImage
 
   const topics: TermStanfordNewsTopic[] = node.suNewsTopics ? node.suNewsTopics.slice(0, 3) : [];
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
 
   const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
     month: "long",
@@ -55,7 +55,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
 
           {topics &&
             <div className="font-bold">
-              {topics.map(topic => topic.name).join(', ')}
+              {topics.map(topic => topic.name).join(", ")}
             </div>
           }
         </div>
@@ -65,7 +65,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
             <Image
               className="object-cover"
               src={image.url}
-              alt={image.alt || ''}
+              alt={image.alt || ""}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
             />

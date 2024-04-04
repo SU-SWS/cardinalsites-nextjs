@@ -9,10 +9,10 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 
 const Home = async () => {
-  const {entity, error} = await getEntityFromPath<NodeStanfordPage>('/', isPreviewMode());
+  const {entity, error} = await getEntityFromPath<NodeStanfordPage>("/", isPreviewMode());
 
   if (error) throw new Error(error);
   if (!entity) notFound();
@@ -32,7 +32,7 @@ const Home = async () => {
 }
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const {entity} = await getEntityFromPath<NodeUnion>('/')
+  const {entity} = await getEntityFromPath<NodeUnion>("/")
   return entity ? getNodeMetadata(entity) : {};
 }
 

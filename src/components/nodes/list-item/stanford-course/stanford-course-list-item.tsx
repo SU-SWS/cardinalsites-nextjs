@@ -9,8 +9,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
-  const Heading = headingLevel === 'h3' ? H3 : H2;
-  const body = node.body?.processed.replace(/<\/?[^>]+(>|$)/g, ' ').replace(/ +/, ' ').replace('&nbsp;', ' ').split(' ');
+  const Heading = headingLevel === "h3" ? H3 : H2;
+  const body = node.body?.processed.replace(/<\/?[^>]+(>|$)/g, " ").replace(/ +/, " ").replace("&nbsp;", " ").split(" ");
 
   return (
     <article
@@ -31,19 +31,19 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
 
           {((node.suCourseSubject || node.suCourseCode) && (node.suCourseQuarters || node.suCourseAcademicYear)) && <>&nbsp;|&nbsp;</>}
 
-          {node.suCourseAcademicYear} {node.suCourseQuarters?.map(quarter => quarter.name).join(', ')}
+          {node.suCourseAcademicYear} {node.suCourseQuarters?.map(quarter => quarter.name).join(", ")}
         </div>
       </div>
 
       {node.suCourseInstructors &&
         <div>
           <span className="font-bold">Instructor{node.suCourseInstructors.length > 1 ? "s" : ""}: </span>
-          {node.suCourseInstructors.join(',')}
+          {node.suCourseInstructors.join(",")}
         </div>
       }
 
       {body &&
-        <p>{body.slice(0, 50).join(' ')}{body.length > 50 && <>&hellip;</>}</p>
+        <p>{body.slice(0, 50).join(" ")}{body.length > 50 && <>&hellip;</>}</p>
       }
     </article>
   )

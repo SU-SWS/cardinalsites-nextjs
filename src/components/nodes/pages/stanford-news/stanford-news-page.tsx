@@ -23,7 +23,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
   }) : undefined;
 
   let bannerImageUrl: string | undefined, bannerImageAlt: string = ""
-  if (node.suNewsBanner?.__typename === 'MediaImage') {
+  if (node.suNewsBanner?.__typename === "MediaImage") {
     bannerImageUrl = node.suNewsBanner.mediaImage.url
     bannerImageAlt = node.suNewsBanner.mediaImage.alt || "";
   }
@@ -40,7 +40,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
           {topics &&
             <div className="order-1 flex gap-2">
-              {topics.map(topic => topic.name).join(', ')}
+              {topics.map(topic => topic.name).join(", ")}
             </div>
           }
         </div>

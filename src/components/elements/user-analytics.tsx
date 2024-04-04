@@ -6,7 +6,7 @@ import {isPreviewMode} from "@lib/drupal/utils";
 
 const UserAnalytics = async () => {
   if (isPreviewMode()) return;
-  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
   if (!siteSettingsConfig?.suGoogleAnalytics) return;
   return (
     <>

@@ -12,23 +12,23 @@ export type LayoutParagraphBehaviors = {
 export type ListParagraphBehaviors = {
   hide_empty?: boolean
   empty_message?: string
-  heading_behavior?: 'show' | 'hide' | 'remove'
+  heading_behavior?: "show" | "hide" | "remove"
 }
 
 export type CardParagraphBehaviors = {
-  heading?: 'h2' | 'h3' | 'h4' | 'div.su-splash-font'
+  heading?: "h2" | "h3" | "h4" | "div.su-splash-font"
   hide_heading?: boolean
-  link_style?: 'action' | 'button'
+  link_style?: "action" | "button"
 }
 
 export type BannerParagraphBehaviors = {
-  overlay_position?: 'left' | 'right'
-  heading?: 'h2' | 'h3' | 'h4' | 'div.su-splash-font'
+  overlay_position?: "left" | "right"
+  heading?: "h2" | "h3" | "h4" | "div.su-splash-font"
   hide_heading?: string
 }
 
 export type TeaserParagraphBehaviors = {
-  heading_behavior?: 'show' | 'hide' | 'remove'
+  heading_behavior?: "show" | "hide" | "remove"
 }
 
 export type ParagraphBehaviors = {

@@ -16,9 +16,9 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
   const behaviors = getParagraphBehaviors(paragraph);
   const hasCard = paragraph.suBannerHeader || paragraph.suBannerButton || paragraph.suBannerBody || paragraph.suBannerSupHeader
 
-  const headerTagChoice = (behaviors.hero_pattern?.heading || 'h2').split('.', 2);
+  const headerTagChoice = (behaviors.hero_pattern?.heading || "h2").split(".", 2);
   const headerTag = headerTagChoice[0]
-  const headerClasses = headerTagChoice[1]?.replace('.', ' ').replace('su-font-splash', 'text-m2 font-bold')
+  const headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "text-m2 font-bold")
 
   return (
     <HeroBanner
@@ -34,16 +34,16 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
         <>
           {paragraph.suBannerHeader &&
             <div id={paragraph.id} className={twMerge("order-2", behaviors.hero_pattern?.hide_heading && "sr-only")}>
-              {headerTag === 'h2' &&
-                <H2 className={twMerge(headerClasses, 'mb-0')}>{paragraph.suBannerHeader}</H2>
+              {headerTag === "h2" &&
+                <H2 className={twMerge(headerClasses, "mb-0")}>{paragraph.suBannerHeader}</H2>
               }
-              {headerTag === 'h3' &&
+              {headerTag === "h3" &&
                 <H3 className={headerClasses}>{paragraph.suBannerHeader}</H3>
               }
-              {headerTag === 'h4' &&
+              {headerTag === "h4" &&
                 <H4 className={headerClasses}>{paragraph.suBannerHeader}</H4>
               }
-              {headerTag === 'div' &&
+              {headerTag === "div" &&
                 <div className={headerClasses}>{paragraph.suBannerHeader}</div>
               }
             </div>

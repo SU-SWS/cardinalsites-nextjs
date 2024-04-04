@@ -4,9 +4,9 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import {isPreviewMode} from "@lib/drupal/utils";
 
 const ThreeColumn = ({items}: { items: ParagraphUnion[] }) => {
-  const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === 'left');
+  const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "left");
   const mainItems = items.filter(item => !["left", "right"].includes(getParagraphBehaviors(item).layout_paragraphs?.region || "main"));
-  const rightItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === 'right');
+  const rightItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "right");
 
   const draftProps: Record<string, string> = {};
   if (isPreviewMode()) {

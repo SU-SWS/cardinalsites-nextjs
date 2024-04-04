@@ -4,7 +4,7 @@ import {getSdk} from "@lib/gql/__generated__/queries";
 
 export const graphqlClient = (requestConfig: RequestConfig = {}) => {
   const client = new GraphQLClient(
-    process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + '/graphql',
+    process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/graphql",
     {
       ...requestConfig,
       next: {

@@ -23,11 +23,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * Position of the text over the image.
    */
-  overlayPosition?: Maybe<'left' | 'right'>
+  overlayPosition?: Maybe<"left" | "right">
 }
 
 const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosition, children, ...props}: Props) => {
-  const BannerWrapper: ElementType = isSection ? 'section' : 'div';
+  const BannerWrapper: ElementType = isSection ? "section" : "div";
 
   return (
     <BannerWrapper
