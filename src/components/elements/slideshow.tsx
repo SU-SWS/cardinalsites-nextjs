@@ -1,5 +1,5 @@
 'use client';
-import React, { HTMLAttributes, useRef } from 'react';
+import React, { useRef } from 'react';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/16/solid';
 
@@ -27,11 +27,12 @@ const PrevArrow = ({ onClick }: CustomArrowProps) => {
   );
 };
 
-interface SlideshowProps extends HTMLAttributes<HTMLDivElement> {
-  slideshopProps?: Settings;
+type SlideshowProps = {
+  children: React.JSX.Element;
+  slideshowProps?: Omit<Settings, "children">;
 }
 
-const Slideshow = ({ children, slideshopProps, ...props }: SlideshowProps) => {
+const Slideshow = ({ children, slideshowProps, ...props }: SlideshowProps) => {
   const arrowRef = useRef<Slider>(null);
   const settings: Settings = {
     className: 'center',
@@ -54,7 +55,7 @@ const Slideshow = ({ children, slideshopProps, ...props }: SlideshowProps) => {
         },
       },
     ],
-    ...slideshopProps,
+    ...slideshowProps,
   };
   return (
     <div className='relative w-full'>
