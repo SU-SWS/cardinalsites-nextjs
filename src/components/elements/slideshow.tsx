@@ -1,7 +1,8 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { HTMLAttributes, useRef } from 'react';
 import Slider, { CustomArrowProps, Settings } from 'react-slick';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/16/solid';
+import { twMerge } from 'tailwind-merge';
 
 const NextArrow = ({ onClick }: CustomArrowProps) => {
   return (
@@ -27,7 +28,7 @@ const PrevArrow = ({ onClick }: CustomArrowProps) => {
   );
 };
 
-type SlideshowProps = {
+type SlideshowProps = HTMLAttributes<HTMLDivElement>& {
   children: React.JSX.Element;
   slideshowProps?: Omit<Settings, "children">;
 }
@@ -58,8 +59,8 @@ const Slideshow = ({ children, slideshowProps, ...props }: SlideshowProps) => {
     ...slideshowProps,
   };
   return (
-    <div className='relative w-full'>
-      <Slider ref={arrowRef} {...settings} {...props}>
+    <div {...props} className={twMerge('relative w-full', props.className)}>
+      <Slider ref={arrowRef} {...settings}>
         {children}
       </Slider>
     </div>
