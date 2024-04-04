@@ -28,7 +28,7 @@ const PrevArrow = ({ onClick }: CustomArrowProps) => {
   );
 };
 
-type SlideshowProps = HTMLAttributes<HTMLDivElement>& {
+type SlideshowProps = HTMLAttributes<HTMLDivElement> & {
   children: React.JSX.Element;
   slideshowProps?: Omit<Settings, "children">;
 }
