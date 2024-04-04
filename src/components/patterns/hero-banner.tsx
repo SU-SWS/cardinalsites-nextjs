@@ -4,10 +4,25 @@ import {twMerge} from "tailwind-merge";
 import {Maybe} from "@lib/gql/__generated__/drupal";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * Absolute image url path.
+   */
   imageUrl?: Maybe<string>
+  /**
+   * Image alt string.
+   */
   imageAlt?: Maybe<string>
+  /**
+   * Is the banner supposed to be a section or a div.
+   */
   isSection?:Maybe<boolean>
+  /**
+   * Eagerly load the banner image.
+   */
   eagerLoadImage?: Maybe<boolean>
+  /**
+   * Position of the text over the image.
+   */
   overlayPosition?: Maybe<'left' | 'right'>
 }
 
@@ -17,7 +32,7 @@ const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosit
   return (
     <BannerWrapper
       {...props}
-      className={twMerge("@container md:min-h-[400px] rs-mb-5 flex items-center", props.className)}
+      className={twMerge("@container md:min-h-[400px] rs-mb-5", props.className)}
     >
       <div className="aspect-[16/9] @6xl:aspect-auto relative @6xl:absolute w-full @6xl:h-full bg-cool-grey">
         {imageUrl &&

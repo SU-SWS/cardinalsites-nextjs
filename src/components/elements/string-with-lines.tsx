@@ -1,4 +1,14 @@
-const StringWithLines = ({text, key}: { text: string, key: string }) => {
+type Props = {
+  /**
+   * New line delimited string.
+   */
+  text: string
+  /**
+   * Key prefix to split up each line.
+   */
+  key: string
+}
+const StringWithLines = ({text, key}: Props) => {
   return (
     <>
       {text.split('\n').map((line, i) =>

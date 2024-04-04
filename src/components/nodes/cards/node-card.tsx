@@ -6,13 +6,24 @@ import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-pag
 import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card";
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
-const NodeCard = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
-  const draftMode = isDraftMode();
+type Props = {
+  /**
+   * Node entity.
+   */
+  node: NodeUnion
+  /**
+   * Which heading level the node title should display.
+   */
+  headingLevel?: "h2" | "h3"
+}
+
+const NodeCard = ({node, headingLevel}: Props) => {
+  const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
-  if (draftMode) {
+  if (previewMode) {
     itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }

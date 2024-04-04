@@ -1,6 +1,6 @@
-import {ComponentProps} from "react";
+import {HTMLAttributes} from "react";
 
-const LinkedInIcon = (props: ComponentProps<any>) => (
+const LinkedInIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
     width={24.5}
     viewBox="0 0 448 512"

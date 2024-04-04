@@ -6,14 +6,14 @@ import StanfordPolicyPage from "@components/nodes/pages/stanford-policy/stanford
 import StanfordPublicationPage from "@components/nodes/pages/stanford-publication/stanford-publication-page";
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page";
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
 const NodePage = ({node}: { node: NodeUnion }) => {
-  const draftMode = isDraftMode();
+  const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
 
-  if (draftMode) {
+  if (previewMode) {
     itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }

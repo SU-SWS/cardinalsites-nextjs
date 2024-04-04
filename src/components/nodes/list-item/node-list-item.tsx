@@ -8,13 +8,24 @@ import StanfordPersonListItem from "@components/nodes/list-item/stanford-person/
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item";
 import StanfordPublicationListItem
   from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
 
-const NodeListItem = ({node, headingLevel}: { node: NodeUnion, headingLevel?: "h2" | "h3" }) => {
-  const draftMode = isDraftMode();
+type Props = {
+  /**
+   * Node entity.
+   */
+  node: NodeUnion
+  /**
+   * Which heading level the node title should display.
+   */
+  headingLevel?: "h2" | "h3"
+}
+
+const NodeListItem = ({node, headingLevel}: Props) => {
+  const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
-  if (draftMode) {
+  if (previewMode) {
     itemProps['data-type'] = node.__typename || 'unknown';
     itemProps['data-id'] = node.id;
   }

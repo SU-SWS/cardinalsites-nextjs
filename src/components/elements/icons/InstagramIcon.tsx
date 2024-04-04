@@ -1,6 +1,6 @@
-import {ComponentProps} from "react";
+import {HTMLAttributes} from "react";
 
-const InstagramIcon = (props: ComponentProps<any>) => {
+const InstagramIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <title>Instagram icon</title>

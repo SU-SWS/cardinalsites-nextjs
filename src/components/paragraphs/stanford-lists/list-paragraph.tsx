@@ -21,9 +21,9 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const ListParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors(paragraph);
-  const viewId = paragraph.suListView?.view || '';
-  const displayId = paragraph.suListView?.display || '';
-  const viewItems = await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter, paragraph.suListView?.pageSize);
+  const viewId = paragraph.suListView?.view;
+  const displayId = paragraph.suListView?.display;
+  const viewItems = viewId && displayId ? await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter, paragraph.suListView?.pageSize) : [];
 
   if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null;
 
@@ -46,7 +46,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
 
       <Wysiwyg html={paragraph.suListDescription?.processed}/>
 
-      {viewItems &&
+      {(viewId && displayId && viewItems) &&
         <View
           viewId={viewId}
           displayId={displayId}
@@ -68,7 +68,23 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   )
 }
 
-const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>, pageSize?: Maybe<number>, page?: Maybe<number>, offset?: Maybe<number>): Promise<NodeUnion[]> => {
+const getViewItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>, pageSize?: Maybe<number>): Promise<NodeUnion[]> => {
+  let results: NodeUnion[] = [];
+  let pageResults: NodeUnion[] = [];
+  const itemsPerPage = pageSize ? Math.max(3, Math.min(Math.ceil(pageSize / 3) * 3, 99)) : undefined;
+  let fetchMore = true;
+  let page = 0;
+
+  while (fetchMore) {
+    pageResults = await getViewPagedItems(viewId, displayId, contextualFilter, pageSize, page);
+    results = [...results, ...pageResults];
+    page++;
+    fetchMore = itemsPerPage === 99 && pageResults.length === itemsPerPage;
+  }
+  return results;
+})
+
+const getViewPagedItems = cache(async (viewId: string, displayId: string, contextualFilter?: Maybe<string[]>, pageSize?: Maybe<number>, page?: Maybe<number>, offset?: Maybe<number>): Promise<NodeUnion[]> => {
   let items: NodeUnion[] = []
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
   const itemsPerPage = pageSize ? Math.min(Math.ceil(pageSize / 3) * 3, 99) : undefined;
@@ -178,7 +194,7 @@ const getViewItems = cache(async (viewId: string, displayId: string, contextualF
   return pageSize ? items.slice(0, pageSize) : items;
 })
 
-const getViewFilters = (keys: string[], values?: Maybe<string[]>, defaults: Record<string, string|undefined> = {}) => {
+const getViewFilters = (keys: string[], values?: Maybe<string[]>, defaults: Record<string, string | undefined> = {}) => {
   if (!keys || !values) return;
   const filters: Record<string, string | undefined> = keys.reduce((obj, key, index) => ({
     ...obj,

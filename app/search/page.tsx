@@ -10,7 +10,6 @@ import AlgoliaSearch from "./algolia-search";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
-export const dynamic = 'force-static';
 
 export const metadata = {
   title: "Search",

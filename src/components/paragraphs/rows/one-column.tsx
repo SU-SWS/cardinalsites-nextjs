@@ -1,10 +1,10 @@
 import Paragraph from "@components/paragraphs/paragraph";
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 
 const OneColumn = ({items}: { items: ParagraphUnion[] }) => {
   const draftProps: Record<string, string> = {};
-  if (isDraftMode()) {
+  if (isPreviewMode()) {
     draftProps["data-columns"] = "1";
   }
   return (

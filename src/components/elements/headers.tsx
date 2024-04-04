@@ -54,7 +54,10 @@ export const H6 = ({children, className, ...props}: Props) => {
 }
 
 type HeadingProps = Props & {
-  level?: number
+  /**
+   * Which heading level to display.
+   */
+  level?: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 const Heading = ({children, level = 1, ...props}: HeadingProps) => {

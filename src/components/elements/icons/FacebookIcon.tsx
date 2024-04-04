@@ -1,6 +1,6 @@
-import {ComponentProps} from "react";
+import {HTMLAttributes} from "react";
 
-const FacebookIcon = (props: ComponentProps<any>) => (
+const FacebookIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
     width={17.5}
     viewBox="0 0 340 512"

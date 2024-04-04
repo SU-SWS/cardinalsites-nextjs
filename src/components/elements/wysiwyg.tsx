@@ -9,6 +9,9 @@ import {Maybe} from "@lib/gql/__generated__/drupal.d";
 import Mathjax from "@components/tools/mathjax";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
+  /**
+   * HTML string.
+   */
   html?: Maybe<string>
 }
 
