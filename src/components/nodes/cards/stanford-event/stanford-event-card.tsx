@@ -27,7 +27,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
       {...props}
