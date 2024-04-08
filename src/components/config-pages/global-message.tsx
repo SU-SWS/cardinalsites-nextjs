@@ -16,11 +16,11 @@ const GlobalMessage = ({
   if (!suGlobalMsgEnabled) return;
 
   const wrapperClasses = clsx({
-    'bg-digital-blue-dark text-white': suGlobalMsgType === 'info',
-    'bg-illuminating-dark': suGlobalMsgType === 'warning',
-    'bg-digital-green text-white': suGlobalMsgType === 'success',
-    'bg-foggy-light': suGlobalMsgType === 'plain',
-    'bg-digital-red text-white': suGlobalMsgType === 'error',
+    "bg-digital-blue-dark text-white": suGlobalMsgType === "info",
+    "bg-illuminating-dark": suGlobalMsgType === "warning",
+    "bg-digital-green text-white": suGlobalMsgType === "success",
+    "bg-foggy-light": suGlobalMsgType === "plain",
+    "bg-digital-red text-white": suGlobalMsgType === "error",
   });
 
   return (
@@ -46,13 +46,13 @@ const GlobalMessage = ({
   )
 }
 
-const MessageIcon = ({messageType}: { messageType: StanfordGlobalMessage['suGlobalMsgType'] }) => {
+const MessageIcon = ({messageType}: { messageType: StanfordGlobalMessage["suGlobalMsgType"] }) => {
   switch (messageType) {
-    case 'info':
+    case "info":
       return <InformationCircleIcon width={40}/>
-    case 'success':
+    case "success":
       return <CheckCircleIcon width={40}/>
-    case 'plain':
+    case "plain":
       return <BellIcon width={40}/>;
   }
   return <ExclamationTriangleIcon width={40}/>;

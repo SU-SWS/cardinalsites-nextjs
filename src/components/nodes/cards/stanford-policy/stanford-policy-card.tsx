@@ -11,14 +11,14 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
-  const Heading = headingLevel === 'h3' ? H3 : H2;
-  const trimmedBodyText = node.body?.processed.replace(/(<([^>]+)>)/ig, ' ')
+  const Heading = headingLevel === "h3" ? H3 : H2;
+  const trimmedBodyText = node.body?.processed.replace(/(<([^>]+)>)/ig, " ")
     .split(" ")
     .slice(0, 50)
     .filter((word: string) => !!word)
     .join(" ");
 
-  const teaserSummary = node.body?.summary || (trimmedBodyText + '...');
+  const teaserSummary = node.body?.summary || (trimmedBodyText + "...");
   return (
     <ImageCard
       {...props}

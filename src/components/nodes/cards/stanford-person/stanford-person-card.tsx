@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
   const imageUrl = node.suPersonPhoto?.mediaImage.url
 
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <article
       {...props}

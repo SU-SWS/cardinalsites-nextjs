@@ -29,7 +29,7 @@ const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermSt
 
 const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], topics: TermStanfordEventType[] }) => {
 
-  const [chosenTopic, setChosenTopic] = useState<string>('');
+  const [chosenTopic, setChosenTopic] = useState<string>("");
   const [displayedEvents, setDisplayedEvents] = useState<NodeStanfordEvent[]>(items);
 
   const topicTree = useMemo(() => getTaxonomyTree<TermStanfordEventType>(topics), [topics]);
@@ -67,14 +67,14 @@ const EventsFilteredListView = ({items, topics}: { items: NodeStanfordEvent[], t
             options={topicOptions}
             emptyLabel="- All -"
             label="Event Topics"
-            onChange={(e, value: SelectValue<string, boolean>) => setChosenTopic(value as string || '')}
+            onChange={(e, value: SelectValue<string, boolean>) => setChosenTopic(value as string || "")}
           />
         </div>
         <Button onClick={filterEvents}>Filter</Button>
       </form>
       <div aria-live="polite" aria-atomic="true">Showing {displayedEvents.length} of {items.length} events.</div>
       <LoadMoreList
-        key={displayedEvents.map(event => event.id).join(',')}
+        key={displayedEvents.map(event => event.id).join(",")}
         buttonText={<>Load More<span className="sr-only">&nbsp;Events</span></>}
         ulProps={{className: "list-unstyled mb-20"}}
         liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}

@@ -29,7 +29,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             {node.suPolicyUpdated &&
               <div>
                 <strong>Last Updated: </strong>
-                {new Date(node.suPolicyUpdated.time).toLocaleDateString('en-us', {
+                {new Date(node.suPolicyUpdated.time).toLocaleDateString("en-us", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -40,7 +40,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             {node.suPolicyEffective &&
               <div>
                 <strong>Effective Date: </strong>
-                {new Date(node.suPolicyEffective.time).toLocaleDateString('en-us', {
+                {new Date(node.suPolicyEffective.time).toLocaleDateString("en-us", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -58,7 +58,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             {changeLog.map(change =>
               <div key={change.id}>
                 <H3 className="flex gap-2 text-m0">
-                  <div>{new Date(change.suPolicyDate.time).toLocaleDateString('en-us', {
+                  <div>{new Date(change.suPolicyDate.time).toLocaleDateString("en-us", {
                     month: "long",
                     day: "numeric",
                     year: "numeric",

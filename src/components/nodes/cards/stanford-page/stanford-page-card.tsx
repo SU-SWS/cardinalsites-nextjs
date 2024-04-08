@@ -14,7 +14,7 @@ const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
   const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage;
   const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage || undefined;
 
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
       {...props}

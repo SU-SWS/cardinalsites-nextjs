@@ -13,7 +13,7 @@ const BackToTop = () => {
     if (window.scrollY <= 1500) setFalse();
   }, [setTrue, setFalse])
 
-  useEventListener('scroll', useDebounceCallback(onScroll, 200))
+  useEventListener("scroll", useDebounceCallback(onScroll, 200))
 
   return (
     <Button
@@ -22,7 +22,7 @@ const BackToTop = () => {
       onClick={() => scrollTo({
         left: 0,
         top: 0,
-        behavior: !!window.matchMedia('(prefers-reduced-motion: reduce)')?.matches ? 'instant' : 'smooth'
+        behavior: !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches ? "instant" : "smooth"
       })}
     >
       <span className="block flex gap-2">

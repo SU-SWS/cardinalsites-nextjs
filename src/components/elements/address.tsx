@@ -33,7 +33,7 @@ const Address = ({
       `${country?.code}`
     ];
     return (
-      <address {...props}>{parts.filter(part => !!part).join(', ')}</address>
+      <address {...props}>{parts.filter(part => !!part).join(", ")}</address>
     )
   }
 

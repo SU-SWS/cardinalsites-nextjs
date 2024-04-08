@@ -9,13 +9,13 @@ import {
   StanfordBasicSiteSetting,
   StanfordGlobalMessage
 } from "@lib/gql/__generated__/drupal.d";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 
 const PageHeader = async () => {
-  const menuItems = await getMenu(MenuAvailable.Main, isDraftMode());
-  const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>('StanfordGlobalMessage');
-  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
-  const lockupSettingsConfig = await getConfigPage<LockupSetting>('LockupSetting')
+  const menuItems = await getMenu(MenuAvailable.Main, isPreviewMode());
+  const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage");
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
+  const lockupSettingsConfig = await getConfigPage<LockupSetting>("LockupSetting")
 
   return (
     <header className="shadow-lg">

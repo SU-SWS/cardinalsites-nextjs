@@ -15,7 +15,7 @@ export const H1 = ({children, className, ...props}: Props) => {
 
 export const H2 = ({children, className, ...props}: Props) => {
   return (
-    <h2 className={twMerge(headingLinkClasses, 'text-m3', className)} {...props}>
+    <h2 className={twMerge(headingLinkClasses, "text-m3", className)} {...props}>
       {children}
     </h2>
   )
@@ -23,7 +23,7 @@ export const H2 = ({children, className, ...props}: Props) => {
 
 export const H3 = ({children, className, ...props}: Props) => {
   return (
-    <h3 className={twMerge(headingLinkClasses, 'text-m2', className)} {...props}>
+    <h3 className={twMerge(headingLinkClasses, "text-m2", className)} {...props}>
       {children}
     </h3>
   )
@@ -31,7 +31,7 @@ export const H3 = ({children, className, ...props}: Props) => {
 
 export const H4 = ({children, className, ...props}: Props) => {
   return (
-    <h4 className={twMerge(headingLinkClasses, 'text-m1', className)} {...props}>
+    <h4 className={twMerge(headingLinkClasses, "text-m1", className)} {...props}>
       {children}
     </h4>
   )

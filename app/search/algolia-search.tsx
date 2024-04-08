@@ -1,8 +1,8 @@
 "use client";
 
-import algoliasearch from 'algoliasearch/lite';
+import algoliasearch from "algoliasearch/lite";
 import {useHits, useSearchBox} from "react-instantsearch";
-import {InstantSearchNext} from 'react-instantsearch-nextjs';
+import {InstantSearchNext} from "react-instantsearch-nextjs";
 import Link from "@components/elements/link";
 import {H2} from "@components/elements/headers";
 import Image from "next/image";
@@ -28,7 +28,7 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
         indexName={searchIndex}
         searchClient={searchClient}
         initialUiState={{
-          [searchIndex]: {query: searchParams.get('q') || ''},
+          [searchIndex]: {query: searchParams.get("q") || ""},
         }}
         future={{preserveSharedStateOnUnmount: true}}
       >
@@ -75,7 +75,7 @@ const Hit = ({hit}: { hit: AlgoliaHit }) => {
     <article className="@container flex justify-between gap-20 py-12">
       <div>
         <H2 className="text-m2">
-          <Link href={hit.url.replace(hitUrl.origin, '')}>
+          <Link href={hit.url.replace(hitUrl.origin, "")}>
             {hit.title}
           </Link>
         </H2>
@@ -83,7 +83,7 @@ const Hit = ({hit}: { hit: AlgoliaHit }) => {
 
         {hit.updated &&
           <div className="text-2xl">
-            Last Updated: {new Date(hit.updated * 1000).toLocaleDateString('en-us', {
+            Last Updated: {new Date(hit.updated * 1000).toLocaleDateString("en-us", {
             month: "long",
             day: "numeric",
             year: "numeric"
@@ -131,10 +131,10 @@ const SearchBox = (props?: UseSearchBoxProps) => {
       onReset={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        refine('');
+        refine("");
 
         if (inputRef.current) {
-          inputRef.current.value = '';
+          inputRef.current.value = "";
           inputRef.current.focus();
         }
       }}
@@ -165,7 +165,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
         <Button
           secondary
           type="reset"
-          className={query.length === 0 ? 'hidden' : undefined}
+          className={query.length === 0 ? "hidden" : undefined}
         >
           Reset
         </Button>

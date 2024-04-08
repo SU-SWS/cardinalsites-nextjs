@@ -12,7 +12,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPagePage = ({node, ...props}: Props) => {
-  const fullWidth = node.layoutSelection?.id === 'stanford_basic_page_full';
+  const fullWidth = node.layoutSelection?.id === "stanford_basic_page_full";
 
   return (
     <article {...props}>

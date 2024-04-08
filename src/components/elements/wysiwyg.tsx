@@ -18,11 +18,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const Wysiwyg = ({html, className, ...props}: Props) => {
   if (!html) return;
   // Remove comments and empty lines.
-  html = html.replaceAll(/<!--[\s\S]*?-->/g, '').replaceAll(/(^(\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$/gm, "");
+  html = html.replaceAll(/<!--[\s\S]*?-->/g, "").replaceAll(/(^(\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$/gm, "");
 
   const addMathJax = html.match(/\$\$.*\$\$/) || html.match(/\\\[.*\\\]/) || html.match(/\\\(.*\\\)/);
   return (
-    <div className={twMerge('wysiwyg', className)} {...props}>
+    <div className={twMerge("wysiwyg", className)} {...props}>
       {addMathJax && <Mathjax/>}
       {formatHtml(html)}
     </div>
@@ -52,19 +52,19 @@ const options: HTMLReactParserOptions = {
 
         case "div":
           delete nodeProps.role;
-          if (nodeProps.className && !!nodeProps.className.indexOf('media-entity-wrapper')) {
+          if (nodeProps.className && !!nodeProps.className.indexOf("media-entity-wrapper")) {
             return cleanMediaMarkup(domNode);
           }
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
-        case 'figure':
+        case "figure":
           return cleanMediaMarkup(domNode);
 
-        case 'p':
-          nodeProps.className = twMerge(nodeProps.className, 'max-w-[100ch] leading-[1.7] text-21');
+        case "p":
+          nodeProps.className = twMerge(nodeProps.className, "max-w-[100ch] leading-[1.7] text-21");
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
-        case 'script':
+        case "script":
           return <></>;
 
         case "h2":
@@ -117,29 +117,29 @@ const options: HTMLReactParserOptions = {
 }
 
 const fixClasses = (classes?: string | boolean): string => {
-  if (!classes) return '';
+  if (!classes) return "";
   // Pad the classes so that we can easily replace a whole class instead of parts of them.
   classes = ` ${classes} `;
 
-  classes = classes.replaceAll(' su-', ' ')
-    .replaceAll(' text-align-center ', ' text-center ')
-    .replace(' text-align-right ', ' text-right ')
-    .replaceAll(' align-center ', ' mx-auto ')
-    .replaceAll(' align-left ', ' float-left mr-10 mb-10 ')
-    .replaceAll(' align-right ', ' float-right ml-10 mb-10 ')
-    .replaceAll(' visually-hidden ', ' sr-only ')
-    .replaceAll(' font-splash ', ' splash-text text-m4 ')
-    .replaceAll(' callout-text ', ' font-bold text-m2 ')
-    .replaceAll(' related-text ', ' shadow-lg border border-black-20 p-16 ')
-    .replaceAll(' drop-cap ', ' text-m1 first-letter:font-bold first-letter:text-m6 first-letter:float-left first-letter:my-2 first-letter:mr-4 ')
-    .replaceAll(' intro-text ', ' text-m2 ')
-    .replace(/ tablesaw.*? /g, ' ')
-    .replace(/ +/g, ' ')
+  classes = classes.replaceAll(" su-", " ")
+    .replaceAll(" text-align-center ", " text-center ")
+    .replace(" text-align-right ", " text-right ")
+    .replaceAll(" align-center ", " mx-auto ")
+    .replaceAll(" align-left ", " float-left mr-10 mb-10 ")
+    .replaceAll(" align-right ", " float-right ml-10 mb-10 ")
+    .replaceAll(" visually-hidden ", " sr-only ")
+    .replaceAll(" font-splash ", " splash-text text-m4 ")
+    .replaceAll(" callout-text ", " font-bold text-m2 ")
+    .replaceAll(" related-text ", " shadow-lg border border-black-20 p-16 ")
+    .replaceAll(" drop-cap ", " text-m1 first-letter:font-bold first-letter:text-m6 first-letter:float-left first-letter:my-2 first-letter:mr-4 ")
+    .replaceAll(" intro-text ", " text-m2 ")
+    .replace(/ tablesaw.*? /g, " ")
+    .replace(/ +/g, " ")
     .trim();
 
-  classes = classes.split(' ')
+  classes = classes.split(" ")
     .filter(className => className.trim().length >= 1)
-    .join(' ');
+    .join(" ");
 
   return twMerge(classes.trim());
 }
@@ -150,10 +150,10 @@ const cleanMediaMarkup = (node: Element) => {
 
   const getImage = (node: Element): ComponentProps<any> | undefined => {
     let img;
-    if (node.name === 'img') {
+    if (node.name === "img") {
       const attribs = node.attribs;
-      attribs.width = attribs.width || attribs['data-width'];
-      attribs.height = attribs.height || attribs['data-height'];
+      attribs.width = attribs.width || attribs["data-width"];
+      attribs.height = attribs.height || attribs["data-height"];
       return attribs;
     }
     if (node.children.length > 0) {
@@ -167,7 +167,7 @@ const cleanMediaMarkup = (node: Element) => {
   }
   const getFigCaption = (node: Element): DOMNode[] | undefined => {
     let caption;
-    if (node.name === 'figcaption') {
+    if (node.name === "figcaption") {
       return node.children as DOMNode[];
     }
     if (node.children.length > 0) {
@@ -181,9 +181,9 @@ const cleanMediaMarkup = (node: Element) => {
   }
 
   const getOembedUrl = (node: Element): string | undefined => {
-    const src = node.attribs?.src || node.attribs['data-src'];
-    if (src?.startsWith('/media/oembed')) {
-      return decodeURIComponent(src as string).replace(/^.*url=(.*)?&.*$/, '$1');
+    const src = node.attribs?.src || node.attribs["data-src"];
+    if (src?.startsWith("/media/oembed")) {
+      return decodeURIComponent(src as string).replace(/^.*url=(.*)?&.*$/, "$1");
     }
     if (node.children.length > 0) {
       for (let child of node.children) {
@@ -207,14 +207,14 @@ const cleanMediaMarkup = (node: Element) => {
   if (image) {
     let {src, alt, width, height} = image;
 
-    if (src?.startsWith('/')) {
+    if (src?.startsWith("/")) {
       src = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + src;
     }
     const figCaption = getFigCaption(node);
 
     if (figCaption) {
-      nodeProps.className = twMerge('table', nodeProps.className);
-      if (!!nodeProps.className?.indexOf('mx-auto')) nodeProps.className += ' w-full'
+      nodeProps.className = twMerge("table", nodeProps.className);
+      if (!!nodeProps.className?.indexOf("mx-auto")) nodeProps.className += " w-full"
       delete nodeProps.role;
       return (
         <figure {...nodeProps}>
@@ -271,7 +271,7 @@ const WysiwygImage = ({src, alt, height, width, className}: {
 }
 
 
-const formatHtml = (html: string) => parse(html || '', options);
+const formatHtml = (html: string) => parse(html || "", options);
 
 
 export default Wysiwyg;

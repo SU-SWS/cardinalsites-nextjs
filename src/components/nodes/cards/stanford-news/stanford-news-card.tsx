@@ -13,7 +13,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
   const image = node.suNewsFeaturedMedia?.mediaImage
 
   const topics = node.suNewsTopics?.slice(0, 3) || [];
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
 
   const publishDate = node.suNewsPublishingDate?.time ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
     month: "long",
@@ -46,7 +46,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
 
       {topics &&
         <div>
-          {topics.map(topic => topic.name).join(', ')}
+          {topics.map(topic => topic.name).join(", ")}
         </div>
       }
 

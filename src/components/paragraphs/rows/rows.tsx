@@ -24,12 +24,12 @@ const Rows = async ({components, className, ...props}: Props) => {
 
   // Set the layouts first.
   components.map(item => {
-    if (item.__typename === 'ParagraphStanfordLayout') {
+    if (item.__typename === "ParagraphStanfordLayout") {
       const behaviors = getParagraphBehaviors(item);
 
       layouts[item.id] = {
         item,
-        layout: behaviors.layout_paragraphs?.layout || 'layout_paragraphs_1_column',
+        layout: behaviors.layout_paragraphs?.layout || "layout_paragraphs_1_column",
         config: behaviors.layout_paragraphs?.config,
         children: []
       }
@@ -64,8 +64,8 @@ const Row = ({layout, layoutSettings, items}: {
   layoutSettings?: Record<string, any>
   items: ParagraphUnion[]
 }) => {
-  if (layout === 'layout_paragraphs_2_column') return <TwoColumn config={layoutSettings} items={items}/>
-  if (layout === 'layout_paragraphs_3_column') return <ThreeColumn items={items}/>
+  if (layout === "layout_paragraphs_2_column") return <TwoColumn config={layoutSettings} items={items}/>
+  if (layout === "layout_paragraphs_3_column") return <ThreeColumn items={items}/>
 
   // Fall back to one column if the layout is unknown.
   return <OneColumn items={items}/>

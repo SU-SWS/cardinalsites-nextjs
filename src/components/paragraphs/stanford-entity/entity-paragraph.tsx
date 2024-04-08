@@ -15,24 +15,24 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors(paragraph);
   const entities = paragraph.suEntityItem || [];
   const gridCols = [
-    'lg:grid-cols-3',
-    'lg:grid-cols-1',
-    'lg:grid-cols-2',
+    "lg:grid-cols-3",
+    "lg:grid-cols-1",
+    "lg:grid-cols-2",
   ];
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
-  const EntityWrapper: ElementType = (paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== 'remove') ? 'section' : 'div';
+  const EntityWrapper: ElementType = (paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove") ? "section" : "div";
 
   return (
     <EntityWrapper
       {...props}
       className={twMerge("centered lg:max-w-[980px] flex flex-col gap-10 mb-20", props.className)}
-      aria-labelledby={EntityWrapper === 'section' ? paragraph.id : undefined}
+      aria-labelledby={EntityWrapper === "section" ? paragraph.id : undefined}
     >
-      {EntityWrapper === 'section' &&
+      {EntityWrapper === "section" &&
         <H2
           id={paragraph.id}
-          className={twMerge("text-center mb-0", behaviors.stanford_teaser?.heading_behavior === 'hide' && "sr-only")}
+          className={twMerge("text-center mb-0", behaviors.stanford_teaser?.heading_behavior === "hide" && "sr-only")}
         >
           {paragraph.suEntityHeadline}
         </H2>

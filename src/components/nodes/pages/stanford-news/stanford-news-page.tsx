@@ -5,7 +5,7 @@ import SocialIcons from "@components/nodes/pages/stanford-news/social-icons";
 import {H1} from "@components/elements/headers";
 import {HtmlHTMLAttributes} from "react";
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
-import {isDraftMode} from "@lib/drupal/utils";
+import {isPreviewMode} from "@lib/drupal/utils";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordNewsPage = ({node, ...props}: Props) => {
-  if (node.suNewsSource?.url && !isDraftMode()) redirect(node.suNewsSource.url)
+  if (node.suNewsSource?.url && !isPreviewMode()) redirect(node.suNewsSource.url)
 
   const publishDate = node.suNewsPublishingDate ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
     month: "long",
@@ -23,7 +23,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
   }) : undefined;
 
   let bannerImageUrl: string | undefined, bannerImageAlt: string = ""
-  if (node.suNewsBanner?.__typename === 'MediaImage') {
+  if (node.suNewsBanner?.__typename === "MediaImage") {
     bannerImageUrl = node.suNewsBanner.mediaImage.url
     bannerImageAlt = node.suNewsBanner.mediaImage.alt || "";
   }
@@ -40,7 +40,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
           {topics &&
             <div className="order-1 flex gap-2">
-              {topics.map(topic => topic.name).join(', ')}
+              {topics.map(topic => topic.name).join(", ")}
             </div>
           }
         </div>

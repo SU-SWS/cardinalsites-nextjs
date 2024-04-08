@@ -5,51 +5,51 @@ query Node($uuid: ID!) {
     }
 }
 
-query AllNodes($pageSize: Int = 100) {
-    nodeStanfordCourses(first: $pageSize, sortKey: CREATED_AT) {
+query AllNodes($first: Int = 1000) {
+    nodeStanfordCourses(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordEventSeriesItems(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordEventSeriesItems(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordEvents(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordEvents(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordNewsItems(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordNewsItems(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordPages(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordPages(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordPeople(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordPeople(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordPolicies(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordPolicies(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
-    nodeStanfordPublications(first: $pageSize, sortKey: CREATED_AT) {
+    nodeStanfordPublications(first: $first, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
     }
 }
 
-query Courses($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordCourses(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query Courses($first: Int = 1000, $after: Cursor) {
+    nodeStanfordCourses(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordCourse
         }
@@ -60,8 +60,8 @@ query Courses($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query EventSeries($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordEventSeriesItems(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query EventSeries($first: Int = 1000, $after: Cursor) {
+    nodeStanfordEventSeriesItems(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordEventSeries
         }
@@ -72,8 +72,8 @@ query EventSeries($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query Events($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordEvents(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query Events($first: Int = 1000, $after: Cursor) {
+    nodeStanfordEvents(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordEvent
         }
@@ -84,8 +84,8 @@ query Events($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query News($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordNewsItems(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query News($first: Int = 1000, $after: Cursor) {
+    nodeStanfordNewsItems(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordNews
         }
@@ -96,8 +96,8 @@ query News($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query BasicPages($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordPages(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query BasicPages($first: Int = 1000, $after: Cursor) {
+    nodeStanfordPages(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordPage
         }
@@ -108,8 +108,8 @@ query BasicPages($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query People($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordPeople(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query People($first: Int = 1000, $after: Cursor) {
+    nodeStanfordPeople(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordPerson
         }
@@ -120,8 +120,8 @@ query People($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query Policies($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordPolicies(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query Policies($first: Int = 1000, $after: Cursor) {
+    nodeStanfordPolicies(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordPolicy
         }
@@ -132,8 +132,8 @@ query Policies($pageSize: Int = 100, $after: Cursor) {
     }
 }
 
-query Publications($pageSize: Int = 100, $after: Cursor) {
-    nodeStanfordPublications(first: $pageSize, after: $after, sortKey: CREATED_AT) {
+query Publications($first: Int = 1000, $after: Cursor) {
+    nodeStanfordPublications(first: $first, after: $after, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeStanfordPublication
         }

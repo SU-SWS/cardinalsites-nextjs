@@ -5,8 +5,8 @@ import {StanfordLocalFooter, StanfordSuperFooter} from "@lib/gql/__generated__/d
 
 const PageFooter = async () => {
 
-  const superFooterConfig = await getConfigPage<StanfordSuperFooter>('StanfordSuperFooter')
-  const localFooterConfig = await getConfigPage<StanfordLocalFooter>('StanfordLocalFooter')
+  const superFooterConfig = await getConfigPage<StanfordSuperFooter>("StanfordSuperFooter")
+  const localFooterConfig = await getConfigPage<StanfordLocalFooter>("StanfordLocalFooter")
 
   return (
     <footer>

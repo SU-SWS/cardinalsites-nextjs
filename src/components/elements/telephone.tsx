@@ -15,7 +15,7 @@ const Telephone = ({tel, ...props}: Props) => {
   if (!isClient) return;
   return (
 
-    <a href={`tel:${tel.replace(/[^\d]+/g, '')}`} {...props}>
+    <a href={`tel:${tel.replace(/[^\d]+/g, "")}`} {...props}>
       {tel}
     </a>
   )
