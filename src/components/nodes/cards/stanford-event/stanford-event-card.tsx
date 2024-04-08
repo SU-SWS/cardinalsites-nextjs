@@ -34,7 +34,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
       isArticle
     >
       <div className="flex w-fit justify-start flex-row items-center min-w-[9rem] h-90">
-        <time datetime={dateTimeString} className="flex flex-col">
+        <time dateTime={dateTimeString} className="flex flex-col">
           <span className="text-m0 font-semibold w-full text-center"> {startMonth.toUpperCase()}</span>
           <span className="text-m4 font-bold w-full text-center">{startDay}</span>
         </time>
