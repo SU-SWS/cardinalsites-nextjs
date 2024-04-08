@@ -40,9 +40,9 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         </time>
 
         {
-        startDay != endDay 
-        &&
-        startMonth != endMonth
+        (startDay != endDay)
+        ||
+        (startMonth != endMonth)
         ? 
         <>
           <span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span>

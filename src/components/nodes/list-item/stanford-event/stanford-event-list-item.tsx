@@ -21,6 +21,9 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
+  const endMonth = end.toLocaleDateString("en-US", {month: "short", timeZone})
+  const endDay = parseInt(end.toLocaleDateString("en-US", {day: "numeric", timeZone}))
+
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ");
   const Heading = headingLevel === "h3" ? H3 : H2;
@@ -31,13 +34,27 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
       aria-labelledby={node.id}
       className={twMerge("w-full mx-auto py-10 flex gap-10", props.className)}
     >
-      <div aria-hidden className="flex flex-col items-start w-fit">
+      <div aria-hidden className="flex flex-col items-start w-fit min-w-14">
         <div className="text-m0 font-semibold mb-4 w-full text-center">
           {startMonth.toUpperCase()}
         </div>
         <div className="text-m4 font-bold w-full text-center">
           {startDay}
         </div>
+        {
+        (startDay != endDay)
+        ||
+        (startMonth != endMonth)
+        ?
+        <>
+          <div className='flex flex-col gap-y-4'>
+            <span className='relative font-normal top-7 mb-8 text-18 text-center' aria-hidden='true'>–to–</span><span className='sr-only'>to</span>
+            <span className='text-m0 font-semibold w-full text-center'>{endMonth.toUpperCase()}</span>
+            <span className='text-m4 font-bold w-full text-center'>{endDay}</span>
+         </div>
+        </>
+        : null
+        }
       </div>
       <div>
         <div className="flex flex-col">

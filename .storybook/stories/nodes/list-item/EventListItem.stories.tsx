@@ -25,6 +25,12 @@ const meta: Meta<ComponentStoryProps> = {
       options: ["h2", "h3"],
       control: {type: "select"}
     },
+    suEventDateTime_start: {
+      control: "date"
+    },
+    suEventDateTime_end: {
+      control: "date"
+    },
     node: {
       table: {
         disable: true,
