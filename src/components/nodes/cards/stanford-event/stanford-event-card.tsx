@@ -26,7 +26,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const endDay = parseInt(end.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
   // Fix difference between server side render and client side render. Replace any strange characters.
-  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
+  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ");
   const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
