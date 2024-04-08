@@ -9,7 +9,6 @@ import ImageCard from "@components/patterns/image-card";
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
   headingLevel?: "h2" | "h3"
-  datetime: any
 }
 
 const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
@@ -41,7 +40,10 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         </time>
 
         {
-        startDay != endDay ? 
+        startDay != endDay 
+        &&
+        startMonth != endMonth
+        ? 
         <>
           <span className='relative font-normal leading-trim top-7 text-m0 px-03em' aria-hidden='true'>– to –</span><span className='sr-only'>to</span>
           <div className='flex flex-col'>
