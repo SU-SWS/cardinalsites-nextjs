@@ -11,8 +11,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
-  const image = paragraph.suMediaCaptionMedia?.__typename === 'MediaImage' ? paragraph.suMediaCaptionMedia.mediaImage : undefined;
-  const videoUrl = paragraph.suMediaCaptionMedia?.__typename === 'MediaVideo' && paragraph.suMediaCaptionMedia.mediaOembedVideo;
+  const image = paragraph.suMediaCaptionMedia?.__typename === "MediaImage" ? paragraph.suMediaCaptionMedia.mediaImage : undefined;
+  const videoUrl = paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo;
 
   return (
     <figure

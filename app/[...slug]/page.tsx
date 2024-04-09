@@ -8,12 +8,10 @@ import {getPathFromContext, PageProps} from "@lib/drupal/utils";
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false;
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 
 const Page = async ({params}: PageProps) => {
-  const path = getPathFromContext({params})
-
-  const {redirect: redirectPath, entity, error} = await getEntityFromPath<NodeUnion>(path)
+  const {redirect: redirectPath, entity, error} = await getEntityFromPath<NodeUnion>(getPathFromContext({params}))
 
   if (error) throw new Error(error);
   if (redirectPath?.url) redirect(redirectPath.url)
@@ -29,9 +27,9 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
 }
 
 export const generateStaticParams = async (): Promise<PageProps["params"][]> => {
-  if (process.env.BUILD_COMPLETE !== 'true') return []
+  if (process.env.BUILD_COMPLETE !== "true") return []
   const nodePaths = await getAllNodePaths();
-  return nodePaths.map(path => ({slug: path.split('/').filter(part => !!part)}));
+  return nodePaths.map(path => ({slug: path.split("/").filter(part => !!part)}));
 }
 
 export default Page;

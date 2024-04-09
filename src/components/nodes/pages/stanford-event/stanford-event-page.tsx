@@ -24,7 +24,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
   const startTime = new Date(node.suEventDateTime.value * 1000);
   const endTime = new Date(node.suEventDateTime.end_value * 1000);
-  const timeZone = node.suEventDateTime.timezone || 'America/Los_Angeles';
+  const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles";
 
   return (
     <article className="centered mt-32 flex flex-col gap-20" {...props}>

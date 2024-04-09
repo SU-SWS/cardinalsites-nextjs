@@ -1,6 +1,6 @@
 import {Maybe, NodeStanfordEvent, NodeStanfordNews, NodeStanfordPage, NodeStanfordPerson, NodeStanfordPolicy, NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/drupal.d";
 import {Metadata} from "next";
-import {decode} from 'html-entities';
+import {decode} from "html-entities";
 
 export const getNodeMetadata = (node: NodeUnion): Metadata => {
   const defaultData = {
@@ -8,31 +8,31 @@ export const getNodeMetadata = (node: NodeUnion): Metadata => {
     other: {}
   }
   switch (node.__typename) {
-    case 'NodeStanfordPage':
+    case "NodeStanfordPage":
       return {
         ...getBasicPageMetaData(node),
         ...defaultData
       }
 
-    case 'NodeStanfordNews':
+    case "NodeStanfordNews":
       return {
         ...getNewsMetaData(node),
         ...defaultData
       }
 
-    case 'NodeStanfordEvent':
+    case "NodeStanfordEvent":
       return {
         ...getEventMetaData(node),
         ...defaultData
       }
 
-    case 'NodeStanfordPerson':
+    case "NodeStanfordPerson":
       return {
         ...getPersonMetaData(node),
         ...defaultData
       }
 
-    case 'NodeStanfordPolicy':
+    case "NodeStanfordPolicy":
       return {
         ...getPolicyMetaData(node),
         ...defaultData
@@ -52,7 +52,7 @@ const getBasicPageMetaData = (node: NodeStanfordPage) => {
   return {
     description: description,
     openGraph: {
-      type: 'website',
+      type: "website",
       title: node.title,
       description: description,
       images: image ? getOpenGraphImage(image.url, image.alt || "") : []
@@ -62,10 +62,10 @@ const getBasicPageMetaData = (node: NodeStanfordPage) => {
 
 const getNewsMetaData = (node: NodeStanfordNews) => {
   const pageImage = node.suNewsFeaturedMedia?.mediaImage;
-  const bannerImage = node.suNewsBanner?.__typename === 'MediaImage' ? node.suNewsBanner.mediaImage : undefined;
+  const bannerImage = node.suNewsBanner?.__typename === "MediaImage" ? node.suNewsBanner.mediaImage : undefined;
 
   const imageUrl = pageImage?.url || bannerImage?.url
-  const imageAlt = pageImage?.alt || bannerImage?.alt || '';
+  const imageAlt = pageImage?.alt || bannerImage?.alt || "";
 
   const description = node.suNewsDek || getFirstText(node.suNewsComponents);
 
@@ -77,7 +77,7 @@ const getNewsMetaData = (node: NodeStanfordNews) => {
   return {
     description: description,
     openGraph: {
-      type: 'article',
+      type: "article",
       title: node.title,
       description: description,
       publishedTime: publishTime || null,
@@ -90,13 +90,13 @@ const getNewsMetaData = (node: NodeStanfordNews) => {
 const getPersonMetaData = (node: NodeStanfordPerson) => {
   const pageImage = node.suPersonPhoto?.mediaImage;
   const imageUrl = pageImage?.url;
-  const imageAlt = pageImage?.alt || '';
+  const imageAlt = pageImage?.alt || "";
   const description = node.suPersonFullTitle || getCleanDescription(node.body?.processed);
 
   return {
     description: description,
     openGraph: {
-      type: 'profile',
+      type: "profile",
       title: node.title,
       description: description,
       firstName: node.suPersonFirstName,
@@ -112,7 +112,7 @@ const getEventMetaData = (node: NodeStanfordEvent) => {
   return {
     description: description,
     openGraph: {
-      type: 'website',
+      type: "website",
       title: node.title,
       description: description,
     }
@@ -125,7 +125,7 @@ const getPolicyMetaData = (node: NodeStanfordPolicy) => {
   return {
     description: description,
     openGraph: {
-      type: 'website',
+      type: "website",
       title: node.title,
       description: description,
     }
@@ -133,7 +133,7 @@ const getPolicyMetaData = (node: NodeStanfordPolicy) => {
 }
 
 const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
-  const firstWysiwyg = components?.find(component => component.__typename === 'ParagraphStanfordWysiwyg') as ParagraphStanfordWysiwyg;
+  const firstWysiwyg = components?.find(component => component.__typename === "ParagraphStanfordWysiwyg") as ParagraphStanfordWysiwyg;
   if (firstWysiwyg) {
     return getCleanDescription(firstWysiwyg.suWysiwygText?.processed);
   }
@@ -141,7 +141,7 @@ const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
 
 const getCleanDescription = (description: string | undefined): string | undefined => {
   if (description) {
-    const text: string = description.replace(/(<([^>]+)>)/gi, " ").replace('/ +/', ' ').split('.').slice(0, 1).join('.') + '.';
+    const text: string = description.replace(/(<([^>]+)>)/gi, " ").replace("/ +/", " ").split(".").slice(0, 1).join(".") + ".";
     return text?.length > 1 ? decode(text) : undefined;
   }
 }

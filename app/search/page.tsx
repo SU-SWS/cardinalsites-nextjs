@@ -22,16 +22,16 @@ export const metadata = {
 }
 const Page = async ({searchParams}: { searchParams?: { [_key: string]: string } }) => {
 
-  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>('StanfordBasicSiteSetting')
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
 
   const search = async (searchString: string): Promise<SearchResult[]> => {
     "use server";
 
     const params = new DrupalJsonApiParams();
-    params.addCustomParam({'filter[fulltext]': searchString})
+    params.addCustomParam({"filter[fulltext]": searchString})
 
-    // This still uses JSON API because GraphQL doesn't have an easy way to search for content.
-    const searchResults: DrupalNode[] = await getSearchIndex('full_site_content', {params: params.getQueryObject()});
+    // This still uses JSON API because GraphQL doesn"t have an easy way to search for content.
+    const searchResults: DrupalNode[] = await getSearchIndex("full_site_content", {params: params.getQueryObject()});
 
     return searchResults.map(node => ({
       id: node.id,
@@ -41,7 +41,7 @@ const Page = async ({searchParams}: { searchParams?: { [_key: string]: string } 
     })).slice(0, 20)
   }
 
-  const initialResults = await search(searchParams?.q || '');
+  const initialResults = await search(searchParams?.q || "");
 
   const algoliaConfigured = siteSettingsConfig?.suSiteAlgolia &&
     siteSettingsConfig?.suSiteAlgoliaId &&
@@ -54,7 +54,7 @@ const Page = async ({searchParams}: { searchParams?: { [_key: string]: string } 
 
       {!algoliaConfigured &&
         <Suspense fallback={<></>}>
-          <SearchResults search={search} initialSearchString={searchParams?.q || ''} initialResults={initialResults}/>
+          <SearchResults search={search} initialSearchString={searchParams?.q || ""} initialResults={initialResults}/>
         </Suspense>
       }
 

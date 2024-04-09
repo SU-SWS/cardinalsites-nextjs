@@ -1,4 +1,4 @@
-import '../src/styles/index.css';
+import "../src/styles/index.css";
 import BackToTop from "@components/elements/back-to-top";
 import PageFooter from "@components/global/page-footer";
 import PageHeader from "@components/global/page-header";
@@ -22,19 +22,19 @@ const icons: Icon[] = [16, 32, 96, 128, 192, 196].map(size => ({
  * Metadata that does not change often.
  */
 export const metadata = {
-  metadataBase: new URL('https://somesite.stanford.edu'),
-  title: 'Stanford University',
+  metadataBase: new URL("https://somesite.stanford.edu"),
+  title: "Stanford University",
   openGraph: {
-    type: 'website',
-    locale: 'en_IE',
-    url: 'https://somesite.stanford.edu',
-    siteName: '[Stanford University]',
+    type: "website",
+    locale: "en_IE",
+    url: "https://somesite.stanford.edu",
+    siteName: "[Stanford University]",
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
   },
   icons: {
-    icon: [{url: '/favicon.ico'}, ...icons],
+    icon: [{url: "/favicon.ico"}, ...icons],
     apple: appleIcons
   }
 }

@@ -1,7 +1,7 @@
 import {MenuItem} from "@lib/gql/__generated__/drupal.d";
 
 /**
- * Get an array of menu item ids representing the current page's location in the main menu.
+ * Get an array of menu item ids representing the current page"s location in the main menu.
  *
  * @param menuItems
  *   Array of menu items.

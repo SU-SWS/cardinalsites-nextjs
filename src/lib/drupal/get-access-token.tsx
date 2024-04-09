@@ -16,7 +16,7 @@ export const getAccessToken = async (previewMode: boolean = false): Promise<Acce
   const cached = cache.get<AccessToken | false>(CACHE_KEY)
   if (cached && cached?.access_token) return cached
 
-  // An empty cache would be undefined. False indicates the first attempt failed, so we shouldn't try again.
+  // An empty cache would be undefined. False indicates the first attempt failed, so we shouldn"t try again.
   if (cached === false) return
 
   // Basic auth credentials.
@@ -28,7 +28,7 @@ export const getAccessToken = async (previewMode: boolean = false): Promise<Acce
     {
       method: "POST",
       headers: {Authorization: `Basic ${basic}`, "Content-Type": "application/x-www-form-urlencoded"},
-      body: `grant_type=client_credentials`,
+      body: "grant_type=client_credentials",
       next: {revalidate: 300}
     }
   )

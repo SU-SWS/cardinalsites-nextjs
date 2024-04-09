@@ -9,8 +9,8 @@ const DrupalWindowSync = () => {
 
   if (
     pathname &&
-    !pathname?.startsWith('/gallery/') &&
-    !pathname?.startsWith('/preview/') &&
+    !pathname?.startsWith("/gallery/") &&
+    !pathname?.startsWith("/preview") &&
     window &&
     window.top !== window.self
   ) {

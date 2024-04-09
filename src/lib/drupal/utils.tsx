@@ -7,7 +7,7 @@ import {cookies} from "next/headers";
  * Draft mode works when in normal builds. Use environment variable during development.
  */
 export const isPreviewMode = (): boolean => {
-  return process.env.NODE_ENV === 'development' || cookies()?.get('preview')?.value === process.env.DRUPAL_PREVIEW_SECRET;
+  return process.env.NODE_ENV === "development" || cookies()?.get("preview")?.value === process.env.DRUPAL_PREVIEW_SECRET;
 }
 
 export const buildUrl = (
@@ -31,7 +31,7 @@ export const buildHeaders = async ({accessToken, headers = {}, previewMode = fal
   const requestHeaders = new Headers(headers);
 
   const token = accessToken || (await getAccessToken(previewMode))
-  if (token) requestHeaders.set('Authorization', `Bearer ${token.access_token}`)
+  if (token) requestHeaders.set("Authorization", `Bearer ${token.access_token}`)
 
   return requestHeaders
 }
@@ -45,6 +45,6 @@ export const getPathFromContext = (context: PageProps, prefix = ""): string => {
   let {slug} = context.params
 
   slug = Array.isArray(slug) ? slug.map((s) => encodeURIComponent(s)).join("/") : slug
-  slug = slug.replace(/^\//, '');
+  slug = slug.replace(/^\//, "");
   return prefix ? `${prefix}/${slug}` : `/${slug}`
 }

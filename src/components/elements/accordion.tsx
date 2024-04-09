@@ -15,7 +15,7 @@ type Props = HTMLAttributes<HTMLElement> & {
   /**
    * Heading level element.
    */
-  headingLevel?: 'h2' | 'h3' | 'h4'
+  headingLevel?: "h2" | "h3" | "h4"
   /**
    * If the accordion should be visible on first render.
    */
@@ -41,7 +41,7 @@ type Props = HTMLAttributes<HTMLElement> & {
 const Accordion = ({
   button,
   children,
-  headingLevel = 'h2',
+  headingLevel = "h2",
   onClick,
   isVisible,
   initiallyVisible = false,
@@ -59,7 +59,7 @@ const Accordion = ({
   // When the accordion is externally controlled.
   const isExpanded = onClick ? isVisible : expanded;
 
-  const Heading = headingLevel === 'h2' ? H2 : headingLevel === 'h3' ? H3 : H4;
+  const Heading = headingLevel === "h2" ? H2 : headingLevel === "h3" ? H3 : H4;
   return (
     <section aria-labelledby={`${id}-button`} {...props}>
       <Heading>

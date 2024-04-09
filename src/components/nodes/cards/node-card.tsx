@@ -24,25 +24,25 @@ const NodeCard = ({node, headingLevel}: Props) => {
   const previewMode = isPreviewMode();
   const itemProps: { [key: string]: string } = {};
   if (previewMode) {
-    itemProps['data-type'] = node.__typename || 'unknown';
-    itemProps['data-id'] = node.id;
+    itemProps["data-type"] = node.__typename || "unknown";
+    itemProps["data-id"] = node.id;
   }
   switch (node.__typename) {
-    case 'NodeStanfordCourse':
+    case "NodeStanfordCourse":
       return <StanfordCourseCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordEvent':
+    case "NodeStanfordEvent":
       return <StanfordEventCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordEventSeries':
+    case "NodeStanfordEventSeries":
       return <StanfordEventSeriesCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordNews':
+    case "NodeStanfordNews":
       return <StanfordNewsCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordPage':
+    case "NodeStanfordPage":
       return <StanfordPageCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordPerson':
+    case "NodeStanfordPerson":
       return <StanfordPersonCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordPolicy':
+    case "NodeStanfordPolicy":
       return <StanfordPolicyCard node={node} headingLevel={headingLevel} {...itemProps}/>
-    case 'NodeStanfordPublication':
+    case "NodeStanfordPublication":
       return <StanfordPublicationCard node={node} headingLevel={headingLevel} {...itemProps}/>
   }
 }

@@ -15,7 +15,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
   const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage;
   const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage;
 
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <article
       {...props}
@@ -41,7 +41,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
             <Image
               className="object-cover"
               src={image.url}
-              alt={image.alt || ''}
+              alt={image.alt || ""}
               fill
               sizes="(max-width: 768px) 100vw, 1000px"
             />

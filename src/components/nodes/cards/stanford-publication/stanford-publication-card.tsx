@@ -11,7 +11,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
   const citationUrl = node.suPublicationCitation?.suUrl?.url;
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
       {...props}

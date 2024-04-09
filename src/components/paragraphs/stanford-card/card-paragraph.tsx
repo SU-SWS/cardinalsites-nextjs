@@ -15,12 +15,12 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const CardParagraph = ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors(paragraph)
 
-  const image = paragraph.suCardMedia?.__typename === 'MediaImage' ? paragraph.suCardMedia.mediaImage : undefined;
-  const videoUrl = paragraph.suCardMedia?.__typename === 'MediaVideo' ? paragraph.suCardMedia.mediaOembedVideo : undefined;
+  const image = paragraph.suCardMedia?.__typename === "MediaImage" ? paragraph.suCardMedia.mediaImage : undefined;
+  const videoUrl = paragraph.suCardMedia?.__typename === "MediaVideo" ? paragraph.suCardMedia.mediaOembedVideo : undefined;
 
-  const headerTagChoice = (behaviors.su_card_styles?.heading || 'h2').split('.', 2);
+  const headerTagChoice = (behaviors.su_card_styles?.heading || "h2").split(".", 2);
   const headerTag = headerTagChoice[0]
-  const headerClasses = headerTagChoice[1]?.replace('.', ' ').replace('su-font-splash', 'text-m2 font-bold')
+  const headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "text-m2 font-bold")
 
   const hideHeader = behaviors.su_card_styles?.hide_heading;
 
@@ -35,16 +35,16 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
     >
       {paragraph.suCardHeader &&
         <div id={paragraph.id} className={twMerge("order-2", hideHeader && "sr-only")}>
-          {headerTag === 'h2' &&
+          {headerTag === "h2" &&
             <H2 className={headerClasses}>{paragraph.suCardHeader}</H2>
           }
-          {headerTag === 'h3' &&
+          {headerTag === "h3" &&
             <H3 className={headerClasses}>{paragraph.suCardHeader}</H3>
           }
-          {headerTag === 'h4' &&
+          {headerTag === "h4" &&
             <H4 className={headerClasses}>{paragraph.suCardHeader}</H4>
           }
-          {headerTag === 'div' &&
+          {headerTag === "div" &&
             <div className={headerClasses}>{paragraph.suCardHeader}</div>
           }
         </div>
@@ -60,13 +60,13 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
 
       {paragraph.suCardLink?.url &&
         <div className="order-4">
-          {behaviors.su_card_styles?.link_style === 'action' &&
+          {behaviors.su_card_styles?.link_style === "action" &&
             <ActionLink href={paragraph.suCardLink.url}>
               {paragraph.suCardLink.title}
             </ActionLink>
           }
 
-          {behaviors.su_card_styles?.link_style != 'action' &&
+          {behaviors.su_card_styles?.link_style != "action" &&
             <Button href={paragraph.suCardLink.url}>
               {paragraph.suCardLink.title}
             </Button>

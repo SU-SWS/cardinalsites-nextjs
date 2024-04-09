@@ -3,9 +3,9 @@ module.exports = function () {
   return function ({addComponents}) {
 
     const components = {
-      '.wysiwyg': {
-        '> :first-child': {
-          marginTop: '0'
+      ".wysiwyg": {
+        "> :first-child": {
+          marginTop: "0"
         }
       },
     };

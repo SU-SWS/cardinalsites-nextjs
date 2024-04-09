@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
-  const timeZone = node.suEventDateTime.timezone || 'America/Los_Angeles';
+  const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles";
 
   const start = new Date(node.suEventDateTime.value * 1000);
   const end = new Date(node.suEventDateTime.end_value * 1000);
@@ -22,8 +22,8 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
   // Fix difference between server side render and client side render. Replace any strange characters.
-  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, ' ');
-  const Heading = headingLevel === 'h3' ? H3 : H2;
+  const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ");
+  const Heading = headingLevel === "h3" ? H3 : H2;
   return (
     <ImageCard
       {...props}
@@ -110,13 +110,13 @@ export const getEventTimeString = (start: Date, end: Date, timeZone: string): st
   let dateTimeString: string;
 
   // Multiple days.
-  if (start.toLocaleDateString("en-US", {timeZone: 'America/Los_Angeles'}) != end.toLocaleDateString("en-US", {timeZone: 'America/Los_Angeles'})) {
+  if (start.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"}) != end.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"})) {
     dateTimeString = start.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
       timeZone
-    }) + ' - ' + end.toLocaleDateString("en-US", {
+    }) + " - " + end.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
@@ -132,7 +132,7 @@ export const getEventTimeString = (start: Date, end: Date, timeZone: string): st
     endHour === 23 &&
     endMinute === 59
   ) {
-    return start.toLocaleDateString('en-us', {
+    return start.toLocaleDateString("en-us", {
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -144,7 +144,7 @@ export const getEventTimeString = (start: Date, end: Date, timeZone: string): st
 
   // Different start and end times.
   if (startHour !== endHour || startMinute !== endMinute) {
-    dateTimeString = start.toLocaleDateString('en-US', {
+    dateTimeString = start.toLocaleDateString("en-US", {
       weekday: "long",
       month: "long",
       day: "numeric",
@@ -156,7 +156,7 @@ export const getEventTimeString = (start: Date, end: Date, timeZone: string): st
       minute: "numeric",
       timeZone
     });
-    dateTimeString += ' - ';
+    dateTimeString += " - ";
     dateTimeString += end.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",

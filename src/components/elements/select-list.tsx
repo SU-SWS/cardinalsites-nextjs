@@ -1,7 +1,7 @@
 "use client";
 
-import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from '@mui/base/useSelect';
-import {useOption} from '@mui/base/useOption';
+import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from "@mui/base/useSelect";
+import {useOption} from "@mui/base/useOption";
 import {
   FocusEvent,
   KeyboardEvent,
@@ -165,10 +165,10 @@ const SelectList = ({
       </button>
 
       <div
-        className={"absolute z-[10] w-full top-full left-0 max-h-[300px] pb-5 overflow-y-scroll shadow-lg border border-black-20 bg-white " + (listboxVisible ? '' : 'hidden')}>
+        className={"absolute z-[10] w-full top-full left-0 max-h-[300px] pb-5 overflow-y-scroll shadow-lg border border-black-20 bg-white " + (listboxVisible ? "" : "hidden")}>
         <ul
           {...getListboxProps()}
-          className={"list-unstyled " + (listboxVisible ? '' : 'hidden')}
+          className={"list-unstyled " + (listboxVisible ? "" : "hidden")}
           aria-hidden={!listboxVisible}
           aria-labelledby={labeledBy}
         >

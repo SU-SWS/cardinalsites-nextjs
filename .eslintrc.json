@@ -17,7 +17,8 @@
       "warn",
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ],
-    "no-console": ["error", { "allow": ["warn"] }]
+    "no-console": ["error", { "allow": ["warn"] }],
+    "quotes": ["error", "double"]
   },
   "plugins": ["unused-imports"],
   "ignorePatterns": ["**/__generated__/**/*"]

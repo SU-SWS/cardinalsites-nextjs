@@ -160,9 +160,9 @@ const LocalFooter = ({
 }
 
 const SocialIcon = ({url}: { url: string }) => {
-  if (url.includes('twitter.com')) return <TwitterIcon/>
-  if (url.includes('youtube.com')) return <YoutubeIcon/>
-  if (url.includes('facebook')) return <FacebookIcon/>
+  if (url.includes("twitter.com")) return <TwitterIcon/>
+  if (url.includes("youtube.com")) return <YoutubeIcon/>
+  if (url.includes("facebook")) return <FacebookIcon/>
   return null;
 }
 
@@ -183,10 +183,10 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
     ...props
   }
 
-  lockupOption = useDefault ? 'default' : lockupOption
+  lockupOption = useDefault ? "default" : lockupOption
 
   switch (lockupOption) {
-    case 'none':
+    case "none":
       return (
         <div className="py-10">
           <Link href="/"
@@ -196,40 +196,40 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
         </div>
       )
 
-    case 'a':
+    case "a":
       return <LockupA {...lockupProps}/>;
 
-    case 'b':
+    case "b":
       return <LockupB {...lockupProps}/>;
 
-    case 'd':
+    case "d":
       return <LockupD {...lockupProps}/>;
 
-    case 'e':
+    case "e":
       return <LockupE {...lockupProps}/>;
 
-    case 'h':
+    case "h":
       return <LockupH {...lockupProps}/>;
 
-    case 'i':
+    case "i":
       return <LockupI {...lockupProps}/>;
 
-    case 'm':
+    case "m":
       return <LockupM {...lockupProps}/>;
 
-    case 'o':
+    case "o":
       return <LockupO {...lockupProps}/>;
 
-    case 'p':
+    case "p":
       return <LockupP {...lockupProps}/>;
 
-    case 'r':
+    case "r":
       return <LockupR {...lockupProps}/>;
 
-    case 's':
+    case "s":
       return <LockupS {...lockupProps}/>;
 
-    case 't':
+    case "t":
       return <LockupT {...lockupProps}/>;
   }
 

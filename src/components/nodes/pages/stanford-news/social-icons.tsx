@@ -10,7 +10,7 @@ import {usePathname} from "next/navigation";
 import {useIsClient} from "usehooks-ts";
 
 const SocialIcons = ({...props}) => {
-  const [subject, setSubject] = useState<string>('')
+  const [subject, setSubject] = useState<string>("")
   useEffect(() => setSubject(document.title), []);
   const path = usePathname()
   const isClient = useIsClient()

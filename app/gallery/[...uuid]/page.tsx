@@ -5,7 +5,7 @@ import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
 import Image from "next/image";
 
 export const metadata = {
-  title: 'Gallery Image',
+  title: "Gallery Image",
   robots: {
     index: false
   }

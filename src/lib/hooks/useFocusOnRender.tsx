@@ -17,8 +17,8 @@ const useFocusOnRender = (focusOnElement: RefObject<HTMLElement>, defaultFocus: 
   useLayoutEffect(() => {
     if (value) {
 
-      const reduceMotion = !!window.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
-      focusOnElement.current?.scrollIntoView({behavior: reduceMotion ? 'instant' : 'smooth'});
+      const reduceMotion = !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches;
+      focusOnElement.current?.scrollIntoView({behavior: reduceMotion ? "instant" : "smooth"});
       focusOnElement.current?.focus({preventScroll: true})
 
       setFalse();

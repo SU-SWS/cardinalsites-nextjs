@@ -6,7 +6,7 @@
 module.exports = function () {
   return function ({addComponents, theme}) {
     // Find and set the padding based on the screen margins
-    const screens = theme('screens');
+    const screens = theme("screens");
     const maxWidths = {};
     let largestScreen = 0;
     let largestGutter = 0;
@@ -24,7 +24,7 @@ module.exports = function () {
         if (smallestGutter > gutterWidth) smallestGutter = gutterWidth;
 
         maxWidths[`@screen ${key}`] = {
-          maxWidth: 'calc(100vw - ' + (gutterWidth * 2) + 'px)',
+          maxWidth: "calc(100vw - " + (gutterWidth * 2) + "px)",
         };
       }
     });
@@ -32,21 +32,21 @@ module.exports = function () {
     const key = `@media only screen and (min-width: ${largestScreen + (largestGutter * 2)}px)`
     const components = {
       // Center an element horizontally.
-      '.centered': {
-        maxWidth: 'calc(100vw - ' + (smallestGutter * 2) + 'px)',
-        width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+      ".centered": {
+        maxWidth: "calc(100vw - " + (smallestGutter * 2) + "px)",
+        width: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
         ...maxWidths,
         [key]: {
           maxWidth: `${largestScreen}px`,
         },
       },
-      '.gutters': {
-        maxWidth: 'calc(100vw - ' + (smallestGutter * 2) + 'px)',
-        width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+      ".gutters": {
+        maxWidth: "calc(100vw - " + (smallestGutter * 2) + "px)",
+        width: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
         ...maxWidths
       },
     };

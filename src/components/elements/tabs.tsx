@@ -1,9 +1,9 @@
 "use client";
 
-import {TabsProvider, useTabs} from '@mui/base/useTabs';
-import {useTab} from '@mui/base/useTab';
-import {useTabPanel} from '@mui/base/useTabPanel';
-import {TabsListProvider, useTabsList} from '@mui/base/useTabsList';
+import {TabsProvider, useTabs} from "@mui/base/useTabs";
+import {useTab} from "@mui/base/useTab";
+import {useTabPanel} from "@mui/base/useTabPanel";
+import {TabsListProvider, useTabsList} from "@mui/base/useTabsList";
 import {HTMLAttributes, ReactNode, SyntheticEvent, useRef} from "react";
 import {UseTabParameters} from "@mui/base/useTab/useTab.types";
 import {clsx} from "clsx";
@@ -29,7 +29,7 @@ type TabsProps = HTMLAttributes<HTMLDivElement> & {
   orientation?: UseTabsParameters["orientation"]
 }
 
-export const Tabs = ({paramId = 'tab', orientation, defaultTab, children, ...props}: TabsProps) => {
+export const Tabs = ({paramId = "tab", orientation, defaultTab, children, ...props}: TabsProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const onChange = (_e: SyntheticEvent | null, value: number | string | null) => {
