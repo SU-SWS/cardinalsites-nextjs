@@ -1,7 +1,7 @@
 import Rows from "@components/paragraphs/rows/rows";
 import {notFound} from "next/navigation";
-import {getEntityFromPath} from "@lib/gql/gql-queries";
-import {NodeStanfordPage, NodeUnion} from "@lib/gql/__generated__/drupal.d";
+import {getConfigPage, getEntityFromPath} from "@lib/gql/gql-queries";
+import {NodeStanfordPage, NodeUnion, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d";
 import {isPreviewMode} from "@lib/drupal/utils";
 import {Metadata} from "next";
 import {getNodeMetadata} from "./[...slug]/metadata";
@@ -32,8 +32,12 @@ const Home = async () => {
 }
 
 export const generateMetadata = async (): Promise<Metadata> => {
+  const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
   const {entity} = await getEntityFromPath<NodeUnion>("/")
-  return entity ? getNodeMetadata(entity) : {};
+  const metadata = entity ? getNodeMetadata(entity) : {};
+  metadata.title = siteSettingsConfig?.suSiteName || metadata.title;
+  if (metadata.openGraph?.title) metadata.openGraph.title = siteSettingsConfig?.suSiteName || metadata.openGraph.title;
+  return metadata;
 }
 
 export default Home;
