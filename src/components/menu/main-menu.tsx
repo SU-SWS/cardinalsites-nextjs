@@ -11,7 +11,7 @@ import {useBoolean, useEventListener} from "usehooks-ts";
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react";
 import {usePathname} from "next/navigation";
 
-const menuLevelsToShow = 4;
+const menuLevelsToShow = 3;
 
 type Props = {
   /**
