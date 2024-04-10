@@ -447,7 +447,10 @@ fragment FragmentParagraphStanfordEntity on ParagraphStanfordEntity {
         title
     }
     suEntityItem {
-        ...FragmentNodeTeaserUnion
+        ... on NodeInterface {
+            id
+            path
+        }
     }
 }
 

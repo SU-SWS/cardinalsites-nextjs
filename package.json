@@ -13,13 +13,13 @@
     "graphql": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.ts -r dotenv/config"
   },
   "dependencies": {
-    "@formkit/auto-animate": "^0.8.1",
+    "@formkit/auto-animate": "^0.8.2",
     "@heroicons/react": "^2.1.3",
     "@js-temporal/polyfill": "^0.4.4",
     "@mui/base": "^5.0.0-beta.42",
     "@next/third-parties": "^14.1.4",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@types/node": "^20.12.6",
+    "@types/node": "^20.12.7",
     "@types/react": "^18.2.75",
     "@types/react-dom": "^18.2.24",
     "algoliasearch": "^4.23.2",
@@ -35,7 +35,7 @@
     "graphql-tag": "^2.12.6",
     "html-entities": "^2.5.2",
     "html-react-parser": "^5.1.10",
-    "next": "^14.2.0-canary.63",
+    "next": "^14.2.0-canary.64",
     "next-drupal": "^1.6.0",
     "postcss": "^8.4.38",
     "qs": "^6.12.0",
@@ -49,7 +49,7 @@
     "sharp": "^0.33.3",
     "tailwind-merge": "^2.2.2",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {

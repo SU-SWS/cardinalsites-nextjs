@@ -42,11 +42,7 @@ const Paragraph = async ({paragraph}: Props) => {
     case "ParagraphStanfordWysiwyg":
       return <WysiwygParagraph paragraph={paragraph} {...itemProps}/>
     case "ParagraphStanfordList":
-      return (
-        <Suspense>
-          <ListParagraph paragraph={paragraph} {...itemProps}/>
-        </Suspense>
-      )
+      return <Suspense><ListParagraph paragraph={paragraph} {...itemProps}/></Suspense>
   }
   console.warn(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.id}.`);
 }

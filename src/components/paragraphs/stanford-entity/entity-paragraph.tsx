@@ -2,10 +2,12 @@ import Wysiwyg from "@components/elements/wysiwyg";
 import NodeCard from "@components/nodes/cards/node-card";
 import Button from "@components/elements/button";
 import {H2} from "@components/elements/headers";
-import {ElementType, HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
+import {ElementType, HtmlHTMLAttributes, Suspense} from "react";
+import {NodeUnion, ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d";
 import {twMerge} from "tailwind-merge";
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors";
+import {getEntityFromPath} from "@lib/gql/gql-queries";
+import {ImageCardSkeleton} from "@components/patterns/image-card";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -42,7 +44,9 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       <div className={`grid ${gridClass} [&>*]:w-full gap-20 mb-20`}>
         {entities.map(entity =>
-          <NodeCard key={entity.id} node={entity} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"}/>
+          <Suspense key={`${paragraph.id}-${entity.id}`} fallback={<ImageCardSkeleton/>}>
+            <EntityCard path={entity.path} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"}/>
+          </Suspense>
         )}
       </div>
 
@@ -54,4 +58,11 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
     </EntityWrapper>
   )
 }
+
+const EntityCard = async ({path, headingLevel}: { path: string, headingLevel: "h3" | "h2" }) => {
+  const queryResponse = await getEntityFromPath<NodeUnion>(path);
+  if (!queryResponse.entity) return;
+  return <NodeCard node={queryResponse.entity} headingLevel={headingLevel}/>
+}
+
 export default EntityParagraph

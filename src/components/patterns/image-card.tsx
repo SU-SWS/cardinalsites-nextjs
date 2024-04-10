@@ -54,4 +54,13 @@ const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, children, ...props}
   )
 }
 
+export const ImageCardSkeleton = () => {
+  return (
+    <div className="centered lg:max-w-[980px] w-full shadow-lg border border-black-10 pb-20">
+      <div className="aspect-[16/9] w-full bg-black-10">
+      </div>
+    </div>
+  )
+}
+
 export default ImageCard;
