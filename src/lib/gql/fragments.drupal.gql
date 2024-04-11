@@ -251,7 +251,10 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     }
     suPolicyPolicyNum
     suPolicyRelated {
-        ...FragmentNodeStanfordPolicyTeaser
+        ... on NodeInterface {
+            id
+            path
+        }
     }
     suPolicySubchapter
     suPolicyTitle

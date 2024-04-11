@@ -1,9 +1,11 @@
 import Wysiwyg from "@components/elements/wysiwyg";
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card";
 import StringWithLines from "@components/elements/string-with-lines";
-import {HtmlHTMLAttributes} from "react";
+import {HtmlHTMLAttributes, Suspense} from "react";
 import {H1, H2, H3} from "@components/elements/headers";
 import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d";
+import {getEntityFromPath} from "@lib/gql/gql-queries";
+import {ImageCardSkeleton} from "@components/patterns/image-card";
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
@@ -84,7 +86,9 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             <ul className="list-unstyled grid lg:grid-cols-3 gap-20">
               {node.suPolicyRelated.map(policy =>
                 <li key={policy.id}>
-                  <StanfordPolicyCard node={policy as NodeStanfordPolicy}/>
+                  <Suspense fallback={<ImageCardSkeleton/>}>
+                    <RelatedPolicy path={policy.path}/>
+                  </Suspense>
                 </li>
               )}
             </ul>
@@ -94,4 +98,11 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
     </article>
   )
 }
+
+const RelatedPolicy = async ({path}: { path: string }) => {
+  const queryResponse = await getEntityFromPath<NodeStanfordPolicy>(path);
+  if (!queryResponse.entity) return;
+  return <StanfordPolicyCard node={queryResponse.entity}/>;
+}
+
 export default StanfordPolicyPage;

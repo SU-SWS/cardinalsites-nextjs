@@ -617,15 +617,6 @@ export const FragmentSuPolicyLogFragmentDoc = gql`
   suPolicyTitle
 }
     ${FragmentDateTimeFragmentDoc}`;
-export const FragmentNodeStanfordPolicyTeaserFragmentDoc = gql`
-    fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {
-  ...FragmentNodeInterface
-  body {
-    processed
-    summary
-  }
-}
-    ${FragmentNodeInterfaceFragmentDoc}`;
 export const FragmentNodeStanfordPolicyFragmentDoc = gql`
     fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
   ...FragmentNodeInterface
@@ -643,7 +634,10 @@ export const FragmentNodeStanfordPolicyFragmentDoc = gql`
   }
   suPolicyPolicyNum
   suPolicyRelated {
-    ...FragmentNodeStanfordPolicyTeaser
+    ... on NodeInterface {
+      id
+      path
+    }
   }
   suPolicySubchapter
   suPolicyTitle
@@ -653,8 +647,7 @@ export const FragmentNodeStanfordPolicyFragmentDoc = gql`
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentSuPolicyLogFragmentDoc}
-${FragmentDateTimeFragmentDoc}
-${FragmentNodeStanfordPolicyTeaserFragmentDoc}`;
+${FragmentDateTimeFragmentDoc}`;
 export const FragmentNodeStanfordPersonTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   ...FragmentNodeInterface
@@ -764,6 +757,15 @@ export const FragmentNodeStanfordPageTeaserFragmentDoc = gql`
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentMediaImageFragmentDoc}
 ${FragmentParagraphStanfordBannerFragmentDoc}`;
+export const FragmentNodeStanfordPolicyTeaserFragmentDoc = gql`
+    fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {
+  ...FragmentNodeInterface
+  body {
+    processed
+    summary
+  }
+}
+    ${FragmentNodeInterfaceFragmentDoc}`;
 export const FragmentNodeStanfordPublicationTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordPublicationTeaser on NodeStanfordPublication {
   ...FragmentNodeInterface
