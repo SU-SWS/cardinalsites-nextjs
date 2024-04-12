@@ -1,16 +1,4 @@
-import {
-  ConfigPagesQuery,
-  ConfigPagesUnion,
-  MenuAvailable,
-  MenuItem,
-  NodeUnion,
-  Redirect,
-  RedirectsQuery,
-  RedirectsQueryVariables,
-  RouteQuery,
-  RouteRedirect,
-  TermUnion
-} from "@lib/gql/__generated__/drupal.d";
+import {AllNodesQuery, AllNodesQueryVariables, ConfigPagesQuery, ConfigPagesUnion, MenuAvailable, MenuItem, NodeUnion, Redirect, RedirectsQuery, RedirectsQueryVariables, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/__generated__/drupal.d";
 import {cache} from "react";
 import {buildHeaders} from "@lib/drupal/utils";
 import {cache as nodeCache} from "@lib/drupal/get-cache";
@@ -50,11 +38,13 @@ export const getConfigPage = async <T extends ConfigPagesUnion, >(configPageType
     return;
   }
 
-  if (query.stanfordBasicSiteSettings.nodes[0]?.__typename === configPageType) return query.stanfordBasicSiteSettings.nodes[0] as T;
-  if (query.stanfordGlobalMessages.nodes[0]?.__typename === configPageType) return query.stanfordGlobalMessages.nodes[0] as T;
-  if (query.stanfordLocalFooters.nodes[0]?.__typename === configPageType) return query.stanfordLocalFooters.nodes[0] as T;
-  if (query.stanfordSuperFooters.nodes[0]?.__typename === configPageType) return query.stanfordSuperFooters.nodes[0] as T;
-  if (query.lockupSettings.nodes[0]?.__typename === configPageType) return query.lockupSettings.nodes[0] as T;
+  const queryKeys = Object.keys(query) as (keyof ConfigPagesQuery)[]
+  for (let i = 0; i < queryKeys.length; i++) {
+    const queryKey = queryKeys[i]
+    if (queryKey !== "__typename" && query[queryKey]?.nodes[0]?.__typename === configPageType) {
+      return query[queryKey].nodes[0] as T
+    }
+  }
 }
 
 const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
@@ -86,19 +76,31 @@ export const getMenu = cache(async (name?: MenuAvailable, previewMode?: boolean)
   return filterInaccessible(menuItems)
 })
 
-export const getAllNodePaths = cache(async () => {
+export const getAllNodes = cache(async () => {
   "use server";
 
-  const nodeQuery = await graphqlClient({next: {tags: ["paths"]}}).AllNodes({first: 1000});
-  const nodePaths: string[] = [];
-  nodeQuery.nodeStanfordCourses.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordEventSeriesItems.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordEvents.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordNewsItems.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordPages.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordPeople.nodes.map(node => nodePaths.push(node.path));
-  nodeQuery.nodeStanfordPolicies.nodes.map(node => nodePaths.push(node.path));
-  return nodePaths;
+  const nodes: NodeUnion[] = [];
+  let fetchMore = true;
+  let nodeQuery: AllNodesQuery;
+  let queryKeys: (keyof AllNodesQuery)[] = [];
+  const cursors: Omit<AllNodesQueryVariables, "first"> = {};
+
+  while (fetchMore) {
+    nodeQuery = await graphqlClient({next: {tags: ["paths"]}}).AllNodes({first: 1000, ...cursors});
+    queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
+    fetchMore = false;
+
+    queryKeys.map(queryKey => {
+      if (queryKey === "__typename") return;
+
+      nodeQuery[queryKey]?.nodes.map(node => nodes.push(node as NodeUnion));
+
+      if (nodeQuery[queryKey].pageInfo.endCursor) cursors[queryKey] = nodeQuery[queryKey].pageInfo.endCursor;
+      if (nodeQuery[queryKey].pageInfo.hasNextPage) fetchMore = true
+    })
+  }
+
+  return nodes;
 })
 
 export const getAllRedirects = async (): Promise<Redirect[]> => {

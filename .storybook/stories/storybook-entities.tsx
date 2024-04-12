@@ -27,6 +27,8 @@ export const getStoryBookImage = (imageUrl?: string): MediaImage => {
       width: 1500,
       alt: "Placeholder Image",
       size: 123,
+      focalY: 50,
+      focalX: 50
     }
   }
 }
@@ -59,6 +61,8 @@ export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: strin
       width: 1500,
       alt: "kittens",
       size: 123,
+      focalY: 50,
+      focalX: 50
     }
   }
 }

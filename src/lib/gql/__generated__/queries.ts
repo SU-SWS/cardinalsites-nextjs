@@ -4,6 +4,12 @@ import * as DrupalTypes from './drupal.d';
 import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
+export const FragmentPageInfoFragmentDoc = gql`
+    fragment FragmentPageInfo on ConnectionPageInfo {
+  hasNextPage
+  endCursor
+}
+    `;
 export const FragmentDateTimeFragmentDoc = gql`
     fragment FragmentDateTime on DateTime {
   timezone
@@ -818,49 +824,102 @@ export const NodeDocument = gql`
 }
     ${FragmentNodeUnionFragmentDoc}`;
 export const AllNodesDocument = gql`
-    query AllNodes($first: Int = 1000) {
-  nodeStanfordCourses(first: $first, sortKey: CREATED_AT) {
+    query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
+  nodeStanfordCourses(
+    first: $first
+    after: $nodeStanfordCourses
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordEventSeriesItems(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordEventSeriesItems(
+    first: $first
+    after: $nodeStanfordEventSeriesItems
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordEvents(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordEvents(
+    first: $first
+    after: $nodeStanfordEvents
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordNewsItems(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordNewsItems(
+    first: $first
+    after: $nodeStanfordNewsItems
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordPages(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordPeople(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordPeople(
+    first: $first
+    after: $nodeStanfordPeople
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordPolicies(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordPolicies(
+    first: $first
+    after: $nodeStanfordPolicies
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
     }
+    pageInfo {
+      ...FragmentPageInfo
+    }
   }
-  nodeStanfordPublications(first: $first, sortKey: CREATED_AT) {
+  nodeStanfordPublications(
+    first: $first
+    after: $nodeStanfordPublications
+    sortKey: CREATED_AT
+  ) {
     nodes {
       ...FragmentNodeInterface
+    }
+    pageInfo {
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeInterfaceFragmentDoc}`;
+    ${FragmentNodeInterfaceFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const CoursesDocument = gql`
     query Courses($first: Int = 1000, $after: Cursor) {
   nodeStanfordCourses(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -868,12 +927,12 @@ export const CoursesDocument = gql`
       ...FragmentNodeStanfordCourse
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordCourseFragmentDoc}`;
+    ${FragmentNodeStanfordCourseFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const EventSeriesDocument = gql`
     query EventSeries($first: Int = 1000, $after: Cursor) {
   nodeStanfordEventSeriesItems(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -881,12 +940,12 @@ export const EventSeriesDocument = gql`
       ...FragmentNodeStanfordEventSeries
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordEventSeriesFragmentDoc}`;
+    ${FragmentNodeStanfordEventSeriesFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const EventsDocument = gql`
     query Events($first: Int = 1000, $after: Cursor) {
   nodeStanfordEvents(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -894,12 +953,12 @@ export const EventsDocument = gql`
       ...FragmentNodeStanfordEvent
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordEventFragmentDoc}`;
+    ${FragmentNodeStanfordEventFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const NewsDocument = gql`
     query News($first: Int = 1000, $after: Cursor) {
   nodeStanfordNewsItems(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -907,12 +966,12 @@ export const NewsDocument = gql`
       ...FragmentNodeStanfordNews
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordNewsFragmentDoc}`;
+    ${FragmentNodeStanfordNewsFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const BasicPagesDocument = gql`
     query BasicPages($first: Int = 1000, $after: Cursor) {
   nodeStanfordPages(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -920,12 +979,12 @@ export const BasicPagesDocument = gql`
       ...FragmentNodeStanfordPage
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordPageFragmentDoc}`;
+    ${FragmentNodeStanfordPageFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const PeopleDocument = gql`
     query People($first: Int = 1000, $after: Cursor) {
   nodeStanfordPeople(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -933,12 +992,12 @@ export const PeopleDocument = gql`
       ...FragmentNodeStanfordPerson
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordPersonFragmentDoc}`;
+    ${FragmentNodeStanfordPersonFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const PoliciesDocument = gql`
     query Policies($first: Int = 1000, $after: Cursor) {
   nodeStanfordPolicies(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -946,12 +1005,12 @@ export const PoliciesDocument = gql`
       ...FragmentNodeStanfordPolicy
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordPolicyFragmentDoc}`;
+    ${FragmentNodeStanfordPolicyFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const PublicationsDocument = gql`
     query Publications($first: Int = 1000, $after: Cursor) {
   nodeStanfordPublications(first: $first, after: $after, sortKey: CREATED_AT) {
@@ -959,12 +1018,12 @@ export const PublicationsDocument = gql`
       ...FragmentNodeStanfordPublication
     }
     pageInfo {
-      hasNextPage
-      endCursor
+      ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeStanfordPublicationFragmentDoc}`;
+    ${FragmentNodeStanfordPublicationFragmentDoc}
+${FragmentPageInfoFragmentDoc}`;
 export const MediaDocument = gql`
     query Media($uuid: ID!) {
   media(id: $uuid) {

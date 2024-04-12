@@ -32,7 +32,7 @@ type Story = StoryObj<ComponentStoryProps>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const LockupDisplay: Story = {
   render: ({logoUrl, ...args}) => {
-    if(logoUrl) args.suUploadLogoImage = {url: logoUrl, height: 50, width: 300, size: 123}
+    if(logoUrl) args.suUploadLogoImage = {url: logoUrl, height: 50, width: 300, size: 123, focalY: 50, focalX: 50}
     return <Lockup {...args}/>
   },
   args: {

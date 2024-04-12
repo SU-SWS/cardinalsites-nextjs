@@ -5,45 +5,74 @@ query Node($uuid: ID!) {
     }
 }
 
-query AllNodes($first: Int = 1000) {
-    nodeStanfordCourses(first: $first, sortKey: CREATED_AT) {
+fragment FragmentPageInfo on ConnectionPageInfo {
+    hasNextPage
+    endCursor
+}
+
+query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
+    nodeStanfordCourses(first: $first, after: $nodeStanfordCourses, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordEventSeriesItems(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordEventSeriesItems(first: $first, after: $nodeStanfordEventSeriesItems, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordEvents(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordEvents(first: $first, after: $nodeStanfordEvents, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordNewsItems(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordNewsItems(first: $first, after: $nodeStanfordNewsItems, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordPages(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordPeople(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordPeople(first: $first, after: $nodeStanfordPeople, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordPolicies(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordPolicies(first: $first, after: $nodeStanfordPolicies, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
         }
+        pageInfo {
+            ...FragmentPageInfo
+        }
     }
-    nodeStanfordPublications(first: $first, sortKey: CREATED_AT) {
+    nodeStanfordPublications(first: $first, after: $nodeStanfordPublications, sortKey: CREATED_AT) {
         nodes {
             ...FragmentNodeInterface
+        }
+        pageInfo {
+            ...FragmentPageInfo
         }
     }
 }
@@ -54,8 +83,7 @@ query Courses($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordCourse
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -66,8 +94,7 @@ query EventSeries($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordEventSeries
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -78,8 +105,7 @@ query Events($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordEvent
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -90,8 +116,7 @@ query News($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordNews
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -102,8 +127,7 @@ query BasicPages($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordPage
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -114,8 +138,7 @@ query People($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordPerson
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -126,8 +149,7 @@ query Policies($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordPolicy
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -138,8 +160,7 @@ query Publications($first: Int = 1000, $after: Cursor) {
             ...FragmentNodeStanfordPublication
         }
         pageInfo {
-            hasNextPage
-            endCursor
+            ...FragmentPageInfo
         }
     }
 }
@@ -295,8 +316,8 @@ query ConfigPages {
         }
     }
     lockupSettings(first: 1) {
-       nodes {
-           __typename
+        nodes {
+            __typename
             suLine1
             suLine2
             suLine3

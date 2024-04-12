@@ -1,7 +1,7 @@
 import NodePage from "@components/nodes/pages/node-page";
 import {Metadata} from "next";
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d";
-import {getAllNodePaths, getEntityFromPath} from "@lib/gql/gql-queries";
+import {getAllNodes, getEntityFromPath} from "@lib/gql/gql-queries";
 import {getNodeMetadata} from "./metadata";
 import {notFound, redirect} from "next/navigation";
 import {getPathFromContext, PageProps} from "@lib/drupal/utils";
@@ -28,8 +28,8 @@ export const generateMetadata = async ({params}: PageProps): Promise<Metadata> =
 
 export const generateStaticParams = async (): Promise<PageProps["params"][]> => {
   if (process.env.BUILD_COMPLETE !== "true") return []
-  const nodePaths = await getAllNodePaths();
-  return nodePaths.map(path => ({slug: path.split("/").filter(part => !!part)}));
+  const nodes = await getAllNodes();
+  return nodes.map(node => ({slug: node.path.split("/").filter(part => !!part)}));
 }
 
 export default Page;
