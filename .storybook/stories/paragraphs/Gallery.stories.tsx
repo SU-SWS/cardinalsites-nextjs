@@ -4,7 +4,7 @@ import GalleryParagraph from '@components/paragraphs/stanford-gallery/gallery-pa
 import { getStoryBookGalleryImage } from '../storybook-entities';
 
 type ComponentStoryProps = ComponentProps<typeof GalleryParagraph> & {
-  numberofimages: number
+  numberOfImages: number
 }
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -13,7 +13,7 @@ const meta: Meta<ComponentStoryProps> = {
   component: GalleryParagraph,
   tags: ['autodocs'],
   argTypes: {
-    numberofimages: {
+    numberOfImages: {
       control: {
         type: 'number',
         min: 1,
@@ -28,15 +28,15 @@ type Story = StoryObj<ComponentStoryProps>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Gallery: Story = {
-  render: ({numberofimages, paragraph, ...args}) => {
+  render: ({numberOfImages, paragraph, ...args}) => {
     paragraph.suGalleryImages = []
-    for (let i = 0; i < numberofimages; i++) {
+    for (let i = 0; i < numberOfImages; i++) {
       paragraph.suGalleryImages.push(getStoryBookGalleryImage(undefined, 'Lorem Ipsum'))
     }
     return <GalleryParagraph paragraph={paragraph} {...args} />
   },
   args: {
-    numberofimages: 3,
+    numberOfImages: 3,
     paragraph:{
       __typename: 'ParagraphStanfordGallery',
       composition: {},

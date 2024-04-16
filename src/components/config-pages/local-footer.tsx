@@ -19,6 +19,8 @@ import {H2} from "@components/elements/headers";
 import TwitterIcon from "@components/elements/icons/TwitterIcon";
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon";
 import FacebookIcon from "@components/elements/icons/FacebookIcon";
+import InstagramIcon from "@components/elements/icons/InstagramIcon";
+import LinkedInIcon from "@components/elements/icons/LinkedInIcon";
 import { Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d";
 import {buildUrl} from "@lib/drupal/utils";
 
@@ -42,6 +44,7 @@ const LocalFooter = ({
   suLocalFootSocial,
   suLocalFootTr2Co,
   suLocalFootTrCo,
+  suLocalFootFIntro,
   suLocalFootUseLoc,
   suLocalFootUseLogo,
 }: StanfordLocalFooter) => {
@@ -70,11 +73,11 @@ const LocalFooter = ({
           <div>
 
             {suLocalFootAddress &&
-              <Address {...suLocalFootAddress}/>
+              <Address {...suLocalFootAddress} className="text-19 leading-9 rs-mb-3"/>
             }
 
             {suLocalFootAction &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-19 font-semibold rs-mb-3">
                 {suLocalFootAction.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -89,7 +92,7 @@ const LocalFooter = ({
             }
 
             {suLocalFootSocial &&
-              <ul className="list-unstyled flex gap-2">
+              <ul className="list-unstyled flex gap-8">
                 {suLocalFootSocial.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -104,14 +107,14 @@ const LocalFooter = ({
               </ul>
             }
 
-            <Wysiwyg html={suLocalFootPrCo?.processed}/>
+            <Wysiwyg html={suLocalFootPrCo?.processed} className="text-19"/>
           </div>
 
           <div>
             {suLocalFootPrimeH &&
-              <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
+              <H2>{suLocalFootPrimeH}</H2>}
             {suLocalFootPrimary &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-21 rs-mb-2">
                 {suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -124,16 +127,16 @@ const LocalFooter = ({
                 })}
               </ul>
             }
-            <Wysiwyg html={suLocalFootSeCo?.processed}/>
+            <Wysiwyg html={suLocalFootSeCo?.processed} className="text-19"/>
 
           </div>
 
           <div>
             {suLocalFootSecondH &&
-              <H2 className="text-m1">{suLocalFootSecondH}</H2>}
+              <H2 className="text-m0">{suLocalFootSecondH}</H2>}
 
             {suLocalFootSecond &&
-              <ul className="list-unstyled">
+              <ul className="list-unstyled text-21 rs-mb-2">
                 {suLocalFootSecond.map((link, index) => {
                   if (!link.url) return;
                   return (
@@ -147,13 +150,16 @@ const LocalFooter = ({
               </ul>
             }
 
-            <Wysiwyg html={suLocalFootTr2Co?.processed}/>
+            <Wysiwyg html={suLocalFootTr2Co?.processed} className="text-21"/>
 
           </div>
+          
+          <div>
+            <Wysiwyg html={suLocalFootFIntro?.processed}/>
 
-          <Wysiwyg html={suLocalFootTrCo?.processed}/>
-
-        </div>
+            <Wysiwyg html={suLocalFootTrCo?.processed} className="text-21"/>
+          </div>
+        </div>  
       </div>
     </div>
   )
@@ -163,6 +169,9 @@ const SocialIcon = ({url}: { url: string }) => {
   if (url.includes("twitter.com")) return <TwitterIcon/>
   if (url.includes("youtube.com")) return <YoutubeIcon/>
   if (url.includes("facebook")) return <FacebookIcon/>
+  if (url.includes("instagram")) return <InstagramIcon/>
+  if (url.includes("linkedin")) return <LinkedInIcon/>
+
   return null;
 }
 
