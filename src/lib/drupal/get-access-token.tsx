@@ -29,7 +29,7 @@ export const getAccessToken = async (previewMode: boolean = false): Promise<Acce
       method: "POST",
       headers: {Authorization: `Basic ${basic}`, "Content-Type": "application/x-www-form-urlencoded"},
       body: "grant_type=client_credentials",
-      next: {revalidate: 300}
+      cache: "no-cache"
     }
   )
 
