@@ -13,7 +13,7 @@ const useFavorites = (): {
   addFav: (_uuid: string, _title: string) => void,
   removeFav: (_uuid: string) => void
 } => {
-  const [favs, setFavs] = useLocalStorage<Favorite[]>('favorites', [])
+  const [favs, setFavs] = useLocalStorage<Favorite[]>('favorites', [], {initializeWithValue: false})
 
   const addFav = useCallback((uuid: string, title: string) => {
     setFavs([...favs, {uuid, title}])
