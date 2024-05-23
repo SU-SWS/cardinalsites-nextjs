@@ -1,3 +1,4 @@
+import {JSX} from "react";
 import SharedTagsCardView from "@components/views/shared-tags/shared-tags-card-view";
 import PageListView from "@components/views/stanford-page/page-list-view";
 import NewsCardView from "@components/views/stanford-news/news-card-view";
@@ -37,9 +38,17 @@ interface Props {
    * If those nodes titles should display as <h2> or <h3>
    */
   headingLevel?: "h2" | "h3"
+  /**
+   * Total number of items to build the pager.
+   */
+  totalItems: number
+  /**
+   * Server action to load a page.
+   */
+  loadPage?: (_page: number) => Promise<JSX.Element>
 }
 
-const View = async ({viewId, displayId, items, headingLevel = "h3"}: Props) => {
+const View = async ({viewId, displayId, items, totalItems, loadPage, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`;
 
   switch (component) {
@@ -59,6 +68,8 @@ const View = async ({viewId, displayId, items, headingLevel = "h3"}: Props) => {
       return <NewsListView
         items={items as NodeStanfordNews[]}
         headingLevel={headingLevel}
+        loadPage={loadPage}
+        totalItems={totalItems}
       />
 
     case "stanford_person--grid_list_all":

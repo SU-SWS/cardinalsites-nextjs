@@ -7,7 +7,7 @@ import {isPreviewMode} from "@lib/drupal/utils";
 const UserAnalytics = async () => {
   if (isPreviewMode()) return;
   const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
-  if (!siteSettingsConfig?.suGoogleAnalytics) return;
+  if (!siteSettingsConfig?.suGoogleAnalytics || !process.env.NEXT_PUBLIC_DOMAIN) return;
   return (
     <>
       <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js"/>
