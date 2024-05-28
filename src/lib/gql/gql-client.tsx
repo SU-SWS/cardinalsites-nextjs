@@ -1,8 +1,7 @@
-import type {RequestConfig} from "graphql-request/src/types";
 import {GraphQLClient} from "graphql-request";
 import {getSdk} from "@lib/gql/__generated__/queries";
 
-export const graphqlClient = (requestConfig: RequestConfig = {}) => {
+export const graphqlClient = (requestConfig: Omit<RequestInit, "method"> = {}) => {
   const client = new GraphQLClient(
     process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/graphql",
     {

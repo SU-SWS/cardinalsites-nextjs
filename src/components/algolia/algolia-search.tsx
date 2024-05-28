@@ -3,33 +3,30 @@
 import algoliasearch from "algoliasearch/lite";
 import {useHits, useSearchBox} from "react-instantsearch";
 import {InstantSearchNext} from "react-instantsearch-nextjs";
-import Link from "@components/elements/link";
-import {H2} from "@components/elements/headers";
-import Image from "next/image";
 import {useRef} from "react";
 import Button from "@components/elements/button";
 import {UseSearchBoxProps} from "react-instantsearch";
-import {useRouter, useSearchParams} from "next/navigation";
-import {UseHitsProps} from "react-instantsearch-core/dist/es/connectors/useHits";
+import {useRouter} from "next/navigation";
+import {IndexUiState} from "instantsearch.js/es/types/ui-state";
+import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default";
+import {Hit as HitType} from "instantsearch.js";
 
 type Props = {
   appId: string
   searchIndex: string
   searchApiKey: string
+  initialUiState?: IndexUiState
 }
 
-const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
+const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: Props) => {
   const searchClient = algoliasearch(appId, searchApiKey);
-  const searchParams = useSearchParams();
 
   return (
     <div>
       <InstantSearchNext
         indexName={searchIndex}
         searchClient={searchClient}
-        initialUiState={{
-          [searchIndex]: {query: searchParams.get("q") || ""},
-        }}
+        initialUiState={{[searchIndex]: initialUiState}}
         future={{preserveSharedStateOnUnmount: true}}
       >
         <div className="space-y-10">
@@ -41,8 +38,8 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
   )
 }
 
-const HitList = (props: UseHitsProps) => {
-  const {hits} = useHits(props);
+const HitList = () => {
+  const {hits} = useHits<HitType<DefaultAlgoliaHit>>();
   if (hits.length === 0) {
     return (
       <p>No results for your search. Please try another search.</p>
@@ -53,58 +50,13 @@ const HitList = (props: UseHitsProps) => {
     <ul className="list-unstyled">
       {hits.map(hit =>
         <li key={hit.objectID} className="border-b border-gray-300 last:border-0">
-          <Hit hit={hit as unknown as AlgoliaHit}/>
+          <DefaultHit hit={hit}/>
         </li>
       )}
     </ul>
   )
 }
 
-type AlgoliaHit = {
-  url: string
-  title: string
-  summary?: string
-  photo?: string
-  updated?: number
-}
-
-const Hit = ({hit}: { hit: AlgoliaHit }) => {
-  const hitUrl = new URL(hit.url);
-
-  return (
-    <article className="@container flex justify-between gap-20 py-12">
-      <div>
-        <H2 className="text-m2">
-          <Link href={hit.url.replace(hitUrl.origin, "")}>
-            {hit.title}
-          </Link>
-        </H2>
-        <p>{hit.summary}</p>
-
-        {hit.updated &&
-          <div className="text-2xl">
-            Last Updated: {new Date(hit.updated * 1000).toLocaleDateString("en-us", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          })}
-          </div>
-        }
-      </div>
-
-      {hit.photo &&
-        <div className="hidden @6xl:block relative shrink-0 aspect-1 h-[150px] w-[150px]">
-          <Image
-            className="object-cover"
-            src={hit.photo.replace(hitUrl.origin, `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}`)}
-            alt=""
-            fill
-          />
-        </div>
-      }
-    </article>
-  )
-}
 
 
 const SearchBox = (props?: UseSearchBoxProps) => {
