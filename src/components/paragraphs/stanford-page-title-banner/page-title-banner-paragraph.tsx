@@ -1,7 +1,7 @@
-import React, {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordPageTitleBanner} from "@lib/gql/__generated__/drupal.d";
-import {H1} from "@components/elements/headers";
-import HeroBanner from "@components/patterns/hero-banner";
+import React, {HtmlHTMLAttributes} from "react"
+import {ParagraphStanfordPageTitleBanner} from "@lib/gql/__generated__/drupal.d"
+import {H1} from "@components/elements/headers"
+import HeroBanner from "@components/patterns/hero-banner"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPageTitleBanner
@@ -9,7 +9,6 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const PageTitleBannerParagraph = ({paragraph, pageTitle, ...props}: Props) => {
-
   return (
     <HeroBanner
       {...props}
@@ -17,9 +16,7 @@ const PageTitleBannerParagraph = ({paragraph, pageTitle, ...props}: Props) => {
       imageAlt={paragraph.suTitleBannerImage?.mediaImage.alt}
       eagerLoadImage
     >
-      <H1 className="order-2 text-m2 p-0 m-0 mb-[-10px]">
-        {pageTitle}
-      </H1>
+      <H1 className="order-2 m-0 mb-[-10px] p-0 text-m2">{pageTitle}</H1>
     </HeroBanner>
   )
 }

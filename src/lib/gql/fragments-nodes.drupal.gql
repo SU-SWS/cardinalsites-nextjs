@@ -1,28 +1,3 @@
-# All the various fragments that could be used in the queries.
-
-fragment FragmentSuPolicyLog on SuPolicyLog {
-    __typename
-    id
-    suPolicyDate {
-        ...FragmentDateTime
-    }
-    suPolicyNotes
-    suPolicyPublic
-    suPolicyTitle
-}
-
-fragment FragmentTermInterface on TermInterface {
-    __typename
-    id
-    name
-    path
-    weight
-    parent {
-        ... on TermInterface {
-            id
-        }
-    }
-}
 
 fragment FragmentNodeInterface on NodeInterface {
     __typename
@@ -62,7 +37,7 @@ fragment FragmentNodeStanfordPage on NodeStanfordPage {
 fragment FragmentNodeStanfordCourse on NodeStanfordCourse {
     ...FragmentNodeInterface
     body {
-        processed
+        ...FragmentTextSummary
     }
     suCourseAcademicYear
     suCourseCode
@@ -87,7 +62,7 @@ fragment FragmentNodeStanfordCourse on NodeStanfordCourse {
 fragment FragmentNodeStanfordEvent on NodeStanfordEvent {
     ...FragmentNodeInterface
     body {
-        processed
+        ...FragmentTextSummary
     }
     suEventAltLoc
     suEventAudience {
@@ -182,7 +157,7 @@ fragment FragmentNodeStanfordNews on NodeStanfordNews {
 fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
     ...FragmentNodeInterface
     body {
-        processed
+        ...FragmentTextSummary
     }
     suPersonAcademicAppt
     suPersonAdminAppts
@@ -204,7 +179,7 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
         title
     }
     suPersonLocationAddress {
-        processed
+        ...FragmentText
     }
     suPersonLocationName
     suPersonMailCode
@@ -222,11 +197,11 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
     }
     suPersonPronouns
     suPersonResearch {
-        processed
+        ...FragmentText
     }
     suPersonResearchInterests
     suPersonScholarlyInterests {
-        processed
+        ...FragmentText
     }
     suPersonShortTitle
     suPersonTelephone
@@ -238,7 +213,7 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
 fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     ...FragmentNodeInterface
     body {
-        processed
+        ...FragmentTextSummary
     }
     suPolicyAuthority
     suPolicyAutoPrefix
@@ -369,8 +344,7 @@ fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
 fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {
     ...FragmentNodeInterface
     body {
-        processed
-        summary
+        ...FragmentTextSummary
     }
 }
 
@@ -391,278 +365,4 @@ fragment FragmentNodeTeaserUnion on NodeUnion {
     ...FragmentNodeStanfordPersonTeaser
     ...FragmentNodeStanfordPolicyTeaser
     ...FragmentNodeStanfordPublicationTeaser
-}
-
-fragment FragmentParagraphInterface on ParagraphInterface {
-    __typename
-    id
-    behaviors
-}
-
-fragment FragmentParagraphStanfordAccordion on ParagraphStanfordAccordion {
-    ...FragmentParagraphInterface
-    suAccordionBody {
-        processed
-    }
-    suAccordionTitle
-}
-
-fragment FragmentParagraphStanfordBanner on ParagraphStanfordBanner {
-    ...FragmentParagraphInterface
-    suBannerHeader
-    suBannerBody {
-        processed
-    }
-    suBannerSupHeader
-    suBannerButton {
-        url
-        title
-    }
-    suBannerImage {
-        ...FragmentMediaImage
-    }
-}
-
-fragment FragmentParagraphStanfordCard on ParagraphStanfordCard {
-    ...FragmentParagraphInterface
-    suCardHeader
-    suCardSuperHeader
-    suCardBody {
-        processed
-    }
-    suCardLink {
-        url
-        title
-    }
-    suCardMedia {
-        ...FragmentMediaUnion
-    }
-}
-
-fragment FragmentParagraphStanfordEntity on ParagraphStanfordEntity {
-    ...FragmentParagraphInterface
-    suEntityHeadline
-    suEntityDescription {
-        processed
-    }
-    suEntityButton {
-        url
-        title
-    }
-    suEntityItem {
-        ... on NodeInterface {
-            id
-            path
-        }
-    }
-}
-
-fragment FragmentParagraphStanfordGallery on ParagraphStanfordGallery {
-    ...FragmentParagraphInterface
-    suGalleryHeadline
-    suGalleryDescription {
-        processed
-    }
-    suGalleryButton {
-        url
-        title
-    }
-    suGalleryImages {
-        ...FragmentMediaStanfordGalleryImage
-    }
-}
-
-fragment FragmentParagraphStanfordList on ParagraphStanfordList {
-    ...FragmentParagraphInterface
-    suListHeadline
-    suListDescription {
-        processed
-    }
-    suListButton {
-        url
-        title
-    }
-    suListView {
-        view
-        display
-        contextualFilter
-        pageSize
-    }
-}
-
-fragment FragmentParagraphStanfordMediaCaption on ParagraphStanfordMediaCaption {
-    ...FragmentParagraphInterface
-    suMediaCaptionMedia {
-        ...FragmentMediaUnion
-    }
-    suMediaCaptionLink {
-        url
-        title
-    }
-    suMediaCaptionCaption {
-        processed
-    }
-}
-
-fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
-    ...FragmentParagraphInterface
-    suPersonCtaName
-    suPersonCtaTitle
-    suPersonCtaLink {
-        url
-        title
-    }
-    suPersonCtaImage {
-        ...FragmentMediaImage
-    }
-}
-
-fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
-    ...FragmentParagraphInterface
-    suScheduleHeadline
-    suScheduleDescription {
-        processed
-    }
-    suScheduleDateTime {
-        ...FragmentSmartDateType
-    }
-    suScheduleLocation {
-        ...FragmentAddressType
-    }
-    suScheduleUrl {
-        url
-        title
-    }
-    suScheduleSpeaker {
-        ...FragmentParagraphStanfordPersonCtum
-    }
-}
-
-fragment FragmentParagraphStanfordLayout on ParagraphStanfordLayout {
-    ...FragmentParagraphInterface
-}
-
-fragment FragmentParagraphStanfordSpacer on ParagraphStanfordSpacer {
-    ...FragmentParagraphInterface
-    suSpacerSize
-}
-
-fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
-    ...FragmentParagraphInterface
-    suWysiwygText {
-        processed
-    }
-}
-
-fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
-    ...FragmentParagraphInterface
-    suTitleBannerImage {
-        ...FragmentMediaImage
-    }
-}
-
-fragment FragmentParagraphUnion on ParagraphUnion {
-    ...FragmentParagraphInterface
-    ...FragmentParagraphStanfordAccordion
-    ...FragmentParagraphStanfordBanner
-    ...FragmentParagraphStanfordCard
-    ...FragmentParagraphStanfordEntity
-    ...FragmentParagraphStanfordGallery
-    ...FragmentParagraphStanfordList
-    ...FragmentParagraphStanfordMediaCaption
-    ...FragmentParagraphStanfordSpacer
-    ...FragmentParagraphStanfordWysiwyg
-    ...FragmentParagraphStanfordLayout
-}
-
-fragment FragmentMediaInterface on MediaInterface {
-    __typename
-    id
-    name
-}
-
-fragment FragmentMediaFile on MediaFile {
-    ...FragmentMediaInterface
-    mediaFile {
-        url
-    }
-}
-
-fragment FragmentMediaEmbeddable on MediaEmbeddable {
-    ...FragmentMediaInterface
-    mediaEmbeddableCode
-    mediaEmbeddableOembed
-}
-
-fragment FragmentMediaGoogleForm on MediaGoogleForm {
-    ...FragmentMediaInterface
-    mediaGoogleForm
-    mediaGoogleForm
-}
-
-fragment FragmentMediaImage on MediaImage {
-    ...FragmentMediaInterface
-    mediaImage {
-        url
-        alt
-        height
-        width
-    }
-}
-
-fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
-    ...FragmentMediaInterface
-    suGalleryCaption
-    suGalleryImage {
-        url
-        alt
-        height
-        width
-    }
-}
-
-fragment FragmentMediaVideo on MediaVideo {
-    ...FragmentMediaInterface
-    mediaOembedVideo
-}
-
-fragment FragmentMediaUnion on MediaUnion {
-    ...FragmentMediaEmbeddable
-    ...FragmentMediaFile
-    ...FragmentMediaGoogleForm
-    ...FragmentMediaImage
-    ...FragmentMediaStanfordGalleryImage
-    ...FragmentMediaVideo
-}
-
-fragment FragmentDateTime on DateTime {
-    timezone
-    time
-}
-
-fragment FragmentSmartDateType on SmartDateType {
-    value
-    end_value
-    timezone
-    rrule_index
-    rrule
-}
-
-fragment FragmentAddressType on Address {
-    langcode
-    country {
-        name
-        code
-    }
-    givenName
-    additionalName
-    familyName
-    organization
-    addressLine1
-    addressLine2
-    postalCode
-    sortingCode
-    dependentLocality
-    locality
-    administrativeArea
 }

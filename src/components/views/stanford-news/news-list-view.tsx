@@ -1,7 +1,7 @@
-import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item";
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
-import PagedList from "@components/elements/paged-list";
-import {JSX} from "react";
+import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item"
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
+import PagedList from "@components/elements/paged-list"
+import {JSX} from "react"
 
 interface Props {
   /**
@@ -31,10 +31,14 @@ const NewsListView = async ({items, totalItems, headingLevel, loadPage}: Props) 
       totalPages={Math.ceil(totalItems / 30)}
       loadPage={loadPage}
     >
-      {items.map(item =>
-        <StanfordNewsListItem key={item.id} node={item} headingLevel={headingLevel}/>
-      )}
+      {items.map(item => (
+        <StanfordNewsListItem
+          key={item.id}
+          node={item}
+          headingLevel={headingLevel}
+        />
+      ))}
     </PagedList>
   )
 }
-export default NewsListView;
+export default NewsListView

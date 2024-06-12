@@ -1,5 +1,5 @@
-import Jsona from "jsona";
-import {TDeserializeOptions, TJsonApiBody} from "jsona/src/JsonaTypes";
+import Jsona from "jsona"
+import {TDeserializeOptions, TJsonApiBody} from "jsona/src/JsonaTypes"
 
 const dataFormatter = new Jsona()
 

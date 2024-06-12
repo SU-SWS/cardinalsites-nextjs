@@ -1,7 +1,7 @@
-import {H2} from "@components/elements/headers";
-import Link from "@components/elements/link";
-import Image from "next/image";
-import {Hit as HitType} from "instantsearch.js";
+import {H2} from "@components/elements/headers"
+import Link from "@components/elements/link"
+import Image from "next/image"
+import {Hit as HitType} from "instantsearch.js"
 
 export type DefaultAlgoliaHit = {
   url: string
@@ -11,32 +11,31 @@ export type DefaultAlgoliaHit = {
   updated?: number
 }
 
-const DefaultHit = ({hit}: { hit: HitType<DefaultAlgoliaHit> }) => {
-  const hitUrl = new URL(hit.url);
+const DefaultHit = ({hit}: {hit: HitType<DefaultAlgoliaHit>}) => {
+  const hitUrl = new URL(hit.url)
 
   return (
-    <article className="@container flex justify-between gap-20 py-12">
+    <article className="flex justify-between gap-20 py-12 @container">
       <div>
         <H2 className="text-m2">
-          <Link href={hit.url.replace(hitUrl.origin, "")}>
-            {hit.title}
-          </Link>
+          <Link href={hit.url.replace(hitUrl.origin, "")}>{hit.title}</Link>
         </H2>
         <p>{hit.summary}</p>
 
-        {hit.updated &&
+        {hit.updated && (
           <div className="text-2xl">
-            Last Updated: {new Date(hit.updated * 1000).toLocaleDateString("en-us", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          })}
+            Last Updated:{" "}
+            {new Date(hit.updated * 1000).toLocaleDateString("en-us", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </div>
-        }
+        )}
       </div>
 
-      {hit.photo &&
-        <div className="hidden @6xl:block relative shrink-0 aspect-1 h-[150px] w-[150px]">
+      {hit.photo && (
+        <div className="relative hidden aspect-1 h-[150px] w-[150px] shrink-0 @6xl:block">
           <Image
             className="object-cover"
             src={hit.photo.replace(hitUrl.origin, `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}`)}
@@ -44,9 +43,9 @@ const DefaultHit = ({hit}: { hit: HitType<DefaultAlgoliaHit> }) => {
             fill
           />
         </div>
-      }
+      )}
     </article>
   )
 }
 
-export default DefaultHit;
+export default DefaultHit

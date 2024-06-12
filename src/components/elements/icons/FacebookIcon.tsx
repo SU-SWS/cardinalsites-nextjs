@@ -1,4 +1,4 @@
-import {HTMLAttributes} from "react";
+import {HTMLAttributes} from "react"
 
 const FacebookIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
@@ -12,4 +12,4 @@ const FacebookIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
     />
   </svg>
 )
-export default FacebookIcon;
+export default FacebookIcon

@@ -1,4 +1,4 @@
-import {HTMLAttributes} from "react";
+import {HTMLAttributes} from "react"
 
 const TwitterIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
@@ -12,4 +12,4 @@ const TwitterIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
     />
   </svg>
 )
-export default TwitterIcon;
+export default TwitterIcon

@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "@components/elements/link";
-import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordPersonCtum,} from "@lib/gql/__generated__/drupal.d";
-import {twMerge} from "tailwind-merge";
+import Image from "next/image"
+import Link from "@components/elements/link"
+import {HtmlHTMLAttributes} from "react"
+import {ParagraphStanfordPersonCtum} from "@lib/gql/__generated__/drupal.d"
+import {twMerge} from "tailwind-merge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPersonCtum
@@ -11,8 +11,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
   const image = paragraph.suPersonCtaImage?.mediaImage
   return (
-    <div {...props} className={twMerge("centered flex gap-10", props.className)}>
-      {image?.url &&
+    <div
+      {...props}
+      className={twMerge("centered flex gap-10", props.className)}
+    >
+      {image?.url && (
         <div className="relative aspect-[1/1] w-[200px]">
           <Image
             className="rounded-full"
@@ -22,20 +25,16 @@ const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
             sizes="(max-width: 768px) 100vw, 1000px"
           />
         </div>
-      }
+      )}
 
       <div>
-        {paragraph.suPersonCtaLink?.url &&
+        {paragraph.suPersonCtaLink?.url && (
           <div>
-            <Link href={paragraph.suPersonCtaLink.url}>
-              {paragraph.suPersonCtaName}
-            </Link>
+            <Link href={paragraph.suPersonCtaLink.url}>{paragraph.suPersonCtaName}</Link>
           </div>
-        }
+        )}
 
-        {!paragraph.suPersonCtaLink &&
-          <div>{paragraph.suPersonCtaName}</div>
-        }
+        {!paragraph.suPersonCtaLink && <div>{paragraph.suPersonCtaName}</div>}
 
         {paragraph.suPersonCtaTitle}
       </div>

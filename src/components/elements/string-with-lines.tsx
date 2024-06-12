@@ -11,12 +11,10 @@ type Props = {
 const StringWithLines = ({text, key}: Props) => {
   return (
     <>
-      {text.split("\n").map((line, i) =>
-        <p key={`${key}--${i}`}>
-          {line}
-        </p>
-      )}
+      {text.split("\n").map((line, i) => (
+        <p key={`${key}--${i}`}>{line}</p>
+      ))}
     </>
   )
 }
-export default StringWithLines;
+export default StringWithLines

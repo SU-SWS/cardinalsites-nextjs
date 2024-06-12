@@ -1,7 +1,7 @@
 "use client"
 
-import {HtmlHTMLAttributes} from "react";
-import {useIsClient} from "usehooks-ts";
+import {HtmlHTMLAttributes} from "react"
+import {useIsClient} from "usehooks-ts"
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
   /**
@@ -11,11 +11,13 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
 }
 
 const Telephone = ({tel, ...props}: Props) => {
-  const isClient = useIsClient();
-  if (!isClient) return;
+  const isClient = useIsClient()
+  if (!isClient) return
   return (
-
-    <a href={`tel:${tel.replace(/[^\d]+/g, "")}`} {...props}>
+    <a
+      href={`tel:${tel.replace(/[^\d]+/g, "")}`}
+      {...props}
+    >
       {tel}
     </a>
   )

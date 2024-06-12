@@ -1,8 +1,8 @@
-import Link from "@components/elements/link";
-import {H2, H3} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
-import ImageCard from "@components/patterns/image-card";
+import Link from "@components/elements/link"
+import {H2, H3} from "@components/elements/headers"
+import {HtmlHTMLAttributes} from "react"
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
+import ImageCard from "@components/patterns/image-card"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -12,15 +12,17 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
   const image = node.suNewsFeaturedMedia?.mediaImage
 
-  const topics = node.suNewsTopics?.slice(0, 3) || [];
-  const Heading = headingLevel === "h3" ? H3 : H2;
+  const topics = node.suNewsTopics?.slice(0, 3) || []
+  const Heading = headingLevel === "h3" ? H3 : H2
 
-  const publishDate = node.suNewsPublishingDate?.time ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: node.suNewsPublishingDate.timezone
-  }) : undefined;
+  const publishDate = node.suNewsPublishingDate?.time
+    ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        timeZone: node.suNewsPublishingDate.timezone,
+      })
+    : undefined
 
   return (
     <ImageCard
@@ -31,26 +33,20 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
       isArticle
     >
       <div className="flex flex-col">
-        <Heading className="text-m2 [&_a]:text-black" id={node.id}>
-          <Link href={node.suNewsSource?.url || node.path}>
-            {node.title}
-          </Link>
+        <Heading
+          className="text-m2 [&_a]:text-black"
+          id={node.id}
+        >
+          <Link href={node.suNewsSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
-        {publishDate &&
-          <div className="order-first">
-            {publishDate}
-          </div>
-        }
+        {publishDate && <div className="order-first">{publishDate}</div>}
       </div>
 
-      {topics &&
-        <div>
-          {topics.map(topic => topic.name).join(", ")}
-        </div>
-      }
+      {node.suNewsDek && <div>{node.suNewsDek}</div>}
 
+      {topics && <div>{topics.map(topic => topic.name).join(", ")}</div>}
     </ImageCard>
   )
 }
-export default StanfordNewsCard;
+export default StanfordNewsCard

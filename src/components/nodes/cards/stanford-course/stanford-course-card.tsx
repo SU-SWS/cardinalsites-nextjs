@@ -1,8 +1,8 @@
-import Link from "@components/elements/link";
-import {H2, H3} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d";
-import ImageCard from "@components/patterns/image-card";
+import Link from "@components/elements/link"
+import {H2, H3} from "@components/elements/headers"
+import {HtmlHTMLAttributes} from "react"
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
+import ImageCard from "@components/patterns/image-card"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
@@ -10,26 +10,30 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordCourseCard = ({node, headingLevel, ...props}: Props) => {
-  const Heading = headingLevel === "h3" ? H3 : H2;
+  const Heading = headingLevel === "h3" ? H3 : H2
   return (
     <ImageCard
       {...props}
       aria-labelledby={node.id}
       isArticle
     >
-      <Heading className="text-m2 order-last" id={node.id}>
-        <Link href={node.path}>
-          {node.title}
-        </Link>
+      <Heading
+        className="order-last text-m2"
+        id={node.id}
+      >
+        <Link href={node.path}>{node.title}</Link>
       </Heading>
       <div className="order-first flex gap-5">
-        {node.suCourseSubject &&
-          <div className="font-bold">{node.suCourseSubject.name}{node.suCourseCode}</div>
-        }
-        {(node.suCourseSubject && node.suCourseAcademicYear) && <> | </>}
+        {node.suCourseSubject && (
+          <div className="font-bold">
+            {node.suCourseSubject.name}
+            {node.suCourseCode}
+          </div>
+        )}
+        {node.suCourseSubject && node.suCourseAcademicYear && <> | </>}
         <div>{node.suCourseAcademicYear}</div>
       </div>
     </ImageCard>
   )
 }
-export default StanfordCourseCard;
+export default StanfordCourseCard

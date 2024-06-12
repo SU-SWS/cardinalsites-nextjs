@@ -1,10 +1,9 @@
 "use client"
 
-import Script from "next/script";
-import {useEffect} from "react";
+import Script from "next/script"
+import {useEffect} from "react"
 
 const Editori11y = () => {
-
   const startEditoria11y = () => {
     // @ts-ignore
     if (typeof Ed11y != "undefined") {
@@ -14,7 +13,7 @@ const Editori11y = () => {
         ignoreElements: "nav",
         allowHide: false,
         allowOK: false,
-      });
+      })
     }
   }
 
@@ -23,8 +22,11 @@ const Editori11y = () => {
   }, [])
 
   return (
-    <Script src="//cdn.jsdelivr.net/gh/itmaybejj/editoria11y@2/dist/editoria11y.min.js" onReady={startEditoria11y}/>
+    <Script
+      src="//cdn.jsdelivr.net/gh/itmaybejj/editoria11y@2/dist/editoria11y.min.js"
+      onReady={startEditoria11y}
+    />
   )
 }
 
-export default Editori11y;
+export default Editori11y

@@ -1,5 +1,5 @@
-import CardViewGrid from "@components/views/card-view-grid";
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d";
+import CardViewGrid from "@components/views/card-view-grid"
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 
 interface Props {
   /**
@@ -14,7 +14,10 @@ interface Props {
 
 const NewsCardView = async ({items = [], headingLevel}: Props) => {
   return (
-    <CardViewGrid items={items} headingLevel={headingLevel}/>
+    <CardViewGrid
+      items={items}
+      headingLevel={headingLevel}
+    />
   )
 }
-export default NewsCardView;
+export default NewsCardView

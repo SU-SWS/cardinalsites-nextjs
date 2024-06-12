@@ -1,0 +1,182 @@
+
+fragment FragmentParagraphInterface on ParagraphInterface {
+    __typename
+    id
+    behaviors
+}
+
+fragment FragmentParagraphStanfordAccordion on ParagraphStanfordAccordion {
+    ...FragmentParagraphInterface
+    suAccordionBody {
+        ...FragmentText
+    }
+    suAccordionTitle
+}
+
+fragment FragmentParagraphStanfordBanner on ParagraphStanfordBanner {
+    ...FragmentParagraphInterface
+    suBannerHeader
+    suBannerBody {
+        ...FragmentText
+    }
+    suBannerSupHeader
+    suBannerButton {
+        url
+        title
+    }
+    suBannerImage {
+        ...FragmentMediaImage
+    }
+}
+
+fragment FragmentParagraphStanfordCard on ParagraphStanfordCard {
+    ...FragmentParagraphInterface
+    suCardHeader
+    suCardSuperHeader
+    suCardBody {
+        ...FragmentText
+    }
+    suCardLink {
+        url
+        title
+    }
+    suCardMedia {
+        ...FragmentMediaUnion
+    }
+}
+
+fragment FragmentParagraphStanfordEntity on ParagraphStanfordEntity {
+    ...FragmentParagraphInterface
+    suEntityHeadline
+    suEntityDescription {
+        ...FragmentText
+    }
+    suEntityButton {
+        url
+        title
+    }
+    suEntityItem {
+        ... on NodeInterface {
+            id
+            path
+        }
+    }
+}
+
+fragment FragmentParagraphStanfordGallery on ParagraphStanfordGallery {
+    ...FragmentParagraphInterface
+    suGalleryHeadline
+    suGalleryDescription {
+        ...FragmentText
+    }
+    suGalleryButton {
+        url
+        title
+    }
+    suGalleryImages {
+        ...FragmentMediaStanfordGalleryImage
+    }
+}
+
+fragment FragmentParagraphStanfordList on ParagraphStanfordList {
+    ...FragmentParagraphInterface
+    suListHeadline
+    suListDescription {
+        ...FragmentText
+    }
+    suListButton {
+        url
+        title
+    }
+    suListView {
+        view
+        display
+        contextualFilter
+        pageSize
+    }
+}
+
+fragment FragmentParagraphStanfordMediaCaption on ParagraphStanfordMediaCaption {
+    ...FragmentParagraphInterface
+    suMediaCaptionMedia {
+        ...FragmentMediaUnion
+    }
+    suMediaCaptionLink {
+        url
+        title
+    }
+    suMediaCaptionCaption {
+        ...FragmentText
+    }
+}
+
+fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
+    ...FragmentParagraphInterface
+    suPersonCtaName
+    suPersonCtaTitle
+    suPersonCtaLink {
+        url
+        title
+    }
+    suPersonCtaImage {
+        ...FragmentMediaImage
+    }
+}
+
+fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
+    ...FragmentParagraphInterface
+    suScheduleHeadline
+    suScheduleDescription {
+        ...FragmentText
+    }
+    suScheduleDateTime {
+        ...FragmentSmartDateType
+    }
+    suScheduleLocation {
+        ...FragmentAddressType
+    }
+    suScheduleUrl {
+        url
+        title
+    }
+    suScheduleSpeaker {
+        ...FragmentParagraphStanfordPersonCtum
+    }
+}
+
+fragment FragmentParagraphStanfordLayout on ParagraphStanfordLayout {
+    ...FragmentParagraphInterface
+}
+
+fragment FragmentParagraphStanfordSpacer on ParagraphStanfordSpacer {
+    ...FragmentParagraphInterface
+    suSpacerSize
+}
+
+fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
+    ...FragmentParagraphInterface
+    suWysiwygText {
+        ...FragmentText
+    }
+}
+
+fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
+    ...FragmentParagraphInterface
+    suTitleBannerImage {
+        ...FragmentMediaImage
+    }
+}
+
+fragment FragmentParagraphUnion on ParagraphUnion {
+    ...FragmentParagraphInterface
+    ...FragmentParagraphStanfordAccordion
+    ...FragmentParagraphStanfordBanner
+    ...FragmentParagraphStanfordCard
+    ...FragmentParagraphStanfordEntity
+    ...FragmentParagraphStanfordGallery
+    ...FragmentParagraphStanfordList
+    ...FragmentParagraphStanfordMediaCaption
+    ...FragmentParagraphStanfordSpacer
+    ...FragmentParagraphStanfordWysiwyg
+    ...FragmentParagraphStanfordLayout
+}

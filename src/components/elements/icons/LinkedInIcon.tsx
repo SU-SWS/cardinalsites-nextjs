@@ -1,4 +1,4 @@
-import {HTMLAttributes} from "react";
+import {HTMLAttributes} from "react"
 
 const LinkedInIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
   <svg
@@ -12,4 +12,4 @@ const LinkedInIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => (
     />
   </svg>
 )
-export default LinkedInIcon;
+export default LinkedInIcon

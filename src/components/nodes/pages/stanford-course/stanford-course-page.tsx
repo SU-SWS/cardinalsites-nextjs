@@ -1,9 +1,9 @@
-import {redirect} from "next/navigation";
-import Wysiwyg from "@components/elements/wysiwyg";
-import {H1} from "@components/elements/headers";
-import {HtmlHTMLAttributes} from "react";
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d";
-import {isPreviewMode} from "@lib/drupal/utils";
+import {redirect} from "next/navigation"
+import Wysiwyg from "@components/elements/wysiwyg"
+import {H1} from "@components/elements/headers"
+import {HtmlHTMLAttributes} from "react"
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
+import {isPreviewMode} from "@lib/drupal/utils"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
@@ -11,48 +11,45 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordCoursePage = ({node, ...props}: Props) => {
-  if (node.suCourseLink?.url && !isPreviewMode()) redirect(node.suCourseLink?.url);
+  if (node.suCourseLink?.url && !isPreviewMode()) redirect(node.suCourseLink?.url)
   return (
-    <article className="centered my-32" {...props}>
-      <H1>
-        {node.title}
-      </H1>
+    <article
+      className="centered my-32"
+      {...props}
+    >
+      <H1>{node.title}</H1>
       <div className="flex flex-col gap-10">
-        {node.suCourseSubject &&
-          <div>{node.suCourseSubject.name}</div>
-        }
+        {node.suCourseSubject && <div>{node.suCourseSubject.name}</div>}
 
-        {node.suCourseCode &&
-          <div>{node.suCourseCode}</div>
-        }
+        {node.suCourseCode && <div>{node.suCourseCode}</div>}
 
-        <Wysiwyg html={node.body?.processed}/>
+        <Wysiwyg html={node.body?.processed} />
 
-        {node.suCourseTags &&
+        {node.suCourseTags && (
           <div>
-            {node.suCourseTags.map(tag =>
+            {node.suCourseTags.map(tag => (
               <div key={tag.id}>{tag.name}</div>
-            )}
+            ))}
           </div>
-        }
+        )}
 
-        {node.suCourseQuarters &&
+        {node.suCourseQuarters && (
           <div>
-            {node.suCourseQuarters.map(quarter =>
+            {node.suCourseQuarters.map(quarter => (
               <div key={quarter.id}>{quarter.name}</div>
-            )}
+            ))}
           </div>
-        }
+        )}
 
-        {node.suCourseInstructors &&
+        {node.suCourseInstructors && (
           <div>
-            {node.suCourseInstructors.map((instructor, i) =>
+            {node.suCourseInstructors.map((instructor, i) => (
               <div key={`instructor-${i}`}>{instructor}</div>
-            )}
+            ))}
           </div>
-        }
+        )}
       </div>
     </article>
   )
 }
-export default StanfordCoursePage;
+export default StanfordCoursePage

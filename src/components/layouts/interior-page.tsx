@@ -1,10 +1,10 @@
-import {getMenu} from "@lib/gql/gql-queries";
-import SideNav from "@components/menu/side-nav";
-import {HtmlHTMLAttributes} from "react";
-import {isPreviewMode} from "@lib/drupal/utils";
-import {MenuAvailable} from "@lib/gql/__generated__/drupal.d";
-import useActiveTrail from "@lib/hooks/useActiveTrail";
-import {twMerge} from "tailwind-merge";
+import {getMenu} from "@lib/gql/gql-queries"
+import SideNav from "@components/menu/side-nav"
+import {HtmlHTMLAttributes} from "react"
+import {isPreviewMode} from "@lib/drupal/utils"
+import {MenuAvailable} from "@lib/gql/__generated__/drupal.d"
+import useActiveTrail from "@lib/hooks/useActiveTrail"
+import {twMerge} from "tailwind-merge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -14,28 +14,41 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const InteriorPage = async ({children, currentPath, ...props}: Props) => {
-  const menu = await getMenu(MenuAvailable.Main, isPreviewMode());
-  const activeTrail: string[] = useActiveTrail(menu, currentPath);
+  const menu = await getMenu(MenuAvailable.Main, isPreviewMode())
+  const activeTrail: string[] = useActiveTrail(menu, currentPath)
 
   // Peel off the menu items from the parent.
-  const topMenuItem = activeTrail.length > 0 ? menu.find(item => item.id === activeTrail[0]) : undefined;
-  const subTree = topMenuItem ? topMenuItem.children : [];
+  const topMenuItem = activeTrail.length > 0 ? menu.find(item => item.id === activeTrail[0]) : undefined
+  const subTree = topMenuItem ? topMenuItem.children : []
 
   return (
-    <div {...props} className={twMerge("centered flex gap-20", props.className)}>
-
-      {(subTree.length > 1 || subTree[0]?.children) &&
-        <aside className="hidden lg:block w-1/4 shrink-0">
-          <a href="#page-content" className="skiplink">Skip secondary navigation</a>
-          <SideNav menuItems={subTree} activeTrail={activeTrail}/>
+    <div
+      {...props}
+      className={twMerge("centered flex gap-20", props.className)}
+    >
+      {(subTree.length > 1 || subTree[0]?.children) && (
+        <aside className="hidden w-1/4 shrink-0 lg:block">
+          <a
+            href="#page-content"
+            className="skiplink"
+          >
+            Skip secondary navigation
+          </a>
+          <SideNav
+            menuItems={subTree}
+            activeTrail={activeTrail}
+          />
         </aside>
-      }
+      )}
 
-      <div className="flex-grow" id="page-content">
+      <div
+        className="flex-grow"
+        id="page-content"
+      >
         {children}
       </div>
     </div>
   )
 }
 
-export default InteriorPage;
+export default InteriorPage

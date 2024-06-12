@@ -1,10 +1,10 @@
-import Wysiwyg from "@components/elements/wysiwyg";
-import Address from "@components/elements/address";
-import {H3} from "@components/elements/headers";
-import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph";
-import {HtmlHTMLAttributes} from "react";
-import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d";
-import {twMerge} from "tailwind-merge";
+import Wysiwyg from "@components/elements/wysiwyg"
+import Address from "@components/elements/address"
+import {H3} from "@components/elements/headers"
+import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
+import {HtmlHTMLAttributes} from "react"
+import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
+import {twMerge} from "tailwind-merge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSchedule
@@ -23,29 +23,26 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   }
 
   return (
-    <div {...props} className={twMerge("centered", props.className)}>
-      {start &&
-        <H3>{start}</H3>
-      }
-      {paragraph.suScheduleHeadline &&
+    <div
+      {...props}
+      className={twMerge("centered", props.className)}
+    >
+      {start && <H3>{start}</H3>}
+      {paragraph.suScheduleHeadline && <div>{paragraph.suScheduleHeadline}</div>}
+
+      <Wysiwyg html={paragraph.suScheduleDescription?.processed} />
+
+      {paragraph.suScheduleLocation && <Address {...paragraph.suScheduleLocation} />}
+      {paragraph.suScheduleSpeaker && (
         <div>
-          {paragraph.suScheduleHeadline}
+          {paragraph.suScheduleSpeaker.map(speaker => (
+            <PersonCtaParagraph
+              paragraph={speaker as ParagraphStanfordPersonCtum}
+              key={speaker.id}
+            />
+          ))}
         </div>
-      }
-
-      <Wysiwyg html={paragraph.suScheduleDescription?.processed}/>
-
-      {paragraph.suScheduleLocation &&
-        <Address {...paragraph.suScheduleLocation}/>
-      }
-      {paragraph.suScheduleSpeaker &&
-        <div>
-          {paragraph.suScheduleSpeaker.map(speaker =>
-            <PersonCtaParagraph paragraph={speaker as ParagraphStanfordPersonCtum} key={speaker.id}/>
-          )}
-        </div>
-      }
-
+      )}
     </div>
   )
 }

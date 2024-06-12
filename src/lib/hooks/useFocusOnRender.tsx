@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import {RefObject, useLayoutEffect} from "react";
-import {useBoolean} from "usehooks-ts";
+import {RefObject, useLayoutEffect} from "react"
+import {useBoolean} from "usehooks-ts"
 
 /**
  * When an element renders, focus on it. Or use the function to trigger the focus.
@@ -16,15 +16,14 @@ const useFocusOnRender = (focusOnElement: RefObject<HTMLElement>, defaultFocus: 
 
   useLayoutEffect(() => {
     if (value) {
-
-      const reduceMotion = !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches;
-      focusOnElement.current?.scrollIntoView({behavior: reduceMotion ? "instant" : "smooth"});
+      const reduceMotion = !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches
+      focusOnElement.current?.scrollIntoView({behavior: reduceMotion ? "instant" : "smooth"})
       focusOnElement.current?.focus({preventScroll: true})
 
-      setFalse();
+      setFalse()
     }
-  }, [focusOnElement, value, setFalse]);
+  }, [focusOnElement, value, setFalse])
 
-  return setTrue;
+  return setTrue
 }
-export default useFocusOnRender;
+export default useFocusOnRender

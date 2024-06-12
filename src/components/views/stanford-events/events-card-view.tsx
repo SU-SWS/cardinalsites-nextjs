@@ -1,5 +1,5 @@
-import CardViewGrid from "@components/views/card-view-grid";
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d";
+import CardViewGrid from "@components/views/card-view-grid"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
 
 interface Props {
   /**
@@ -14,7 +14,10 @@ interface Props {
 
 const EventsCardView = async ({items = [], headingLevel}: Props) => {
   return (
-    <CardViewGrid items={items} headingLevel={headingLevel}/>
+    <CardViewGrid
+      items={items}
+      headingLevel={headingLevel}
+    />
   )
 }
-export default EventsCardView;
+export default EventsCardView

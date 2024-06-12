@@ -1,0 +1,125 @@
+# All the various fragments that could be used in the queries.
+fragment FragmentTextSummary on TextSummary {
+    processed
+    summary
+}
+
+fragment FragmentText on Text {
+    processed
+}
+
+fragment FragmentSuPolicyLog on SuPolicyLog {
+    __typename
+    id
+    suPolicyDate {
+        ...FragmentDateTime
+    }
+    suPolicyNotes
+    suPolicyPublic
+    suPolicyTitle
+}
+
+fragment FragmentTermInterface on TermInterface {
+    __typename
+    id
+    name
+    path
+    weight
+    parent {
+        ... on TermInterface {
+            id
+        }
+    }
+}
+
+fragment FragmentMediaInterface on MediaInterface {
+    __typename
+    id
+    name
+}
+
+fragment FragmentMediaFile on MediaFile {
+    ...FragmentMediaInterface
+    mediaFile {
+        url
+    }
+}
+
+fragment FragmentMediaEmbeddable on MediaEmbeddable {
+    ...FragmentMediaInterface
+    mediaEmbeddableCode
+    mediaEmbeddableOembed
+}
+
+fragment FragmentMediaGoogleForm on MediaGoogleForm {
+    ...FragmentMediaInterface
+    mediaGoogleForm
+    mediaGoogleForm
+}
+
+fragment FragmentMediaImage on MediaImage {
+    ...FragmentMediaInterface
+    mediaImage {
+        url
+        alt
+        height
+        width
+    }
+}
+
+fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
+    ...FragmentMediaInterface
+    suGalleryCaption
+    suGalleryImage {
+        url
+        alt
+        height
+        width
+    }
+}
+
+fragment FragmentMediaVideo on MediaVideo {
+    ...FragmentMediaInterface
+    mediaOembedVideo
+}
+
+fragment FragmentMediaUnion on MediaUnion {
+    ...FragmentMediaEmbeddable
+    ...FragmentMediaFile
+    ...FragmentMediaGoogleForm
+    ...FragmentMediaImage
+    ...FragmentMediaStanfordGalleryImage
+    ...FragmentMediaVideo
+}
+
+fragment FragmentDateTime on DateTime {
+    timezone
+    time
+}
+
+fragment FragmentSmartDateType on SmartDateType {
+    value
+    end_value
+    timezone
+    rrule_index
+    rrule
+}
+
+fragment FragmentAddressType on Address {
+    langcode
+    country {
+        name
+        code
+    }
+    givenName
+    additionalName
+    familyName
+    organization
+    addressLine1
+    addressLine2
+    postalCode
+    sortingCode
+    dependentLocality
+    locality
+    administrativeArea
+}

@@ -1,11 +1,10 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server"
 import {redirect} from "next/navigation"
-import {cookies} from "next/headers";
+import {cookies} from "next/headers"
 
-export const revalidate = 0;
+export const revalidate = 0
 
 export async function GET(request: NextRequest) {
-
   const secret = request.nextUrl.searchParams.get("secret")
   const slug = request.nextUrl.searchParams.get("slug")
 
@@ -24,7 +23,7 @@ export async function GET(request: NextRequest) {
     sameSite: "none",
     secure: true,
     partitioned: true,
-  });
+  })
 
   // Redirect to the path from the fetched post
   // We don"t redirect to searchParams.slug as that might lead to open redirect vulnerabilities

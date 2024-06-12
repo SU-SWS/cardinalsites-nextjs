@@ -1,30 +1,27 @@
-import {CitationUnion} from "@lib/gql/__generated__/drupal.d";
+import {CitationUnion} from "@lib/gql/__generated__/drupal.d"
 
-const Citation = ({citation}: { citation: CitationUnion }) => {
+const Citation = ({citation}: {citation: CitationUnion}) => {
   return (
     <div className="flex flex-col gap-10">
-      {citation.suAuthor &&
+      {citation.suAuthor && (
         <div>
           <strong>Author{citation.suAuthor.length > 1 ? "s" : ""}</strong>
-          <br/>
+          <br />
 
-          {citation.suAuthor.map((author, i) =>
-            <div key={`author-${i}`}>
-              {`${author.given} ${author.middle} ${author.family}`.replace(/ +/, " ")}
-            </div>
-          )}
+          {citation.suAuthor.map((author, i) => (
+            <div key={`author-${i}`}>{`${author.given} ${author.middle} ${author.family}`.replace(/ +/, " ")}</div>
+          ))}
         </div>
-      }
+      )}
 
-      {citation.suPublisher &&
+      {citation.suPublisher && (
         <div>
           <strong>Publisher</strong>
-          <br/>
+          <br />
           {citation.suPublisher}
         </div>
-      }
-
+      )}
     </div>
   )
 }
-export default Citation;
+export default Citation

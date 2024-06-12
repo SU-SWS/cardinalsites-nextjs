@@ -1,5 +1,5 @@
-import {RefObject} from "react";
-import {useOnClickOutside} from "usehooks-ts";
+import {RefObject} from "react"
+import {useOnClickOutside} from "usehooks-ts"
 
 /**
  * Perform some function when the user clicks, touches, or focuses outside a given element.
@@ -18,4 +18,4 @@ const useOutsideClick = (ref: RefObject<HTMLElement>, onClickOutside: () => void
   useOnClickOutside(ref, onClickOutside, "focusin")
 }
 
-export default useOutsideClick;
+export default useOutsideClick

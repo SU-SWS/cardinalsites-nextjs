@@ -1,25 +1,25 @@
-import type {Meta, StoryObj} from '@storybook/react';
+import type {Meta, StoryObj} from "@storybook/react"
 
-import SideNav from "@components/menu/side-nav";
+import SideNav from "@components/menu/side-nav"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof SideNav> = {
-  title: 'Design/Menu/Side Nav',
+  title: "Design/Menu/Side Nav",
   component: SideNav,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     menuItems: {
       table: {
         disable: true,
-      }
-    }
-  }
-};
+      },
+    },
+  },
+}
 
-export default meta;
-type Story = StoryObj<typeof SideNav>;
+export default meta
+type Story = StoryObj<typeof SideNav>
 
-const defaultMenuProps = {children: [], attributes: {}, expanded: true, internal: true}
+const defaultMenuProps = {children: [], attributes: {}, expanded: true, internal: true, langcode: {}}
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const SideNavComponent: Story = {
   args: {
@@ -41,14 +41,14 @@ export const SideNavComponent: Story = {
               {id: "8", title: "First Item", url: "/foo/baz/foo", ...defaultMenuProps},
               {id: "9", title: "Second Item", url: "/foo/baz/bar", ...defaultMenuProps},
               {id: "10", title: "Third Item", url: "/foo/baz/bin", ...defaultMenuProps},
-            ]
+            ],
           },
           {id: "7", title: "Third Item", url: "/foo/bin", ...defaultMenuProps},
-        ]
+        ],
       },
       {id: "2", title: "Second Item", url: "/bar", ...defaultMenuProps},
       {id: "3", title: "Third Item", url: "/baz", ...defaultMenuProps},
     ],
     activeTrail: ["4", "6", "8"],
   },
-};
+}

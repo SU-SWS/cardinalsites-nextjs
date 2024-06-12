@@ -1,17 +1,23 @@
-import Link from "@components/elements/link";
-import LockupLogo from "@components/elements/lockup/lockup-logo";
-import {FooterLockupProps} from "@components/config-pages/local-footer";
+import Link from "@components/elements/link"
+import LockupLogo from "@components/elements/lockup/lockup-logo"
+import {FooterLockupProps} from "@components/config-pages/local-footer"
 
 const LockupB = ({line1, line2, siteName, logoUrl}: FooterLockupProps) => {
   return (
     <div className="py-10">
-      <Link href="/" className="no-underline text-black">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <Link
+        href="/"
+        className="text-black no-underline"
+      >
+        <div className="flex flex-col gap-4 lg:flex-row">
           <div className="mt-auto">
-            <LockupLogo logoUrl={logoUrl} siteName={siteName}/>
+            <LockupLogo
+              logoUrl={logoUrl}
+              siteName={siteName}
+            />
           </div>
 
-          <div className="w-[1px] bg-black shrink-0"/>
+          <div className="w-[1px] shrink-0 bg-black" />
           <div className="font-normal">
             <div className="text-m0">{line1 || siteName}</div>
             <div className="text-m1">{line2}</div>
@@ -21,4 +27,4 @@ const LockupB = ({line1, line2, siteName, logoUrl}: FooterLockupProps) => {
     </div>
   )
 }
-export default LockupB;
+export default LockupB

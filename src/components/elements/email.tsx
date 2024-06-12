@@ -1,7 +1,7 @@
 "use client"
 
-import {HtmlHTMLAttributes} from "react";
-import {useIsClient} from "usehooks-ts";
+import {HtmlHTMLAttributes} from "react"
+import {useIsClient} from "usehooks-ts"
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
   /**
@@ -11,11 +11,14 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
 }
 
 const Email = ({email, ...props}: Props) => {
-  const isClient = useIsClient();
-  if (!isClient) return;
+  const isClient = useIsClient()
+  if (!isClient) return
 
   return (
-    <a href={`mailto:${email}`} {...props}>
+    <a
+      href={`mailto:${email}`}
+      {...props}
+    >
       {email}
     </a>
   )

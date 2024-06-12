@@ -1,7 +1,7 @@
-import {ParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d";
-import {ParagraphInterface} from "@lib/gql/__generated__/drupal.d";
+import {ParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {ParagraphInterface} from "@lib/gql/__generated__/drupal.d"
 
-export const getParagraphBehaviors = (paragraph: ParagraphInterface): ParagraphBehaviors => {
+export const getParagraphBehaviors = <T extends ParagraphBehaviors>(paragraph: ParagraphInterface): T => {
   if (paragraph.behaviors) return JSON.parse(paragraph.behaviors)
-  return {}
+  return {} as T
 }

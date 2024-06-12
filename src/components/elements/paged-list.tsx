@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import {useLayoutEffect, useRef, HtmlHTMLAttributes, useEffect, useId, JSX, useState} from "react";
-import {useAutoAnimate} from "@formkit/auto-animate/react";
-import {useBoolean, useCounter} from "usehooks-ts";
-import {useRouter, useSearchParams} from "next/navigation";
-import usePagination from "@lib/hooks/usePagination";
-import useFocusOnRender from "@lib/hooks/useFocusOnRender";
+import {useLayoutEffect, useRef, HtmlHTMLAttributes, useEffect, useId, JSX, useState} from "react"
+import {useAutoAnimate} from "@formkit/auto-animate/react"
+import {useBoolean, useCounter} from "usehooks-ts"
+import {useRouter, useSearchParams} from "next/navigation"
+import usePagination from "@lib/hooks/usePagination"
+import useFocusOnRender from "@lib/hooks/useFocusOnRender"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -15,7 +15,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * Attributes for each <li> element.
    */
-  liProps?: HtmlHTMLAttributes<HTMLLIElement>,
+  liProps?: HtmlHTMLAttributes<HTMLLIElement>
   /**
    * URL parameter used to save the users page position.
    */
@@ -34,20 +34,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   loadPage?: (_page: number) => Promise<JSX.Element>
 }
 
-const PagedList = ({
-  children,
-  ulProps,
-  liProps,
-  pageKey = "page",
-  totalPages,
-  pagerSiblingCount = 2,
-  loadPage,
-  ...props
-}: Props) => {
-
-  const id = useId();
+const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pagerSiblingCount = 2, loadPage, ...props}: Props) => {
+  const id = useId()
   const [items, setItems] = useState<JSX.Element[]>(Array.isArray(children) ? children : [children])
-  const router = useRouter();
+  const router = useRouter()
   const searchParams = useSearchParams()
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
@@ -56,8 +46,8 @@ const PagedList = ({
 
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
-  const focusItemRef = useRef<HTMLLIElement>(null);
-  const [animationParent] = useAutoAnimate<HTMLUListElement>();
+  const focusItemRef = useRef<HTMLLIElement>(null)
+  const [animationParent] = useAutoAnimate<HTMLUListElement>()
 
   const goToPage = async (page: number) => {
     if (loadPage) {
@@ -65,21 +55,21 @@ const PagedList = ({
       setItems(newView.props.children)
     }
 
-    enableFocusElement();
-    setPage(page);
+    enableFocusElement()
+    setPage(page)
   }
 
-  const setFocusOnItem = useFocusOnRender(focusItemRef, false);
+  const setFocusOnItem = useFocusOnRender(focusItemRef, false)
 
   useLayoutEffect(() => {
     if (focusOnElement) setFocusOnItem()
-  }, [focusOnElement, setFocusOnItem]);
+  }, [focusOnElement, setFocusOnItem])
 
   useEffect(() => {
-    if (!pageKey || !loadPage) return;
+    if (!pageKey || !loadPage) return
 
     // Use search params to retain any other parameters.
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams.toString())
     if (currentPage > 1) {
       params.set(pageKey, `${currentPage}`)
     } else {
@@ -87,10 +77,9 @@ const PagedList = ({
     }
 
     router.replace(`?${params.toString()}`, {scroll: false})
-  }, [loadPage, router, currentPage, pageKey, searchParams]);
+  }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
-
     const updateInitialContents = async (initialPage: number) => {
       if (loadPage) {
         const newView = await loadPage(initialPage - 1)
@@ -98,17 +87,19 @@ const PagedList = ({
       }
     }
 
-    const initialPage = parseInt(searchParams.get(pageKey || "") || "");
+    const initialPage = parseInt(searchParams.get(pageKey || "") || "")
     if (initialPage > 1) updateInitialContents(initialPage)
   }, [searchParams, pageKey, loadPage])
 
-
-  const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount);
+  const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
 
   return (
     <div {...props}>
-      <ul {...ulProps} ref={animationParent}>
-        {items.map((item, i) =>
+      <ul
+        {...ulProps}
+        ref={animationParent}
+      >
+        {items.map((item, i) => (
           <li
             key={`pager-${id}-${i}`}
             ref={i === 0 ? focusItemRef : null}
@@ -118,11 +109,14 @@ const PagedList = ({
           >
             {item}
           </li>
-        )}
+        ))}
       </ul>
 
-      {(loadPage && paginationButtons.length > 1) &&
-        <nav aria-label="Pager" className="mx-auto w-fit">
+      {loadPage && paginationButtons.length > 1 && (
+        <nav
+          aria-label="Pager"
+          className="mx-auto w-fit"
+        >
           <ul className="list-unstyled flex gap-5">
             {paginationButtons.map((pageNum, i) => (
               <PaginationButton
@@ -135,38 +129,40 @@ const PagedList = ({
             ))}
           </ul>
         </nav>
-      }
+      )}
     </div>
   )
 }
 
-const PaginationButton = ({page, currentPage, total, onClick}: {
-  page: number | string
-  currentPage: number
-  total: number
-  onClick: () => void
-}) => {
+const PaginationButton = ({page, currentPage, total, onClick}: {page: number | string; currentPage: number; total: number; onClick: () => void}) => {
   if (page === 0) {
     return (
-      <li className="h-full mt-auto">
+      <li className="mt-auto h-full">
         <span className="sr-only">More pages available</span>
         <span aria-hidden>...</span>
       </li>
     )
   }
-  const isCurrent = page == currentPage;
+  const isCurrent = page == currentPage
   return (
     <li>
       <button
-        className="font-medium hocus:underline text-m2"
+        className="text-m2 font-medium hocus:underline"
         onClick={onClick}
         aria-current={isCurrent}
       >
-        <span className="sr-only">Go to page {page} of {total}</span>
-        <span aria-hidden className={(isCurrent ? "text-digital-red border-digital-red" : "text-cardinal-red border-transparent") + " border-b-2 px-4"}>{page}</span>
+        <span className="sr-only">
+          Go to page {page} of {total}
+        </span>
+        <span
+          aria-hidden
+          className={(isCurrent ? "border-digital-red text-digital-red" : "border-transparent text-cardinal-red") + " border-b-2 px-4"}
+        >
+          {page}
+        </span>
       </button>
     </li>
   )
 }
 
-export default PagedList;
+export default PagedList

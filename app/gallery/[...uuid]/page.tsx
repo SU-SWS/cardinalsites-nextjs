@@ -1,28 +1,28 @@
-import {H1} from "@components/elements/headers";
-import {graphqlClient} from "@lib/gql/gql-client";
-import {notFound} from "next/navigation";
-import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal";
-import Image from "next/image";
+import {H1} from "@components/elements/headers"
+import {graphqlClient} from "@lib/gql/gql-client"
+import {notFound} from "next/navigation"
+import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal"
+import Image from "next/image"
 
 export const metadata = {
   title: "Gallery Image",
   robots: {
-    index: false
-  }
+    index: false,
+  },
 }
 
 type Props = {
-  params: { uuid: string[] }
+  params: {uuid: string[]}
 }
 
 const Page = async ({params: {uuid}}: Props) => {
   const [paragraphId, mediaUuid] = uuid
 
-  const paragraphQuery = await graphqlClient().Paragraph({uuid: paragraphId});
-  if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound();
+  const paragraphQuery = await graphqlClient().Paragraph({uuid: paragraphId})
+  if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()
 
-  const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery;
-  let galleryImages = mediaUuid ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid) : paragraph.suGalleryImages;
+  const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery
+  let galleryImages = mediaUuid ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid) : paragraph.suGalleryImages
 
   galleryImages = galleryImages?.filter(image => !!image.suGalleryImage?.url)
 
@@ -30,7 +30,7 @@ const Page = async ({params: {uuid}}: Props) => {
     <div className="centered mt-32">
       <H1>{paragraph.suGalleryHeadline || "Media"}</H1>
       {galleryImages?.map(galleryImage => {
-        if (!galleryImage.suGalleryImage?.url) return;
+        if (!galleryImage.suGalleryImage?.url) return
 
         return (
           <figure key={galleryImage.id}>
@@ -41,11 +41,7 @@ const Page = async ({params: {uuid}}: Props) => {
               alt={""}
             />
 
-            {galleryImage.suGalleryCaption &&
-              <figcaption>
-                {galleryImage.suGalleryCaption}
-              </figcaption>
-            }
+            {galleryImage.suGalleryCaption && <figcaption>{galleryImage.suGalleryCaption}</figcaption>}
           </figure>
         )
       })}
