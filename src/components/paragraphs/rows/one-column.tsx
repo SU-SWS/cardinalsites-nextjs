@@ -1,6 +1,6 @@
 import Paragraph from "@components/paragraphs/paragraph"
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 const OneColumn = ({items}: {items: ParagraphUnion[]}) => {
   const draftProps: Record<string, string> = {}

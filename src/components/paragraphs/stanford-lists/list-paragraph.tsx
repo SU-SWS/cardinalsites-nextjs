@@ -6,7 +6,6 @@ import {cache, ElementType, HtmlHTMLAttributes, JSX} from "react"
 import {Maybe, NodeStanfordCourse, NodeStanfordEvent, NodeStanfordNews, NodeStanfordPage, NodeStanfordPerson, NodeStanfordPublication, NodeUnion, ParagraphStanfordList} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {buildHeaders} from "@lib/drupal/utils"
 import {twMerge} from "tailwind-merge"
 import {ListParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
 
@@ -134,8 +133,7 @@ const getViewPagedItems = cache(async (viewId: string, displayId: string, contex
       break
   }
 
-  const headers = await buildHeaders()
-  const client = graphqlClient({headers, next: {tags}})
+  const client = graphqlClient({next: {tags}})
   let filters = getViewFilters(["term_node_taxonomy_name_depth"], contextualFilter)
   let graphqlResponse
 

@@ -12,7 +12,7 @@ import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated
 import Email from "@components/elements/email"
 import Telephone from "@components/elements/telephone"
 import Link from "@components/elements/link"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent

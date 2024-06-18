@@ -1,7 +1,7 @@
 import OneColumn from "@components/paragraphs/rows/one-column"
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 const ThreeColumn = ({items}: {items: ParagraphUnion[]}) => {
   const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "left")

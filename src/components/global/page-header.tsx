@@ -4,10 +4,9 @@ import GlobalMessage from "@components/config-pages/global-message"
 import Lockup from "@components/elements/lockup/lockup"
 import {getConfigPage, getMenu} from "@lib/gql/gql-queries"
 import {LockupSetting, MenuAvailable, StanfordBasicSiteSetting, StanfordGlobalMessage} from "@lib/gql/__generated__/drupal.d"
-import {isPreviewMode} from "@lib/drupal/utils"
 
 const PageHeader = async () => {
-  const menuItems = await getMenu(MenuAvailable.Main, isPreviewMode())
+  const menuItems = await getMenu(MenuAvailable.Main)
   const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage")
   const siteSettingsConfig = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
   const lockupSettingsConfig = await getConfigPage<LockupSetting>("LockupSetting")

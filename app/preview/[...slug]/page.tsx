@@ -1,9 +1,10 @@
 import NodePage from "@components/nodes/pages/node-page"
-import UnpublishedBanner from "@components/elements/unpublished-banner"
+import EditorAlert from "@components/elements/editor-alert"
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {notFound} from "next/navigation"
-import {getPathFromContext, isPreviewMode, PageProps} from "@lib/drupal/utils"
+import {getPathFromContext, PageProps} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 const PreviewPage = async ({params}: PageProps) => {
   if (!isPreviewMode()) notFound()
@@ -14,7 +15,10 @@ const PreviewPage = async ({params}: PageProps) => {
 
   return (
     <>
-      <UnpublishedBanner status={entity.status}>Unpublished Page</UnpublishedBanner>
+      <EditorAlert
+        status={entity.status}
+        message="Unpublished Page"
+      />
       <NodePage node={entity} />
     </>
   )

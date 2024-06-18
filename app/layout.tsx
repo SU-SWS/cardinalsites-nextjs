@@ -5,7 +5,7 @@ import PageHeader from "@components/global/page-header"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3} from "../src/styles/fonts"
 import DrupalWindowSync from "@components/elements/drupal-window-sync"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import UserAnalytics from "@components/elements/user-analytics"
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({

@@ -1,5 +1,5 @@
 import {notFound} from "next/navigation"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import Page from "../page"
 
 const PreviewPage = async () => {

@@ -6,9 +6,10 @@ import SpacerParagraph from "@components/paragraphs/stanford-spacer/spacer-parag
 import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph"
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph"
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {Suspense} from "react"
+import EditorAlert from "@components/elements/editor-alert"
 
 type Props = {
   /**
@@ -18,6 +19,17 @@ type Props = {
 }
 
 const Paragraph = async ({paragraph}: Props) => {
+  return (
+    <EditorAlert
+      status={paragraph.status}
+      message="Unpublished Content"
+    >
+      <ParagraphComponent paragraph={paragraph} />
+    </EditorAlert>
+  )
+}
+
+const ParagraphComponent = async ({paragraph}: Props) => {
   const previewMode = isPreviewMode()
 
   const itemProps: Record<string, string> = {}

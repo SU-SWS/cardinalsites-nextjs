@@ -1,8 +1,15 @@
 import {CodegenConfig} from '@graphql-codegen/cli';
 
+const drupalUrl = `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/graphql`;
 const config: CodegenConfig = {
   overwrite: true,
-  schema: `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/graphql` as string,
+  schema: [{
+    [drupalUrl]: {
+      headers: {
+        "Authorization": "Basic " + Buffer.from(process.env.DRUPAL_BASIC_AUTH_ADMIN as string).toString("base64")
+      }
+    }
+  }],
   documents: 'src/lib/gql/*.drupal.gql',
   generates: {
     'src/lib/gql/__generated__/drupal.d.ts': {

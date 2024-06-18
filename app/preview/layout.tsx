@@ -1,6 +1,6 @@
-import {isPreviewMode} from "@lib/drupal/utils"
+import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import Editori11y from "@components/tools/editorially"
-import UnpublishedBanner from "@components/elements/unpublished-banner"
+import EditorAlert from "@components/elements/editor-alert"
 
 const Layout = ({children}: {children: React.ReactNode}) => {
   const inPreview = isPreviewMode()
@@ -9,7 +9,10 @@ const Layout = ({children}: {children: React.ReactNode}) => {
       {inPreview && (
         <>
           <Editori11y />
-          <UnpublishedBanner status={false}>Preview Mode</UnpublishedBanner>
+          <EditorAlert
+            status={false}
+            message="Preview Mode"
+          />
         </>
       )}
       {children}

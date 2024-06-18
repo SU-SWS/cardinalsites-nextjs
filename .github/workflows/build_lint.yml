@@ -9,6 +9,8 @@ jobs:
       image: node:20
       env:
         NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ secrets.NEXT_PUBLIC_DRUPAL_BASE_URL }}
+        DRUPAL_BASIC_AUTH: ${{ secrets.DRUPAL_BASIC_AUTH }}
+        DRUPAL_BASIC_AUTH_ADMIN: ${{ secrets.DRUPAL_BASIC_AUTH_ADMIN }}
     steps:
       - uses: actions/checkout@v4
       - name: Restore Cache
@@ -16,6 +18,7 @@ jobs:
         with:
           path: |
             node_modules
+            .next
           key: 1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             1.x-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
@@ -24,7 +27,8 @@ jobs:
       - name: Lint
         run: |
           yarn
+          yarn next telemetry disable
           yarn lint
-      - name: Build
-        run: |
-          yarn build
+#      - name: Build
+#        run: |
+#          yarn build

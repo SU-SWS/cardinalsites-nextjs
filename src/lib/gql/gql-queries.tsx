@@ -1,7 +1,5 @@
 import {AllNodesQuery, AllNodesQueryVariables, ConfigPagesQuery, ConfigPagesUnion, MenuAvailable, MenuItem, NodeUnion, Redirect, RedirectsQuery, RedirectsQueryVariables, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/__generated__/drupal.d"
 import {cache} from "react"
-import {buildHeaders} from "@lib/drupal/utils"
-import {cache as nodeCache} from "@lib/drupal/get-cache"
 import {graphqlClient} from "@lib/gql/gql-client"
 
 export const getEntityFromPath = async <T extends NodeUnion | TermUnion>(
@@ -14,12 +12,11 @@ export const getEntityFromPath = async <T extends NodeUnion | TermUnion>(
 }> => {
   "use server"
 
-  const headers = await buildHeaders({previewMode})
   let entity: T | undefined
   let query: RouteQuery
 
   try {
-    query = await graphqlClient({headers, next: {tags: [`paths:${path}`]}}).Route({path})
+    query = await graphqlClient({next: {tags: [`paths:${path}`]}}, previewMode).Route({path})
   } catch (e) {
     return {entity: undefined, redirect: undefined, error: e as Error}
   }
@@ -34,7 +31,7 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(configPageType: 
 
   let query: ConfigPagesQuery
   try {
-    query = await getConfigPagesData()
+    query = await graphqlClient({next: {tags: ["config-pages"]}}).ConfigPages()
   } catch (e) {
     console.warn("Unable to fetch config pages")
     return
@@ -49,25 +46,10 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(configPageType: 
   }
 }
 
-const getConfigPagesData = cache(async (): Promise<ConfigPagesQuery> => {
+export const getMenu = cache(async (name?: MenuAvailable): Promise<MenuItem[]> => {
   "use server"
 
-  // Config page data doesn"t change if a user is in "Draft" mode or not, so the data can be cached for both situations.
-  const cachedData = nodeCache.get<ConfigPagesQuery>("config-pages")
-  if (cachedData) return cachedData
-
-  const headers = await buildHeaders()
-  const query = await graphqlClient({headers, next: {tags: ["config-pages"]}}).ConfigPages()
-
-  nodeCache.set("config-pages", query)
-  return query
-})
-
-export const getMenu = cache(async (name?: MenuAvailable, previewMode?: boolean): Promise<MenuItem[]> => {
-  "use server"
-
-  const headers = await buildHeaders({previewMode})
-  const menu = await graphqlClient({headers, next: {tags: ["menus", `menu:${name || "main"}`]}}).Menu({name})
+  const menu = await graphqlClient({next: {tags: ["menus", `menu:${name || "main"}`]}}).Menu({name})
   const menuItems = (menu.menu?.items || []) as MenuItem[]
 
   const filterInaccessible = (items: MenuItem[]): MenuItem[] => {

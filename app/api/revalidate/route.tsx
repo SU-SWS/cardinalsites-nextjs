@@ -1,5 +1,4 @@
 import {NextRequest, NextResponse} from "next/server"
-import {cache as nodeCache} from "@lib/drupal/get-cache"
 import {revalidateTag} from "next/cache"
 
 export const revalidate = 0
@@ -19,6 +18,6 @@ export const GET = async (request: NextRequest) => {
       .map(tag => tagsInvalidated.push(tag))
 
   tagsInvalidated.map(tag => revalidateTag(tag))
-  nodeCache.del(tagsInvalidated)
+
   return NextResponse.json({revalidated: true, tags: tagsInvalidated})
 }
