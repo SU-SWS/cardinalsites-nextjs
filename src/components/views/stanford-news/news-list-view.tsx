@@ -41,4 +41,28 @@ const NewsListView = async ({items, totalItems, headingLevel, loadPage}: Props) 
     </PagedList>
   )
 }
+
+export const NewsListSkeleton = () => {
+  return (
+    <div>
+      <div className="flex min-h-[200px] items-center justify-between border-b border-black-20 pb-10">
+        <div className="flex-grow">
+          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+          <div className="mb-10 h-16 w-1/2 bg-black-10" />
+          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+        </div>
+        <div className="relative order-1 mb-10 aspect-[16/9] shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
+      </div>
+      <div className="flex min-h-[150px] items-center justify-between pt-10">
+        <div className="flex-grow">
+          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+          <div className="mb-10 h-16 w-1/2 bg-black-10" />
+          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+        </div>
+        <div className="relative order-1 mb-10 aspect-[16/9] shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
+      </div>
+    </div>
+  )
+}
+
 export default NewsListView

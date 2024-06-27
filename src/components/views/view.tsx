@@ -1,8 +1,8 @@
-import {JSX} from "react"
+import {JSX, Suspense} from "react"
 import SharedTagsCardView from "@components/views/shared-tags/shared-tags-card-view"
 import PageListView from "@components/views/stanford-page/page-list-view"
 import NewsCardView from "@components/views/stanford-news/news-card-view"
-import NewsListView from "@components/views/stanford-news/news-list-view"
+import NewsListView, {NewsListSkeleton} from "@components/views/stanford-news/news-list-view"
 import PersonCardView from "@components/views/stanford-person/person-card-view"
 import EventsCardView from "@components/views/stanford-events/events-card-view"
 import EventsListView from "@components/views/stanford-events/events-list-view"
@@ -62,12 +62,14 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
 
     case "stanford_news--block_1":
       return (
-        <NewsListView
-          items={items as NodeStanfordNews[]}
-          headingLevel={headingLevel}
-          loadPage={loadPage}
-          totalItems={totalItems}
-        />
+        <Suspense fallback={<NewsListSkeleton />}>
+          <NewsListView
+            items={items as NodeStanfordNews[]}
+            headingLevel={headingLevel}
+            loadPage={loadPage}
+            totalItems={totalItems}
+          />
+        </Suspense>
       )
 
     case "stanford_person--grid_list_all":
