@@ -13,6 +13,21 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordList
 }
 
+const loadPage = async (viewId: string, displayId: string, contextualFilter: string[], hasHeadline: boolean, page: number): Promise<JSX.Element> => {
+  "use server"
+
+  const {items, totalItems} = await getViewItems(viewId, displayId, contextualFilter, page)
+  return (
+    <View
+      viewId={viewId}
+      displayId={displayId}
+      items={items}
+      headingLevel={hasHeadline ? "h3" : "h2"}
+      totalItems={totalItems}
+    />
+  )
+}
+
 const ListParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors<ListParagraphBehaviors>(paragraph)
   const viewId = paragraph.suListView?.view || ""
@@ -23,21 +38,6 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   if (behaviors.list_paragraph?.hide_empty && viewItems.length === 0) return null
 
   const ListWrapper: ElementType = paragraph.suListHeadline && behaviors.list_paragraph?.heading_behavior !== "remove" ? "section" : "div"
-
-  const loadPage = async (page: number): Promise<JSX.Element> => {
-    "use server"
-
-    const {items, totalItems} = await getViewItems(viewId, displayId, paragraph.suListView?.contextualFilter, page)
-    return (
-      <View
-        viewId={viewId}
-        displayId={displayId}
-        items={items}
-        headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-        totalItems={totalItems}
-      />
-    )
-  }
 
   return (
     <ListWrapper
@@ -62,7 +62,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
           displayId={displayId}
           items={viewItems}
           headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-          loadPage={addLoadMore ? loadPage : undefined}
+          loadPage={addLoadMore ? loadPage.bind(null, viewId, displayId, paragraph.suListView?.contextualFilter || [], !!paragraph.suListHeadline) : undefined}
           totalItems={totalItems}
         />
       )}
