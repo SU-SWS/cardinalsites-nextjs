@@ -4,36 +4,42 @@ import Wysiwyg from "@components/elements/wysiwyg"
 import Link from "@components/elements/link"
 import {clsx} from "clsx"
 import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal.d"
+import {getConfigPage} from "@lib/gql/gql-queries"
+import {twMerge} from "tailwind-merge"
 
-const GlobalMessage = ({suGlobalMsgEnabled, suGlobalMsgType, suGlobalMsgLabel, suGlobalMsgHeader, suGlobalMsgLink, suGlobalMsgMessage}: StanfordGlobalMessage) => {
-  if (!suGlobalMsgEnabled) return
-
-  const wrapperClasses = clsx({
-    "bg-digital-blue-dark text-white": suGlobalMsgType === "info",
-    "bg-illuminating-dark": suGlobalMsgType === "warning",
-    "bg-digital-green text-white": suGlobalMsgType === "success",
-    "bg-foggy-light": suGlobalMsgType === "plain",
-    "bg-digital-red text-white": suGlobalMsgType === "error",
-  })
+const GlobalMessage = async () => {
+  const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage")
+  if (!globalMessageConfig?.suGlobalMsgEnabled) return
 
   return (
-    <div className={wrapperClasses + " py-10"}>
+    <div
+      className={twMerge(
+        "py-10",
+        clsx({
+          "bg-digital-blue-dark text-white": globalMessageConfig.suGlobalMsgType === "info",
+          "bg-illuminating-dark": globalMessageConfig.suGlobalMsgType === "warning",
+          "bg-digital-green text-white": globalMessageConfig.suGlobalMsgType === "success",
+          "bg-foggy-light": globalMessageConfig.suGlobalMsgType === "plain",
+          "bg-digital-red text-white": globalMessageConfig.suGlobalMsgType === "error",
+        })
+      )}
+    >
       <div className="centered flex flex-col gap-10 lg:flex-row">
         <div className="flex shrink-0 items-center leading-none">
-          <MessageIcon messageType={suGlobalMsgType} />
-          {suGlobalMsgLabel}:
+          <MessageIcon messageType={globalMessageConfig.suGlobalMsgType} />
+          {globalMessageConfig.suGlobalMsgLabel}:
         </div>
         <div className="[&_a.btn]:border-2 [&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white">
-          {suGlobalMsgHeader && <H2>{suGlobalMsgHeader}</H2>}
+          {globalMessageConfig.suGlobalMsgHeader && <H2>{globalMessageConfig.suGlobalMsgHeader}</H2>}
 
-          <Wysiwyg html={suGlobalMsgMessage?.processed} />
+          <Wysiwyg html={globalMessageConfig.suGlobalMsgMessage?.processed} />
 
-          {suGlobalMsgLink?.url && (
+          {globalMessageConfig.suGlobalMsgLink?.url && (
             <Link
-              href={suGlobalMsgLink.url}
+              href={globalMessageConfig.suGlobalMsgLink.url}
               className="text-white"
             >
-              {suGlobalMsgLink.title}
+              {globalMessageConfig.suGlobalMsgLink.title}
             </Link>
           )}
         </div>

@@ -1,4 +1,4 @@
-import {AllNodesQuery, AllNodesQueryVariables, ConfigPagesQuery, ConfigPagesUnion, MenuAvailable, MenuItem, NodeUnion, Redirect, RedirectsQuery, RedirectsQueryVariables, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/__generated__/drupal.d"
+import {AllNodesQuery, AllNodesQueryVariables, ConfigPagesQuery, ConfigPagesUnion, MenuAvailable, MenuItem, NodeUnion, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/__generated__/drupal.d"
 import {cache} from "react"
 import {graphqlClient} from "@lib/gql/gql-client"
 
@@ -86,19 +86,3 @@ export const getAllNodes = cache(async () => {
 
   return nodes
 })
-
-export const getAllRedirects = async (): Promise<Redirect[]> => {
-  "use server"
-
-  let fetchMore = true
-  let queryResponse: RedirectsQuery
-  let variables: RedirectsQueryVariables = {first: 1000}
-  let redirects: Redirect[] = []
-  while (fetchMore) {
-    queryResponse = await graphqlClient({next: {tags: ["paths"]}}).Redirects(variables)
-    redirects = [...redirects, ...(queryResponse.redirects.redirects as Redirect[])]
-    fetchMore = queryResponse.redirects.redirects.length === 1000
-    variables.after = queryResponse.redirects.pageInfo.endCursor
-  }
-  return redirects
-}

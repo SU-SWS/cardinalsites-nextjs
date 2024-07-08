@@ -23,7 +23,7 @@ const StanfordPersonListItem = ({node, headingLevel, ...props}: Props) => {
       {imageUrl && (
         <div className="relative mx-auto mb-20 aspect-[1/1] w-full">
           <Image
-            className="rounded-full object-cover"
+            className="ed11y-ignore rounded-full object-cover"
             src={imageUrl}
             alt=""
             fill

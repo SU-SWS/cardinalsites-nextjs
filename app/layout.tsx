@@ -5,7 +5,6 @@ import PageHeader from "@components/global/page-header"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3} from "../src/styles/fonts"
 import DrupalWindowSync from "@components/elements/drupal-window-sync"
-import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import UserAnalytics from "@components/elements/user-analytics"
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({
@@ -43,14 +42,12 @@ export const metadata = {
 export const revalidate = false
 
 const RootLayout = ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
-  const isPreview = isPreviewMode()
   return (
     <html
       lang="en"
       className={sourceSans3.className}
     >
-      {/* Add Google Analytics and SiteImprove when not in preview mode. */}
-      {!isPreview && <UserAnalytics />}
+      <UserAnalytics />
       <DrupalWindowSync />
       <body>
         <nav aria-label="Skip Links">
@@ -64,13 +61,16 @@ const RootLayout = ({children, modal}: {children: React.ReactNode; modal: React.
 
         <div className="flex min-h-screen flex-col">
           <PageHeader />
+
           <main
             id="main-content"
             className="mb-32 flex-grow"
           >
             {children}
           </main>
+
           <BackToTop />
+
           <PageFooter />
         </div>
         {modal}

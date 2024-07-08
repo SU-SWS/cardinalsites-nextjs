@@ -29,7 +29,6 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
       {...props}
       aria-labelledby={node.id}
       imageUrl={image?.url}
-      imageAlt={image?.alt}
       isArticle
     >
       <div className="flex flex-col">

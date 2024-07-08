@@ -16,21 +16,17 @@ const StanfordPagePage = ({node, ...props}: Props) => {
 
   return (
     <article {...props}>
-      {node.suPageBanner && (
-        <header aria-label="Page banner">
-          {node.suPageBanner.__typename === "ParagraphStanfordBanner" && (
-            <BannerParagraph
-              paragraph={node.suPageBanner}
-              eagerLoadImage
-            />
-          )}
-          {node.suPageBanner.__typename === "ParagraphStanfordPageTitleBanner" && (
-            <PageTitleBannerParagraph
-              paragraph={node.suPageBanner}
-              pageTitle={node.title}
-            />
-          )}
-        </header>
+      {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
+        <BannerParagraph
+          paragraph={node.suPageBanner}
+          eagerLoadImage
+        />
+      )}
+      {node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && (
+        <PageTitleBannerParagraph
+          paragraph={node.suPageBanner}
+          pageTitle={node.title}
+        />
       )}
 
       {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && <H1 className="centered mt-32">{node.title}</H1>}
