@@ -2,7 +2,7 @@
 
 import Link from "@components/elements/link"
 import SiteSearchForm from "@components/search/site-search-form"
-import useActiveTrail from "@lib/hooks/useActiveTrail"
+import {getMenuActiveTrail} from "@lib/drupal/utils"
 import useOutsideClick from "@lib/hooks/useOutsideClick"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d"
@@ -27,7 +27,7 @@ const MainMenu = ({menuItems}: Props) => {
 
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = usePathname()
-  const activeTrail = useActiveTrail(menuItems, usePathname() || "")
+  const activeTrail = getMenuActiveTrail(menuItems, usePathname() || "")
 
   useOutsideClick(menuRef, closeMenu)
 

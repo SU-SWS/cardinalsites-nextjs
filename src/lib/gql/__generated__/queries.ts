@@ -84,6 +84,7 @@ export const FragmentParagraphInterfaceFragmentDoc = gql`
   __typename
   id
   behaviors
+  status
 }
     `;
 export const FragmentTextFragmentDoc = gql`
@@ -1075,6 +1076,7 @@ export const ConfigPagesDocument = gql`
   stanfordBasicSiteSettings(first: 1) {
     nodes {
       __typename
+      id
       suGoogleAnalytics
       suSiteAlgolia
       suSiteAlgoliaId
@@ -1089,6 +1091,7 @@ export const ConfigPagesDocument = gql`
   stanfordGlobalMessages(first: 1) {
     nodes {
       __typename
+      id
       suGlobalMsgEnabled
       suGlobalMsgHeader
       suGlobalMsgLabel
@@ -1105,6 +1108,7 @@ export const ConfigPagesDocument = gql`
   stanfordLocalFooters(first: 1) {
     nodes {
       __typename
+      id
       suFooterEnabled
       suLocalFootAction {
         title
@@ -1187,6 +1191,7 @@ export const ConfigPagesDocument = gql`
   stanfordSuperFooters(first: 1) {
     nodes {
       __typename
+      id
       suSuperFootEnabled
       suSuperFootIntranet {
         title
@@ -1205,6 +1210,7 @@ export const ConfigPagesDocument = gql`
   lockupSettings(first: 1) {
     nodes {
       __typename
+      id
       suLine1
       suLine2
       suLine3

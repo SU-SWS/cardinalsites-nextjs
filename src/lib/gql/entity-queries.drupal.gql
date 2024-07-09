@@ -188,6 +188,7 @@ query ConfigPages {
     stanfordBasicSiteSettings(first: 1) {
         nodes {
             __typename
+            id
             suGoogleAnalytics
             suSiteAlgolia
             suSiteAlgoliaId
@@ -202,6 +203,7 @@ query ConfigPages {
     stanfordGlobalMessages(first: 1) {
         nodes {
             __typename
+            id
             suGlobalMsgEnabled
             suGlobalMsgHeader
             suGlobalMsgLabel
@@ -218,6 +220,7 @@ query ConfigPages {
     stanfordLocalFooters(first: 1) {
         nodes {
             __typename
+            id
             suFooterEnabled
             suLocalFootAction {
                 title
@@ -300,6 +303,7 @@ query ConfigPages {
     stanfordSuperFooters(first: 1) {
         nodes {
             __typename
+            id
             suSuperFootEnabled
             suSuperFootIntranet {
                 title
@@ -318,6 +322,7 @@ query ConfigPages {
     lockupSettings(first: 1) {
         nodes {
             __typename
+            id
             suLine1
             suLine2
             suLine3

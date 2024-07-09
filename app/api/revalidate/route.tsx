@@ -1,5 +1,7 @@
 import {NextRequest, NextResponse} from "next/server"
 import {revalidateTag} from "next/cache"
+import {getMenu} from "@lib/gql/gql-queries"
+import {getMenuActiveTrail} from "@lib/drupal/utils"
 
 export const revalidate = 0
 
@@ -18,6 +20,9 @@ export const GET = async (request: NextRequest) => {
       .map(tag => tagsInvalidated.push(tag))
 
   tagsInvalidated.map(tag => revalidateTag(tag))
+
+  const menu = await getMenu()
+  if (!!getMenuActiveTrail(menu, path).length) tagsInvalidated.push("menu:main")
 
   return NextResponse.json({revalidated: true, tags: tagsInvalidated})
 }

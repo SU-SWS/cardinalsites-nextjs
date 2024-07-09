@@ -11,8 +11,11 @@ const GlobalMessage = async () => {
   const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage")
   if (!globalMessageConfig?.suGlobalMsgEnabled) return
 
+  const WrapperElement = globalMessageConfig.suGlobalMsgHeader ? "article" : "div"
+
   return (
-    <div
+    <WrapperElement
+      aria-labelledby={globalMessageConfig.suGlobalMsgHeader ? globalMessageConfig.id : undefined}
       className={twMerge(
         "py-10",
         clsx({
@@ -30,11 +33,17 @@ const GlobalMessage = async () => {
           {globalMessageConfig.suGlobalMsgLabel}:
         </div>
         <div>
-          {globalMessageConfig.suGlobalMsgHeader && <H2>{globalMessageConfig.suGlobalMsgHeader}</H2>}
+          {globalMessageConfig.suGlobalMsgHeader && <H2 id={globalMessageConfig.id}>{globalMessageConfig.suGlobalMsgHeader}</H2>}
 
           <Wysiwyg
             html={globalMessageConfig.suGlobalMsgMessage?.processed}
-            className="[&_a.btn]:border-2 [&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white"
+            className={twMerge(
+              "[&_a.btn]:border-2 [&_a]:no-underline [&_a]:hocus:underline",
+              clsx({
+                "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+                "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": ["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+              })
+            )}
           />
 
           {globalMessageConfig.suGlobalMsgLink?.url && (
@@ -53,7 +62,7 @@ const GlobalMessage = async () => {
           )}
         </div>
       </div>
-    </div>
+    </WrapperElement>
   )
 }
 

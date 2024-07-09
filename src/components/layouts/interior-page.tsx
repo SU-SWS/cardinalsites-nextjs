@@ -2,7 +2,7 @@ import {getMenu} from "@lib/gql/gql-queries"
 import SideNav from "@components/menu/side-nav"
 import {HtmlHTMLAttributes} from "react"
 import {MenuAvailable} from "@lib/gql/__generated__/drupal.d"
-import useActiveTrail from "@lib/hooks/useActiveTrail"
+import {getMenuActiveTrail} from "@lib/drupal/utils"
 import {twMerge} from "tailwind-merge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -14,7 +14,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const InteriorPage = async ({children, currentPath, ...props}: Props) => {
   const menu = await getMenu(MenuAvailable.Main)
-  const activeTrail: string[] = useActiveTrail(menu, currentPath)
+  const activeTrail: string[] = getMenuActiveTrail(menu, currentPath)
 
   // Peel off the menu items from the parent.
   const topMenuItem = activeTrail.length > 0 ? menu.find(item => item.id === activeTrail[0]) : undefined
