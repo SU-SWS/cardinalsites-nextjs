@@ -4,7 +4,7 @@ import {cookies} from "next/headers"
 
 export const revalidate = 0
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   const secret = request.nextUrl.searchParams.get("secret")
   const slug = request.nextUrl.searchParams.get("slug")
 

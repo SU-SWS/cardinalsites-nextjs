@@ -14,30 +14,38 @@ import LockupP from "@components/elements/lockup/lockup-p"
 import LockupR from "@components/elements/lockup/lockup-r"
 import LockupS from "@components/elements/lockup/lockup-s"
 import LockupT from "@components/elements/lockup/lockup-t"
-import {JSX} from "react"
+import {HTMLAttributes, JSX} from "react"
 import {H2} from "@components/elements/headers"
 import TwitterIcon from "@components/elements/icons/TwitterIcon"
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon"
 import FacebookIcon from "@components/elements/icons/FacebookIcon"
 import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d"
 import {buildUrl} from "@lib/drupal/utils"
+import {getConfigPage} from "@lib/gql/gql-queries"
+import {twMerge} from "tailwind-merge"
 
-const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, suLocalFootLine1, suLocalFootLine2, suLocalFootLine3, suLocalFootLine4, suLocalFootLine5, suLocalFootLocImg, suLocalFootLocOp, suLocalFootPrCo, suLocalFootPrimary, suLocalFootPrimeH, suLocalFootSeCo, suLocalFootSecond, suLocalFootSecondH, suLocalFootSocial, suLocalFootTr2Co, suLocalFootTrCo, suLocalFootUseLoc, suLocalFootUseLogo}: StanfordLocalFooter) => {
-  if (!suFooterEnabled) return
+type Props = HTMLAttributes<HTMLDivElement>
+
+const LocalFooter = async ({...props}: Props) => {
+  const localFooterConfig = await getConfigPage<StanfordLocalFooter>("StanfordLocalFooter")
+  if (!localFooterConfig?.suFooterEnabled) return
 
   const lockupProps = {
-    useDefault: suLocalFootUseLoc,
-    lockupOption: suLocalFootLocOp,
-    line1: suLocalFootLine1,
-    line2: suLocalFootLine2,
-    line3: suLocalFootLine3,
-    line4: suLocalFootLine4,
-    line5: suLocalFootLine5,
-    logoUrl: !suLocalFootUseLogo && suLocalFootLocImg?.url ? buildUrl(suLocalFootLocImg?.url).toString() : undefined,
+    useDefault: localFooterConfig.suLocalFootUseLoc,
+    lockupOption: localFooterConfig.suLocalFootLocOp,
+    line1: localFooterConfig.suLocalFootLine1,
+    line2: localFooterConfig.suLocalFootLine2,
+    line3: localFooterConfig.suLocalFootLine3,
+    line4: localFooterConfig.suLocalFootLine4,
+    line5: localFooterConfig.suLocalFootLine5,
+    logoUrl: !localFooterConfig.suLocalFootUseLogo && localFooterConfig.suLocalFootLocImg?.url ? buildUrl(localFooterConfig.suLocalFootLocImg?.url).toString() : undefined,
   }
 
   return (
-    <div className="local-footer bg-foggy-light py-20">
+    <div
+      {...props}
+      className={twMerge("local-footer bg-foggy-light py-20", props.className)}
+    >
       <div className="centered">
         <div className="mb-20">
           <FooterLockup {...lockupProps} />
@@ -45,11 +53,11 @@ const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, su
 
         <div className="grid gap-32 md:grid-cols-2 lg:grid-cols-4 [&_a:focus]:text-black [&_a:focus]:underline [&_a:hover]:text-black [&_a:hover]:underline [&_a]:font-normal [&_a]:no-underline [&_a]:transition">
           <div>
-            {suLocalFootAddress && <Address {...suLocalFootAddress} />}
+            {localFooterConfig.suLocalFootAddress && <Address {...localFooterConfig.suLocalFootAddress} />}
 
-            {suLocalFootAction && (
+            {localFooterConfig.suLocalFootAction && (
               <ul className="list-unstyled">
-                {suLocalFootAction.map((link, index) => {
+                {localFooterConfig.suLocalFootAction.map((link, index) => {
                   if (!link.url) return
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -60,9 +68,9 @@ const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, su
               </ul>
             )}
 
-            {suLocalFootSocial && (
+            {localFooterConfig.suLocalFootSocial && (
               <ul className="list-unstyled flex gap-2">
-                {suLocalFootSocial.map((link, index) => {
+                {localFooterConfig.suLocalFootSocial.map((link, index) => {
                   if (!link.url) return
                   return (
                     <li key={`footer-action-link-${index}`}>
@@ -76,14 +84,14 @@ const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, su
               </ul>
             )}
 
-            <Wysiwyg html={suLocalFootPrCo?.processed} />
+            <Wysiwyg html={localFooterConfig.suLocalFootPrCo?.processed} />
           </div>
 
           <div>
-            {suLocalFootPrimeH && <H2 className="text-m1">{suLocalFootPrimeH}</H2>}
-            {suLocalFootPrimary && (
+            {localFooterConfig.suLocalFootPrimeH && <H2 className="text-m1">{localFooterConfig.suLocalFootPrimeH}</H2>}
+            {localFooterConfig.suLocalFootPrimary && (
               <ul className="list-unstyled">
-                {suLocalFootPrimary.map((link, index) => {
+                {localFooterConfig.suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return
                   return (
                     <li key={`footer-primary-link-${index}`}>
@@ -93,15 +101,15 @@ const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, su
                 })}
               </ul>
             )}
-            <Wysiwyg html={suLocalFootSeCo?.processed} />
+            <Wysiwyg html={localFooterConfig.suLocalFootSeCo?.processed} />
           </div>
 
           <div>
-            {suLocalFootSecondH && <H2 className="text-m1">{suLocalFootSecondH}</H2>}
+            {localFooterConfig.suLocalFootSecondH && <H2 className="text-m1">{localFooterConfig.suLocalFootSecondH}</H2>}
 
-            {suLocalFootSecond && (
+            {localFooterConfig.suLocalFootSecond && (
               <ul className="list-unstyled">
-                {suLocalFootSecond.map((link, index) => {
+                {localFooterConfig.suLocalFootSecond.map((link, index) => {
                   if (!link.url) return
                   return (
                     <li key={`footer-second-link-${index}`}>
@@ -112,10 +120,10 @@ const LocalFooter = ({suFooterEnabled, suLocalFootAction, suLocalFootAddress, su
               </ul>
             )}
 
-            <Wysiwyg html={suLocalFootTr2Co?.processed} />
+            <Wysiwyg html={localFooterConfig.suLocalFootTr2Co?.processed} />
           </div>
 
-          <Wysiwyg html={suLocalFootTrCo?.processed} />
+          <Wysiwyg html={localFooterConfig.suLocalFootTrCo?.processed} />
         </div>
       </div>
     </div>

@@ -3,24 +3,33 @@ import Link from "@components/elements/link"
 import {LockClosedIcon} from "@heroicons/react/24/outline"
 import {H2} from "@components/elements/headers"
 import {StanfordSuperFooter} from "@lib/gql/__generated__/drupal.d"
+import {getConfigPage} from "@lib/gql/gql-queries"
+import {HTMLAttributes} from "react"
+import {twMerge} from "tailwind-merge"
 
-const SuperFooter = ({suSuperFootEnabled, suSuperFootTitle, suSuperFootText, suSuperFootLink, suSuperFootIntranet}: StanfordSuperFooter) => {
-  if (!suSuperFootEnabled) return
+type Props = HTMLAttributes<HTMLDivElement>
+
+const SuperFooter = async ({...props}: Props) => {
+  const superFooterConfig = await getConfigPage<StanfordSuperFooter>("StanfordSuperFooter")
+  if (!superFooterConfig?.suSuperFootEnabled) return
 
   return (
-    <div className="border-b border-black-20 bg-foggy-light py-20">
+    <div
+      {...props}
+      className={twMerge("border-b border-black-20 bg-foggy-light py-20", props.className)}
+    >
       <div className="centered flex justify-between">
         <div className="flex-1">
-          {suSuperFootTitle && <H2 className="text-m2">{suSuperFootTitle}</H2>}
+          {superFooterConfig.suSuperFootTitle && <H2 className="text-m2">{superFooterConfig.suSuperFootTitle}</H2>}
 
-          <Wysiwyg html={suSuperFootText?.processed} />
+          <Wysiwyg html={superFooterConfig.suSuperFootText?.processed} />
         </div>
 
         <div className="flex-1 text-right">
           <div className="inline-block">
-            {suSuperFootLink && (
+            {superFooterConfig.suSuperFootLink && (
               <>
-                {suSuperFootLink.map((link, index) => {
+                {superFooterConfig.suSuperFootLink.map((link, index) => {
                   if (!link.url) return
                   return (
                     <Link
@@ -35,12 +44,12 @@ const SuperFooter = ({suSuperFootEnabled, suSuperFootTitle, suSuperFootText, suS
               </>
             )}
 
-            {suSuperFootIntranet?.url && (
+            {superFooterConfig.suSuperFootIntranet?.url && (
               <Link
-                href={suSuperFootIntranet.url}
+                href={superFooterConfig.suSuperFootIntranet.url}
                 className="flex items-center text-digital-red no-underline hocus:text-black hocus:underline"
               >
-                {suSuperFootIntranet.title}
+                {superFooterConfig.suSuperFootIntranet.title}
                 <LockClosedIcon
                   width={20}
                   className="ml-2"

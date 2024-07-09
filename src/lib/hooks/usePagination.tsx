@@ -11,6 +11,9 @@ import {useMemo} from "react"
  *   How many items per page.
  * @param siblingCount
  *   How many page buttons to display left and right of the current page.
+ *
+ * @return
+ *   Page numbers.
  */
 const usePagination = (totalCount: number, currentPage = 1, pageSize = 5, siblingCount = 2): (number | string)[] => {
   return useMemo(() => {

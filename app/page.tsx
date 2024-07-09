@@ -20,10 +20,12 @@ const Home = async () => {
   return (
     <article>
       {entity.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
-        <BannerParagraph
-          paragraph={entity.suPageBanner}
-          eagerLoadImage
-        />
+        <header>
+          <BannerParagraph
+            paragraph={entity.suPageBanner}
+            eagerLoadImage
+          />
+        </header>
       )}
       {entity.suPageComponents && <Rows components={entity.suPageComponents} />}
     </article>

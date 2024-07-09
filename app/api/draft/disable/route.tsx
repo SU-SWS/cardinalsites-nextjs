@@ -3,7 +3,7 @@ import {cookies} from "next/headers"
 
 export const revalidate = 0
 
-export async function GET() {
+export const GET = async () => {
   cookies().delete("preview")
   return NextResponse.json({disabled: true}, {status: 200})
 }

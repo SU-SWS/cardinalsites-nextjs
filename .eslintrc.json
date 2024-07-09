@@ -7,18 +7,37 @@
   },
   "extends": [
     "next/core-web-vitals",
+    "plugin:jsdoc/recommended-typescript",
     "plugin:storybook/recommended",
+    "plugin:prettier/recommended",
     "plugin:deprecation/recommended"
   ],
   "rules": {
+    "prettier/prettier": "warn",
     "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
       "warn",
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ],
-    "no-console": ["error", { "allow": ["warn"] }],
-    "quotes": ["error", "double"]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "quotes": ["error", "double"],
+    "jsdoc/require-returns": "off",
+    "jsdoc/tag-lines": [
+      "warn",
+      "any",
+      {
+        "endLines":0,
+        "startLines":1
+      }
+    ]
+  },
+  "settings": {
+    "jsdoc": {
+      "tagNamePreference": {
+        "returns": "return"
+      }
+    }
   },
   "plugins": ["unused-imports"],
   "ignorePatterns": ["**/__generated__/**/*"]

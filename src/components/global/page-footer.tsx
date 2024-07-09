@@ -1,19 +1,14 @@
 import LocalFooter from "@components/config-pages/local-footer"
 import SuperFooter from "@components/config-pages/super-footer"
-import {getConfigPage} from "@lib/gql/gql-queries"
-import {StanfordLocalFooter, StanfordSuperFooter} from "@lib/gql/__generated__/drupal.d"
 import {HTMLAttributes} from "react"
 
 type Props = HTMLAttributes<HTMLElement>
 
-const PageFooter = async ({...props}: Props) => {
-  const superFooterConfig = await getConfigPage<StanfordSuperFooter>("StanfordSuperFooter")
-  const localFooterConfig = await getConfigPage<StanfordLocalFooter>("StanfordLocalFooter")
-
+const PageFooter = ({...props}: Props) => {
   return (
     <footer {...props}>
-      {superFooterConfig && <SuperFooter {...superFooterConfig} />}
-      {localFooterConfig && <LocalFooter {...localFooterConfig} />}
+      <SuperFooter />
+      <LocalFooter />
 
       <div className="bg-cardinal-red py-10 [&_a:hocus]:text-white [&_a]:text-white [&_a]:no-underline">
         <div className="centered lg:flex lg:items-start lg:gap-20">

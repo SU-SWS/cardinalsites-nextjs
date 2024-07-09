@@ -29,15 +29,24 @@ const GlobalMessage = async () => {
           <MessageIcon messageType={globalMessageConfig.suGlobalMsgType} />
           {globalMessageConfig.suGlobalMsgLabel}:
         </div>
-        <div className="[&_a.btn]:border-2 [&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white">
+        <div>
           {globalMessageConfig.suGlobalMsgHeader && <H2>{globalMessageConfig.suGlobalMsgHeader}</H2>}
 
-          <Wysiwyg html={globalMessageConfig.suGlobalMsgMessage?.processed} />
+          <Wysiwyg
+            html={globalMessageConfig.suGlobalMsgMessage?.processed}
+            className="[&_a.btn]:border-2 [&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white"
+          />
 
           {globalMessageConfig.suGlobalMsgLink?.url && (
             <Link
               href={globalMessageConfig.suGlobalMsgLink.url}
-              className="text-white"
+              className={twMerge(
+                "no-underline hocus:underline",
+                clsx({
+                  "text-white hocus:text-white": !["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+                  "text-black hocus:text-black": ["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+                })
+              )}
             >
               {globalMessageConfig.suGlobalMsgLink.title}
             </Link>

@@ -17,16 +17,20 @@ const StanfordPagePage = ({node, ...props}: Props) => {
   return (
     <article {...props}>
       {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
-        <BannerParagraph
-          paragraph={node.suPageBanner}
-          eagerLoadImage
-        />
+        <header>
+          <BannerParagraph
+            paragraph={node.suPageBanner}
+            eagerLoadImage
+          />
+        </header>
       )}
       {node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && (
-        <PageTitleBannerParagraph
-          paragraph={node.suPageBanner}
-          pageTitle={node.title}
-        />
+        <header>
+          <PageTitleBannerParagraph
+            paragraph={node.suPageBanner}
+            pageTitle={node.title}
+          />
+        </header>
       )}
 
       {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && <H1 className="centered mt-32">{node.title}</H1>}

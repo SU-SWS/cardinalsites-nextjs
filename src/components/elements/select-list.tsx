@@ -28,7 +28,7 @@ const renderSelectedValue = (value: SelectValue<string, boolean>, options: Selec
   return selectedOption ? selectedOption.label : null
 }
 
-function CustomOption(props: OptionProps) {
+const CustomOption = (props: OptionProps) => {
   const {children, value, rootRef, disabled = false} = props
   const {getRootProps, highlighted, selected} = useOption({
     rootRef: rootRef,

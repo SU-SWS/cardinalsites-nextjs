@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * Centered container.
  */

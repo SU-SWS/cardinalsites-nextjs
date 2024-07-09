@@ -1,5 +1,4 @@
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
-import path from "path";
 import type {StorybookConfig} from "@storybook/nextjs";
 
 const config: StorybookConfig = {
@@ -10,6 +9,9 @@ const config: StorybookConfig = {
         useSWC: true,
       },
     },
+  },
+  features: {
+    experimentalRSC: true,
   },
   typescript: {
     reactDocgen: 'react-docgen',
@@ -23,9 +25,9 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    '@storybook/addon-styling',
+    "storybook-addon-module-mock",
     {
-      name: '@storybook/addon-styling',
+      name: '@storybook/addon-styling-webpack',
       options: {
         // Check out https://github.com/storybookjs/addon-styling/blob/main/docs/api.md
         // For more details on this addon's options.
@@ -33,9 +35,6 @@ const config: StorybookConfig = {
       },
     },
   ],
-  docs: {
-    autodocs: "tag",
-  },
   webpackFinal: async (config) => {
     if (config.resolve) config.resolve.plugins = [new TsconfigPathsPlugin()];
     return config

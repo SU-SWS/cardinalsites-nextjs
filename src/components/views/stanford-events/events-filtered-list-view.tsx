@@ -1,6 +1,6 @@
 "use client"
 
-import {getTaxonomyTree} from "@lib/drupal/get-taxonomy-tree"
+import {getTaxonomyTree} from "@lib/drupal/utils"
 import Button from "@components/elements/button"
 import SelectList from "@components/elements/select-list"
 import {useMemo, useState} from "react"

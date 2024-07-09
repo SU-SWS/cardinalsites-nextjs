@@ -1,14 +1,17 @@
 import {MenuItem} from "@lib/gql/__generated__/drupal.d"
 
 /**
- * Get an array of menu item ids representing the current page"s location in the main menu.
+ * Get an array of menu item ids representing the current page's location in the main menu.
  *
  * @param menuItems
  *   Array of menu items.
  * @param currentPath
  *   Current page url.
+ *
+ * @return
+ *   Active trail menu item ids.
  */
-const useActiveTrail = (menuItems: MenuItem[], currentPath?: string) => {
+const useActiveTrail = (menuItems: MenuItem[], currentPath?: string): string[] => {
   const getActiveTrail = (menuItems: MenuItem[], trail: string[] = []): string[] => {
     let childTrail, currentTrail
     for (let i = 0; i < menuItems.length; i++) {
