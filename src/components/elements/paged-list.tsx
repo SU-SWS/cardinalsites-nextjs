@@ -7,6 +7,9 @@ import {useRouter, useSearchParams} from "next/navigation"
 import usePagination from "@lib/hooks/usePagination"
 import useFocusOnRender from "@lib/hooks/useFocusOnRender"
 import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/react/20/solid"
+import {ArrowPathIcon} from "@heroicons/react/16/solid"
+import {twMerge} from "tailwind-merge"
+import useServerAction from "@lib/hooks/useServerAction"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -38,32 +41,37 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pagerSiblingCount = 2, loadPage, ...props}: Props) => {
   const ref = useRef(false)
   const [items, setItems] = useState<JSX.Element[]>(Array.isArray(children) ? children : [children])
+  const [runAction, isRunning] = useServerAction<[number], JSX.Element>(loadPage)
 
   const router = useRouter()
   const searchParams = useSearchParams()
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: currentPage, setCount: setPage} = useCounter(Math.max(1, parseInt(searchParams.get(pageKey || "") || "") || 1))
+  const {count: currentPage, setCount: setPage} = useCounter(Math.min(totalPages, pageKey ? Math.max(1, parseInt(searchParams.get(pageKey) || "")) : 1))
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
   const [animationParent] = useAutoAnimate<HTMLUListElement>()
 
   const goToPage = useCallback(
-    async (page: number, doNotFocusOnResults?: boolean) => {
-      if (loadPage) {
-        loadPage(page - 1)
-          .then(response => {
-            setItems(response.props.fallback ? response.props.children.props.children : response.props.children)
+    (page: number, doNotFocusOnResults?: boolean) => {
+      runAction(page - 1)
+        .then(response => {
+          if (!response) return
 
-            if (!doNotFocusOnResults) enableFocusElement()
-            setPage(page)
-          })
-          .catch(() => console.warn("An error occurred fetching more results."))
-      }
+          // Set the rendering to the response from the server. If the response has a suspense boundary, it will have a
+          // fallback prop. Then we only want to render the list of children within the suspense.
+          setItems(response.props.fallback ? response.props.children.props.children : response.props.children)
+
+          // When loading a page during the initial page load, we don't want to focus on anything. But when a user changes
+          // pages, we want to focus on the first element.
+          if (!doNotFocusOnResults) enableFocusElement()
+          setPage(page)
+        })
+        .catch(() => console.error("An error occurred fetching more results."))
     },
-    [enableFocusElement, setPage, loadPage]
+    [enableFocusElement, setPage, runAction]
   )
 
   const setFocusOnItem = useFocusOnRender(focusItemRef, false)
@@ -77,25 +85,35 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
 
     // Use search params to retain any other parameters.
     const params = new URLSearchParams(searchParams.toString())
-    if (currentPage > 1) {
-      params.set(pageKey, `${currentPage}`)
-    } else {
-      params.delete(pageKey)
-    }
+    params.delete(pageKey)
+
+    if (currentPage > 1) params.set(pageKey, `${currentPage}`)
 
     router.replace(`?${params.toString()}`, {scroll: false})
   }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
-    const initialPage = parseInt(searchParams.get(pageKey || "") || "")
-    if (initialPage > 1 && !ref.current) goToPage(initialPage, true)
+    if (currentPage > 1 && !ref.current) goToPage(currentPage, true)
     ref.current = true
-  }, [searchParams, pageKey, loadPage, goToPage])
+  }, [currentPage, goToPage])
 
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
 
   return (
-    <div {...props}>
+    <div
+      {...props}
+      className={twMerge("relative", props.className)}
+    >
+      {isRunning && (
+        <div className="absolute left-0 top-0 z-10 h-full w-full rounded-2xl bg-black-20 bg-opacity-30">
+          <div className="absolute bottom-20 left-1/2 -translate-x-1/2">
+            <ArrowPathIcon
+              className="animate-spin"
+              width={50}
+            />
+          </div>
+        </div>
+      )}
       <ul
         {...ulProps}
         ref={animationParent}
@@ -127,6 +145,7 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
                 total={totalPages}
                 onPageClick={goToPage}
                 pagerSiblingCount={pagerSiblingCount}
+                disabled={isRunning}
               />
             ))}
           </ul>
@@ -136,7 +155,7 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
   )
 }
 
-const PaginationButton = ({page, currentPage, total, onPageClick, pagerSiblingCount}: {page: number | string; currentPage: number; total: number; onPageClick: (_page: number) => void; pagerSiblingCount: number}) => {
+const PaginationButton = ({page, currentPage, total, onPageClick, pagerSiblingCount, disabled}: {page: number | string; currentPage: number; total: number; onPageClick: (_page: number) => void; pagerSiblingCount: number; disabled: boolean}) => {
   if (page === 0) {
     return (
       <li className="mt-auto h-full">
@@ -166,6 +185,7 @@ const PaginationButton = ({page, currentPage, total, onPageClick, pagerSiblingCo
         className="group text-m2 font-medium hocus:underline"
         onClick={handleClick}
         aria-current={isCurrent ? "page" : undefined}
+        disabled={disabled}
       >
         <span className="sr-only">
           {page === "leftArrow" && "Go to first page"}
