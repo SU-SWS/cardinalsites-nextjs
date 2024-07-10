@@ -93,8 +93,10 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
   }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
-    if (currentPage > 1 && !ref.current) goToPage(currentPage, true)
-    ref.current = true
+    if (currentPage > 1 && !ref.current) {
+      ref.current = true
+      goToPage(currentPage, true)
+    }
   }, [currentPage, goToPage])
 
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
