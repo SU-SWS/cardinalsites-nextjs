@@ -15,10 +15,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordPolicyPage = async ({node, ...props}: Props) => {
   const changeLog = node.suPolicyChangelog?.filter(change => change.suPolicyPublic) || []
   return (
-    <article
-      className="centered pt-32"
-      {...props}
-    >
+    <article className="centered pt-32" {...props}>
       <H1>{node.title}</H1>
       <div className="flex flex-col gap-20">
         {(node.suPolicyAuthority || node.suPolicyUpdated || node.suPolicyEffective) && (
@@ -74,10 +71,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
                 </H3>
 
                 <div>
-                  <StringWithLines
-                    text={change.suPolicyNotes}
-                    key={change.id}
-                  />
+                  <StringWithLines text={change.suPolicyNotes} key={change.id} />
                 </div>
               </div>
             ))}

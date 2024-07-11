@@ -11,10 +11,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
   const image = paragraph.suPersonCtaImage?.mediaImage
   return (
-    <div
-      {...props}
-      className={twMerge("centered flex gap-10", props.className)}
-    >
+    <div {...props} className={twMerge("centered flex gap-10", props.className)}>
       {image?.url && (
         <div className="relative aspect-[1/1] w-[200px]">
           <Image

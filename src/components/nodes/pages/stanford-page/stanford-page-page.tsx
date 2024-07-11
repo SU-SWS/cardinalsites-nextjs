@@ -18,22 +18,18 @@ const StanfordPagePage = ({node, ...props}: Props) => {
     <article {...props}>
       {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
         <header>
-          <BannerParagraph
-            paragraph={node.suPageBanner}
-            eagerLoadImage
-          />
+          <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage />
         </header>
       )}
       {node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && (
         <header>
-          <PageTitleBannerParagraph
-            paragraph={node.suPageBanner}
-            pageTitle={node.title}
-          />
+          <PageTitleBannerParagraph paragraph={node.suPageBanner} pageTitle={node.title} />
         </header>
       )}
 
-      {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && <H1 className="centered mt-32">{node.title}</H1>}
+      {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && (
+        <H1 className="centered mt-32">{node.title}</H1>
+      )}
 
       {!fullWidth && (
         <InteriorPage currentPath={node.path}>

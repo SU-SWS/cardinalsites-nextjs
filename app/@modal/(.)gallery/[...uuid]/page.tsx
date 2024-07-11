@@ -23,7 +23,9 @@ const Page = async ({params: {uuid}}: Props) => {
   const prevImageIndex = paragraph.suGalleryImages?.[currentImageIndex - 1] ? currentImageIndex - 1 : -1
   const nextImageIndex = paragraph.suGalleryImages?.[currentImageIndex + 1] ? currentImageIndex + 1 : -1
 
-  let galleryImages = mediaUuid ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid) : paragraph.suGalleryImages
+  let galleryImages = mediaUuid
+    ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid)
+    : paragraph.suGalleryImages
 
   galleryImages = galleryImages?.filter(image => !!image.suGalleryImage?.url)
 
@@ -45,10 +47,7 @@ const Page = async ({params: {uuid}}: Props) => {
                 />
               </picture>
               {galleryImage.suGalleryCaption && (
-                <figcaption
-                  id={captionId}
-                  className="m-0 table-caption w-full caption-bottom bg-white p-5 text-right"
-                >
+                <figcaption id={captionId} className="m-0 table-caption w-full caption-bottom bg-white p-5 text-right">
                   {galleryImage.suGalleryCaption}
                 </figcaption>
               )}

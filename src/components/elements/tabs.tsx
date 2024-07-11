@@ -40,7 +40,12 @@ export const Tabs = ({paramId = "tab", orientation, defaultTab, children, ...pro
   const paramValue = searchParams.get(paramId)
   const initialTab = defaultTab || (paramValue && parseInt(paramValue))
 
-  const {contextValue} = useTabs({orientation, defaultValue: initialTab || 0, onChange, selectionFollowsFocus: true})
+  const {contextValue} = useTabs({
+    orientation,
+    defaultValue: initialTab || 0,
+    onChange,
+    selectionFollowsFocus: true,
+  })
 
   return (
     <TabsProvider value={contextValue}>
@@ -104,7 +109,10 @@ export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
     <button
       {...getRootProps()}
       {...buttonProps}
-      className={twMerge(clsx("border-b-3 border-transparent p-3 text-left", {"border-cardinal-red": selected}), className)}
+      className={twMerge(
+        clsx("border-b-3 border-transparent p-3 text-left", {"border-cardinal-red": selected}),
+        className
+      )}
     >
       {children}
     </button>
@@ -130,12 +138,7 @@ export const TabPanel = ({panelProps, className, children}: TabPanelProps) => {
   const rootRef = useRef<HTMLDivElement>(null)
   const {getRootProps} = useTabPanel({rootRef})
   return (
-    <section
-      {...getRootProps()}
-      {...panelProps}
-      role="tabpanel"
-      className={className}
-    >
+    <section {...getRootProps()} {...panelProps} role="tabpanel" className={className}>
       {children}
     </section>
   )

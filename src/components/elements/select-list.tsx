@@ -2,7 +2,18 @@
 
 import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from "@mui/base/useSelect"
 import {useOption} from "@mui/base/useOption"
-import {FocusEvent, KeyboardEvent, MouseEvent, ReactNode, RefObject, useEffect, useId, useLayoutEffect, useRef, useState} from "react"
+import {
+  FocusEvent,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 
@@ -65,7 +76,10 @@ const CustomOption = (props: OptionProps) => {
     <li
       {...otherProps}
       id={id}
-      className={"m-0 mb-2 cursor-pointer overflow-hidden px-10 py-2 hocus:underline " + (selected ? selectedStyles : highlighted ? highlightedStyles : "hocus:bg-black-10 hocus:text-black")}
+      className={
+        "m-0 mb-2 cursor-pointer overflow-hidden px-10 py-2 hocus:underline " +
+        (selected ? selectedStyles : highlighted ? highlightedStyles : "hocus:bg-black-10 hocus:text-black")
+      }
     >
       {children}
     </li>
@@ -87,7 +101,18 @@ interface Props {
   name?: Maybe<string>
 }
 
-const SelectList = ({options = [], label, multiple, ariaLabelledby, required, defaultValue, name, emptyValue, emptyLabel = "- None -", ...props}: Props) => {
+const SelectList = ({
+  options = [],
+  label,
+  multiple,
+  ariaLabelledby,
+  required,
+  defaultValue,
+  name,
+  emptyValue,
+  emptyLabel = "- None -",
+  ...props
+}: Props) => {
   const labelId = useId()
   const labeledBy = ariaLabelledby || labelId
 
@@ -129,24 +154,25 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
         <div className="flex flex-wrap justify-between">
           {label && (
             <div className={"relative " + (optionChosen ? "top-[-15px] w-full text-m0" : "text-m1")}>
-              <div
-                id={labelId}
-                className="w-fit bg-white px-5"
-              >
+              <div id={labelId} className="w-fit bg-white px-5">
                 {label}
               </div>
             </div>
           )}
-          {optionChosen && <div className="max-w-[calc(100%-30px)] overflow-hidden">{renderSelectedValue(value, options)}</div>}
+          {optionChosen && (
+            <div className="max-w-[calc(100%-30px)] overflow-hidden">{renderSelectedValue(value, options)}</div>
+          )}
 
-          <ChevronDownIcon
-            width={20}
-            className="flex-shrink-0"
-          />
+          <ChevronDownIcon width={20} className="flex-shrink-0" />
         </div>
       </button>
 
-      <div className={"absolute left-0 top-full z-[10] max-h-[300px] w-full overflow-y-scroll border border-black-20 bg-white pb-5 shadow-lg " + (listboxVisible ? "" : "hidden")}>
+      <div
+        className={
+          "absolute left-0 top-full z-[10] max-h-[300px] w-full overflow-y-scroll border border-black-20 bg-white pb-5 shadow-lg " +
+          (listboxVisible ? "" : "hidden")
+        }
+      >
         <ul
           {...getListboxProps()}
           className={"list-unstyled " + (listboxVisible ? "" : "hidden")}
@@ -155,21 +181,14 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
         >
           <SelectProvider value={contextValue}>
             {!required && !multiple && (
-              <CustomOption
-                value={emptyValue || ""}
-                rootRef={listboxRef}
-              >
+              <CustomOption value={emptyValue || ""} rootRef={listboxRef}>
                 {emptyLabel}
               </CustomOption>
             )}
 
             {options.map(option => {
               return (
-                <CustomOption
-                  key={option.value}
-                  value={option.value}
-                  rootRef={listboxRef}
-                >
+                <CustomOption key={option.value} value={option.value} rootRef={listboxRef}>
                   {option.label}
                 </CustomOption>
               )
@@ -177,14 +196,7 @@ const SelectList = ({options = [], label, multiple, ariaLabelledby, required, de
           </SelectProvider>
         </ul>
       </div>
-      {name && (
-        <input
-          ref={inputRef}
-          name={name}
-          type="hidden"
-          value={value || ""}
-        />
-      )}
+      {name && <input ref={inputRef} name={name} type="hidden" value={value || ""} />}
     </div>
   )
 }

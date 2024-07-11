@@ -4,6 +4,7 @@ import Button from "@components/elements/button"
 import {ChevronUpIcon} from "@heroicons/react/20/solid"
 import {useBoolean, useDebounceCallback, useEventListener} from "usehooks-ts"
 import {useCallback} from "react"
+import {clsx} from "clsx"
 
 const BackToTop = () => {
   const {value, setFalse, setTrue} = useBoolean(false)
@@ -15,19 +16,24 @@ const BackToTop = () => {
 
   useEventListener("scroll", useDebounceCallback(onScroll, 200))
 
+  const onButtonClick = useCallback(() => {
+    scrollTo({
+      left: 0,
+      top: 0,
+      behavior: !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches ? "instant" : "smooth",
+    })
+  }, [])
+
   return (
     <Button
       buttonElem
-      className={"fixed bottom-10 right-10 transition-all duration-300 " + (value ? "visible opacity-100" : "invisible opacity-0")}
-      onClick={() =>
-        scrollTo({
-          left: 0,
-          top: 0,
-          behavior: !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches ? "instant" : "smooth",
-        })
-      }
+      className={clsx("fixed bottom-10 right-10 transition-all duration-300", {
+        "visible opacity-100": value,
+        "invisible opacity-0": !value,
+      })}
+      onClick={onButtonClick}
     >
-      <span className="block flex gap-2">
+      <span className="flex items-center gap-2">
         <ChevronUpIcon width={30} />
         Return to Top
       </span>

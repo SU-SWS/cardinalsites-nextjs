@@ -27,10 +27,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
   const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles"
 
   return (
-    <article
-      className="centered mt-32 flex flex-col gap-20"
-      {...props}
-    >
+    <article className="centered mt-32 flex flex-col gap-20" {...props}>
       <div className="flex flex-col">
         <H1 className="order-2">{node.title}</H1>
 
@@ -50,39 +47,24 @@ const StanfordEventPage = ({node, ...props}: Props) => {
       <div className="mx-auto border border-black-40 px-10 py-20 lg:w-3/4 lg:px-48">
         <H2 className="text-m2">Event Details:</H2>
         <div className="grid items-start gap-20 lg:grid-cols-2">
-          <time
-            className="flex items-center gap-5"
-            dateTime={startTime.toISOString()}
-          >
-            <CalendarDaysIcon
-              width={30}
-              className="shrink-0"
-            />
+          <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
+            <CalendarDaysIcon width={30} className="shrink-0" />
             {getEventTimeString(startTime, endTime, timeZone)}
           </time>
 
           {(node.suEventEmail || node.suEventTelephone) && (
             <div className="flex-col-2 flex items-start gap-lg">
-              <PhoneIcon
-                width={30}
-                className="shrink-0"
-              />
+              <PhoneIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="text-m1">Contact</H3>
 
                 {node.suEventEmail && (
-                  <Email
-                    email={node.suEventEmail}
-                    className="block"
-                  >
+                  <Email email={node.suEventEmail} className="block">
                     {node.suEventEmail}
                   </Email>
                 )}
                 {node.suEventTelephone && (
-                  <Telephone
-                    tel={node.suEventTelephone}
-                    className="block"
-                  >
+                  <Telephone tel={node.suEventTelephone} className="block">
                     {node.suEventTelephone}
                   </Telephone>
                 )}
@@ -92,10 +74,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
           {(node.suEventLocation || node.suEventMapLink) && (
             <div className="flex-col-2 flex items-start gap-5">
-              <MapPinIcon
-                width={30}
-                className="shrink-0"
-              />
+              <MapPinIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="text-m1">Location</H3>
 
@@ -110,10 +89,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
           {node.suEventAudience && (
             <div className="flex-col-2 flex items-start gap-5">
-              <UserGroupIcon
-                width={30}
-                className="shrink-0"
-              />
+              <UserGroupIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="text-m1">This event is open to:</H3>
                 {node.suEventAudience.map(audience => (
@@ -126,30 +102,21 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
         {node.suEventCta && (
           <div className="mt-20">
-            <Button
-              href={node.suEventCta.url}
-              centered
-            >
+            <Button href={node.suEventCta.url} centered>
               {node.suEventCta.title}
             </Button>
           </div>
         )}
       </div>
 
-      <Wysiwyg
-        html={node.body?.processed}
-        className="mx-auto lg:w-3/4"
-      />
+      <Wysiwyg html={node.body?.processed} className="mx-auto lg:w-3/4" />
 
       <Rows components={node.suEventComponents} />
 
       {node.suEventSchedule && (
         <div>
           {node.suEventSchedule.map(scheduleInstance => (
-            <ScheduleParagraph
-              paragraph={scheduleInstance as ParagraphStanfordSchedule}
-              key={scheduleInstance.id}
-            />
+            <ScheduleParagraph paragraph={scheduleInstance as ParagraphStanfordSchedule} key={scheduleInstance.id} />
           ))}
         </div>
       )}

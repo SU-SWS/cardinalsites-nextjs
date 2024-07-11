@@ -16,17 +16,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const Oembed = ({url, ...props}: Props) => {
   const {isIntersecting, ref} = useIntersectionObserver({freezeOnceVisible: true})
   return (
-    <div
-      {...props}
-      ref={ref}
-      className={twMerge("relative aspect-[16/9] w-full", props.className)}
-    >
-      {isIntersecting && (
-        <Embed
-          url={url}
-          LoadingFallbackElement={<Loading />}
-        />
-      )}
+    <div {...props} ref={ref} className={twMerge("relative aspect-[16/9] w-full", props.className)}>
+      {isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading />} />}
     </div>
   )
 }
@@ -34,11 +25,7 @@ const Oembed = ({url, ...props}: Props) => {
 const Loading = () => {
   return (
     <div className="flex h-full w-full items-baseline">
-      <SignalIcon
-        className="mx-auto animate-ping self-center"
-        width={30}
-        height={30}
-      />
+      <SignalIcon className="mx-auto animate-ping self-center" width={30} height={30} />
     </div>
   )
 }

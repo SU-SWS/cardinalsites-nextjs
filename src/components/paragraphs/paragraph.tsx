@@ -20,10 +20,7 @@ type Props = {
 
 const Paragraph = async ({paragraph}: Props) => {
   return (
-    <EditorAlert
-      status={paragraph.status}
-      message="Unpublished Content"
-    >
+    <EditorAlert status={paragraph.status} message="Unpublished Content">
       <ParagraphComponent paragraph={paragraph} />
     </EditorAlert>
   )
@@ -40,61 +37,23 @@ const ParagraphComponent = async ({paragraph}: Props) => {
 
   switch (paragraph.__typename) {
     case "ParagraphStanfordBanner":
-      return (
-        <BannerParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <BannerParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordCard":
-      return (
-        <CardParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <CardParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordEntity":
-      return (
-        <EntityParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <EntityParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordGallery":
-      return (
-        <GalleryParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <GalleryParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordMediaCaption":
-      return (
-        <MediaCaptionParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <MediaCaptionParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordSpacer":
-      return (
-        <SpacerParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <SpacerParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordWysiwyg":
-      return (
-        <WysiwygParagraph
-          paragraph={paragraph}
-          {...itemProps}
-        />
-      )
+      return <WysiwygParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordList":
       return (
         <Suspense>
-          <ListParagraph
-            paragraph={paragraph}
-            {...itemProps}
-          />
+          <ListParagraph paragraph={paragraph} {...itemProps} />
         </Suspense>
       )
   }

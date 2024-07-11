@@ -23,10 +23,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   }
 
   return (
-    <div
-      {...props}
-      className={twMerge("centered", props.className)}
-    >
+    <div {...props} className={twMerge("centered", props.className)}>
       {start && <H3>{start}</H3>}
       {paragraph.suScheduleHeadline && <div>{paragraph.suScheduleHeadline}</div>}
 
@@ -36,10 +33,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
       {paragraph.suScheduleSpeaker && (
         <div>
           {paragraph.suScheduleSpeaker.map(speaker => (
-            <PersonCtaParagraph
-              paragraph={speaker as ParagraphStanfordPersonCtum}
-              key={speaker.id}
-            />
+            <PersonCtaParagraph paragraph={speaker as ParagraphStanfordPersonCtum} key={speaker.id} />
           ))}
         </div>
       )}

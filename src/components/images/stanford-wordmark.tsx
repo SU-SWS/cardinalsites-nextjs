@@ -23,11 +23,7 @@ const StanfordWordMark = ({height = 91, width = 426, ...props}: Props) => {
       preserveAspectRatio="xMidYMid meet"
       {...props}
     >
-      <g
-        transform="translate(0,91) scale(0.1,-0.1)"
-        fill="currentColor"
-        stroke="none"
-      >
+      <g transform="translate(0,91) scale(0.1,-0.1)" fill="currentColor" stroke="none">
         <path
           d="M2438 896 c-95 -34 -132 -95 -143 -237 -7 -86 -7 -86 -41 -102 -46
     -22 -45 -47 1 -47 l35 0 0 -211 c0 -118 -4 -218 -10 -229 -5 -10 -23 -23 -40

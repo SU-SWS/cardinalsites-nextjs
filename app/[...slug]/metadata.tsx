@@ -1,4 +1,14 @@
-import {Maybe, NodeStanfordEvent, NodeStanfordNews, NodeStanfordPage, NodeStanfordPerson, NodeStanfordPolicy, NodeUnion, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {
+  Maybe,
+  NodeStanfordEvent,
+  NodeStanfordNews,
+  NodeStanfordPage,
+  NodeStanfordPerson,
+  NodeStanfordPolicy,
+  NodeUnion,
+  ParagraphStanfordWysiwyg,
+  ParagraphUnion,
+} from "@lib/gql/__generated__/drupal.d"
 import {Metadata} from "next"
 import {decode} from "html-entities"
 
@@ -43,8 +53,11 @@ export const getNodeMetadata = (node: NodeUnion): Metadata => {
 }
 
 const getBasicPageMetaData = (node: NodeStanfordPage) => {
-  const pageTitleBannerImage = node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && node.suPageBanner.suTitleBannerImage.mediaImage
-  const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage
+  const pageTitleBannerImage =
+    node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" &&
+    node.suPageBanner.suTitleBannerImage.mediaImage
+  const bannerImage =
+    node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage
   const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage
 
   const description = node.suPageDescription || getFirstText(node.suPageComponents)
@@ -133,7 +146,9 @@ const getPolicyMetaData = (node: NodeStanfordPolicy) => {
 }
 
 const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
-  const firstWysiwyg = components?.find(component => component.__typename === "ParagraphStanfordWysiwyg") as ParagraphStanfordWysiwyg
+  const firstWysiwyg = components?.find(
+    component => component.__typename === "ParagraphStanfordWysiwyg"
+  ) as ParagraphStanfordWysiwyg
   if (firstWysiwyg) {
     return getCleanDescription(firstWysiwyg.suWysiwygText?.processed)
   }

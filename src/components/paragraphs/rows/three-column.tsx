@@ -5,7 +5,9 @@ import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 const ThreeColumn = ({items}: {items: ParagraphUnion[]}) => {
   const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "left")
-  const mainItems = items.filter(item => !["left", "right"].includes(getParagraphBehaviors(item).layout_paragraphs?.region || "main"))
+  const mainItems = items.filter(
+    item => !["left", "right"].includes(getParagraphBehaviors(item).layout_paragraphs?.region || "main")
+  )
   const rightItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "right")
 
   const draftProps: Record<string, string> = {}
@@ -14,10 +16,7 @@ const ThreeColumn = ({items}: {items: ParagraphUnion[]}) => {
   }
 
   return (
-    <div
-      className="gutters grid gap-10 md:grid-cols-3 md:gap-20"
-      {...draftProps}
-    >
+    <div className="gutters grid gap-10 md:grid-cols-3 md:gap-20" {...draftProps}>
       <OneColumn items={leftItems} />
       <OneColumn items={mainItems} />
       <OneColumn items={rightItems} />

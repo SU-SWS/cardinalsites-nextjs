@@ -7,19 +7,19 @@
   },
   "extends": [
     "next/core-web-vitals",
-    "plugin:storybook/recommended",
+    "prettier",
     "plugin:deprecation/recommended"
   ],
   "rules": {
+    "prettier/prettier": ["error"],
     "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
-      "warn",
+      "error",
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ],
-    "no-console": ["error", { "allow": ["warn", "error"] }],
-    "quotes": ["error", "double"]
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   },
-  "plugins": ["unused-imports"],
+  "plugins": ["prettier", "unused-imports"],
   "ignorePatterns": ["**/__generated__/**/*"]
 }

@@ -26,17 +26,15 @@ const NewsListView = async ({items, totalItems, headingLevel, loadPage}: Props) 
   return (
     <PagedList
       ulProps={{className: "list-unstyled mb-20"}}
-      liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+      liProps={{
+        className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+      }}
       pageKey="news"
       totalPages={Math.ceil(totalItems / 30)}
       loadPage={loadPage}
     >
       {items.map(item => (
-        <StanfordNewsListItem
-          key={item.id}
-          node={item}
-          headingLevel={headingLevel}
-        />
+        <StanfordNewsListItem key={item.id} node={item} headingLevel={headingLevel} />
       ))}
     </PagedList>
   )

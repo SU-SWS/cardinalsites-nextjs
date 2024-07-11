@@ -38,14 +38,14 @@ const LocalFooter = async ({...props}: Props) => {
     line3: localFooterConfig.suLocalFootLine3,
     line4: localFooterConfig.suLocalFootLine4,
     line5: localFooterConfig.suLocalFootLine5,
-    logoUrl: !localFooterConfig.suLocalFootUseLogo && localFooterConfig.suLocalFootLocImg?.url ? buildUrl(localFooterConfig.suLocalFootLocImg?.url).toString() : undefined,
+    logoUrl:
+      !localFooterConfig.suLocalFootUseLogo && localFooterConfig.suLocalFootLocImg?.url
+        ? buildUrl(localFooterConfig.suLocalFootLocImg?.url).toString()
+        : undefined,
   }
 
   return (
-    <div
-      {...props}
-      className={twMerge("local-footer bg-foggy-light py-20", props.className)}
-    >
+    <div {...props} className={twMerge("local-footer bg-foggy-light py-20", props.className)}>
       <div className="centered">
         <div className="mb-20">
           <FooterLockup {...lockupProps} />
@@ -105,7 +105,9 @@ const LocalFooter = async ({...props}: Props) => {
           </div>
 
           <div>
-            {localFooterConfig.suLocalFootSecondH && <H2 className="text-m1">{localFooterConfig.suLocalFootSecondH}</H2>}
+            {localFooterConfig.suLocalFootSecondH && (
+              <H2 className="text-m1">{localFooterConfig.suLocalFootSecondH}</H2>
+            )}
 
             {localFooterConfig.suLocalFootSecond && (
               <ul className="list-unstyled">
@@ -160,10 +162,7 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
     case "none":
       return (
         <div className="py-10">
-          <Link
-            href="/"
-            className="flex flex-col gap-4 no-underline lg:flex-row"
-          >
+          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
             <LockupLogo {...lockupProps} />
           </Link>
         </div>
@@ -208,10 +207,7 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
 
   return (
     <div className="py-10">
-      <Link
-        href="/"
-        className="flex flex-col gap-4 no-underline lg:flex-row"
-      >
+      <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
         <LockupLogo {...lockupProps} />
 
         <div className="w-[1px] shrink-0 bg-black" />

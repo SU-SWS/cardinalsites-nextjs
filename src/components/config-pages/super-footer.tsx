@@ -14,10 +14,7 @@ const SuperFooter = async ({...props}: Props) => {
   if (!superFooterConfig?.suSuperFootEnabled) return
 
   return (
-    <div
-      {...props}
-      className={twMerge("border-b border-black-20 bg-foggy-light py-20", props.className)}
-    >
+    <div {...props} className={twMerge("border-b border-black-20 bg-foggy-light py-20", props.className)}>
       <div className="centered flex justify-between">
         <div className="flex-1">
           {superFooterConfig.suSuperFootTitle && <H2 className="text-m2">{superFooterConfig.suSuperFootTitle}</H2>}
@@ -50,10 +47,7 @@ const SuperFooter = async ({...props}: Props) => {
                 className="flex items-center text-digital-red no-underline hocus:text-black hocus:underline"
               >
                 {superFooterConfig.suSuperFootIntranet.title}
-                <LockClosedIcon
-                  width={20}
-                  className="ml-2"
-                />
+                <LockClosedIcon width={20} className="ml-2" />
               </Link>
             )}
           </div>

@@ -9,7 +9,10 @@ import StanfordEventListItem from "@components/nodes/list-item/stanford-event/st
 import {SelectOptionDefinition, SelectValue} from "@mui/base/useSelect"
 import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal.d"
 
-const getTopicOptions = (eventItems: NodeStanfordEvent[] = [], topicTree: TermStanfordEventType[] = []): SelectOptionDefinition<string>[] => {
+const getTopicOptions = (
+  eventItems: NodeStanfordEvent[] = [],
+  topicTree: TermStanfordEventType[] = []
+): SelectOptionDefinition<string>[] => {
   const topicOptions: SelectOptionDefinition<string>[] = []
 
   const cleanTopic = (topic: TermStanfordEventType): boolean => {
@@ -70,10 +73,7 @@ const EventsFilteredListView = ({items, topics}: {items: NodeStanfordEvent[]; to
         </div>
         <Button onClick={filterEvents}>Filter</Button>
       </form>
-      <div
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <div aria-live="polite" aria-atomic="true">
         Showing {displayedEvents.length} of {items.length} events.
       </div>
       <LoadMoreList
@@ -84,14 +84,13 @@ const EventsFilteredListView = ({items, topics}: {items: NodeStanfordEvent[]; to
           </>
         }
         ulProps={{className: "list-unstyled mb-20"}}
-        liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+        liProps={{
+          className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+        }}
         itemsPerPage={3}
       >
         {displayedEvents.map(event => (
-          <StanfordEventListItem
-            key={event.id}
-            node={event}
-          />
+          <StanfordEventListItem key={event.id} node={event} />
         ))}
       </LoadMoreList>
     </div>

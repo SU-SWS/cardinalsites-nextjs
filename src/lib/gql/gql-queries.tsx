@@ -1,4 +1,15 @@
-import {AllNodesQuery, AllNodesQueryVariables, ConfigPagesQuery, ConfigPagesUnion, MenuAvailable, MenuItem, NodeUnion, RouteQuery, RouteRedirect, TermUnion} from "@lib/gql/__generated__/drupal.d"
+import {
+  AllNodesQuery,
+  AllNodesQueryVariables,
+  ConfigPagesQuery,
+  ConfigPagesUnion,
+  MenuAvailable,
+  MenuItem,
+  NodeUnion,
+  RouteQuery,
+  RouteRedirect,
+  TermUnion,
+} from "@lib/gql/__generated__/drupal.d"
 import {cache} from "react"
 import {graphqlClient} from "@lib/gql/gql-client"
 
@@ -26,7 +37,9 @@ export const getEntityFromPath = async <T extends NodeUnion | TermUnion>(
   return {entity, redirect: undefined, error: undefined}
 }
 
-export const getConfigPage = async <T extends ConfigPagesUnion>(configPageType: ConfigPagesUnion["__typename"]): Promise<T | undefined> => {
+export const getConfigPage = async <T extends ConfigPagesUnion>(
+  configPageType: ConfigPagesUnion["__typename"]
+): Promise<T | undefined> => {
   "use server"
 
   let query: ConfigPagesQuery
@@ -49,7 +62,9 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(configPageType: 
 export const getMenu = cache(async (name?: MenuAvailable): Promise<MenuItem[]> => {
   "use server"
 
-  const menu = await graphqlClient({next: {tags: ["menus", `menu:${name?.toLowerCase() || "main"}`]}}).Menu({name})
+  const menu = await graphqlClient({
+    next: {tags: ["menus", `menu:${name?.toLowerCase() || "main"}`]},
+  }).Menu({name})
   const menuItems = (menu.menu?.items || []) as MenuItem[]
 
   const filterInaccessible = (items: MenuItem[]): MenuItem[] => {

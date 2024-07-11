@@ -13,10 +13,7 @@ const PageFooter = ({...props}: Props) => {
       <div className="bg-cardinal-red py-10 [&_a:hocus]:text-white [&_a]:text-white [&_a]:no-underline">
         <div className="centered lg:flex lg:items-start lg:gap-20">
           <div className="mb-10 text-center">
-            <a
-              className="text-center font-stanford"
-              href="https://www.stanford.edu"
-            >
+            <a className="text-center font-stanford" href="https://www.stanford.edu">
               <div className="text-[3.2rem]">Stanford</div>
               <div>University</div>
             </a>
@@ -43,11 +40,7 @@ const PageFooter = ({...props}: Props) => {
 
               <ul className="list-unstyled justify-center text-2xl sm:flex sm:gap-10 sm:text-xl lg:justify-start lg:text-3xl">
                 <li>
-                  <a
-                    href="https://www.stanford.edu/site/terms/"
-                    title="Terms of use for sites"
-                    className="font-normal"
-                  >
+                  <a href="https://www.stanford.edu/site/terms/" title="Terms of use for sites" className="font-normal">
                     Terms of Use
                   </a>
                 </li>
@@ -98,7 +91,9 @@ const PageFooter = ({...props}: Props) => {
                 </li>
               </ul>
             </nav>
-            <div className="text-center text-xl text-white lg:text-left">© Stanford University. Stanford, California 94305.</div>
+            <div className="text-center text-xl text-white lg:text-left">
+              © Stanford University. Stanford, California 94305.
+            </div>
           </div>
         </div>
       </div>

@@ -10,23 +10,17 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
-  const pageTitleBannerImage = node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" && node.suPageBanner.suTitleBannerImage.mediaImage
-  const bannerImage = node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage
+  const pageTitleBannerImage =
+    node.suPageBanner?.__typename === "ParagraphStanfordPageTitleBanner" &&
+    node.suPageBanner.suTitleBannerImage.mediaImage
+  const bannerImage =
+    node.suPageBanner?.__typename === "ParagraphStanfordBanner" && node.suPageBanner.suBannerImage?.mediaImage
   const image = node.suPageImage?.mediaImage || pageTitleBannerImage || bannerImage || undefined
 
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
-    <ImageCard
-      {...props}
-      aria-labelledby={node.id}
-      imageUrl={image?.url}
-      imageAlt={image?.alt}
-      isArticle
-    >
-      <Heading
-        className="text-m2 [&_a]:text-black"
-        id={node.id}
-      >
+    <ImageCard {...props} aria-labelledby={node.id} imageUrl={image?.url} imageAlt={image?.alt} isArticle>
+      <Heading className="text-m2 [&_a]:text-black" id={node.id}>
         <Link href={node.path}>{node.title}</Link>
       </Heading>
 

@@ -47,10 +47,7 @@ const HitList = () => {
   return (
     <ul className="list-unstyled">
       {hits.map(hit => (
-        <li
-          key={hit.objectID}
-          className="border-b border-gray-300 last:border-0"
-        >
+        <li key={hit.objectID} className="border-b border-gray-300 last:border-0">
           <DefaultHit hit={hit} />
         </li>
       ))}
@@ -91,10 +88,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
       }}
     >
       <div className="flex flex-col">
-        <label
-          className="font-bold"
-          htmlFor="search-input"
-        >
+        <label className="font-bold" htmlFor="search-input">
           Keywords<span className="sr-only">&nbsp;Search</span>
         </label>
         <input
@@ -114,19 +108,11 @@ const SearchBox = (props?: UseSearchBoxProps) => {
       </div>
       <div className="flex gap-10">
         <Button type="submit">Submit</Button>
-        <Button
-          secondary
-          type="reset"
-          className={query.length === 0 ? "hidden" : undefined}
-        >
+        <Button secondary type="reset" className={query.length === 0 ? "hidden" : undefined}>
           Reset
         </Button>
       </div>
-      <div
-        className="sr-only"
-        aria-live="polite"
-        aria-atomic
-      >
+      <div className="sr-only" aria-live="polite" aria-atomic>
         Showing results for {query}
       </div>
     </form>

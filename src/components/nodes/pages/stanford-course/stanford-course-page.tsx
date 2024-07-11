@@ -13,10 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordCoursePage = ({node, ...props}: Props) => {
   if (node.suCourseLink?.url && !isPreviewMode()) redirect(node.suCourseLink?.url)
   return (
-    <article
-      className="centered my-32"
-      {...props}
-    >
+    <article className="centered my-32" {...props}>
       <H1>{node.title}</H1>
       <div className="flex flex-col gap-10">
         {node.suCourseSubject && <div>{node.suCourseSubject.name}</div>}

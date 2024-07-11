@@ -22,14 +22,12 @@ const CourseListView = async ({items = [], headingLevel}: Props) => {
         </>
       }
       ulProps={{className: "list-unstyled mb-20"}}
-      liProps={{className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0"}}
+      liProps={{
+        className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+      }}
     >
       {items.map(item => (
-        <StanfordCourseListItem
-          key={item.id}
-          node={item}
-          headingLevel={headingLevel}
-        />
+        <StanfordCourseListItem key={item.id} node={item} headingLevel={headingLevel} />
       ))}
     </LoadMoreList>
   )

@@ -20,61 +20,21 @@ const NodePage = ({node}: {node: NodeUnion}) => {
 
   switch (node.__typename) {
     case "NodeStanfordCourse":
-      return (
-        <StanfordCoursePage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordCoursePage node={node} {...itemProps} />
     case "NodeStanfordEvent":
-      return (
-        <StanfordEventPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventPage node={node} {...itemProps} />
     case "NodeStanfordEventSeries":
-      return (
-        <StanfordEventSeriesPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventSeriesPage node={node} {...itemProps} />
     case "NodeStanfordNews":
-      return (
-        <StanfordNewsPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordNewsPage node={node} {...itemProps} />
     case "NodeStanfordPage":
-      return (
-        <StanfordPagePage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordPagePage node={node} {...itemProps} />
     case "NodeStanfordPerson":
-      return (
-        <StanfordPersonPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordPersonPage node={node} {...itemProps} />
     case "NodeStanfordPolicy":
-      return (
-        <StanfordPolicyPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordPolicyPage node={node} {...itemProps} />
     case "NodeStanfordPublication":
-      return (
-        <StanfordPublicationPage
-          node={node}
-          {...itemProps}
-        />
-      )
+      return <StanfordPublicationPage node={node} {...itemProps} />
   }
 }
 export default NodePage

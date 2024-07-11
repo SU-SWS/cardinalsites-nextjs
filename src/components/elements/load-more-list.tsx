@@ -62,10 +62,7 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, loadPage, ...prop
 
   return (
     <div {...props}>
-      <ul
-        {...ulProps}
-        ref={animationParent}
-      >
+      <ul {...ulProps} ref={animationParent}>
         {items.map((item, i) => (
           <li
             key={`${id}--${i}`}
@@ -78,19 +75,12 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, loadPage, ...prop
           </li>
         ))}
       </ul>
-      <span
-        className="sr-only"
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
         Showing {items.length} items.
       </span>
 
       {hasMore && (
-        <Button
-          centered
-          onClick={showMoreItems}
-        >
+        <Button centered onClick={showMoreItems}>
           {buttonText ? buttonText : "Load More"}
         </Button>
       )}

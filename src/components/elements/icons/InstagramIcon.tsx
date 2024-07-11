@@ -2,10 +2,7 @@ import {HTMLAttributes} from "react"
 
 const InstagramIcon = (props: HTMLAttributes<HTMLOrSVGElement>) => {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      {...props}
-    >
+    <svg viewBox="0 0 24 24" {...props}>
       <title>Instagram icon</title>
       <path
         fill="currentColor"

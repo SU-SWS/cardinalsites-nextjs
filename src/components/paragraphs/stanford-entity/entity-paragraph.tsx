@@ -20,7 +20,8 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const gridCols = ["lg:grid-cols-3", "lg:grid-cols-1", "lg:grid-cols-2"]
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
-  const EntityWrapper: ElementType = paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" ? "section" : "div"
+  const EntityWrapper: ElementType =
+    paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" ? "section" : "div"
 
   return (
     <EntityWrapper
@@ -28,7 +29,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
       className={twMerge("centered mb-20 flex flex-col gap-10 lg:max-w-[980px]", props.className)}
       aria-labelledby={EntityWrapper === "section" ? paragraph.id : undefined}
     >
-      {EntityWrapper === "section" && (
+      {behaviors.stanford_teaser?.heading_behavior !== "remove" && (
         <H2
           id={paragraph.id}
           className={twMerge("mb-0 text-center", behaviors.stanford_teaser?.heading_behavior === "hide" && "sr-only")}
@@ -41,24 +42,15 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       <div className={`grid ${gridClass} mb-20 gap-20 [&>*]:w-full`}>
         {entities.map(entity => (
-          <Suspense
-            key={`${paragraph.id}-${entity.id}`}
-            fallback={<ImageCardSkeleton />}
-          >
-            <EntityCard
-              path={entity.path}
-              headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"}
-            />
+          <Suspense key={`${paragraph.id}-${entity.id}`} fallback={<ImageCardSkeleton />}>
+            <EntityCard path={entity.path} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"} />
           </Suspense>
         ))}
       </div>
 
       {paragraph.suEntityButton?.url && (
-        <Button
-          href={paragraph.suEntityButton.url}
-          centered
-        >
-          {paragraph.suEntityButton.title}
+        <Button href={paragraph.suEntityButton.url} centered>
+          {paragraph.suEntityButton.title || paragraph.suEntityButton.url}
         </Button>
       )}
     </EntityWrapper>
@@ -68,12 +60,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 const EntityCard = async ({path, headingLevel}: {path: string; headingLevel: "h3" | "h2"}) => {
   const queryResponse = await getEntityFromPath<NodeUnion>(path)
   if (!queryResponse.entity) return
-  return (
-    <NodeCard
-      node={queryResponse.entity}
-      headingLevel={headingLevel}
-    />
-  )
+  return <NodeCard node={queryResponse.entity} headingLevel={headingLevel} />
 }
 
 export default EntityParagraph

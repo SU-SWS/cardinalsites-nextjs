@@ -13,11 +13,6 @@ interface Props {
 }
 
 const PageCardView = async ({items = [], headingLevel}: Props) => {
-  return (
-    <CardViewGrid
-      items={items}
-      headingLevel={headingLevel}
-    />
-  )
+  return <CardViewGrid items={items} headingLevel={headingLevel} />
 }
 export default PageCardView

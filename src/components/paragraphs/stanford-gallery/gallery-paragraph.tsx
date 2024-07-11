@@ -21,10 +21,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       aria-labelledby={paragraph.suGalleryHeadline ? paragraph.id : undefined}
     >
       {paragraph.suGalleryHeadline && (
-        <H2
-          id={paragraph.id}
-          className="text-center"
-        >
+        <H2 id={paragraph.id} className="text-center">
           {paragraph.suGalleryHeadline}
         </H2>
       )}
@@ -34,14 +31,8 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       {paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0 && (
         <ul className="list-unstyled grid gap-20 @3xl:grid-cols-2 @6xl:grid-cols-3">
           {paragraph.suGalleryImages.map(image => (
-            <li
-              key={image.id}
-              className="m-0"
-            >
-              <GalleryImage
-                image={image}
-                galleryId={paragraph.id}
-              />
+            <li key={image.id} className="m-0">
+              <GalleryImage image={image} galleryId={paragraph.id} />
             </li>
           ))}
         </ul>
@@ -56,7 +47,13 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
   )
 }
 
-const GalleryImage = ({image, galleryId}: {image: MediaStanfordGalleryImage; galleryId: ParagraphStanfordGallery["id"]}) => {
+const GalleryImage = ({
+  image,
+  galleryId,
+}: {
+  image: MediaStanfordGalleryImage
+  galleryId: ParagraphStanfordGallery["id"]
+}) => {
   const imageUrl = image.suGalleryImage?.url
   if (!imageUrl) return
 

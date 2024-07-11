@@ -30,69 +30,21 @@ const NodeListItem = ({node, headingLevel}: Props) => {
 
   switch (node.__typename) {
     case "NodeStanfordCourse":
-      return (
-        <StanfordCourseListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordCourseListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordEvent":
-      return (
-        <StanfordEventListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordEventSeries":
-      return (
-        <StanfordEventSeriesListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventSeriesListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordNews":
-      return (
-        <StanfordNewsListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordNewsListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPage":
-      return (
-        <StanfordPageListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPageListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPerson":
-      return (
-        <StanfordPersonListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPersonListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPolicy":
-      return (
-        <StanfordPolicyListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPolicyListItem node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPublication":
-      return (
-        <StanfordPublicationListItem
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPublicationListItem node={node} headingLevel={headingLevel} {...itemProps} />
   }
 }
 export default NodeListItem

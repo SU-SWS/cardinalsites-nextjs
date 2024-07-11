@@ -15,10 +15,7 @@ const Email = ({email, ...props}: Props) => {
   if (!isClient) return
 
   return (
-    <a
-      href={`mailto:${email}`}
-      {...props}
-    >
+    <a href={`mailto:${email}`} {...props}>
       {email}
     </a>
   )

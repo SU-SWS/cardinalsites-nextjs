@@ -21,29 +21,17 @@ const InteriorPage = async ({children, currentPath, ...props}: Props) => {
   const subTree = topMenuItem ? topMenuItem.children : []
 
   return (
-    <div
-      {...props}
-      className={twMerge("centered flex gap-20", props.className)}
-    >
+    <div {...props} className={twMerge("centered flex gap-20", props.className)}>
       {(subTree.length > 1 || subTree[0]?.children) && (
         <aside className="hidden w-1/4 shrink-0 lg:block">
-          <a
-            href="#page-content"
-            className="skiplink"
-          >
+          <a href="#page-content" className="skiplink">
             Skip secondary navigation
           </a>
-          <SideNav
-            menuItems={subTree}
-            activeTrail={activeTrail}
-          />
+          <SideNav menuItems={subTree} activeTrail={activeTrail} />
         </aside>
       )}
 
-      <div
-        className="flex-grow"
-        id="page-content"
-      >
+      <div id="page-content" className="flex-grow">
         {children}
       </div>
     </div>

@@ -41,17 +41,11 @@ const SocialIcons = ({...props}) => {
         <LinkedInIcon />
         <span className="sr-only">LinkedIn</span>
       </a>
-      <a
-        href={`mailto:?subject=${subject}&body=${path}`}
-        className="text-black transition hocus:text-digital-blue"
-      >
+      <a href={`mailto:?subject=${subject}&body=${path}`} className="text-black transition hocus:text-digital-blue">
         <EnvelopeIcon width={30} />
         <span className="sr-only">Email</span>
       </a>
-      <button
-        onClick={() => window.print()}
-        className="text-black transition hocus:text-digital-blue"
-      >
+      <button onClick={() => window.print()} className="text-black transition hocus:text-digital-blue">
         <PrinterIcon width={30} />
         <span className="sr-only">Print</span>
       </button>

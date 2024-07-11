@@ -15,10 +15,7 @@ const PreviewPage = async ({params}: PageProps) => {
 
   return (
     <>
-      <EditorAlert
-        status={entity.status}
-        message="Unpublished Page"
-      />
+      <EditorAlert status={entity.status} message="Unpublished Page" />
       <NodePage node={entity} />
     </>
   )

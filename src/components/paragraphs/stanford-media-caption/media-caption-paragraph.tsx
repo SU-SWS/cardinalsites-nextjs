@@ -11,14 +11,13 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
-  const image = paragraph.suMediaCaptionMedia?.__typename === "MediaImage" ? paragraph.suMediaCaptionMedia.mediaImage : undefined
-  const videoUrl = paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo
+  const image =
+    paragraph.suMediaCaptionMedia?.__typename === "MediaImage" ? paragraph.suMediaCaptionMedia.mediaImage : undefined
+  const videoUrl =
+    paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo
 
   return (
-    <figure
-      {...props}
-      className={twMerge("centered lg:max-w-[980px]", props.className)}
-    >
+    <figure {...props} className={twMerge("centered lg:max-w-[980px]", props.className)}>
       {image?.url && (
         <div className="relative aspect-[16/9] w-full">
           <Image
@@ -33,7 +32,9 @@ const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
       {videoUrl && <Oembed url={videoUrl} />}
 
       <figcaption className="color text-right text-m0 text-cool-grey">
-        {paragraph.suMediaCaptionLink?.url && <Link href={paragraph.suMediaCaptionLink.url}>{paragraph.suMediaCaptionLink.title}</Link>}
+        {paragraph.suMediaCaptionLink?.url && (
+          <Link href={paragraph.suMediaCaptionLink.url}>{paragraph.suMediaCaptionLink.title}</Link>
+        )}
 
         <Wysiwyg html={paragraph.suMediaCaptionCaption?.processed} />
       </figcaption>

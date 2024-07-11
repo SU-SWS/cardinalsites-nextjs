@@ -9,7 +9,10 @@ import {useBoolean} from "usehooks-ts"
  * @param action
  * @param onFinished
  */
-const useServerAction = <P extends any[], R>(action?: (..._args: P) => Promise<R>, onFinished?: (_: R | undefined) => void): [(..._args: P) => Promise<R | undefined>, boolean] => {
+const useServerAction = <P extends any[], R>(
+  action?: (..._args: P) => Promise<R>,
+  onFinished?: (_: R | undefined) => void
+): [(..._args: P) => Promise<R | undefined>, boolean] => {
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<R>()
   const {value: finished, setTrue: setFinished} = useBoolean(false)

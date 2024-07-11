@@ -34,10 +34,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
   const topics = node.suNewsTopics?.slice(0, 3)
 
   return (
-    <article
-      className="centered mt-32"
-      {...props}
-    >
+    <article className="centered mt-32" {...props}>
       <div className="mx-auto mb-48 lg:w-10/12">
         <div className="flex flex-col">
           <H1 className="order-2">{node.title}</H1>
@@ -48,7 +45,11 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
         {node.suNewsDek && <div className="mb-10">{node.suNewsDek}</div>}
 
         <div className="flex items-center gap-5">
-          {node.suNewsPublishingDate && <time dateTime={new Date(node.suNewsPublishingDate.time).toISOString().substring(0, 10)}>{publishDate}</time>}
+          {node.suNewsPublishingDate && (
+            <time dateTime={new Date(node.suNewsPublishingDate.time).toISOString().substring(0, 10)}>
+              {publishDate}
+            </time>
+          )}
           {node.suNewsByline && <div>{node.suNewsByline}</div>}
 
           {!node.suNewsHideSocial && <SocialIcons className="flex gap-4" />}
@@ -67,14 +68,13 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
               sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
             />
           </div>
-          {node.suNewsBannerMediaCaption && <figcaption className="px-20 text-center">{node.suNewsBannerMediaCaption}</figcaption>}
+          {node.suNewsBannerMediaCaption && (
+            <figcaption className="px-20 text-center">{node.suNewsBannerMediaCaption}</figcaption>
+          )}
         </figure>
       )}
 
-      <Rows
-        components={node.suNewsComponents}
-        className="mx-auto lg:w-8/12"
-      />
+      <Rows components={node.suNewsComponents} className="mx-auto lg:w-8/12" />
     </article>
   )
 }

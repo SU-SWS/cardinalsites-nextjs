@@ -25,24 +25,23 @@ const Page = async ({searchParams}: {searchParams?: {[_key: string]: string}}) =
   return (
     <div className="centered mt-32">
       <div className="mx-auto 3xl:w-10/12">
-        <H1
-          className="mb-44"
-          id="page-title"
-        >
+        <H1 className="mb-44" id="page-title">
           Search
         </H1>
 
-        {siteSettingsConfig?.suSiteAlgoliaId && siteSettingsConfig?.suSiteAlgoliaIndex && siteSettingsConfig?.suSiteAlgoliaSearch && (
-          <>
-            <AlgoliaSearch
-              appId={siteSettingsConfig.suSiteAlgoliaId}
-              searchIndex={siteSettingsConfig.suSiteAlgoliaIndex}
-              searchApiKey={siteSettingsConfig.suSiteAlgoliaSearch}
-              initialUiState={initialState}
-            />
-            <noscript>Please enable javascript to view search results</noscript>
-          </>
-        )}
+        {siteSettingsConfig?.suSiteAlgoliaId &&
+          siteSettingsConfig?.suSiteAlgoliaIndex &&
+          siteSettingsConfig?.suSiteAlgoliaSearch && (
+            <>
+              <AlgoliaSearch
+                appId={siteSettingsConfig.suSiteAlgoliaId}
+                searchIndex={siteSettingsConfig.suSiteAlgoliaIndex}
+                searchApiKey={siteSettingsConfig.suSiteAlgoliaSearch}
+                initialUiState={initialState}
+              />
+              <noscript>Please enable javascript to view search results</noscript>
+            </>
+          )}
       </div>
     </div>
   )

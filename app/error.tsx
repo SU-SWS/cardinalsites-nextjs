@@ -7,11 +7,11 @@ const ErrorPage = ({error, reset}: {error: Error; reset: () => void}) => {
   return (
     <div className="my-50 centered mt-32">
       <h1>Something went wrong!</h1>
-      <p>Apologies, an error occurred when attempting to preset the page you are attempting to view. Please try a different path.</p>
-      <Button
-        buttonElem
-        onClick={() => reset()}
-      >
+      <p>
+        Apologies, an error occurred when attempting to preset the page you are attempting to view. Please try a
+        different path.
+      </p>
+      <Button buttonElem onClick={() => reset()}>
         Try again
       </Button>
     </div>

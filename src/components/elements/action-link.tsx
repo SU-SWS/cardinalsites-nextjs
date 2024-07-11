@@ -12,15 +12,9 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
 
 const ActionLink = ({children, ...props}: Props) => {
   return (
-    <Link
-      {...props}
-      className={twMerge("relative", props.className)}
-    >
+    <Link {...props} className={twMerge("relative", props.className)}>
       {children}
-      <ChevronRightIcon
-        height={25}
-        className="ml-2 inline-block"
-      />
+      <ChevronRightIcon height={25} className="ml-2 inline-block" />
     </Link>
   )
 }

@@ -38,7 +38,16 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   loadPage?: (_page: number) => Promise<JSX.Element>
 }
 
-const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pagerSiblingCount = 2, loadPage, ...props}: Props) => {
+const PagedList = ({
+  children,
+  ulProps,
+  liProps,
+  pageKey = "page",
+  totalPages,
+  pagerSiblingCount = 2,
+  loadPage,
+  ...props
+}: Props) => {
   const ref = useRef(false)
   const [items, setItems] = useState<JSX.Element[]>(Array.isArray(children) ? children : [children])
   const [runAction, isRunning] = useServerAction<[number], JSX.Element>(loadPage)
@@ -48,7 +57,9 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: currentPage, setCount: setPage} = useCounter(Math.min(totalPages, pageKey ? Math.max(1, parseInt(searchParams.get(pageKey) || "")) : 1))
+  const {count: currentPage, setCount: setPage} = useCounter(
+    Math.min(totalPages, pageKey ? Math.max(1, parseInt(searchParams.get(pageKey) || "")) : 1)
+  )
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
@@ -102,24 +113,15 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
 
   return (
-    <div
-      {...props}
-      className={twMerge("relative", props.className)}
-    >
+    <div {...props} className={twMerge("relative", props.className)}>
       {isRunning && (
         <div className="absolute left-0 top-0 z-10 h-full w-full rounded-2xl bg-black-20 bg-opacity-30">
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2">
-            <ArrowPathIcon
-              className="animate-spin"
-              width={50}
-            />
+            <ArrowPathIcon className="animate-spin" width={50} />
           </div>
         </div>
       )}
-      <ul
-        {...ulProps}
-        ref={animationParent}
-      >
+      <ul {...ulProps} ref={animationParent}>
         {items.map((item, i) => (
           <li
             key={`pager-${currentPage}-${i}`}
@@ -134,10 +136,7 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
       </ul>
 
       {loadPage && paginationButtons.length > 1 && (
-        <nav
-          aria-label="Pager"
-          className="rs-mt-4 mx-auto w-fit"
-        >
+        <nav aria-label="Pager" className="rs-mt-4 mx-auto w-fit">
           <ul className="list-unstyled flex items-center gap-5">
             {paginationButtons.map((pageNum, i) => (
               <PaginationButton
@@ -157,7 +156,21 @@ const PagedList = ({children, ulProps, liProps, pageKey = "page", totalPages, pa
   )
 }
 
-const PaginationButton = ({page, currentPage, total, onPageClick, pagerSiblingCount, disabled}: {page: number | string; currentPage: number; total: number; onPageClick: (_page: number) => void; pagerSiblingCount: number; disabled: boolean}) => {
+const PaginationButton = ({
+  page,
+  currentPage,
+  total,
+  onPageClick,
+  pagerSiblingCount,
+  disabled,
+}: {
+  page: number | string
+  currentPage: number
+  total: number
+  onPageClick: (_page: number) => void
+  pagerSiblingCount: number
+  disabled: boolean
+}) => {
   if (page === 0) {
     return (
       <li className="mt-auto h-full">
@@ -196,7 +209,10 @@ const PaginationButton = ({page, currentPage, total, onPageClick, pagerSiblingCo
         </span>
         <span
           aria-hidden
-          className={(isCurrent ? "border-stone-dark text-stone-dark" : "border-transparent text-cardinal-red") + " block h-fit border-b-2 px-4"}
+          className={
+            (isCurrent ? "border-stone-dark text-stone-dark" : "border-transparent text-cardinal-red") +
+            " block h-fit border-b-2 px-4"
+          }
         >
           {page === "leftArrow" && <ArrowLongLeftIcon width={30} />}
           {page === "rightArrow" && <ArrowLongRightIcon width={30} />}

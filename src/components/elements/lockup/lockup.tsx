@@ -14,9 +14,21 @@ import LockupT from "@components/elements/lockup/lockup-t"
 import LockupLogo from "@components/elements/lockup/lockup-logo"
 import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
 
-type Props = Omit<LockupSetting, "__typename" | "id" | "metatag"> & Omit<StanfordBasicSiteSetting, "__typename" | "id" | "metatag">
+type Props = Omit<LockupSetting, "__typename" | "id" | "metatag"> &
+  Omit<StanfordBasicSiteSetting, "__typename" | "id" | "metatag">
 
-export const Lockup = ({suLockupEnabled, suUseThemeLogo, suUploadLogoImage, suSiteName, suLine1, suLine2, suLine3, suLine4, suLine5, suLockupOptions}: Props) => {
+export const Lockup = ({
+  suLockupEnabled,
+  suUseThemeLogo,
+  suUploadLogoImage,
+  suSiteName,
+  suLine1,
+  suLine2,
+  suLine3,
+  suLine4,
+  suLine5,
+  suLockupOptions,
+}: Props) => {
   const logoUrl = !suUseThemeLogo ? suUploadLogoImage?.url : undefined
   const lockupProps = {
     line1: suLine1,
@@ -31,10 +43,7 @@ export const Lockup = ({suLockupEnabled, suUseThemeLogo, suUploadLogoImage, suSi
   if (!suLockupEnabled) {
     return (
       <div className="py-10">
-        <Link
-          href="/"
-          className="flex no-underline"
-        >
+        <Link href="/" className="flex no-underline">
           <div className="self-end">
             <div className="mr-2 border-black pr-2 lg:inline-block lg:border-r">
               <LockupLogo {...lockupProps} />
@@ -87,10 +96,7 @@ export const Lockup = ({suLockupEnabled, suUseThemeLogo, suUploadLogoImage, suSi
     default:
       return (
         <div className="py-10">
-          <Link
-            href="/"
-            className="flex flex-col gap-4 no-underline lg:flex-row"
-          >
+          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
             <LockupLogo {...lockupProps} />
           </Link>
         </div>

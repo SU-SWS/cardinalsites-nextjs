@@ -38,7 +38,17 @@ type Props = HTMLAttributes<HTMLElement> & {
   panelProps?: HTMLAttributes<HTMLDivElement>
 }
 
-const Accordion = ({button, children, headingLevel = "h2", onClick, isVisible, initiallyVisible = false, buttonProps, panelProps, ...props}: Props) => {
+const Accordion = ({
+  button,
+  children,
+  headingLevel = "h2",
+  onClick,
+  isVisible,
+  initiallyVisible = false,
+  buttonProps,
+  panelProps,
+  ...props
+}: Props) => {
   const {value: expanded, toggle: toggleExpanded} = useBoolean(initiallyVisible)
   const id = useId()
 
@@ -51,24 +61,21 @@ const Accordion = ({button, children, headingLevel = "h2", onClick, isVisible, i
 
   const Heading = headingLevel === "h2" ? H2 : headingLevel === "h3" ? H3 : H4
   return (
-    <section
-      aria-labelledby={`${id}-button`}
-      {...props}
-    >
+    <section aria-labelledby={`${id}-button`} {...props}>
       <Heading>
         <button
           {...buttonProps}
-          className={twMerge("flex w-full items-center border-b border-transparent hocus:border-black-true", buttonProps?.className)}
+          className={twMerge(
+            "flex w-full items-center border-b border-transparent hocus:border-black-true",
+            buttonProps?.className
+          )}
           id={`${id}-button`}
           aria-expanded={isExpanded}
           aria-controls={`${id}-panel`}
           onClick={onButtonClick}
         >
           {button}
-          <ChevronDownIcon
-            height={30}
-            className={clsx("ml-auto shrink-0 duration-150", {"rotate-180": isExpanded})}
-          />
+          <ChevronDownIcon height={30} className={clsx("ml-auto shrink-0 duration-150", {"rotate-180": isExpanded})} />
         </button>
       </Heading>
 

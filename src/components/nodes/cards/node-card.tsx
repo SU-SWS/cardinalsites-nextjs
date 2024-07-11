@@ -29,69 +29,21 @@ const NodeCard = ({node, headingLevel}: Props) => {
   }
   switch (node.__typename) {
     case "NodeStanfordCourse":
-      return (
-        <StanfordCourseCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordCourseCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordEvent":
-      return (
-        <StanfordEventCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordEventSeries":
-      return (
-        <StanfordEventSeriesCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordEventSeriesCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordNews":
-      return (
-        <StanfordNewsCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordNewsCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPage":
-      return (
-        <StanfordPageCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPageCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPerson":
-      return (
-        <StanfordPersonCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPersonCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPolicy":
-      return (
-        <StanfordPolicyCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPolicyCard node={node} headingLevel={headingLevel} {...itemProps} />
     case "NodeStanfordPublication":
-      return (
-        <StanfordPublicationCard
-          node={node}
-          headingLevel={headingLevel}
-          {...itemProps}
-        />
-      )
+      return <StanfordPublicationCard node={node} headingLevel={headingLevel} {...itemProps} />
   }
 }
 export default NodeCard

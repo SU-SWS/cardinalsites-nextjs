@@ -10,10 +10,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordEventSeriesPage = ({node, ...props}: Props) => {
   return (
-    <article
-      className="centered"
-      {...props}
-    >
+    <article className="centered" {...props}>
       <H1 className="mt-32">{node.title}</H1>
 
       {node.suEventSeriesDek && <div className="mb-20 text-m3 font-bold">{node.suEventSeriesDek}</div>}
@@ -21,10 +18,7 @@ const StanfordEventSeriesPage = ({node, ...props}: Props) => {
       {node.suEventSeriesEvent && (
         <div className="mb-20">
           {node.suEventSeriesEvent.map(event => (
-            <div
-              key={event.id}
-              className="border-b border-black-20 py-20 last:border-0"
-            >
+            <div key={event.id} className="border-b border-black-20 py-20 last:border-0">
               <StanfordEventListItem node={event as NodeStanfordEvent} />
             </div>
           ))}

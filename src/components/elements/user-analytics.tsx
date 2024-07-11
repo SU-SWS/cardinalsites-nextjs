@@ -10,10 +10,7 @@ const UserAnalytics = async () => {
   if (!siteSettingsConfig?.suGoogleAnalytics || !process.env.NEXT_PUBLIC_DOMAIN) return
   return (
     <>
-      <Script
-        async
-        src="//siteimproveanalytics.com/js/siteanalyze_80352.js"
-      />
+      <Script async src="//siteimproveanalytics.com/js/siteanalyze_80352.js" />
       <GoogleAnalytics gaId={siteSettingsConfig?.suGoogleAnalytics} />
     </>
   )

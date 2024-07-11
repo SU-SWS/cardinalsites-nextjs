@@ -16,10 +16,7 @@ const PageHeader = async ({...props}: Props) => {
   const lockupSettingsConfig = await getConfigPage<LockupSetting>("LockupSetting")
 
   return (
-    <header
-      {...props}
-      className={twMerge("shadow-lg", props.className)}
-    >
+    <header {...props} className={twMerge("shadow-lg", props.className)}>
       <div className="bg-cardinal-red">
         <div className="centered py-3">
           <a
@@ -34,10 +31,7 @@ const PageHeader = async ({...props}: Props) => {
       <div className="relative shadow">
         <div className="min-h-50 centered pr-24 lg:pr-0">
           <div className="flex w-full justify-between">
-            <Lockup
-              {...siteSettingsConfig}
-              {...lockupSettingsConfig}
-            />
+            <Lockup {...siteSettingsConfig} {...lockupSettingsConfig} />
             <SiteSearchForm className="hidden lg:block" />
           </div>
         </div>

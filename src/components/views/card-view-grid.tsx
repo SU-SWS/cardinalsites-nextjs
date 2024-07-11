@@ -20,11 +20,7 @@ const CardViewGrid = ({items, headingLevel}: Props) => {
       liProps={{className: ""}}
     >
       {items.map(item => (
-        <NodeCard
-          node={item}
-          key={item.id}
-          headingLevel={headingLevel}
-        />
+        <NodeCard node={item} key={item.id} headingLevel={headingLevel} />
       ))}
     </LoadMoreList>
   )

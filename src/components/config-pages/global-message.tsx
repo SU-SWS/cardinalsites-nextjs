@@ -33,15 +33,22 @@ const GlobalMessage = async () => {
           {globalMessageConfig.suGlobalMsgLabel}:
         </div>
         <div>
-          {globalMessageConfig.suGlobalMsgHeader && <H2 id={globalMessageConfig.id}>{globalMessageConfig.suGlobalMsgHeader}</H2>}
+          {globalMessageConfig.suGlobalMsgHeader && (
+            <H2 id={globalMessageConfig.id}>{globalMessageConfig.suGlobalMsgHeader}</H2>
+          )}
 
           <Wysiwyg
             html={globalMessageConfig.suGlobalMsgMessage?.processed}
             className={twMerge(
               "[&_a.btn]:border-2 [&_a]:no-underline [&_a]:hocus:underline",
               clsx({
-                "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
-                "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": ["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+                "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(
+                  globalMessageConfig.suGlobalMsgType
+                ),
+                "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": [
+                  "warning",
+                  "plain",
+                ].includes(globalMessageConfig.suGlobalMsgType),
               })
             )}
           />

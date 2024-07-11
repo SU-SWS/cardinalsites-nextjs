@@ -17,15 +17,9 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
     .split(" ")
 
   return (
-    <article
-      {...props}
-      aria-labelledby={node.id}
-    >
+    <article {...props} aria-labelledby={node.id}>
       <div className="flex flex-col">
-        <Heading
-          className="order-last text-m2"
-          id={node.id}
-        >
+        <Heading className="order-last text-m2" id={node.id}>
           <Link href={node.path}>{node.title}</Link>
         </Heading>
 
@@ -36,7 +30,9 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
               {node.suCourseCode}
             </strong>
           )}
-          {(node.suCourseSubject || node.suCourseCode) && (node.suCourseQuarters || node.suCourseAcademicYear) && <>&nbsp;|&nbsp;</>}
+          {(node.suCourseSubject || node.suCourseCode) && (node.suCourseQuarters || node.suCourseAcademicYear) && (
+            <>&nbsp;|&nbsp;</>
+          )}
           {node.suCourseAcademicYear} {node.suCourseQuarters?.map(quarter => quarter.name).join(", ")}
         </div>
       </div>

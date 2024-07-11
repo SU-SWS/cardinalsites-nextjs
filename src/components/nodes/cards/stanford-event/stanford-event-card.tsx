@@ -24,24 +24,14 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ")
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
-    <ImageCard
-      {...props}
-      aria-labelledby={node.id}
-      isArticle
-    >
-      <div
-        aria-hidden
-        className="flex w-fit flex-col items-start"
-      >
+    <ImageCard {...props} aria-labelledby={node.id} isArticle>
+      <div aria-hidden className="flex w-fit flex-col items-start">
         <div className="mb-4 w-full text-center text-m0 font-semibold">{startMonth.toUpperCase()}</div>
         <div className="w-full text-center text-m4 font-bold">{startDay}</div>
       </div>
 
       <div className="flex flex-col">
-        <Heading
-          className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red"
-          id={node.id}
-        >
+        <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
           <Link href={node.suEventSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
@@ -50,24 +40,15 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
       {node.suEventSubheadline && <div className="mb-5 text-m1 font-bold">{node.suEventSubheadline}</div>}
 
-      <time
-        className="flex items-center gap-5"
-        dateTime={start.toISOString()}
-      >
-        <CalendarDaysIcon
-          width={30}
-          className="shrink-0"
-        />
+      <time className="flex items-center gap-5" dateTime={start.toISOString()}>
+        <CalendarDaysIcon width={30} className="shrink-0" />
         {dateTimeString}
       </time>
 
       {node.suEventLocation && (
         <div>
           <div className="flex items-center gap-5">
-            <MapPinIcon
-              width={30}
-              className="shrink-0"
-            />
+            <MapPinIcon width={30} className="shrink-0" />
             <Address {...node.suEventLocation} />
           </div>
         </div>
@@ -75,10 +56,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
 
       {node.suEventAltLoc && (
         <div className="flex items-center gap-5">
-          <MapPinIcon
-            width={30}
-            className="shrink-0"
-          />
+          <MapPinIcon width={30} className="shrink-0" />
           {node.suEventAltLoc}
         </div>
       )}
@@ -120,7 +98,10 @@ export const getEventTimeString = (start: Date, end: Date, timeZone: string): st
   let dateTimeString: string
 
   // Multiple days.
-  if (start.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"}) != end.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"})) {
+  if (
+    start.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"}) !=
+    end.toLocaleDateString("en-US", {timeZone: "America/Los_Angeles"})
+  ) {
     dateTimeString =
       start.toLocaleDateString("en-US", {
         month: "long",

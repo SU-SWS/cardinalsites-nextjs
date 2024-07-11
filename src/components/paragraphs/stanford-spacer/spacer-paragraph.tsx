@@ -9,11 +9,6 @@ const SpacerParagraph = ({paragraph, ...props}: Props) => {
   let h = "h-20"
   if (paragraph.suSpacerSize === "su-spacer-minimal") h = "h-10"
   if (paragraph.suSpacerSize === "su-spacer-reduced") h = "h-15"
-  return (
-    <div
-      className={h}
-      {...props}
-    ></div>
-  )
+  return <div className={h} {...props}></div>
 }
 export default SpacerParagraph
