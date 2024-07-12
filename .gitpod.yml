@@ -73,7 +73,7 @@ tasks:
       gp ports await 3000 &&
       gp url 3000 | xargs gp preview --external
   - name: SSH Keys
-    command: |
+    before: |
       code --add /workspace/back &&
       mkdir -p ~/.ssh
       if [[ ! -z $SSH_PUBLIC_KEY  ]]; then
