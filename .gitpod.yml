@@ -46,11 +46,9 @@ tasks:
       blt drupal:install -n &&
       drush cset system.theme default claro -y &&
       cd /workspace/front &&
-      cp .env.example .env.local &&
-      sed -i 's/#DRUPAL_REVALIDATE_SECRET/DRUPAL_REVALIDATE_SECRET/' .env.local &&
-      sed -i 's/#DRUPAL_PREVIEW_SECRET/DRUPAL_PREVIEW_SECRET/' .env.local &&
-      yarn install
+      yarn
     command: |
+      cp .env.example .env.local &&
       cd /workspace/back &&
       echo 'Restarting Apache' &&
       eval $(gp env -e APACHE_DOCROOT_IN_REPO=../back/docroot) &&
@@ -67,31 +65,30 @@ tasks:
       drush uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL | xargs gp preview --external &&
       git config core.fileMode false &&
       echo 'Connecting Drupal to Frontend' &&
-      drush su-next-connect "$(gp url 3000)" --preview-secret=DRUPAL_PREVIEW_SECRET --revalidation-secret=DRUPAL_REVALIDATION_SECRET &&
+      drush su-next-connect "$(gp url 3000)" >> /workspace/front/.env.local &&
       cd /workspace/front &&
-      yarn install &&
+      yarn &&
       sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL|g" .env.local &&
       yarn dev &
       gp ports await 3000 &&
       gp url 3000 | xargs gp preview --external
   - name: SSH Keys
     command: |
-      rm -rf ~/.ssh/id_rsa &&
-      rm -rf ~/.ssh/id_rsa.pub &&
-      eval $(command gp env -e) &&
-      mkdir -p ~/.ssh &&
-      [[ ! -z $SSH_PUBLIC_KEY  ]] &&
-      echo $SSH_PUBLIC_KEY | base64 -d > ~/.ssh/id_rsa.pub &&
-      chmod 644 ~/.ssh/id_rsa.pub &&
-      [[ ! -z $SSH_PRIVATE_KEY  ]] &&
-      echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa &&
-      chmod 600 ~/.ssh/id_rsa &&
-      cd /workspace/front &&
-      [[ ! -z $GITCONFIG  ]] &&
-      echo $GITCONFIG | base64 -d > ~/.gitconfig &&
-      chmod 644 ~/.gitconfig
+      code --add /workspace/back &&
+      mkdir -p ~/.ssh
+      if [[ ! -z $SSH_PUBLIC_KEY  ]]; then
+          echo $SSH_PUBLIC_KEY | base64 -d > ~/.ssh/id_rsa.pub && chmod 644 ~/.ssh/id_rsa.pub
+          git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
+      fi
+      if [[ ! -z $SSH_PRIVATE_KEY ]]; then
+          echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+      fi
+      if [[ ! -z $GITCONFIG ]]; then
+          echo $GITCONFIG | base64 -d > ~/.gitconfig && chmod 644 ~/.gitconfig
+      fi
       git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
 
 vscode:
   extensions:
     - bradlc.vscode-tailwindcss
+    - esbenp.prettier-vscode
