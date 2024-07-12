@@ -22,7 +22,9 @@ const Page = async ({params: {uuid}}: Props) => {
   if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()
 
   const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery
-  let galleryImages = mediaUuid ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid) : paragraph.suGalleryImages
+  let galleryImages = mediaUuid
+    ? paragraph.suGalleryImages?.filter(image => image.id === mediaUuid)
+    : paragraph.suGalleryImages
 
   galleryImages = galleryImages?.filter(image => !!image.suGalleryImage?.url)
 
