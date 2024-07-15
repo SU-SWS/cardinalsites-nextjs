@@ -16,7 +16,7 @@ const PageTitleBannerParagraph = ({paragraph, pageTitle, ...props}: Props) => {
       imageAlt={paragraph.suTitleBannerImage?.mediaImage.alt}
       eagerLoadImage
     >
-      <H1 className="order-2 m-0 mb-[-10px] p-0 text-m2">{pageTitle}</H1>
+      <H1 className="type-3 order-2 m-0 mb-[-10px] p-0">{pageTitle}</H1>
     </HeroBanner>
   )
 }

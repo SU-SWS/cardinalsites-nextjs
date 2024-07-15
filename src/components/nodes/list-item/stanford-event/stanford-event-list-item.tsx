@@ -31,12 +31,12 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
       className={twMerge("mx-auto flex w-full gap-10 py-10", props.className)}
     >
       <div aria-hidden className="flex w-fit flex-col items-start">
-        <div className="mb-4 w-full text-center text-m0 font-semibold">{startMonth.toUpperCase()}</div>
-        <div className="w-full text-center text-m4 font-bold">{startDay}</div>
+        <div className="type-0 mb-4 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
+        <div className="type-5 w-full text-center font-bold">{startDay}</div>
       </div>
       <div>
         <div className="flex flex-col">
-          <Heading className="text-m2" id={node.id}>
+          <Heading className="type-3" id={node.id}>
             <Link
               href={node.suEventSource?.url || node.path}
               className="text-digital-red no-underline hocus:text-black hocus:underline"
@@ -48,7 +48,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
           {node.suEventType && <div className="su-digital-red order-first">{node.suEventType[0].name}</div>}
         </div>
 
-        {node.suEventSubheadline && <div className="mb-5 text-m1 font-bold">{node.suEventSubheadline}</div>}
+        {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}
         {node.suEventDek && <p>{node.suEventDek}</p>}
 
         <time className="mb-5 flex items-center gap-5" dateTime={start.toISOString()}>

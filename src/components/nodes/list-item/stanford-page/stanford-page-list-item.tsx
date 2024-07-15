@@ -23,7 +23,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
     <article {...props} aria-labelledby={node.id} className={twMerge("py-10 @container", props.className)}>
       <div className="flex flex-col justify-between gap-20 @4xl:flex-row" {...props}>
         <div className="order-2 @4xl:order-1">
-          <Heading className="text-m2" id={node.id}>
+          <Heading className="type-3" id={node.id}>
             <Link href={node.path}>{node.title}</Link>
           </Heading>
 

@@ -22,7 +22,7 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
   const teaserSummary = node.body?.summary || trimmedBodyText + "..."
   return (
     <ImageCard {...props} aria-labelledby={node.id} isArticle>
-      <Heading className="text-m2" id={node.id}>
+      <Heading className="type-3" id={node.id}>
         <Link href={node.path}>{node.title}</Link>
       </Heading>
 

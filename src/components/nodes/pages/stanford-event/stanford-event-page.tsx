@@ -33,7 +33,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
         {node.suEventType && <div className="order-1">{node.suEventType[0].name}</div>}
       </div>
-      {node.suEventSubheadline && <div className="text-m2 font-bold">{node.suEventSubheadline}</div>}
+      {node.suEventSubheadline && <div className="type-3 font-bold">{node.suEventSubheadline}</div>}
       {node.suEventDek && <div>{node.suEventDek}</div>}
 
       {node.suEventSponsor && (
@@ -45,7 +45,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
       )}
 
       <div className="mx-auto border border-black-40 px-10 py-20 lg:w-3/4 lg:px-48">
-        <H2 className="text-m2">Event Details:</H2>
+        <H2 className="type-3">Event Details:</H2>
         <div className="grid items-start gap-20 lg:grid-cols-2">
           <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
             <CalendarDaysIcon width={30} className="shrink-0" />
@@ -56,7 +56,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
             <div className="flex-col-2 flex items-start gap-lg">
               <PhoneIcon width={30} className="shrink-0" />
               <div>
-                <H3 className="text-m1">Contact</H3>
+                <H3 className="type-2">Contact</H3>
 
                 {node.suEventEmail && (
                   <Email email={node.suEventEmail} className="block">
@@ -76,7 +76,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
             <div className="flex-col-2 flex items-start gap-5">
               <MapPinIcon width={30} className="shrink-0" />
               <div>
-                <H3 className="text-m1">Location</H3>
+                <H3 className="type-2">Location</H3>
 
                 <div>
                   {node.suEventLocation && <Address {...node.suEventLocation} />}
@@ -91,7 +91,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
             <div className="flex-col-2 flex items-start gap-5">
               <UserGroupIcon width={30} className="shrink-0" />
               <div>
-                <H3 className="text-m1">This event is open to:</H3>
+                <H3 className="type-2">This event is open to:</H3>
                 {node.suEventAudience.map(audience => (
                   <div key={audience.id}>{audience.name}</div>
                 ))}

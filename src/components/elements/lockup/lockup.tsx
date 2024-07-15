@@ -48,7 +48,7 @@ export const Lockup = ({
             <div className="mr-2 border-black pr-2 lg:inline-block lg:border-r">
               <LockupLogo {...lockupProps} />
             </div>
-            <div className="text-m2 font-normal text-black lg:inline-block">{suSiteName || "University"}</div>
+            <div className="type-3 font-normal text-black lg:inline-block">{suSiteName || "University"}</div>
           </div>
         </Link>
       </div>

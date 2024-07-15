@@ -18,7 +18,11 @@
       "error",
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ],
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-restricted-syntax": [
+      "error",
+      "Literal[value=/text-m[\\d]/i]"
+    ]
   },
   "plugins": ["prettier", "unused-imports"],
   "ignorePatterns": ["**/__generated__/**/*"]

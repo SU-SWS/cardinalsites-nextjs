@@ -13,8 +13,8 @@ const LockupB = ({line1, line2, siteName, logoUrl}: FooterLockupProps) => {
 
           <div className="w-[1px] shrink-0 bg-black" />
           <div className="font-normal">
-            <div className="text-m0">{line1 || siteName}</div>
-            <div className="text-m1">{line2}</div>
+            <div className="type-0">{line1 || siteName}</div>
+            <div className="type-2">{line2}</div>
           </div>
         </div>
       </Link>

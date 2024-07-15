@@ -153,7 +153,7 @@ const SelectList = ({
       >
         <div className="flex flex-wrap justify-between">
           {label && (
-            <div className={"relative " + (optionChosen ? "top-[-15px] w-full text-m0" : "text-m1")}>
+            <div className={"relative " + (optionChosen ? "type-0 top-[-15px] w-full" : "type-2")}>
               <div id={labelId} className="w-fit bg-white px-5">
                 {label}
               </div>

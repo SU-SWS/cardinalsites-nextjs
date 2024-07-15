@@ -12,7 +12,7 @@ const LockupA = ({line1, line5, siteName, logoUrl}: FooterLockupProps) => {
           </div>
 
           <div className="w-[1px] shrink-0 bg-black" />
-          <div className="text-m2 font-normal leading-none text-black">{line1 || siteName}</div>
+          <div className="type-3 font-normal leading-none text-black">{line1 || siteName}</div>
         </div>
 
         {line5 && <div className="border-t border-black font-semibold uppercase lg:border-t-0">{line5}</div>}

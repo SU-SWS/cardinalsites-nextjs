@@ -17,7 +17,7 @@ const SuperFooter = async ({...props}: Props) => {
     <div {...props} className={twMerge("border-b border-black-20 bg-foggy-light py-20", props.className)}>
       <div className="centered flex justify-between">
         <div className="flex-1">
-          {superFooterConfig.suSuperFootTitle && <H2 className="text-m2">{superFooterConfig.suSuperFootTitle}</H2>}
+          {superFooterConfig.suSuperFootTitle && <H2 className="type-3">{superFooterConfig.suSuperFootTitle}</H2>}
 
           <Wysiwyg html={superFooterConfig.suSuperFootText?.processed} />
         </div>

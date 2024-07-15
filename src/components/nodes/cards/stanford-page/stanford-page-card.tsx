@@ -20,7 +20,7 @@ const StanfordPageCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
     <ImageCard {...props} aria-labelledby={node.id} imageUrl={image?.url} imageAlt={image?.alt} isArticle>
-      <Heading className="text-m2 [&_a]:text-black" id={node.id}>
+      <Heading className="type-3 [&_a]:text-black" id={node.id}>
         <Link href={node.path}>{node.title}</Link>
       </Heading>
 

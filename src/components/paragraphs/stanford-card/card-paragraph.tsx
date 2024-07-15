@@ -21,7 +21,7 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
 
   const headerTagChoice = (behaviors.su_card_styles?.heading || "h2").split(".", 2)
   const headerTag = headerTagChoice[0]
-  let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "text-m2 font-bold") || ""
+  let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-3 font-bold") || ""
   if (behaviors.su_card_styles?.hide_heading) headerClasses += " sr-only"
 
   return (

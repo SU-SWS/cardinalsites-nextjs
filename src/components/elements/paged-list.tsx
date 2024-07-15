@@ -197,7 +197,7 @@ const PaginationButton = ({
   return (
     <li className="m-0 flex items-center">
       <button
-        className="group text-m2 font-medium hocus:underline"
+        className="group type-3 font-medium hocus:underline"
         onClick={handleClick}
         aria-current={isCurrent ? "page" : undefined}
         disabled={disabled}

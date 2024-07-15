@@ -32,7 +32,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       )}
 
-      <Heading className="text-m2" id={node.id}>
+      <Heading className="type-3" id={node.id}>
         <Link href={node.path}>{node.title}</Link>
       </Heading>
 

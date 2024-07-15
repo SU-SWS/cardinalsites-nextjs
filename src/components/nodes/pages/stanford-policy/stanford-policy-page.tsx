@@ -53,11 +53,11 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
 
         {changeLog.length > 0 && (
           <div className="mb-10 border border-black-40 bg-black-10 p-20">
-            <H2 className="text-m1">Change log:</H2>
+            <H2 className="type-2">Change log:</H2>
 
             {changeLog.map(change => (
               <div key={change.id}>
-                <H3 className="flex gap-2 text-m0">
+                <H3 className="type-0 flex gap-2">
                   <div>
                     {new Date(change.suPolicyDate.time).toLocaleDateString("en-us", {
                       month: "long",

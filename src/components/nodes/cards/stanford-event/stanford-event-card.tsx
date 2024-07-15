@@ -26,19 +26,19 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   return (
     <ImageCard {...props} aria-labelledby={node.id} isArticle>
       <div aria-hidden className="flex w-fit flex-col items-start">
-        <div className="mb-4 w-full text-center text-m0 font-semibold">{startMonth.toUpperCase()}</div>
-        <div className="w-full text-center text-m4 font-bold">{startDay}</div>
+        <div className="type-0 mb-4 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
+        <div className="type-5 w-full text-center font-bold">{startDay}</div>
       </div>
 
       <div className="flex flex-col">
-        <Heading className="text-m2 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
+        <Heading className="type-3 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
           <Link href={node.suEventSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
         {node.suEventType && <div className="su-digital-red order-first">{node.suEventType[0].name}</div>}
       </div>
 
-      {node.suEventSubheadline && <div className="mb-5 text-m1 font-bold">{node.suEventSubheadline}</div>}
+      {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}
 
       <time className="flex items-center gap-5" dateTime={start.toISOString()}>
         <CalendarDaysIcon width={30} className="shrink-0" />

@@ -21,7 +21,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
   const headerTagChoice = (behaviors.hero_pattern?.heading || "h2").split(".", 2)
   const headerTag = headerTagChoice[0]
 
-  let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "text-m2 font-bold") || ""
+  let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-3 font-bold") || ""
   if (behaviors.hero_pattern?.hide_heading) headerClasses += " sr-only"
 
   return (
@@ -61,7 +61,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
             <div className="order-first text-09em font-semibold">{paragraph.suBannerSupHeader}</div>
           )}
 
-          <Wysiwyg html={paragraph.suBannerBody?.processed} className="text-m0" />
+          <Wysiwyg html={paragraph.suBannerBody?.processed} className="type-0" />
 
           {paragraph.suBannerButton?.url && (
             <Button href={paragraph.suBannerButton.url}>{paragraph.suBannerButton.title}</Button>

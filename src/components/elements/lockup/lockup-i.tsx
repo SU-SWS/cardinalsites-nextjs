@@ -9,13 +9,13 @@ const LockupI = ({line1, line3, line4, siteName, logoUrl}: FooterLockupProps) =>
         <div className="flex flex-col gap-4 lg:flex-row">
           <div>
             <LockupLogo logoUrl={logoUrl} siteName={siteName} />
-            <div className="mt-1 text-m1 font-semibold uppercase">{line4}</div>
+            <div className="type-2 mt-1 font-semibold uppercase">{line4}</div>
           </div>
 
           <div className="w-[1px] shrink-0 bg-black" />
           <div className="mt-auto font-normal">
-            <div className="text-m1">{line1 || siteName}</div>
-            <div className="text-m0 italic">{line3}</div>
+            <div className="type-2">{line1 || siteName}</div>
+            <div className="type-0 italic">{line3}</div>
           </div>
         </div>
       </Link>

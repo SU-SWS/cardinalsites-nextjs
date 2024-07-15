@@ -38,7 +38,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
           <H1 className="order-2">{node.title}</H1>
 
           {node.suPersonShortTitle && <div className="order-1 mb-10">{node.suPersonShortTitle}</div>}
-          {node.suPersonFullTitle && <div className="order-3 text-m1">{node.suPersonFullTitle}</div>}
+          {node.suPersonFullTitle && <div className="type-2 order-3">{node.suPersonFullTitle}</div>}
         </div>
       </div>
 
@@ -50,7 +50,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
           {node.suPersonEducation && (
             <div className="mb-10">
-              <H2 className="text-m1">Education</H2>
+              <H2 className="type-2">Education</H2>
               {node.suPersonEducation.map((education, i) => (
                 <div key={`${node.id}-education-${i}`}>{education}</div>
               ))}
@@ -59,7 +59,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
           {node.suPersonResearch && (
             <div className="mb-10">
-              <H2 className="text-m1">Research</H2>
+              <H2 className="type-2">Research</H2>
               <div className="grid grid-cols-2 gap-10">
                 {node.suPersonResearch.map((research, i) => (
                   <Wysiwyg key={`${node.id}-research-${i}`} html={research.processed} />
@@ -70,7 +70,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
           {node.suPersonAffiliations && (
             <div className="mb-10">
-              <H2 className="text-m1">Stanford Affiliations</H2>
+              <H2 className="type-2">Stanford Affiliations</H2>
               <div className="grid grid-cols-2 gap-10">
                 {node.suPersonAffiliations.map((affiliation, i) => (
                   <div key={`${node.id}-affiliation-${i}`}>
@@ -90,7 +90,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             <div className="mb-20 flex items-start gap-10">
               <PhoneIcon width={30} className="shrink-0" />
               <div>
-                <H2 className="text-m1">Contact</H2>
+                <H2 className="type-2">Contact</H2>
 
                 {node.suPersonTelephone && (
                   <div className="mb-10">
@@ -124,7 +124,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             <div className="mb-20 flex items-start gap-10">
               <MapPinIcon width={30} className="shrink-0" />
               <div>
-                <H2 className="text-m1">Location</H2>
+                <H2 className="type-2">Location</H2>
 
                 <Wysiwyg html={node.suPersonLocationAddress?.processed} />
 
@@ -142,7 +142,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             <div className="mb-20 flex items-start gap-10">
               <LinkIcon width={30} className="shrink-0" />
               <div>
-                <H2 className="text-m1">Links</H2>
+                <H2 className="type-2">Links</H2>
                 {node.suPersonLinks.map((link, i) => {
                   if (!link.url) return
                   return (
