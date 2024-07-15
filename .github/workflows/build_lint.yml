@@ -46,13 +46,6 @@ jobs:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-#      - name: Install SSH key
-#        uses: shimataro/ssh-key-action@v2
-#        with:
-#          key: ${{ secrets.SSH_KEY }}
-#          name: id_rsa
-#          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#          if_key_exists: fail
       - uses: actions/checkout@v4
         with:
           repository: "SU-SWS/ace-stanfordlagunita"
@@ -81,11 +74,8 @@ jobs:
           ln -snf $GITHUB_WORKSPACE /var/www/html &&
           mkdir -p docroot/sites/default/files &&
           chmod -R 777 docroot/sites/default/files/ &&
-#          rm -rf docroot/sites/$SITENAME/files &&
-#          ln -sL ../default/files/ docroot/sites/$SITENAME/files &&
           apachectl stop && apachectl start &&
           composer install -n &&
-#          blt drupal:sync --site=$SITENAME -n &&
           blt drupal:install -n &&
           drush sqlq 'truncate config_pages__su_site_algolia_id'
       - name: Build Frontend
