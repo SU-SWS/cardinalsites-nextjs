@@ -1,6 +1,6 @@
 
 additionalRepositories:
-  - url: https://github.com/SU-SWS/acsf-cardinalsites-public
+  - url: https://github.com/SU-SWS/ace-stanfordlagunita/
     checkoutLocation: back
 checkoutLocation: front
 ports:
@@ -19,7 +19,7 @@ ports:
     visibility: public
   - name: frontend
     description: NextJS frontend
-    port: 3000
+    port: 3000-3004
     onOpen: ignore
     visibility: public
   - port: 8002-9999
@@ -28,46 +28,47 @@ image: pookmish/drupal8ci:gitpod
 tasks:
   - name: Drupal Prep
     init: >
+      eval $(gp env -e SITENAME=default) &&
       eval $(gp env -e APACHE_DOCROOT_IN_REPO=../back/docroot) &&
       cd /workspace/back &&
-      rm -rf config/default &&
-      mkdir -p config/default &&
-      touch config/default/core.extension.yml &&
+      git checkout 2.x &&
       composer install --no-interaction &&
       mkdir -p blt &&
       cp .gitpod/blt.yml blt/local.blt.yml &&
       find docroot/sites/ -name 'local*' | xargs rm -rf &&
-      cp .gitpod/global.settings.php docroot/sites/settings/global.settings.php &&
-      cp .gitpod/default.local.services.yml docroot/sites/local.services.yml &&
       export NEXT_PUBLIC_DRUPAL_BASE_URL=`gp url 8001` &&
       export PREVIEW_URL=${NEXT_PUBLIC_DRUPAL_BASE_URL#"https://"} &&
       blt blt:telemetry:disable --no-interaction &&
       blt settings &&
-      blt drupal:install -n &&
-      drush cset system.theme default claro -y &&
+      echo 'ssh: {options: "-o StrictHostKeyChecking=no"}' > drush/local.drush.yml &&
+      if [[ ! -z $SSH_PRIVATE_KEY ]]; then
+        echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa &&
+        blt drupal:sync --site=$SITENAME -n || blt drupal:install --site=$SITENAME -n
+      else
+        blt drupal:install --site=$SITENAME -n
+      fi &&
+      drush @$SITENAME.local cset system.theme default stanford_profile_admin_theme -y &&
       cd /workspace/front &&
       yarn
     command: |
       cp .env.example .env.local &&
-      cd /workspace/back &&
-      echo 'Restarting Apache' &&
+      gp ports await 3306 &&
       eval $(gp env -e APACHE_DOCROOT_IN_REPO=../back/docroot) &&
-      apache2ctl restart &&
-      gp ports await 8001 &&
-      find docroot -name 'local.drush.yml' | xargs rm &&
+      cd /workspace/back &&
       export NEXT_PUBLIC_DRUPAL_BASE_URL=`gp url 8001` &&
       export PREVIEW_URL=${NEXT_PUBLIC_DRUPAL_BASE_URL#"https://"} &&
-      blt blt:telemetry:disable --no-interaction &&
-      echo 'Establishing Settings' &&
+      echo "<?php \$sites['$PREVIEW_URL'] = '$SITENAME';" > docroot/sites/local.sites.php &&
       blt settings &&
-      echo 'Logging Into Drupal' &&
-      drush uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL &&
-      drush uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL | xargs gp preview --external &&
+      apache2ctl restart &&
+      gp ports await 8001 &&
+      drush @$SITENAME.local uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL &&
+      drush @$SITENAME.local uli --uri=$NEXT_PUBLIC_DRUPAL_BASE_URL | xargs gp preview --external &&
       git config core.fileMode false &&
-      echo 'Connecting Drupal to Frontend' &&
-      drush su-next-connect "$(gp url 3000)" >> /workspace/front/.env.local &&
+      drush @$SITENAME.local su-next-connect "$(gp url 3000)" >> /workspace/front/.env.local &&
       cd /workspace/front &&
-      yarn &&
+      yarn install &&
+      yarn config set --home enableTelemetry 0 &&
+      yarn next telemetry disable &&
       sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL|g" .env.local &&
       yarn dev &
       gp ports await 3000 &&
@@ -76,17 +77,14 @@ tasks:
     before: |
       code --add /workspace/back &&
       mkdir -p ~/.ssh
-      if [[ ! -z $SSH_PUBLIC_KEY  ]]; then
-          echo $SSH_PUBLIC_KEY | base64 -d > ~/.ssh/id_rsa.pub && chmod 644 ~/.ssh/id_rsa.pub
-          git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
-      fi
       if [[ ! -z $SSH_PRIVATE_KEY ]]; then
-          echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+          echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa &&
+          git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|') &&
+          cd /workspace/back && git remote set-url origin git@github.com:SU-SWS/ace-stanfordlagunita.git
       fi
       if [[ ! -z $GITCONFIG ]]; then
           echo $GITCONFIG | base64 -d > ~/.gitconfig && chmod 644 ~/.gitconfig
       fi
-      git remote set-url origin $(echo $GITPOD_WORKSPACE_CONTEXT | jq -r .repository.cloneUrl | sed -E 's|^.*.com/(.*)$|git@github.com:\1|')
 
 vscode:
   extensions:
