@@ -39,7 +39,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
           {paragraph.suBannerHeader && (
             <>
               {headerTag === "h2" && (
-                <H2 id={paragraph.id} className={twMerge(headerClasses, "mb-0")}>
+                <H2 id={paragraph.id} className={twMerge(headerClasses, "type-2 mb-0")}>
                   {paragraph.suBannerHeader}
                 </H2>
               )}

@@ -33,6 +33,7 @@ jobs:
       image: pookmish/drupal8ci:latest
       env:
         BUILD_PAGES: 100
+        SITENAME: sitedir
     services:
       mysql:
         image: mysql:5.7
@@ -80,11 +81,13 @@ jobs:
           ln -snf $GITHUB_WORKSPACE /var/www/html &&
           mkdir -p docroot/sites/default/files &&
           chmod -R 777 docroot/sites/default/files/ &&
-          rm -rf docroot/sites/summer/files &&
-          ln -sL ../default/files/ docroot/sites/summer/files &&
+#          rm -rf docroot/sites/$SITENAME/files &&
+#          ln -sL ../default/files/ docroot/sites/$SITENAME/files &&
           apachectl stop && apachectl start &&
           composer install -n &&
-          blt drupal:install -n
+#          blt drupal:sync --site=$SITENAME -n &&
+          blt drupal:install -n &&
+          drush sqlq 'truncate config_pages__su_site_algolia_id'
       - name: Build Frontend
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
