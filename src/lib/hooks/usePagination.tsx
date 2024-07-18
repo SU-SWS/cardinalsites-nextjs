@@ -11,60 +11,51 @@ import {useMemo} from "react"
  *   How many items per page.
  * @param siblingCount
  *   How many page buttons to display left and right of the current page.
- *
- * @return
- *   Page numbers.
  */
 const usePagination = (totalCount: number, currentPage = 1, pageSize = 5, siblingCount = 2): (number | string)[] => {
   return useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize)
 
-    // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2 * DOTS + 2 * ARROWS
-    const totalPageNumbers = siblingCount + 7
+    // Total pages to display are twice the siblings plus the current page: sibling, current, sibling
+    const totalPageNumbers = siblingCount * 2 + 1
 
-    // Arrow constants
+    // Arrow constants.
     const leftArrow = "leftArrow"
     const rightArrow = "rightArrow"
 
-    // Case 1: If the number of pages is less than the page numbers we want to show in our paginationComponent, we
-    // return the range [1..totalPageCount]
+    // If the total displayed pages is less than or equal to the total pages, we just display all pages.
     if (totalPageNumbers >= totalPageCount) {
-      return [leftArrow, ...range(1, totalPageCount), rightArrow]
+      return range(1, totalPageCount)
     }
 
-    // Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
-    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1)
-    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPageCount)
+    // Start from page 1 or the siblingCount pages away from the current page.
+    const leftStart = Math.max(1, Math.max(1, currentPage) - siblingCount)
+    const leftRange = range(leftStart, currentPage - 1)
 
-    // We do not show dots just when there is just one page number to be inserted between the extremes of sibling and the page limits i.e 1 and totalPageCount. Hence we are using leftSiblingIndex > 2 and rightSiblingIndex < totalPageCount - 2
-    const shouldShowLeftDots = leftSiblingIndex > 2
-    const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2
+    // End with the next siblingCount pages after the current page, or the last pages in the list.
+    const rightRange = range(currentPage + 1, Math.min(totalPageCount, currentPage + siblingCount))
 
-    const firstPageIndex = 1
-    const lastPageIndex = totalPageCount
+    // If there are more pages past the siblings.
+    const shouldShowLeftDots = leftStart > 1
+    // If there are more pages after the siblings.
+    const shouldShowRightDots = !!rightRange.length && rightRange[rightRange.length - 1] !== totalPageCount
 
-    // Case 2: No left dots to show, but rights dots to be shown
-    if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = 3 + 2 * siblingCount
-      const leftRange = range(1, leftItemCount)
-
-      return [leftArrow, ...leftRange, 0, totalPageCount, rightArrow]
-    }
-
-    // Case 3: No right dots to show, but left dots to be shown
-    if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount = 3 + 2 * siblingCount
-      const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount)
-
-      return [leftArrow, firstPageIndex, 0, ...rightRange, rightArrow]
-    }
-
-    // Case 4: Both left and right dots to be shown
+    // More pages exists before and after the displayed pages.
     if (shouldShowLeftDots && shouldShowRightDots) {
-      const middleRange = range(leftSiblingIndex, rightSiblingIndex)
-      return [leftArrow, firstPageIndex, 0, ...middleRange, 0, lastPageIndex, rightArrow]
+      return [leftArrow, 0, ...leftRange, currentPage, ...rightRange, 0, rightArrow]
     }
-    return []
+
+    // More pages only to the left of the displayed pages.
+    if (shouldShowLeftDots) {
+      return [leftArrow, 0, ...leftRange, currentPage, ...rightRange]
+    }
+
+    // More pages to the right of the displayed pages.
+    if (shouldShowRightDots) {
+      return [...leftRange, currentPage, ...rightRange, 0, rightArrow]
+    }
+
+    return [...leftRange, currentPage, ...rightRange]
   }, [totalCount, pageSize, siblingCount, currentPage])
 }
 

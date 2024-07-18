@@ -58,7 +58,7 @@ const PagedList = ({
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
   const {count: currentPage, setCount: setPage} = useCounter(
-    Math.min(totalPages, pageKey ? Math.max(1, parseInt(searchParams.get(pageKey) || "")) : 1)
+    Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))
   )
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
@@ -69,18 +69,18 @@ const PagedList = ({
     (page: number, doNotFocusOnResults?: boolean) => {
       runAction(page - 1)
         .then(response => {
-          if (!response) return
+          if (response) {
+            // Set the rendering to the response from the server. If the response has a suspense boundary, it will have a
+            // fallback prop. Then we only want to render the list of children within the suspense.
+            setItems(response.props.fallback ? response.props.children.props.children : response.props.children)
 
-          // Set the rendering to the response from the server. If the response has a suspense boundary, it will have a
-          // fallback prop. Then we only want to render the list of children within the suspense.
-          setItems(response.props.fallback ? response.props.children.props.children : response.props.children)
-
-          // When loading a page during the initial page load, we don't want to focus on anything. But when a user changes
-          // pages, we want to focus on the first element.
-          if (!doNotFocusOnResults) enableFocusElement()
-          setPage(page)
+            // When loading a page during the initial page load, we don't want to focus on anything. But when a user changes
+            // pages, we want to focus on the first element.
+            if (!doNotFocusOnResults) enableFocusElement()
+            setPage(page)
+          }
         })
-        .catch(() => console.error("An error occurred fetching more results."))
+        .catch(() => console.warn("An error occurred fetching more results."))
     },
     [enableFocusElement, setPage, runAction]
   )
@@ -97,17 +97,14 @@ const PagedList = ({
     // Use search params to retain any other parameters.
     const params = new URLSearchParams(searchParams.toString())
     params.delete(pageKey)
-
     if (currentPage > 1) params.set(pageKey, `${currentPage}`)
 
     router.replace(`?${params.toString()}`, {scroll: false})
   }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
-    if (currentPage > 1 && !ref.current) {
-      ref.current = true
-      goToPage(currentPage, true)
-    }
+    if (currentPage > 1 && !ref.current) goToPage(currentPage, true)
+    ref.current = true
   }, [currentPage, goToPage])
 
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
@@ -161,7 +158,6 @@ const PaginationButton = ({
   currentPage,
   total,
   onPageClick,
-  pagerSiblingCount,
   disabled,
 }: {
   page: number | string
@@ -185,13 +181,6 @@ const PaginationButton = ({
     if (page === "rightArrow") return onPageClick(total)
     onPageClick(page as number)
   }
-
-  // Conditionally render left arrow and right arrow based on currentPage
-  if (page === 1 && currentPage >= pagerSiblingCount + 3) return null
-  if (page === "leftArrow" && currentPage < pagerSiblingCount + 3) return null
-
-  if (page === total && currentPage <= total - (pagerSiblingCount + 3)) return null
-  if (page === "rightArrow" && currentPage > total - (pagerSiblingCount + 3)) return null
 
   const isCurrent = page === currentPage
   return (
