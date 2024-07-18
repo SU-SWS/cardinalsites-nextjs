@@ -1943,18 +1943,12 @@ export type Query = {
   route?: Maybe<RouteUnion>;
   /** Query for view stanford_basic_pages display basic_page_type_list_graphql. */
   stanfordBasicPages?: Maybe<StanfordBasicPagesResult>;
-  /** Query for view stanford_basic_pages display viewfield_block_1_graphql. */
-  stanfordBasicPagesCards?: Maybe<StanfordBasicPagesCardsResult>;
   /** List of all StanfordBasicSiteSetting on the platform. */
   stanfordBasicSiteSettings: StanfordBasicSiteSettingConnection;
   /** Query for view stanford_courses display default_list_viewfield_block_graphql. */
   stanfordCourses?: Maybe<StanfordCoursesResult>;
-  /** Query for view stanford_courses display vertical_teaser_viewfield_block_graphql. */
-  stanfordCoursesCardGrid?: Maybe<StanfordCoursesCardGridResult>;
   /** Query for view stanford_events display list_page_graphql. */
   stanfordEvents?: Maybe<StanfordEventsResult>;
-  /** Query for view stanford_events display cards_graphql. */
-  stanfordEventsCardGrid?: Maybe<StanfordEventsCardGridResult>;
   /** Query for view stanford_events display past_events_list_block_graphql. */
   stanfordEventsPastEvents?: Maybe<StanfordEventsPastEventsResult>;
   /** List of all StanfordGlobalMessage on the platform. */
@@ -1962,15 +1956,11 @@ export type Query = {
   /** List of all StanfordLocalFooter on the platform. */
   stanfordLocalFooters: StanfordLocalFooterConnection;
   /** News Views */
-  stanfordNewsCardGrid?: Maybe<StanfordNewsCardGridResult>;
-  /** News Views */
-  stanfordNewsDefaultList?: Maybe<StanfordNewsDefaultListResult>;
+  stanfordNews?: Maybe<StanfordNewsResult>;
   /** A list of people in a grid with node as the base table */
   stanfordPerson?: Maybe<StanfordPersonResult>;
-  /** Query for view stanford_publications display apa_list_graphql. */
-  stanfordPublicationsApa?: Maybe<StanfordPublicationsApaResult>;
-  /** Query for view stanford_publications display chicago_list_graphql. */
-  stanfordPublicationsChicago?: Maybe<StanfordPublicationsChicagoResult>;
+  /** Query for view stanford_publications display list_graphql. */
+  stanfordPublications?: Maybe<StanfordPublicationsResult>;
   /** Query for view stanford_shared_tags display card_grid_graphql. */
   stanfordSharedTags?: Maybe<StanfordSharedTagsResult>;
   /** List of all StanfordSuperFooter on the platform. */
@@ -2154,15 +2144,8 @@ export type QueryStanfordBasicPagesArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The schema's entry-point for queries. */
-export type QueryStanfordBasicPagesCardsArgs = {
-  contextualFilter?: InputMaybe<StanfordBasicPagesCardsContextualFilterInput>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordBasicPagesSortKeys>;
 };
 
 
@@ -2183,15 +2166,8 @@ export type QueryStanfordCoursesArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The schema's entry-point for queries. */
-export type QueryStanfordCoursesCardGridArgs = {
-  contextualFilter?: InputMaybe<StanfordCoursesCardGridContextualFilterInput>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordCoursesSortKeys>;
 };
 
 
@@ -2201,15 +2177,8 @@ export type QueryStanfordEventsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The schema's entry-point for queries. */
-export type QueryStanfordEventsCardGridArgs = {
-  contextualFilter?: InputMaybe<StanfordEventsCardGridContextualFilterInput>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordEventsSortKeys>;
 };
 
 
@@ -2219,6 +2188,7 @@ export type QueryStanfordEventsPastEventsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortKey?: InputMaybe<StanfordEventsPastEventsSortKeys>;
 };
 
 
@@ -2245,21 +2215,13 @@ export type QueryStanfordLocalFootersArgs = {
 
 
 /** The schema's entry-point for queries. */
-export type QueryStanfordNewsCardGridArgs = {
-  contextualFilter?: InputMaybe<StanfordNewsCardGridContextualFilterInput>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The schema's entry-point for queries. */
-export type QueryStanfordNewsDefaultListArgs = {
-  contextualFilter?: InputMaybe<StanfordNewsDefaultListContextualFilterInput>;
+export type QueryStanfordNewsArgs = {
+  contextualFilter?: InputMaybe<StanfordNewsContextualFilterInput>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordNewsSortKeys>;
 };
 
 
@@ -2269,24 +2231,19 @@ export type QueryStanfordPersonArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordPersonSortKeys>;
 };
 
 
 /** The schema's entry-point for queries. */
-export type QueryStanfordPublicationsApaArgs = {
-  contextualFilter?: InputMaybe<StanfordPublicationsApaContextualFilterInput>;
+export type QueryStanfordPublicationsArgs = {
+  contextualFilter?: InputMaybe<StanfordPublicationsContextualFilterInput>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The schema's entry-point for queries. */
-export type QueryStanfordPublicationsChicagoArgs = {
-  contextualFilter?: InputMaybe<StanfordPublicationsChicagoContextualFilterInput>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordPublicationsSortKeys>;
 };
 
 
@@ -2297,6 +2254,7 @@ export type QueryStanfordSharedTagsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   sortDir?: InputMaybe<SortDirection>;
+  sortKey?: InputMaybe<StanfordSharedTagsSortKeys>;
 };
 
 
@@ -2468,33 +2426,6 @@ export enum SortDirection {
   Desc = 'DESC'
 }
 
-export type StanfordBasicPagesCardsContextualFilterInput = {
-  term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Result for view stanford_basic_pages display viewfield_block_1_graphql. */
-export type StanfordBasicPagesCardsResult = View & {
-  __typename?: 'StanfordBasicPagesCardsResult';
-  /** The description of the view. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The machine name of the display. */
-  display: Scalars['String']['output'];
-  /** Exposed filters for the view. */
-  filters: Array<Maybe<ViewFilter>>;
-  /** The ID of the view. */
-  id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** The language code of the view. */
-  langcode?: Maybe<Scalars['String']['output']>;
-  /** Information about the page in the view. */
-  pageInfo: ViewPageInfo;
-  /** The results of the view. */
-  results: Array<NodeUnion>;
-  /** The machine name of the view. */
-  view: Scalars['String']['output'];
-};
-
 export type StanfordBasicPagesContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2521,6 +2452,15 @@ export type StanfordBasicPagesResult = View & {
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
+
+export enum StanfordBasicPagesSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Title */
+  Title = 'TITLE'
+}
 
 /** Entity type config_pages. */
 export type StanfordBasicSiteSetting = ConfigPagesInterface & EdgeNode & MetaTagInterface & {
@@ -2587,33 +2527,6 @@ export type StanfordBasicSiteSettingEdge = Edge & {
   node: StanfordBasicSiteSetting;
 };
 
-export type StanfordCoursesCardGridContextualFilterInput = {
-  term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Result for view stanford_courses display vertical_teaser_viewfield_block_graphql. */
-export type StanfordCoursesCardGridResult = View & {
-  __typename?: 'StanfordCoursesCardGridResult';
-  /** The description of the view. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The machine name of the display. */
-  display: Scalars['String']['output'];
-  /** Exposed filters for the view. */
-  filters: Array<Maybe<ViewFilter>>;
-  /** The ID of the view. */
-  id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** The language code of the view. */
-  langcode?: Maybe<Scalars['String']['output']>;
-  /** Information about the page in the view. */
-  pageInfo: ViewPageInfo;
-  /** The results of the view. */
-  results: Array<NodeUnion>;
-  /** The machine name of the view. */
-  view: Scalars['String']['output'];
-};
-
 export type StanfordCoursesContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2641,35 +2554,14 @@ export type StanfordCoursesResult = View & {
   view: Scalars['String']['output'];
 };
 
-export type StanfordEventsCardGridContextualFilterInput = {
-  term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
-  term_node_taxonomy_name_depth_1?: InputMaybe<Scalars['String']['input']>;
-  term_node_taxonomy_name_depth_2?: InputMaybe<Scalars['String']['input']>;
-  term_node_taxonomy_name_depth_3?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Result for view stanford_events display cards_graphql. */
-export type StanfordEventsCardGridResult = View & {
-  __typename?: 'StanfordEventsCardGridResult';
-  /** The description of the view. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The machine name of the display. */
-  display: Scalars['String']['output'];
-  /** Exposed filters for the view. */
-  filters: Array<Maybe<ViewFilter>>;
-  /** The ID of the view. */
-  id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** The language code of the view. */
-  langcode?: Maybe<Scalars['String']['output']>;
-  /** Information about the page in the view. */
-  pageInfo: ViewPageInfo;
-  /** The results of the view. */
-  results: Array<NodeUnion>;
-  /** The machine name of the view. */
-  view: Scalars['String']['output'];
-};
+export enum StanfordCoursesSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Title */
+  Title = 'TITLE'
+}
 
 export type StanfordEventsContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
@@ -2705,6 +2597,17 @@ export type StanfordEventsPastEventsResult = View & {
   view: Scalars['String']['output'];
 };
 
+export enum StanfordEventsPastEventsSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Date & Time - Start */
+  StartTime = 'START_TIME',
+  /** Title */
+  Title = 'TITLE'
+}
+
 /** Result for view stanford_events display list_page_graphql. */
 export type StanfordEventsResult = View & {
   __typename?: 'StanfordEventsResult';
@@ -2727,6 +2630,17 @@ export type StanfordEventsResult = View & {
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
+
+export enum StanfordEventsSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Date & Time - Start */
+  StartTime = 'START_TIME',
+  /** Title */
+  Title = 'TITLE'
+}
 
 /** Entity type config_pages. */
 export type StanfordGlobalMessage = ConfigPagesInterface & EdgeNode & MetaTagInterface & {
@@ -2861,14 +2775,13 @@ export type StanfordLocalFooterEdge = Edge & {
   node: StanfordLocalFooter;
 };
 
-export type StanfordNewsCardGridContextualFilterInput = {
-  nid?: InputMaybe<Scalars['String']['input']>;
+export type StanfordNewsContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** News Views */
-export type StanfordNewsCardGridResult = View & {
-  __typename?: 'StanfordNewsCardGridResult';
+export type StanfordNewsResult = View & {
+  __typename?: 'StanfordNewsResult';
   /** The description of the view. */
   description?: Maybe<Scalars['String']['output']>;
   /** The machine name of the display. */
@@ -2889,32 +2802,16 @@ export type StanfordNewsCardGridResult = View & {
   view: Scalars['String']['output'];
 };
 
-export type StanfordNewsDefaultListContextualFilterInput = {
-  term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** News Views */
-export type StanfordNewsDefaultListResult = View & {
-  __typename?: 'StanfordNewsDefaultListResult';
-  /** The description of the view. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The machine name of the display. */
-  display: Scalars['String']['output'];
-  /** Exposed filters for the view. */
-  filters: Array<Maybe<ViewFilter>>;
-  /** The ID of the view. */
-  id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** The language code of the view. */
-  langcode?: Maybe<Scalars['String']['output']>;
-  /** Information about the page in the view. */
-  pageInfo: ViewPageInfo;
-  /** The results of the view. */
-  results: Array<NodeUnion>;
-  /** The machine name of the view. */
-  view: Scalars['String']['output'];
-};
+export enum StanfordNewsSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Publishing Date (su_news_publishing_date) */
+  PublishingDate = 'PUBLISHING_DATE',
+  /** Title */
+  Title = 'TITLE'
+}
 
 export type StanfordPersonContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
@@ -2943,13 +2840,26 @@ export type StanfordPersonResult = View & {
   view: Scalars['String']['output'];
 };
 
-export type StanfordPublicationsApaContextualFilterInput = {
+export enum StanfordPersonSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** First Name (su_person_first_name) */
+  FirstName = 'FIRST_NAME',
+  /** Last Name (su_person_last_name) */
+  LastName = 'LAST_NAME',
+  /** Title */
+  Title = 'TITLE'
+}
+
+export type StanfordPublicationsContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** Result for view stanford_publications display apa_list_graphql. */
-export type StanfordPublicationsApaResult = View & {
-  __typename?: 'StanfordPublicationsApaResult';
+/** Result for view stanford_publications display list_graphql. */
+export type StanfordPublicationsResult = View & {
+  __typename?: 'StanfordPublicationsResult';
   /** The description of the view. */
   description?: Maybe<Scalars['String']['output']>;
   /** The machine name of the display. */
@@ -2970,32 +2880,20 @@ export type StanfordPublicationsApaResult = View & {
   view: Scalars['String']['output'];
 };
 
-export type StanfordPublicationsChicagoContextualFilterInput = {
-  term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Result for view stanford_publications display chicago_list_graphql. */
-export type StanfordPublicationsChicagoResult = View & {
-  __typename?: 'StanfordPublicationsChicagoResult';
-  /** The description of the view. */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The machine name of the display. */
-  display: Scalars['String']['output'];
-  /** Exposed filters for the view. */
-  filters: Array<Maybe<ViewFilter>>;
-  /** The ID of the view. */
-  id: Scalars['ID']['output'];
-  /** The human friendly label of the view. */
-  label?: Maybe<Scalars['String']['output']>;
-  /** The language code of the view. */
-  langcode?: Maybe<Scalars['String']['output']>;
-  /** Information about the page in the view. */
-  pageInfo: ViewPageInfo;
-  /** The results of the view. */
-  results: Array<NodeUnion>;
-  /** The machine name of the view. */
-  view: Scalars['String']['output'];
-};
+export enum StanfordPublicationsSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Day (su_day) */
+  Day = 'DAY',
+  /** Month (su_month) */
+  Month = 'MONTH',
+  /** Title */
+  Title = 'TITLE',
+  /** Year (su_year) */
+  Year = 'YEAR'
+}
 
 export type StanfordSharedTagsContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars['String']['input']>;
@@ -3024,6 +2922,15 @@ export type StanfordSharedTagsResult = View & {
   /** The machine name of the view. */
   view: Scalars['String']['output'];
 };
+
+export enum StanfordSharedTagsSortKeys {
+  /** Changed */
+  Changed = 'CHANGED',
+  /** Authored on */
+  Created = 'CREATED',
+  /** Title */
+  Title = 'TITLE'
+}
 
 /** Entity type config_pages. */
 export type StanfordSuperFooter = ConfigPagesInterface & EdgeNode & MetaTagInterface & {
@@ -3700,7 +3607,7 @@ export type ViewReference = {
 };
 
 /** All available view result types. */
-export type ViewResultUnion = StanfordBasicPagesCardsResult | StanfordBasicPagesResult | StanfordCoursesCardGridResult | StanfordCoursesResult | StanfordEventsCardGridResult | StanfordEventsPastEventsResult | StanfordEventsResult | StanfordNewsCardGridResult | StanfordNewsDefaultListResult | StanfordPersonResult | StanfordPublicationsApaResult | StanfordPublicationsChicagoResult | StanfordSharedTagsResult;
+export type ViewResultUnion = StanfordBasicPagesResult | StanfordCoursesResult | StanfordEventsPastEventsResult | StanfordEventsResult | StanfordNewsResult | StanfordPersonResult | StanfordPublicationsResult | StanfordSharedTagsResult;
 
 export type NodeQueryVariables = Exact<{
   uuid: Scalars['ID']['input'];
@@ -4091,7 +3998,9 @@ export type RedirectsQuery = { __typename?: 'Query', redirects: { __typename?: '
 export type FragmentViewPageInfoFragment = { __typename?: 'ViewPageInfo', page: number, total: number };
 
 export type StanfordBasicPagesQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordBasicPagesContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordBasicPagesContextualFilterInput>;
+  sortKey?: InputMaybe<StanfordBasicPagesSortKeys>;
+  sortDir?: InputMaybe<SortDirection>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -4100,18 +4009,8 @@ export type StanfordBasicPagesQueryVariables = Exact<{
 
 export type StanfordBasicPagesQuery = { __typename?: 'Query', stanfordBasicPages?: { __typename?: 'StanfordBasicPagesResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename: 'NodeStanfordPage', suPageDescription?: string | null, id: string, title: string, status: boolean, path: string, suPageImage?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, suPageBanner?: { __typename: 'ParagraphStanfordBanner', suBannerHeader?: string | null, suBannerSupHeader?: string | null, id: string, behaviors?: string | null, status: boolean, suBannerBody?: { __typename?: 'Text', processed?: any | null } | null, suBannerButton?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null } | { __typename?: 'ParagraphStanfordPageTitleBanner' } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
-export type StanfordBasicPagesCardsQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordBasicPagesCardsContextualFilterInput>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type StanfordBasicPagesCardsQuery = { __typename?: 'Query', stanfordBasicPagesCards?: { __typename?: 'StanfordBasicPagesCardsResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename: 'NodeStanfordPage', suPageDescription?: string | null, id: string, title: string, status: boolean, path: string, suPageImage?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, suPageBanner?: { __typename: 'ParagraphStanfordBanner', suBannerHeader?: string | null, suBannerSupHeader?: string | null, id: string, behaviors?: string | null, status: boolean, suBannerBody?: { __typename?: 'Text', processed?: any | null } | null, suBannerButton?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null } | { __typename?: 'ParagraphStanfordPageTitleBanner' } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
-
 export type StanfordCoursesQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordCoursesContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordCoursesContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -4120,28 +4019,8 @@ export type StanfordCoursesQueryVariables = Exact<{
 
 export type StanfordCoursesQuery = { __typename?: 'Query', stanfordCourses?: { __typename?: 'StanfordCoursesResult', results: Array<{ __typename: 'NodeStanfordCourse', suCourseAcademicYear?: string | null, suCourseCode?: string | null, suCourseId?: number | null, suCourseInstructors?: Array<string> | null, suCourseSectionUnits?: string | null, id: string, title: string, status: boolean, path: string, body?: { __typename?: 'TextSummary', processed?: any | null, summary?: any | null } | null, suCourseLink: { __typename?: 'Link', url?: string | null, title?: string | null }, suCourseQuarters?: Array<{ __typename: 'TermSuCourseQuarter', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suCourseSubject?: { __typename: 'TermSuCourseSubject', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null } | null, suCourseTags?: Array<{ __typename: 'TermSuCourseTag', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
-export type StanfordCoursesCardGridQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordCoursesCardGridContextualFilterInput>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type StanfordCoursesCardGridQuery = { __typename?: 'Query', stanfordCoursesCardGrid?: { __typename?: 'StanfordCoursesCardGridResult', results: Array<{ __typename: 'NodeStanfordCourse', suCourseAcademicYear?: string | null, suCourseCode?: string | null, suCourseId?: number | null, suCourseInstructors?: Array<string> | null, suCourseSectionUnits?: string | null, id: string, title: string, status: boolean, path: string, body?: { __typename?: 'TextSummary', processed?: any | null, summary?: any | null } | null, suCourseLink: { __typename?: 'Link', url?: string | null, title?: string | null }, suCourseQuarters?: Array<{ __typename: 'TermSuCourseQuarter', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suCourseSubject?: { __typename: 'TermSuCourseSubject', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null } | null, suCourseTags?: Array<{ __typename: 'TermSuCourseTag', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
-
-export type StanfordEventsCardGridQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordEventsCardGridContextualFilterInput>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type StanfordEventsCardGridQuery = { __typename?: 'Query', stanfordEventsCardGrid?: { __typename?: 'StanfordEventsCardGridResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename: 'NodeStanfordEvent', suEventAltLoc?: string | null, suEventSubheadline?: string | null, suEventDek?: string | null, id: string, title: string, status: boolean, path: string, suEventLocation?: { __typename?: 'Address', langcode?: string | null, givenName?: string | null, additionalName?: string | null, familyName?: string | null, organization?: string | null, addressLine1?: string | null, addressLine2?: string | null, postalCode?: string | null, sortingCode?: string | null, dependentLocality?: string | null, locality?: string | null, administrativeArea?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventDateTime: { __typename?: 'SmartDateType', value: any, end_value: any, timezone?: string | null, rrule_index?: number | null, rrule?: number | null }, suEventType?: Array<{ __typename: 'TermStanfordEventType', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suEventSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
-
 export type StanfordEventsQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordEventsContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordEventsContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -4151,7 +4030,7 @@ export type StanfordEventsQueryVariables = Exact<{
 export type StanfordEventsQuery = { __typename?: 'Query', stanfordEvents?: { __typename?: 'StanfordEventsResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename: 'NodeStanfordEvent', suEventAltLoc?: string | null, suEventSubheadline?: string | null, suEventDek?: string | null, id: string, title: string, status: boolean, path: string, suEventLocation?: { __typename?: 'Address', langcode?: string | null, givenName?: string | null, additionalName?: string | null, familyName?: string | null, organization?: string | null, addressLine1?: string | null, addressLine2?: string | null, postalCode?: string | null, sortingCode?: string | null, dependentLocality?: string | null, locality?: string | null, administrativeArea?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventDateTime: { __typename?: 'SmartDateType', value: any, end_value: any, timezone?: string | null, rrule_index?: number | null, rrule?: number | null }, suEventType?: Array<{ __typename: 'TermStanfordEventType', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suEventSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
 export type StanfordEventsPastEventsQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordEventsPastEventsContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordEventsPastEventsContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -4160,28 +4039,18 @@ export type StanfordEventsPastEventsQueryVariables = Exact<{
 
 export type StanfordEventsPastEventsQuery = { __typename?: 'Query', stanfordEventsPastEvents?: { __typename?: 'StanfordEventsPastEventsResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename: 'NodeStanfordEvent', suEventAltLoc?: string | null, suEventSubheadline?: string | null, suEventDek?: string | null, id: string, title: string, status: boolean, path: string, suEventLocation?: { __typename?: 'Address', langcode?: string | null, givenName?: string | null, additionalName?: string | null, familyName?: string | null, organization?: string | null, addressLine1?: string | null, addressLine2?: string | null, postalCode?: string | null, sortingCode?: string | null, dependentLocality?: string | null, locality?: string | null, administrativeArea?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventDateTime: { __typename?: 'SmartDateType', value: any, end_value: any, timezone?: string | null, rrule_index?: number | null, rrule?: number | null }, suEventType?: Array<{ __typename: 'TermStanfordEventType', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suEventSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
-export type StanfordNewsDefaultListQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordNewsDefaultListContextualFilterInput>;
+export type StanfordNewsQueryVariables = Exact<{
+  contextualFilters?: InputMaybe<StanfordNewsContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type StanfordNewsDefaultListQuery = { __typename?: 'Query', stanfordNewsDefaultList?: { __typename?: 'StanfordNewsDefaultListResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename: 'NodeStanfordNews', suNewsDek?: string | null, id: string, title: string, status: boolean, path: string, suNewsFeaturedMedia?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, suNewsTopics?: Array<{ __typename: 'TermStanfordNewsTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: any, time: any } | null, suNewsSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
-
-export type StanfordNewsCardGridQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordNewsCardGridContextualFilterInput>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type StanfordNewsCardGridQuery = { __typename?: 'Query', stanfordNewsCardGrid?: { __typename?: 'StanfordNewsCardGridResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename: 'NodeStanfordNews', suNewsDek?: string | null, id: string, title: string, status: boolean, path: string, suNewsFeaturedMedia?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, suNewsTopics?: Array<{ __typename: 'TermStanfordNewsTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: any, time: any } | null, suNewsSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
+export type StanfordNewsQuery = { __typename?: 'Query', stanfordNews?: { __typename?: 'StanfordNewsResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename: 'NodeStanfordNews', suNewsDek?: string | null, id: string, title: string, status: boolean, path: string, suNewsFeaturedMedia?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, suNewsTopics?: Array<{ __typename: 'TermStanfordNewsTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: any, time: any } | null, suNewsSource?: { __typename?: 'Link', url?: string | null, title?: string | null } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
 export type StanfordPersonQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordPersonContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordPersonContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -4190,28 +4059,18 @@ export type StanfordPersonQueryVariables = Exact<{
 
 export type StanfordPersonQuery = { __typename?: 'Query', stanfordPerson?: { __typename?: 'StanfordPersonResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, id: string, title: string, status: boolean, path: string, suPersonPhoto?: { __typename: 'MediaImage', id: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } } | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } } | { __typename?: 'NodeStanfordPolicy' } | { __typename?: 'NodeStanfordPublication' }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
-export type StanfordPublicationsApaQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordPublicationsApaContextualFilterInput>;
+export type StanfordPublicationsQueryVariables = Exact<{
+  contextualFilters?: InputMaybe<StanfordPublicationsContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type StanfordPublicationsApaQuery = { __typename?: 'Query', stanfordPublicationsApa?: { __typename?: 'StanfordPublicationsApaResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename: 'NodeStanfordPublication', id: string, title: string, status: boolean, path: string, suPublicationTopics?: Array<{ __typename: 'TermStanfordPublicationTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
-
-export type StanfordPublicationsChicagoQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordPublicationsChicagoContextualFilterInput>;
-  pageSize?: InputMaybe<Scalars['Int']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type StanfordPublicationsChicagoQuery = { __typename?: 'Query', stanfordPublicationsChicago?: { __typename?: 'StanfordPublicationsChicagoResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename: 'NodeStanfordPublication', id: string, title: string, status: boolean, path: string, suPublicationTopics?: Array<{ __typename: 'TermStanfordPublicationTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
+export type StanfordPublicationsQuery = { __typename?: 'Query', stanfordPublications?: { __typename?: 'StanfordPublicationsResult', results: Array<{ __typename?: 'NodeStanfordCourse' } | { __typename?: 'NodeStanfordEvent' } | { __typename?: 'NodeStanfordEventSeries' } | { __typename?: 'NodeStanfordNews' } | { __typename?: 'NodeStanfordPage' } | { __typename?: 'NodeStanfordPerson' } | { __typename?: 'NodeStanfordPolicy' } | { __typename: 'NodeStanfordPublication', id: string, title: string, status: boolean, path: string, suPublicationTopics?: Array<{ __typename: 'TermStanfordPublicationTopic', id: string, name: string, path: string, weight: number, parent?: { __typename?: 'TermBasicPageType', id: string } | { __typename?: 'TermEventAudience', id: string } | { __typename?: 'TermStanfordEventGroup', id: string } | { __typename?: 'TermStanfordEventKeyword', id: string } | { __typename?: 'TermStanfordEventSubject', id: string } | { __typename?: 'TermStanfordEventType', id: string } | { __typename?: 'TermStanfordNewsTopic', id: string } | { __typename?: 'TermStanfordPersonType', id: string } | { __typename?: 'TermStanfordPublicationTopic', id: string } | { __typename?: 'TermSuCourseQuarter', id: string } | { __typename?: 'TermSuCourseSubject', id: string } | { __typename?: 'TermSuCourseTag', id: string } | { __typename?: 'TermSuSharedTag', id: string } | null }> | null, changed: { __typename?: 'DateTime', timezone: any, time: any }, created: { __typename?: 'DateTime', timezone: any, time: any } }>, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
 
 export type StanfordSharedTagsQueryVariables = Exact<{
-  filters?: InputMaybe<StanfordSharedTagsContextualFilterInput>;
+  contextualFilters?: InputMaybe<StanfordSharedTagsContextualFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;

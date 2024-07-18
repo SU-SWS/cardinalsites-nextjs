@@ -1290,30 +1290,14 @@ export const RedirectsDocument = gql`
 }
     `;
 export const StanfordBasicPagesDocument = gql`
-    query stanfordBasicPages($filters: StanfordBasicPagesContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+    query stanfordBasicPages($contextualFilters: StanfordBasicPagesContextualFilterInput, $sortKey: StanfordBasicPagesSortKeys, $sortDir: SortDirection, $pageSize: Int = 3, $page: Int, $offset: Int) {
   stanfordBasicPages(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
-  ) {
-    results {
-      ...FragmentNodeStanfordPageTeaser
-    }
-    pageInfo {
-      ...FragmentViewPageInfo
-    }
-  }
-}
-    ${FragmentNodeStanfordPageTeaserFragmentDoc}
-${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordBasicPagesCardsDocument = gql`
-    query stanfordBasicPagesCards($filters: StanfordBasicPagesCardsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
-  stanfordBasicPagesCards(
-    contextualFilter: $filters
-    pageSize: $pageSize
-    page: $page
-    offset: $offset
+    sortKey: $sortKey
+    sortDir: $sortDir
   ) {
     results {
       ...FragmentNodeStanfordPageTeaser
@@ -1326,9 +1310,9 @@ export const StanfordBasicPagesCardsDocument = gql`
     ${FragmentNodeStanfordPageTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordCoursesDocument = gql`
-    query stanfordCourses($filters: StanfordCoursesContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    query stanfordCourses($contextualFilters: StanfordCoursesContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
   stanfordCourses(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1342,47 +1326,11 @@ export const StanfordCoursesDocument = gql`
   }
 }
     ${FragmentNodeStanfordCourseFragmentDoc}
-${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordCoursesCardGridDocument = gql`
-    query stanfordCoursesCardGrid($filters: StanfordCoursesCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
-  stanfordCoursesCardGrid(
-    contextualFilter: $filters
-    pageSize: $pageSize
-    page: $page
-    offset: $offset
-  ) {
-    results {
-      ...FragmentNodeStanfordCourse
-    }
-    pageInfo {
-      ...FragmentViewPageInfo
-    }
-  }
-}
-    ${FragmentNodeStanfordCourseFragmentDoc}
-${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordEventsCardGridDocument = gql`
-    query stanfordEventsCardGrid($filters: StanfordEventsCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
-  stanfordEventsCardGrid(
-    contextualFilter: $filters
-    pageSize: $pageSize
-    page: $page
-    offset: $offset
-  ) {
-    results {
-      ...FragmentNodeStanfordEventTeaser
-    }
-    pageInfo {
-      ...FragmentViewPageInfo
-    }
-  }
-}
-    ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordEventsDocument = gql`
-    query stanfordEvents($filters: StanfordEventsContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+    query stanfordEvents($contextualFilters: StanfordEventsContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
   stanfordEvents(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1398,9 +1346,9 @@ export const StanfordEventsDocument = gql`
     ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordEventsPastEventsDocument = gql`
-    query stanfordEventsPastEvents($filters: StanfordEventsPastEventsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    query stanfordEventsPastEvents($contextualFilters: StanfordEventsPastEventsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
   stanfordEventsPastEvents(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1415,28 +1363,10 @@ export const StanfordEventsPastEventsDocument = gql`
 }
     ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordNewsDefaultListDocument = gql`
-    query stanfordNewsDefaultList($filters: StanfordNewsDefaultListContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-  stanfordNewsDefaultList(
-    contextualFilter: $filters
-    pageSize: $pageSize
-    page: $page
-    offset: $offset
-  ) {
-    results {
-      ...FragmentNodeStanfordNewsTeaser
-    }
-    pageInfo {
-      ...FragmentViewPageInfo
-    }
-  }
-}
-    ${FragmentNodeStanfordNewsTeaserFragmentDoc}
-${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordNewsCardGridDocument = gql`
-    query stanfordNewsCardGrid($filters: StanfordNewsCardGridContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
-  stanfordNewsCardGrid(
-    contextualFilter: $filters
+export const StanfordNewsDocument = gql`
+    query stanfordNews($contextualFilters: StanfordNewsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordNews(
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1452,9 +1382,9 @@ export const StanfordNewsCardGridDocument = gql`
     ${FragmentNodeStanfordNewsTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordPersonDocument = gql`
-    query stanfordPerson($filters: StanfordPersonContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+    query stanfordPerson($contextualFilters: StanfordPersonContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
   stanfordPerson(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1469,28 +1399,10 @@ export const StanfordPersonDocument = gql`
 }
     ${FragmentNodeStanfordPersonTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordPublicationsApaDocument = gql`
-    query stanfordPublicationsApa($filters: StanfordPublicationsApaContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-  stanfordPublicationsApa(
-    contextualFilter: $filters
-    pageSize: $pageSize
-    page: $page
-    offset: $offset
-  ) {
-    results {
-      ...FragmentNodeStanfordPublicationTeaser
-    }
-    pageInfo {
-      ...FragmentViewPageInfo
-    }
-  }
-}
-    ${FragmentNodeStanfordPublicationTeaserFragmentDoc}
-${FragmentViewPageInfoFragmentDoc}`;
-export const StanfordPublicationsChicagoDocument = gql`
-    query stanfordPublicationsChicago($filters: StanfordPublicationsChicagoContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-  stanfordPublicationsChicago(
-    contextualFilter: $filters
+export const StanfordPublicationsDocument = gql`
+    query stanfordPublications($contextualFilters: StanfordPublicationsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordPublications(
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1506,9 +1418,9 @@ export const StanfordPublicationsChicagoDocument = gql`
     ${FragmentNodeStanfordPublicationTeaserFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
 export const StanfordSharedTagsDocument = gql`
-    query stanfordSharedTags($filters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
+    query stanfordSharedTags($contextualFilters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
   stanfordSharedTags(
-    contextualFilter: $filters
+    contextualFilter: $contextualFilters
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1585,17 +1497,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     stanfordBasicPages(variables?: DrupalTypes.StanfordBasicPagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordBasicPagesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordBasicPagesQuery>(StanfordBasicPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPages', 'query', variables);
     },
-    stanfordBasicPagesCards(variables?: DrupalTypes.StanfordBasicPagesCardsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordBasicPagesCardsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordBasicPagesCardsQuery>(StanfordBasicPagesCardsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordBasicPagesCards', 'query', variables);
-    },
     stanfordCourses(variables?: DrupalTypes.StanfordCoursesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordCoursesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordCoursesQuery>(StanfordCoursesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCourses', 'query', variables);
-    },
-    stanfordCoursesCardGrid(variables?: DrupalTypes.StanfordCoursesCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordCoursesCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordCoursesCardGridQuery>(StanfordCoursesCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordCoursesCardGrid', 'query', variables);
-    },
-    stanfordEventsCardGrid(variables?: DrupalTypes.StanfordEventsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsCardGridQuery>(StanfordEventsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsCardGrid', 'query', variables);
     },
     stanfordEvents(variables?: DrupalTypes.StanfordEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsQuery>(StanfordEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEvents', 'query', variables);
@@ -1603,20 +1506,14 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     stanfordEventsPastEvents(variables?: DrupalTypes.StanfordEventsPastEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordEventsPastEventsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsPastEventsQuery>(StanfordEventsPastEventsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordEventsPastEvents', 'query', variables);
     },
-    stanfordNewsDefaultList(variables?: DrupalTypes.StanfordNewsDefaultListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordNewsDefaultListQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsDefaultListQuery>(StanfordNewsDefaultListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsDefaultList', 'query', variables);
-    },
-    stanfordNewsCardGrid(variables?: DrupalTypes.StanfordNewsCardGridQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordNewsCardGridQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsCardGridQuery>(StanfordNewsCardGridDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNewsCardGrid', 'query', variables);
+    stanfordNews(variables?: DrupalTypes.StanfordNewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordNewsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsQuery>(StanfordNewsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordNews', 'query', variables);
     },
     stanfordPerson(variables?: DrupalTypes.StanfordPersonQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPersonQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPersonQuery>(StanfordPersonDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPerson', 'query', variables);
     },
-    stanfordPublicationsApa(variables?: DrupalTypes.StanfordPublicationsApaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPublicationsApaQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPublicationsApaQuery>(StanfordPublicationsApaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsApa', 'query', variables);
-    },
-    stanfordPublicationsChicago(variables?: DrupalTypes.StanfordPublicationsChicagoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPublicationsChicagoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPublicationsChicagoQuery>(StanfordPublicationsChicagoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublicationsChicago', 'query', variables);
+    stanfordPublications(variables?: DrupalTypes.StanfordPublicationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordPublicationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordPublicationsQuery>(StanfordPublicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordPublications', 'query', variables);
     },
     stanfordSharedTags(variables?: DrupalTypes.StanfordSharedTagsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordSharedTagsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordSharedTagsQuery>(StanfordSharedTagsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordSharedTags', 'query', variables);

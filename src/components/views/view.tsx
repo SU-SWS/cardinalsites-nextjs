@@ -81,6 +81,7 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
       return <EventsListView items={items as NodeStanfordEvent[]} headingLevel={headingLevel} />
 
     case "stanford_basic_pages--viewfield_block_1":
+    case "stanford_basic_pages--card_grid_alpha":
       return <PageCardView items={items as NodeStanfordPage[]} headingLevel={headingLevel} />
 
     case "stanford_shared_tags--card_grid":

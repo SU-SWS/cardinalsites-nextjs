@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   schema: [{
     [drupalUrl]: {
       headers: {
-        "Authorization": "Basic " + Buffer.from(process.env.DRUPAL_BASIC_AUTH_ADMIN as string).toString("base64")
+        "Authorization": "Basic " + Buffer.from(process.env.DRUPAL_BASIC_AUTH_ADMIN || process.env.DRUPAL_BASIC_AUTH as string).toString("base64")
       }
     }
   }],
