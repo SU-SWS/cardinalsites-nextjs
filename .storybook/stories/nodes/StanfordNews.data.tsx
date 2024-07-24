@@ -1,4 +1,4 @@
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal"
 
 export const StanfordNewsData = () => {
   return {
@@ -11,6 +11,6 @@ export const StanfordNewsData = () => {
     created: {timezone: "America/Los_Angeles", time: "2023-12-05T14:55:01-08:00"},
     suNewsBanner: null,
     suNewsBannerMediaCaption: null,
-    suNewsByline: null
-  } as unknown as NodeStanfordNews;
+    suNewsByline: null,
+  } as unknown as NodeStanfordNews
 }

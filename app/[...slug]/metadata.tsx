@@ -8,13 +8,20 @@ import {
   NodeUnion,
   ParagraphStanfordWysiwyg,
   ParagraphUnion,
+  StanfordBasicSiteSetting,
 } from "@lib/gql/__generated__/drupal.d"
 import {Metadata} from "next"
 import {decode} from "html-entities"
+import {getConfigPageField} from "@lib/gql/gql-queries"
 
-export const getNodeMetadata = (node: NodeUnion): Metadata => {
+export const getNodeMetadata = async (node: NodeUnion): Promise<Metadata> => {
+  const siteName = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteName"]>(
+    "StanfordBasicSiteSetting",
+    "suSiteName"
+  )
+
   const defaultData = {
-    title: node.title,
+    title: `${node.title} | ${siteName || "Stanford"}`,
     other: {},
   }
   switch (node.__typename) {

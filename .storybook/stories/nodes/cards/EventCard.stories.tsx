@@ -1,9 +1,9 @@
-import type {Meta, StoryObj} from '@storybook/react';
-import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card";
-import {StanfordEventData} from "../StanfordEvent.data";
-import {ComponentProps} from "react";
-import {NodeStanfordEvent, SmartDateType, TermStanfordEventType} from "@lib/gql/__generated__/drupal";
-import {getStoryBookTaxonomyTerm} from "../../storybook-entities";
+import type {Meta, StoryObj} from "@storybook/react"
+import StanfordEventCard from "@components/nodes/cards/stanford-event/stanford-event-card"
+import {StanfordEventData} from "../StanfordEvent.data"
+import {ComponentProps} from "react"
+import {NodeStanfordEvent, SmartDateType, TermStanfordEventType} from "@lib/gql/__generated__/drupal"
+import {getStoryBookTaxonomyTerm} from "../../storybook-entities"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordEventCard> & {
   suEventDateTime_start: SmartDateType["value"]
@@ -16,30 +16,30 @@ type ComponentStoryProps = ComponentProps<typeof StanfordEventCard> & {
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<ComponentStoryProps> = {
-  title: 'Design/Nodes/Cards/Event Card',
+  title: "Design/Nodes/Cards/Event Card",
   component: StanfordEventCard,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     headingLevel: {
       options: ["h2", "h3"],
-      control: {type: "select"}
+      control: {type: "select"},
     },
     suEventDateTime_start: {
-      control: "date"
+      control: "date",
     },
     suEventDateTime_end: {
-      control: "date"
+      control: "date",
     },
     node: {
       table: {
         disable: true,
-      }
+      },
     },
-  }
-};
+  },
+}
 
-export default meta;
-type Story = StoryObj<ComponentStoryProps>;
+export default meta
+type Story = StoryObj<ComponentStoryProps>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const EventCard: Story = {
@@ -53,13 +53,13 @@ export const EventCard: Story = {
     node,
     ...args
   }) => {
-    node.title = title;
-    node.suEventDateTime.value = Math.round(suEventDateTime_start / 1000);
-    node.suEventDateTime.end_value = Math.round(suEventDateTime_end / 1000);
-    node.suEventType = suEventType ? [getStoryBookTaxonomyTerm(suEventType)] : undefined;
-    node.suEventSubheadline = suEventSubheadline;
-    node.suEventAltLoc = suEventAltLoc;
-    return <StanfordEventCard node={node} {...args}/>
+    node.title = title
+    node.suEventDateTime.value = Math.round(suEventDateTime_start / 1000)
+    node.suEventDateTime.end_value = Math.round(suEventDateTime_end / 1000)
+    node.suEventType = suEventType ? [getStoryBookTaxonomyTerm(suEventType)] : undefined
+    node.suEventSubheadline = suEventSubheadline
+    node.suEventAltLoc = suEventAltLoc
+    return <StanfordEventCard node={node} {...args} />
   },
   args: {
     title: StanfordEventData().title,
@@ -69,6 +69,6 @@ export const EventCard: Story = {
     suEventSubheadline: StanfordEventData().suEventSubheadline,
     suEventAltLoc: StanfordEventData().suEventAltLoc,
     headingLevel: "h2",
-    node: StanfordEventData()
+    node: StanfordEventData(),
   },
-};
+}

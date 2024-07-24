@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const InteriorPage = async ({children, currentPath, ...props}: Props) => {
-  const menu = await getMenu(MenuAvailable.Main)
+  const menu = await getMenu(MenuAvailable.Main, 4)
   const activeTrail: string[] = getMenuActiveTrail(menu, currentPath)
 
   // Peel off the menu items from the parent.

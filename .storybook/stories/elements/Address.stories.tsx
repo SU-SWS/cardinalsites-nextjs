@@ -1,18 +1,18 @@
-import type {Meta, StoryObj} from '@storybook/react';
-import Address from "@components/elements/address";
+import type {Meta, StoryObj} from "@storybook/react"
+import Address from "@components/elements/address"
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof Address> = {
-  title: 'Design/Elements/Address',
+  title: "Design/Elements/Address",
   component: Address,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    singleLine: {control: "boolean"}
-  }
-};
+    singleLine: {control: "boolean"},
+  },
+}
 
-export default meta;
-type Story = StoryObj<typeof Address>;
+export default meta
+type Story = StoryObj<typeof Address>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const AddressElement: Story = {
@@ -26,11 +26,11 @@ export const AddressElement: Story = {
     postalCode: "postal_code",
     singleLine: false,
   },
-};
+}
 
 export const OnelineAddress: Story = {
   args: {
     ...AddressElement.args,
     singleLine: true,
-  }
+  },
 }

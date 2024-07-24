@@ -1,4 +1,4 @@
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal";
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal"
 
 export const StanfordPageData = () => {
   return {
@@ -11,6 +11,6 @@ export const StanfordPageData = () => {
     created: {timezone: "America/Los_Angeles", time: "2019-08-27T14:16:24-07:00"},
     layoutSelection: null,
     suBasicPageType: null,
-    suPageDescription: "Helpful information to build out your website using the \"Stanford Sites\" Drupal platform.",
+    suPageDescription: 'Helpful information to build out your website using the "Stanford Sites" Drupal platform.',
   } as unknown as NodeStanfordPage
 }

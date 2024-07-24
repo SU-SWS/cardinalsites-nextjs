@@ -80,23 +80,39 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(
   return getData()
 }
 
-export const getMenu = cache(async (name?: MenuAvailable): Promise<MenuItem[]> => {
+export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
+  configPageType: ConfigPagesUnion["__typename"],
+  fieldName: keyof T
+): Promise<F | undefined> => {
+  const getData = nextCache(
+    async () => {
+      const configPage = await getConfigPage<T>(configPageType)
+      return configPage?.[fieldName] as F
+    },
+    [fieldName.toString()],
+    {tags: ["config-pages"]}
+  )
+  return getData()
+}
+
+export const getMenu = cache(async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   "use server"
   const menuName = name?.toLowerCase() || "main"
 
   const getData = nextCache(
     async () => {
-      const menu = await graphqlClient({cache: "no-store"}).Menu({name})
+      const menu = await graphqlClient({next: {tags: [`menu:${menuName}`]}}).Menu({name})
       const menuItems = (menu.menu?.items || []) as MenuItem[]
 
-      const filterInaccessible = (items: MenuItem[]): MenuItem[] => {
+      const filterInaccessible = (items: MenuItem[], level: number): MenuItem[] => {
+        if (maxLevels && level > maxLevels) return []
         items = items.filter(item => item.title !== "Inaccessible")
-        items.map(item => (item.children = filterInaccessible(item.children)))
+        items.map(item => (item.children = filterInaccessible(item.children, level + 1)))
         return items
       }
-      return filterInaccessible(menuItems)
+      return filterInaccessible(menuItems, 0)
     },
-    ["menus", menuName],
+    ["menus", menuName, maxLevels?.toString() || "all"],
     {tags: ["menus", `menu:${menuName}`]}
   )
 
@@ -142,11 +158,19 @@ export const getAlgoliaCredential = nextCache(
     if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
       return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
     }
-    const configPage = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
-    if (configPage?.suSiteAlgoliaId && configPage.suSiteAlgoliaIndex && configPage.suSiteAlgoliaSearch) {
-      return [configPage.suSiteAlgoliaId, configPage.suSiteAlgoliaIndex, configPage.suSiteAlgoliaSearch]
-    }
-    return []
+    const appId = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteAlgoliaId"]>(
+      "StanfordBasicSiteSetting",
+      "suSiteAlgoliaId"
+    )
+    const indexName = await getConfigPageField<
+      StanfordBasicSiteSetting,
+      StanfordBasicSiteSetting["suSiteAlgoliaIndex"]
+    >("StanfordBasicSiteSetting", "suSiteAlgoliaIndex")
+    const apiKey = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteAlgoliaSearch"]>(
+      "StanfordBasicSiteSetting",
+      "suSiteAlgoliaSearch"
+    )
+    return appId && indexName && apiKey ? [appId, indexName, apiKey] : []
   },
   ["algolia"],
   {tags: ["algolia"]}

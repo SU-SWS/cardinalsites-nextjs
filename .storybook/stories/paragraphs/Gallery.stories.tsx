@@ -33,12 +33,7 @@ export const Gallery: Story = {
     for (let i = 0; i < numberofimages; i++) {
       paragraph.suGalleryImages.push(getStoryBookGalleryImage(undefined, "Lorem Ipsum"))
     }
-    return (
-      <GalleryParagraph
-        paragraph={paragraph}
-        {...args}
-      />
-    )
+    return <GalleryParagraph paragraph={paragraph} {...args} />
   },
   args: {
     numberofimages: 3,
@@ -60,7 +55,8 @@ export const Gallery: Story = {
         internal: false,
       },
       suGalleryDescription: {
-        processed: "<p>Pepper jack fromage frais pecorino cheesecake cheesy grin camembert de normandie macaroni cheese the big cheese.</p>",
+        processed:
+          "<p>Pepper jack fromage frais pecorino cheesecake cheesy grin camembert de normandie macaroni cheese the big cheese.</p>",
       },
       suGalleryHeadline: "This is a Gallery Headline",
       suGalleryImages: [],

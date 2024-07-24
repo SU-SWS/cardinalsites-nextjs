@@ -1,8 +1,8 @@
-import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "@lib/gql/__generated__/drupal";
+import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "@lib/gql/__generated__/drupal"
 
 export const getStoryBookImage = (imageUrl?: string): MediaImage => {
   return {
-    __typename: 'MediaImage',
+    __typename: "MediaImage",
     name: makeid(),
     path: "",
     status: true,
@@ -11,13 +11,13 @@ export const getStoryBookImage = (imageUrl?: string): MediaImage => {
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     created: {
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     langcode: {},
     metatag: [],
@@ -28,14 +28,14 @@ export const getStoryBookImage = (imageUrl?: string): MediaImage => {
       alt: "Placeholder Image",
       size: 123,
       focalY: 50,
-      focalX: 50
-    }
+      focalX: 50,
+    },
   }
 }
 
 export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: string): MediaStanfordGalleryImage => {
   return {
-    __typename: 'MediaStanfordGalleryImage',
+    __typename: "MediaStanfordGalleryImage",
     name: makeid(),
     path: "",
     status: true,
@@ -44,13 +44,13 @@ export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: strin
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     created: {
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     langcode: {},
     metatag: [],
@@ -62,14 +62,14 @@ export const getStoryBookGalleryImage = (imageUrl?: string, imageCaption?: strin
       alt: "kittens",
       size: 123,
       focalY: 50,
-      focalX: 50
-    }
+      focalX: 50,
+    },
   }
 }
 
 export const getStoryBookVideo = (videoUrl?: string): MediaVideo => {
   return {
-    __typename: 'MediaVideo',
+    __typename: "MediaVideo",
     name: makeid(),
     path: "",
     status: true,
@@ -78,23 +78,23 @@ export const getStoryBookVideo = (videoUrl?: string): MediaVideo => {
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     created: {
       offset: "",
       timestamp: Math.round(new Date().getTime() / 1000),
       time: new Date().toISOString(),
-      timezone: "America/Los_Angeles"
+      timezone: "America/Los_Angeles",
     },
     langcode: {},
     metatag: [],
-    mediaOembedVideo: videoUrl || "https://www.youtube.com/watch?v=9P8mASSREYM"
+    mediaOembedVideo: videoUrl || "https://www.youtube.com/watch?v=9P8mASSREYM",
   }
 }
 
 export const getStoryBookTaxonomyTerm = (name?: string): TermInterface => {
   return {
-    name: name || 'Foo Bar',
+    name: name || "Foo Bar",
     id: makeid(),
     description: {},
     langcode: {},
@@ -107,13 +107,13 @@ export const getStoryBookTaxonomyTerm = (name?: string): TermInterface => {
 }
 
 const makeid = (length: number = 10) => {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  let counter = 0;
+  let result = ""
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  const charactersLength = characters.length
+  let counter = 0
   while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    counter += 1
   }
-  return result;
+  return result
 }

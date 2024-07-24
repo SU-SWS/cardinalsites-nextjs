@@ -29,7 +29,8 @@ const globalMessage = {
   suGlobalMsgHeader: "Global Message Header",
   suGlobalMsgLabel: "Global Message Label",
   suGlobalMsgMessage: {
-    processed: "<p>Erat euismod nunc ipsum morbi tincidunt accumsan bibendum elementum mi vel leo elit urna bibendum sit metus varius leo enim ex tristique amet elit interdum.</p>",
+    processed:
+      "<p>Erat euismod nunc ipsum morbi tincidunt accumsan bibendum elementum mi vel leo elit urna bibendum sit metus varius leo enim ex tristique amet elit interdum.</p>",
   },
   suGlobalMsgType: "success",
   suGlobalMsgLink: {

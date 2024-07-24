@@ -1,7 +1,7 @@
-import type {Meta, StoryObj} from '@storybook/react';
-import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph";
-import {ComponentProps} from "react";
-import {ParagraphStanfordWysiwyg, Text} from "@lib/gql/__generated__/drupal";
+import type {Meta, StoryObj} from "@storybook/react"
+import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph"
+import {ComponentProps} from "react"
+import {ParagraphStanfordWysiwyg, Text} from "@lib/gql/__generated__/drupal"
 
 type ComponentStoryProps = ComponentProps<typeof WysiwygParagraph> & {
   text: Text["processed"]
@@ -9,29 +9,30 @@ type ComponentStoryProps = ComponentProps<typeof WysiwygParagraph> & {
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<ComponentStoryProps> = {
-  title: 'Design/Paragraphs/Wysiwyg',
+  title: "Design/Paragraphs/Wysiwyg",
   component: WysiwygParagraph,
-  tags: ['autodocs'],
-  argTypes: {}
-};
+  tags: ["autodocs"],
+  argTypes: {},
+}
 
-export default meta;
-type Story = StoryObj<ComponentStoryProps>;
+export default meta
+type Story = StoryObj<ComponentStoryProps>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Wysiwyg: Story = {
   render: ({text, ...args}) => {
-    return <WysiwygParagraph paragraph={{suWysiwygText: {processed: text}} as ParagraphStanfordWysiwyg}/>
+    return <WysiwygParagraph paragraph={{suWysiwygText: {processed: text}} as ParagraphStanfordWysiwyg} />
   },
   args: {
-    text: "<h1>Didn't melt fairer keepsakes since Fellowship elsewhere.</h1>\n" +
-      "<h1><a href=\"#\">Didn't melt fairer keepsakes since Fellowship elsewhere.</a></h1>\n" +
+    text:
+      "<h1>Didn't melt fairer keepsakes since Fellowship elsewhere.</h1>\n" +
+      '<h1><a href="#">Didn\'t melt fairer keepsakes since Fellowship elsewhere.</a></h1>\n' +
       "<p>Woodlands payment Osgiliath tightening. Barad-dur follow belly comforts tender tough bell? Many that live deserve death. Some that die deserve life. Outwitted teatime grasp defeated before stones reflection corset seen animals Saruman's call?</p>\n" +
       "<h2>Tad survive ensnare joy mistake courtesy Bagshot Row.</h2>\n" +
-      "<h2><a href=\"#\">Tad survive ensnare joy mistake courtesy Bagshot Row.</a></h2>\n" +
+      '<h2><a href="#">Tad survive ensnare joy mistake courtesy Bagshot Row.</a></h2>\n' +
       "<p>Ligulas step drops both? You shall not pass! Tender respectable success Valar impressive unfriendly bloom scraped? Branch hey-diddle-diddle pony trouble'll sleeping during jump Narsil.</p>\n" +
       "<h3>North valor overflowing sort Iáve mister kingly money?</h3>\n" +
-      "<h3><a href=\"#\">North valor overflowing sort Iáve mister kingly money?</a></h3>\n" +
+      '<h3><a href="#">North valor overflowing sort Iáve mister kingly money?</a></h3>\n' +
       "<p>Curse you and all the halflings! Deserted anytime Lake-town burned caves balls. Smoked lthilien forbids Thrain?</p>\n" +
       "<ul>\n" +
       "  <li>Adamant.</li>\n" +
@@ -160,8 +161,8 @@ export const Wysiwyg: Story = {
       "  <dd>Missing vanish taken colleague sway voice tricks 13 Grimbold.</dd>\n" +
       "  <dd>Thereof skills kingsfoil innocent riding light Thorin Oakenshield won.</dd>\n" +
       "</dl>\n" +
-      "<a href=\"#\" class=\"su-button\">Button</a>\n" +
-      "<a href=\"#\" class=\"su-button--secondary\">Button</a>\n" +
-      "<a href=\"#\" class=\"su-button--big\">Button</a>\n"
+      '<a href="#" class="su-button">Button</a>\n' +
+      '<a href="#" class="su-button--secondary">Button</a>\n' +
+      '<a href="#" class="su-button--big">Button</a>\n',
   },
-};
+}

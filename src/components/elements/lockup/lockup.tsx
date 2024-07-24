@@ -13,34 +13,28 @@ import LockupS from "@components/elements/lockup/lockup-s"
 import LockupT from "@components/elements/lockup/lockup-t"
 import LockupLogo from "@components/elements/lockup/lockup-logo"
 import {LockupSetting, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {getConfigPage, getConfigPageField} from "@lib/gql/gql-queries"
 
-type Props = Omit<LockupSetting, "__typename" | "id" | "metatag"> &
-  Omit<StanfordBasicSiteSetting, "__typename" | "id" | "metatag">
+export const Lockup = async () => {
+  const siteName = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteName"]>(
+    "StanfordBasicSiteSetting",
+    "suSiteName"
+  )
 
-export const Lockup = ({
-  suLockupEnabled,
-  suUseThemeLogo,
-  suUploadLogoImage,
-  suSiteName,
-  suLine1,
-  suLine2,
-  suLine3,
-  suLine4,
-  suLine5,
-  suLockupOptions,
-}: Props) => {
-  const logoUrl = !suUseThemeLogo ? suUploadLogoImage?.url : undefined
+  const lockupSettingsConfig = await getConfigPage<LockupSetting>("LockupSetting")
+
+  const logoUrl = !lockupSettingsConfig?.suUseThemeLogo ? lockupSettingsConfig?.suUploadLogoImage?.url : undefined
   const lockupProps = {
-    line1: suLine1,
-    line2: suLine2,
-    line3: suLine3,
-    line4: suLine4,
-    line5: suLine5,
-    siteName: suSiteName || "Stanford",
+    line1: lockupSettingsConfig?.suLine1,
+    line2: lockupSettingsConfig?.suLine2,
+    line3: lockupSettingsConfig?.suLine3,
+    line4: lockupSettingsConfig?.suLine4,
+    line5: lockupSettingsConfig?.suLine5,
+    siteName: siteName || "Stanford",
     logoUrl: logoUrl,
   }
 
-  if (!suLockupEnabled) {
+  if (!lockupSettingsConfig?.suLockupEnabled) {
     return (
       <div className="py-10">
         <Link href="/" className="flex no-underline">
@@ -48,14 +42,14 @@ export const Lockup = ({
             <div className="mr-2 border-black pr-2 lg:inline-block lg:border-r">
               <LockupLogo {...lockupProps} />
             </div>
-            <div className="type-3 font-normal text-black lg:inline-block">{suSiteName || "University"}</div>
+            <div className="type-3 font-normal text-black lg:inline-block">{siteName || "University"}</div>
           </div>
         </Link>
       </div>
     )
   }
 
-  switch (suLockupOptions) {
+  switch (lockupSettingsConfig?.suLockupOptions) {
     case "a":
       return <LockupA {...lockupProps} />
 
