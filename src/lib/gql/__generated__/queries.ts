@@ -10,6 +10,15 @@ export const FragmentPageInfoFragmentDoc = gql`
   endCursor
 }
     `;
+export const AllNodeInterfaceFragmentDoc = gql`
+    fragment AllNodeInterface on NodeInterface {
+  id
+  path
+  changed {
+    time
+  }
+}
+    `;
 export const FragmentDateTimeFragmentDoc = gql`
     fragment FragmentDateTime on DateTime {
   timezone
@@ -857,7 +866,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -869,7 +878,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -881,7 +890,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -893,7 +902,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -901,7 +910,7 @@ export const AllNodesDocument = gql`
   }
   nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -913,7 +922,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -925,7 +934,7 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
@@ -937,14 +946,14 @@ export const AllNodesDocument = gql`
     sortKey: CREATED_AT
   ) {
     nodes {
-      ...FragmentNodeInterface
+      ...AllNodeInterface
     }
     pageInfo {
       ...FragmentPageInfo
     }
   }
 }
-    ${FragmentNodeInterfaceFragmentDoc}
+    ${AllNodeInterfaceFragmentDoc}
 ${FragmentPageInfoFragmentDoc}`;
 export const CoursesDocument = gql`
     query Courses($first: Int = 1000, $after: Cursor) {

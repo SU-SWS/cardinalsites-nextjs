@@ -10,10 +10,18 @@ fragment FragmentPageInfo on ConnectionPageInfo {
     endCursor
 }
 
+fragment AllNodeInterface on NodeInterface {
+    id
+    path
+    changed {
+        time
+    }
+}
+
 query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
     nodeStanfordCourses(first: $first, after: $nodeStanfordCourses, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -21,7 +29,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordEventSeriesItems(first: $first, after: $nodeStanfordEventSeriesItems, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -29,7 +37,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordEvents(first: $first, after: $nodeStanfordEvents, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -37,7 +45,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordNewsItems(first: $first, after: $nodeStanfordNewsItems, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -45,7 +53,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -53,7 +61,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordPeople(first: $first, after: $nodeStanfordPeople, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -61,7 +69,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordPolicies(first: $first, after: $nodeStanfordPolicies, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
@@ -69,7 +77,7 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordPublications(first: $first, after: $nodeStanfordPublications, sortKey: CREATED_AT) {
         nodes {
-            ...FragmentNodeInterface
+            ...AllNodeInterface
         }
         pageInfo {
             ...FragmentPageInfo
