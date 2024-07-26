@@ -31,6 +31,9 @@ export const getEntityFromPath = cache(
         let entity: T | undefined
         let query: RouteQuery
 
+        // Paths that start with /node/ should not be used.
+        if (path.startsWith("/node/")) return {}
+
         try {
           query = await graphqlClient({next: {tags: ["all-entities", `paths:${path}`]}}, previewMode).Route({path})
         } catch (e) {
