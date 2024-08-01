@@ -17,7 +17,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors<TeaserParagraphBehaviors>(paragraph)
   const entities = paragraph.suEntityItem || []
-  const gridCols = ["lg:grid-cols-3", "lg:grid-cols-1", "lg:grid-cols-2"]
+  const gridCols = ["@5xl:grid-cols-3", undefined, "@3xl:grid-cols-2"]
   const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
   const EntityWrapper: ElementType =
@@ -40,7 +40,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       <Wysiwyg html={paragraph.suEntityDescription?.processed} />
 
-      <div className={`grid ${gridClass} mb-20 gap-20 [&>*]:w-full`}>
+      <div className={twMerge("mb-20 grid gap-20 [&>*]:w-full", gridClass)}>
         {entities.map(entity => (
           <Suspense key={`${paragraph.id}-${entity.id}`} fallback={<ImageCardSkeleton />}>
             <EntityCard path={entity.path} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"} />

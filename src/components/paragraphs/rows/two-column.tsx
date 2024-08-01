@@ -2,6 +2,7 @@ import OneColumn from "@components/paragraphs/rows/one-column"
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
+import {twMerge} from "tailwind-merge"
 
 const TwoColumn = ({items, config}: {items: ParagraphUnion[]; config?: Record<string, any>}) => {
   const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "left")
@@ -20,7 +21,7 @@ const TwoColumn = ({items, config}: {items: ParagraphUnion[]; config?: Record<st
   }
 
   return (
-    <div className={`gutters grid ${gridCols} gap-10 md:gap-20`} {...draftProps}>
+    <div className={twMerge("gutters grid gap-10 md:gap-20", gridCols)} {...draftProps}>
       <OneColumn items={leftItems} />
       <OneColumn items={rightItems} />
     </div>

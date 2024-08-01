@@ -173,6 +173,8 @@ export const getAlgoliaCredential = nextCache(
       "StanfordBasicSiteSetting",
       "suSiteAlgoliaSearch"
     )
+    if (appId) console.warn("It is recommended to set environment variables for Algolia credentials.")
+
     return appId && indexName && apiKey ? [appId, indexName, apiKey] : []
   },
   ["algolia"],

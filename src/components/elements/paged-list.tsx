@@ -10,6 +10,7 @@ import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/react/20/solid"
 import {ArrowPathIcon} from "@heroicons/react/16/solid"
 import {twMerge} from "tailwind-merge"
 import useServerAction from "@lib/hooks/useServerAction"
+import {clsx} from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -57,9 +58,7 @@ const PagedList = ({
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: currentPage, setCount: setPage} = useCounter(
-    Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))
-  )
+  const {count: currentPage, setCount: setPage} = useCounter(1)
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
@@ -97,15 +96,16 @@ const PagedList = ({
     // Use search params to retain any other parameters.
     const params = new URLSearchParams(searchParams.toString())
     params.delete(pageKey)
-    if (currentPage > 1) params.set(pageKey, `${currentPage}`)
+    currentPage > 1 && params.set(pageKey, `${currentPage}`)
 
-    router.replace(`?${params.toString()}`, {scroll: false})
+    router.replace(`?${params.toString()}${window.location.hash || ""}`, {scroll: false})
   }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
-    if (currentPage > 1 && !ref.current) goToPage(currentPage, true)
+    const initialPage = Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))
+    initialPage > 1 && !ref.current && goToPage(initialPage, true)
     ref.current = true
-  }, [currentPage, goToPage])
+  }, [totalPages, searchParams, pageKey, currentPage, goToPage])
 
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
 
@@ -194,14 +194,17 @@ const PaginationButton = ({
         <span className="sr-only">
           {page === "leftArrow" && "Go to first page"}
           {page === "rightArrow" && "Go to last page"}
-          {page !== "leftArrow" && page !== "rightArrow" && `Go to page ${page} of ${total}`}
+          {page !== "leftArrow" && page !== "rightArrow" && `Go to page ${page}`}
         </span>
         <span
           aria-hidden
-          className={
-            (isCurrent ? "border-stone-dark text-stone-dark" : "border-transparent text-cardinal-red") +
-            " block h-fit border-b-2 px-4"
-          }
+          className={twMerge(
+            "block h-fit border-b-2 px-4",
+            clsx({
+              "border-stone-dark text-stone-dark": isCurrent,
+              "border-transparent text-cardinal-red": !isCurrent,
+            })
+          )}
         >
           {page === "leftArrow" && <ArrowLongLeftIcon width={30} />}
           {page === "rightArrow" && <ArrowLongRightIcon width={30} />}
