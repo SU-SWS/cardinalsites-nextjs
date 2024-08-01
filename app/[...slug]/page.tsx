@@ -9,6 +9,8 @@ import {getPathFromContext, PageProps} from "@lib/drupal/utils"
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
 export const dynamic = "force-static"
+// https://vercel.com/docs/functions/runtimes#max-duration
+export const maxDuration = 60
 
 const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})
