@@ -18,7 +18,13 @@ const DrupalLink = ({href, className, children, ...props}: Props) => {
   href = href || "#"
   const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || "").replace(/\/$/, "")
 
-  if (!href.indexOf("/files/")) {
+  // Make sure links to documents or images go to the Drupal origin.
+  if (href.startsWith("/") && href.includes("/files/")) {
+    href = `${drupalBase}${href}`
+  }
+
+  // For links not to the file system, make them relative and replace <front>.
+  if (!href.includes("/files/")) {
     href = href.replace(drupalBase, "").replace("<front>", "/")
   }
 

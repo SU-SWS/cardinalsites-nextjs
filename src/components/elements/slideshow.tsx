@@ -7,7 +7,7 @@ import {twMerge} from "tailwind-merge"
 import {clsx} from "clsx"
 
 const NextArrow = ({className, onClick}: CustomArrowProps) => {
-  const slickDisabled = !!(className && className?.indexOf("slick-disabled") > 0)
+  const slickDisabled = className?.includes("slick-disabled")
   return (
     <button className="absolute right-1 top-1/3 z-50" onClick={onClick} aria-label="Next" disabled={slickDisabled}>
       <ArrowRightIcon
@@ -18,7 +18,7 @@ const NextArrow = ({className, onClick}: CustomArrowProps) => {
 }
 
 const PrevArrow = ({className, onClick}: CustomArrowProps) => {
-  const slickDisabled = !!(className && className?.indexOf("slick-disabled") > 0)
+  const slickDisabled = className?.includes("slick-disabled")
   return (
     <button className="absolute left-1 top-1/3 z-50" onClick={onClick} aria-label="Previous" disabled={slickDisabled}>
       <ArrowLeftIcon

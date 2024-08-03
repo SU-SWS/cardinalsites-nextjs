@@ -51,7 +51,7 @@ const options: HTMLReactParserOptions = {
 
         case "div":
           delete nodeProps.role
-          if (nodeProps.className && !!nodeProps.className.indexOf("media-entity-wrapper")) {
+          if (nodeProps.className?.includes("media-entity-wrapper")) {
             return cleanMediaMarkup(domNode)
           }
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
@@ -216,7 +216,7 @@ const cleanMediaMarkup = (node: Element) => {
 
     if (figCaption) {
       nodeProps.className = twMerge("table", nodeProps.className)
-      if (!!nodeProps.className?.indexOf("mx-auto")) nodeProps.className += " w-full"
+      if (nodeProps.className?.includes("mx-auto")) nodeProps.className += " w-full"
       delete nodeProps.role
       return (
         <figure {...nodeProps}>
