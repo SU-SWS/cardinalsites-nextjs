@@ -20,10 +20,10 @@ export const GET = async (request: NextRequest) => {
       .split("/")
       .map(tag => tagsInvalidated.push(tag))
 
-  tagsInvalidated.map(tag => revalidateTag(tag))
-
   const menu = await getMenu()
   if (!!getMenuActiveTrail(menu, path).length) tagsInvalidated.push("menu:main")
+
+  tagsInvalidated.map(tag => revalidateTag(tag))
 
   return NextResponse.json({revalidated: true, tags: tagsInvalidated})
 }

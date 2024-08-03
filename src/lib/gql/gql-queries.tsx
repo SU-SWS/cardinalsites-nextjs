@@ -63,7 +63,7 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(
     async () => {
       let query: ConfigPagesQuery
       try {
-        query = await graphqlClient({next: {tags: ["config-pages"]}}).ConfigPages()
+        query = await graphqlClient({cache: "no-cache"}).ConfigPages()
       } catch (e) {
         console.warn("Unable to fetch config pages: " + (e instanceof Error && e.stack))
         return
@@ -104,7 +104,7 @@ export const getMenu = cache(async (name?: MenuAvailable, maxLevels?: number): P
 
   const getData = nextCache(
     async () => {
-      const menu = await graphqlClient({next: {tags: [`menu:${menuName}`]}}).Menu({name})
+      const menu = await graphqlClient({cache: "no-cache"}).Menu({name})
       const menuItems = (menu.menu?.items || []) as MenuItem[]
 
       const filterInaccessible = (items: MenuItem[], level: number): MenuItem[] => {
@@ -133,7 +133,7 @@ export const getAllNodes = nextCache(
     const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
     while (fetchMore) {
-      nodeQuery = await graphqlClient({next: {tags: ["paths"]}}).AllNodes({first: 1000, ...cursors})
+      nodeQuery = await graphqlClient({cache: "no-cache"}).AllNodes({first: 1000, ...cursors})
       queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
       fetchMore = false
 
