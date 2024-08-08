@@ -22,7 +22,7 @@ interface Props {
   loadPage?: (_page: number) => Promise<JSX.Element>
 }
 
-const NewsListView = async ({items, totalItems, headingLevel, loadPage}: Props) => {
+const NewsListView = async ({items, headingLevel, totalItems, loadPage}: Props) => {
   return (
     <PagedList
       ulProps={{className: "list-unstyled mb-20"}}

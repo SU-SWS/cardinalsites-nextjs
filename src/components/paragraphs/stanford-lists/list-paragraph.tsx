@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
 import View from "@components/views/view"
 import {H2} from "@components/elements/headers"
-import {cache, ElementType, HtmlHTMLAttributes, JSX} from "react"
+import {cache, ElementType, HtmlHTMLAttributes, JSX, Suspense} from "react"
 import {
   Maybe,
   NodeStanfordCourse,
@@ -79,24 +79,26 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
       <Wysiwyg html={paragraph.suListDescription?.processed} />
 
       {viewId && displayId && viewItems && (
-        <View
-          viewId={viewId}
-          displayId={displayId}
-          items={viewItems}
-          headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-          loadPage={
-            addLoadMore
-              ? loadPage.bind(
-                  null,
-                  viewId,
-                  displayId,
-                  paragraph.suListView?.contextualFilter || [],
-                  !!paragraph.suListHeadline
-                )
-              : undefined
-          }
-          totalItems={totalItems}
-        />
+        <Suspense>
+          <View
+            viewId={viewId}
+            displayId={displayId}
+            items={viewItems}
+            headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
+            loadPage={
+              addLoadMore
+                ? loadPage.bind(
+                    null,
+                    viewId,
+                    displayId,
+                    paragraph.suListView?.contextualFilter || [],
+                    !!paragraph.suListHeadline
+                  )
+                : undefined
+            }
+            totalItems={totalItems}
+          />
+        </Suspense>
       )}
 
       {viewItems.length === 0 && behaviors.list_paragraph?.empty_message && (

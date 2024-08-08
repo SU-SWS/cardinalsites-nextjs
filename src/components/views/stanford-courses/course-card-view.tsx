@@ -10,9 +10,13 @@ interface Props {
    * If those nodes titles should display as <h2> or <h3>
    */
   headingLevel?: "h2" | "h3"
+  /**
+   * Total number of items to build the pager.
+   */
+  totalItems: number
 }
 
-const CourseCardView = async ({items = [], headingLevel}: Props) => {
-  return <CardViewGrid items={items} headingLevel={headingLevel} />
+const CourseCardView = async ({items = [], headingLevel, totalItems}: Props) => {
+  return <CardViewGrid items={items} headingLevel={headingLevel} totalItems={totalItems} />
 }
 export default CourseCardView

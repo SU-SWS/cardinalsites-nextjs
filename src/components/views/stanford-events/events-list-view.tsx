@@ -12,16 +12,20 @@ interface Props {
    * If those nodes titles should display as <h2> or <h3>
    */
   headingLevel?: "h2" | "h3"
+  /**
+   * Total number of items on all pages.
+   */
+  totalItems: number
 }
 
-const EventsListView = async ({items = [], headingLevel}: Props) => {
+const EventsListView = async ({items = [], headingLevel, totalItems}: Props) => {
   if (items.length >= 5) {
     const topics: TermStanfordEventType[] = []
     items.map(event => event.suEventType?.map(topic => topics.push(topic)))
     const uniqueTopics = [...new Map(topics.map(t => [t.id, t])).values()]
 
     if (uniqueTopics.length > 1) {
-      return <EventsFilteredListView items={items} topics={uniqueTopics} />
+      return <EventsFilteredListView items={items} topics={uniqueTopics} totalItems={totalItems} />
     }
   }
 
@@ -36,6 +40,7 @@ const EventsListView = async ({items = [], headingLevel}: Props) => {
       liProps={{
         className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
       }}
+      totalItems={totalItems}
     >
       {items.map(item => (
         <StanfordEventListItem key={item.id} node={item} headingLevel={headingLevel} />
