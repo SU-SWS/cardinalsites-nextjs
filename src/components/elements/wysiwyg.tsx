@@ -186,7 +186,7 @@ const cleanMediaMarkup = (node: Element) => {
 
   const getOembedUrl = (node: Element): string | undefined => {
     const src = node.attribs?.src || node.attribs["data-src"]
-    if (src?.startsWith("/media/oembed")) {
+    if (src?.includes("/media/oembed")) {
       return decodeURIComponent(src as string).replace(/^.*url=(.*)?&.*$/, "$1")
     }
     if (node.children.length > 0) {

@@ -2,6 +2,7 @@ import React, {ElementType, HtmlHTMLAttributes} from "react"
 import Image from "next/image"
 import {twMerge} from "tailwind-merge"
 import {Maybe} from "@lib/gql/__generated__/drupal"
+import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -26,7 +27,15 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   overlayPosition?: Maybe<"left" | "right">
 }
 
-const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosition, children, ...props}: Props) => {
+const HeroBanner = async ({
+  imageUrl,
+  imageAlt,
+  eagerLoadImage,
+  isSection,
+  overlayPosition,
+  children,
+  ...props
+}: Props) => {
   const BannerWrapper: ElementType = isSection ? "section" : "div"
 
   return (
@@ -40,6 +49,7 @@ const HeroBanner = ({imageUrl, imageAlt, eagerLoadImage, isSection, overlayPosit
             loading={eagerLoadImage ? "eager" : "lazy"}
             fill
             sizes="100vw"
+            {...await getImagePlaceholder(imageUrl)}
           />
         )}
       </div>

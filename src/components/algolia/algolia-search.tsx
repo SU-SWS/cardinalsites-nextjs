@@ -1,6 +1,6 @@
 "use client"
 
-import algoliasearch from "algoliasearch/lite"
+import {liteClient} from "algoliasearch/lite"
 import {useHits, useSearchBox} from "react-instantsearch"
 import {InstantSearchNext} from "react-instantsearch-nextjs"
 import {useRef} from "react"
@@ -19,7 +19,7 @@ type Props = {
 }
 
 const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: Props) => {
-  const searchClient = algoliasearch(appId, searchApiKey)
+  const searchClient = liteClient(appId, searchApiKey)
 
   return (
     <div>

@@ -5,12 +5,13 @@ import Oembed from "@components/elements/ombed"
 import Link from "@components/elements/link"
 import Wysiwyg from "@components/elements/wysiwyg"
 import {twMerge} from "tailwind-merge"
+import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordMediaCaption
 }
 
-const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
+const MediaCaptionParagraph = async ({paragraph, ...props}: Props) => {
   const image =
     paragraph.suMediaCaptionMedia?.__typename === "MediaImage" ? paragraph.suMediaCaptionMedia.mediaImage : undefined
   const videoUrl =
@@ -26,6 +27,7 @@ const MediaCaptionParagraph = ({paragraph, ...props}: Props) => {
             alt={image.alt || ""}
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
+            {...await getImagePlaceholder(image.url)}
           />
         </div>
       )}

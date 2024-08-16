@@ -1,7 +1,6 @@
 "use client"
 
 import {useLayoutEffect, useRef, HtmlHTMLAttributes, useEffect, JSX, useState, useCallback} from "react"
-import {useAutoAnimate} from "@formkit/auto-animate/react"
 import {useBoolean, useCounter} from "usehooks-ts"
 import {useRouter, useSearchParams} from "next/navigation"
 import usePagination from "@lib/hooks/usePagination"
@@ -62,7 +61,6 @@ const PagedList = ({
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
-  const [animationParent] = useAutoAnimate<HTMLUListElement>()
 
   const goToPage = useCallback(
     (page: number, doNotFocusOnResults?: boolean) => {
@@ -118,7 +116,7 @@ const PagedList = ({
           </div>
         </div>
       )}
-      <ul {...ulProps} ref={animationParent}>
+      <ul {...ulProps}>
         {items.map((item, i) => (
           <li
             key={`pager-${currentPage}-${i}`}

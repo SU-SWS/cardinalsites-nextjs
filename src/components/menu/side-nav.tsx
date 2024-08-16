@@ -31,7 +31,7 @@ type MenuItemProps = MenuItemType & {
   level: number
 }
 
-const MenuItem = ({id, url, title, children, activeTrail, level}: MenuItemProps) => {
+const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: MenuItemProps) => {
   // Need to list them out each so tailwind will include each for styling.
   const leftPadding = ["pl-10", "pl-20", "pl-28", "pl-48"]
 
@@ -53,7 +53,7 @@ const MenuItem = ({id, url, title, children, activeTrail, level}: MenuItemProps)
       <Link href={url || "#"} className={linkClasses} aria-current={activeTrail.at(-1) === id ? "true" : undefined}>
         {title}
       </Link>
-      {children && children.length > 0 && activeTrail.includes(id) && (
+      {expanded && children && children.length > 0 && activeTrail.includes(id) && (
         <ul className={`list-unstyled border-t ${leftPadding[level]}`}>
           {children.map(item => (
             <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail} />

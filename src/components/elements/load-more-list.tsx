@@ -1,7 +1,6 @@
 "use client"
 
 import {useLayoutEffect, useRef, HtmlHTMLAttributes, JSX, useId, useState} from "react"
-import {useAutoAnimate} from "@formkit/auto-animate/react"
 import {useBoolean, useCounter} from "usehooks-ts"
 import useFocusOnRender from "@lib/hooks/useFocusOnRender"
 import useServerAction from "@lib/hooks/useServerAction"
@@ -48,7 +47,6 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, totalItems, loadP
   const [runLoadPage, isPending] = useServerAction(loadPage)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
-  const [animationParent] = useAutoAnimate<HTMLUListElement>()
 
   const showMoreItems = async () => {
     if (loadPage) {
@@ -75,7 +73,7 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, totalItems, loadP
           </div>
         </div>
       )}
-      <ul {...ulProps} ref={animationParent}>
+      <ul {...ulProps}>
         {items.map((item, i) => (
           <li
             key={`${id}--${i}`}
@@ -92,7 +90,7 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, totalItems, loadP
         Showing {items.length} items.
       </span>
 
-      {items.length < totalItems && (
+      {items.length < totalItems && loadPage && (
         <Button buttonElem centered onClick={showMoreItems}>
           {buttonText ? buttonText : "Load More"}
         </Button>
