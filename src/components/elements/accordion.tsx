@@ -75,7 +75,10 @@ const Accordion = ({
           onClick={onButtonClick}
         >
           {button}
-          <ChevronDownIcon height={30} className={clsx("ml-auto shrink-0 duration-150", {"rotate-180": isExpanded})} />
+          <ChevronDownIcon
+            height={30}
+            className={twMerge("ml-auto shrink-0 duration-150", clsx({"rotate-180": isExpanded}))}
+          />
         </button>
       </Heading>
 

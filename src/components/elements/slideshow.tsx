@@ -1,28 +1,28 @@
 "use client"
 
-import {HTMLAttributes, JSX} from "react"
+import {HTMLAttributes, JSX, useRef} from "react"
 import Slider, {CustomArrowProps, Settings} from "react-slick"
 import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/16/solid"
 import {twMerge} from "tailwind-merge"
 import {clsx} from "clsx"
 
-const NextArrow = ({className, onClick}: CustomArrowProps) => {
+export const NextArrow = ({className, onClick}: CustomArrowProps) => {
   const slickDisabled = className?.includes("slick-disabled")
   return (
     <button className="absolute right-1 top-1/3 z-50" onClick={onClick} aria-label="Next" disabled={slickDisabled}>
       <ArrowRightIcon
-        className={twMerge(clsx("w-50 bg-teal rounded-full p-10 text-black-true", {"text-black-50": slickDisabled}))}
+        className={twMerge("w-50 bg-teal rounded-full p-10 text-black-true", clsx({"text-black-50": slickDisabled}))}
       />
     </button>
   )
 }
 
-const PrevArrow = ({className, onClick}: CustomArrowProps) => {
+export const PrevArrow = ({className, onClick}: CustomArrowProps) => {
   const slickDisabled = className?.includes("slick-disabled")
   return (
     <button className="absolute left-1 top-1/3 z-50" onClick={onClick} aria-label="Previous" disabled={slickDisabled}>
       <ArrowLeftIcon
-        className={twMerge(clsx("w-50 bg-teal rounded-full p-10 text-black-true", {"text-black-50": slickDisabled}))}
+        className={twMerge("w-50 bg-teal rounded-full p-10 text-black-true", clsx({"text-black-50": slickDisabled}))}
       />
     </button>
   )
@@ -33,15 +33,33 @@ type SlideshowProps = HTMLAttributes<HTMLDivElement> & {
   slideshowProps?: Omit<Settings, "children">
 }
 
-const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) => {
+export const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) => {
+  const slideShowRef = useRef<HTMLDivElement>(null)
+
+  const adjustSlideLinks = () => {
+    // Set tabindex attributes based on if the slides are visible or not.
+    const hiddenLinks = slideShowRef.current?.querySelectorAll(".slick-slide:not(.slick-active) a")
+    if (hiddenLinks) {
+      ;[...hiddenLinks].map(link => link.setAttribute("tabindex", "-1"))
+    }
+
+    const visibleLinks = slideShowRef.current?.querySelectorAll(".slick-slide.slick-active a:not([aria-hidden])")
+    if (visibleLinks) {
+      ;[...visibleLinks].map(link => link.removeAttribute("tabindex"))
+    }
+  }
+
   const settings: Settings = {
+    afterChange: () => adjustSlideLinks(),
     autoplay: false,
     centerMode: false,
-    className: "overflow-hidden pb-8 [&_.slick-slide]:float-left [&_.slick-slide]:px-5",
+    className:
+      "[&_.slick-track]:flex [&_.slick-slider]:relative [&_.slick-slide>div]:h-full [&_.slick-slide>div>div]:h-full",
     dots: false,
     infinite: false,
     initialSlide: 0,
     nextArrow: <NextArrow />,
+    onInit: () => adjustSlideLinks(),
     prevArrow: <PrevArrow />,
     slidesToScroll: 1,
     slidesToShow: 3,
@@ -59,10 +77,33 @@ const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) => {
     ...slideshowProps,
   }
   return (
-    <div {...props} className={twMerge("relative w-full", props.className)}>
+    <div
+      ref={slideShowRef}
+      {...props}
+      aria-roledescription="carousel"
+      className={twMerge("relative w-full", props.className)}
+    >
       <Slider {...settings}>{children}</Slider>
     </div>
   )
 }
 
-export default Slideshow
+export const Slide = ({
+  slideNumber,
+  totalSlides,
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
+  slideNumber: number
+  totalSlides: number
+}) => {
+  return (
+    <div
+      {...props}
+      aria-roledescription="slide"
+      aria-label={props["aria-labelledby"] || props["aria-label"] ? undefined : `${slideNumber} of ${totalSlides}`}
+    >
+      {children}
+    </div>
+  )
+}

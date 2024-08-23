@@ -10,6 +10,7 @@ import {clsx} from "clsx"
 import {useBoolean, useEventListener} from "usehooks-ts"
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react"
 import {usePathname} from "next/navigation"
+import {twMerge} from "tailwind-merge"
 
 const menuLevelsToShow = 2
 
@@ -51,26 +52,35 @@ const MainMenuClient = ({menuItems}: Props) => {
         className="group absolute right-10 top-5 flex flex-col items-center lg:hidden"
         onClick={toggleMenu}
         aria-expanded={menuOpen}
-        aria-labelledby={navId}
+        aria-label={menuOpen ? "Close Main Navigation Menu" : "Open Main Navigation Menu"}
       >
         <span className="flex h-[30px] w-[30px] flex-col items-center justify-center">
           <span
-            className={clsx("block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
-              "translate-y-4 rotate-45": menuOpen,
-              "-translate-y-0.5": !menuOpen,
-            })}
+            className={twMerge(
+              "block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
+              clsx({
+                "translate-y-4 rotate-45": menuOpen,
+                "-translate-y-0.5": !menuOpen,
+              })
+            )}
           />
           <span
-            className={clsx("my-3 block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
-              "opacity-0": menuOpen,
-              "opacity-100": !menuOpen,
-            })}
+            className={twMerge(
+              "my-3 block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
+              clsx({
+                "opacity-0": menuOpen,
+                "opacity-100": !menuOpen,
+              })
+            )}
           />
           <span
-            className={clsx("block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
-              "-translate-y-4 -rotate-45": menuOpen,
-              "translate-y-0.5": !menuOpen,
-            })}
+            className={twMerge(
+              "block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
+              clsx({
+                "-translate-y-4 -rotate-45": menuOpen,
+                "translate-y-0.5": !menuOpen,
+              })
+            )}
           />
         </span>
         <span className="group-hocus:underline" aria-hidden>
@@ -134,51 +144,58 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
 
   useEventListener("keydown", handleEscape, menuItemRef)
 
-  // List out the specific classes so tailwind will include them. Dynamic classes values don"t get compiled.
-  const zIndexes = ["z-[1]", "z-[2]", "z-[3]", "z-[4]", "z-[5]"]
-  const leftPadding = ["pl-10", "pl-20", "pl-28", "pl-48"]
-
   // The last item in the current trail would be the current item id if the user is on that page.
   const isCurrent = activeTrail.at(-1) === id
   const inTrail = activeTrail.includes(id) && !isCurrent
 
-  const linkStyles = clsx(
+  const linkStyles = twMerge(
     "w-full relative inline-block text-white lg:text-digital-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 border-l-[6px]",
-    leftPadding[level],
-    // Top menu item styles.
-    {
-      "lg:border-l-0 lg:border-b-[6px] ml-5 lg:ml-0 lg:pb-2": level === 0,
-      "border-digital-red lg:border-black": level === 0 && isCurrent,
-      "border-transparent lg:border-foggy-dark": level === 0 && !isCurrent && inTrail,
-      "border-transparent": level === 0 && !isCurrent && !inTrail,
-    },
-    // Child menu item styles.
-    {
-      "ml-5 lg:ml-0 lg:pl-5": level !== 0,
-      "border-digital-red": level !== 0 && isCurrent,
-      "border-transparent": level !== 0 && !isCurrent,
-    }
+    clsx(
+      {
+        "pl-10": level === 0,
+        "pl-20": level === 1,
+        "pl-28": level === 2,
+        "pl-48": level === 3,
+      },
+      // Top menu item styles.
+      {
+        "lg:border-l-0 lg:border-b-[6px] ml-5 lg:ml-0 lg:pb-2": level === 0,
+        "border-digital-red lg:border-black": level === 0 && isCurrent,
+        "border-transparent lg:border-foggy-dark": level === 0 && !isCurrent && inTrail,
+        "border-transparent": level === 0 && !isCurrent && !inTrail,
+      },
+      // Child menu item styles.
+      {
+        "ml-5 lg:ml-0 lg:pl-5": level !== 0,
+        "border-digital-red": level !== 0 && isCurrent,
+        "border-transparent": level !== 0 && !isCurrent,
+      }
+    )
   )
 
-  const subMenuStyles = clsx(
+  const subMenuStyles = twMerge(
     "list-unstyled w-full min-w-[300px] lg:bg-white lg:shadow-2xl px-0 lg:absolute",
-    zIndexes[level],
-    {
+    clsx({
+      "z-[1]": level === 0,
+      "z-[2]": level === 1,
+      "z-[3]": level === 2,
+      "z-[4]": level === 3,
+      "z-[5]": level === 4,
       "lg:top-full lg:right-0": level === 0,
       "lg:top-0": level !== 0,
       "lg:left-full": level !== 0 && positionRight,
       "lg:right-full": level !== 0 && !positionRight,
       block: submenuOpen,
       hidden: !submenuOpen,
-    }
+    })
   )
 
   return (
     <li
       ref={menuItemRef}
-      className={clsx(
+      className={twMerge(
         "relative m-0 border-b border-cool-grey py-2 first:border-t last:border-0 lg:relative lg:mr-5 lg:border-black-20 lg:py-0 last:lg:mr-0",
-        {"first:border-t-0 lg:border-b-0": level === 0}
+        clsx({"first:border-t-0 lg:border-b-0": level === 0})
       )}
     >
       <div className="flex items-center justify-between lg:justify-end">
@@ -198,9 +215,12 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
             >
               <ChevronDownIcon
                 height={35}
-                className={clsx("transition duration-150 ease-in-out group-hocus:scale-125 group-hocus:text-black", {
-                  "rotate-180": submenuOpen,
-                })}
+                className={twMerge(
+                  "transition duration-150 ease-in-out group-hocus:scale-125 group-hocus:text-black",
+                  clsx({
+                    "rotate-180": submenuOpen,
+                  })
+                )}
               />
             </button>
           </>

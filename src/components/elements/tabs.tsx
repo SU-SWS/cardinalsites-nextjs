@@ -12,6 +12,7 @@ import {UseTabsParameters} from "@mui/base/useTabs/useTabs.types"
 import {UseTabsListParameters} from "@mui/base/useTabsList/useTabsList.types"
 import {UseTabPanelParameters} from "@mui/base/useTabPanel/useTabPanel.types"
 import {useRouter, useSearchParams} from "next/navigation"
+import {useScreen} from "usehooks-ts"
 
 // View the API for all the tab components here: https://mui.com/base-ui/react-tabs/hooks-api/.
 type TabsProps = HTMLAttributes<HTMLDivElement> & {
@@ -30,6 +31,8 @@ type TabsProps = HTMLAttributes<HTMLDivElement> & {
 }
 
 export const Tabs = ({paramId = "tab", orientation, defaultTab, children, ...props}: TabsProps) => {
+  const screen = useScreen({initializeWithValue: false})
+  const isVertical = (screen && screen.width < 768) || orientation === "vertical"
   const searchParams = useSearchParams()
   const router = useRouter()
   const onChange = (_e: SyntheticEvent | null, value: number | string | null) => {
@@ -41,7 +44,7 @@ export const Tabs = ({paramId = "tab", orientation, defaultTab, children, ...pro
   const initialTab = defaultTab || (paramValue && parseInt(paramValue))
 
   const {contextValue} = useTabs({
-    orientation,
+    orientation: isVertical ? "vertical" : "horizontal",
     defaultValue: initialTab || 0,
     onChange,
     selectionFollowsFocus: true,
@@ -70,15 +73,16 @@ type TabsListProps = Omit<UseTabsListParameters, "rootRef"> & {
 }
 
 export const TabsList = ({containerProps, className, children, ...props}: TabsListProps) => {
+  const screen = useScreen({initializeWithValue: false})
   const rootRef = useRef<HTMLDivElement>(null)
   const {contextValue, orientation, getRootProps} = useTabsList({...props, rootRef})
-  const isVertical = orientation === "vertical"
+  const isVertical = (screen && screen.width < 768) || orientation === "vertical"
   return (
     <TabsListProvider value={contextValue}>
       <div
         {...getRootProps()}
         {...containerProps}
-        className={twMerge(clsx("flex", {"flex-col": isVertical}), className)}
+        className={twMerge("flex", clsx({"flex-col": isVertical}), className)}
       >
         {children}
       </div>
@@ -110,7 +114,8 @@ export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
       {...getRootProps()}
       {...buttonProps}
       className={twMerge(
-        clsx("border-b-3 border-transparent p-3 text-left", {"border-cardinal-red": selected}),
+        "border-b-3 border-transparent p-3 text-left",
+        clsx({"border-cardinal-red": selected}),
         className
       )}
     >
