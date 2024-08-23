@@ -1,6 +1,6 @@
 "use client"
 
-import {HTMLAttributes, JSX, useRef} from "react"
+import {HTMLAttributes, JSX, useEffect, useRef} from "react"
 import Slider, {CustomArrowProps, Settings} from "react-slick"
 import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/16/solid"
 import {twMerge} from "tailwind-merge"
@@ -49,6 +49,10 @@ export const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) 
     }
   }
 
+  useEffect(() => {
+    adjustSlideLinks()
+  }, [])
+
   const settings: Settings = {
     afterChange: () => adjustSlideLinks(),
     autoplay: false,
@@ -59,7 +63,6 @@ export const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) 
     infinite: false,
     initialSlide: 0,
     nextArrow: <NextArrow />,
-    onInit: () => adjustSlideLinks(),
     prevArrow: <PrevArrow />,
     slidesToScroll: 1,
     slidesToShow: 3,
