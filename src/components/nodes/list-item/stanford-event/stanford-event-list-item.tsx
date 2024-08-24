@@ -6,6 +6,7 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card"
 import {twMerge} from "tailwind-merge"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -35,7 +36,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
         <div className="type-5 w-full text-center font-bold">{startDay}</div>
       </div>
       <div>
-        <div className="flex flex-col">
+        <ReverseVisualOrder>
           <Heading className="type-3" id={node.id}>
             <Link
               href={node.suEventSource?.url || node.path}
@@ -45,8 +46,8 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
             </Link>
           </Heading>
 
-          {node.suEventType && <div className="su-digital-red order-first">{node.suEventType[0].name}</div>}
-        </div>
+          {node.suEventType && <div className="su-digital-red">{node.suEventType[0].name}</div>}
+        </ReverseVisualOrder>
 
         {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}
         {node.suEventDek && <p>{node.suEventDek}</p>}

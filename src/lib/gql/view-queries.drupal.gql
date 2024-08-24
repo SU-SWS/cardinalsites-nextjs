@@ -28,7 +28,7 @@ query stanfordCourses($contextualFilters: StanfordCoursesContextualFilterInput, 
 }
 
 query stanfordEvents($contextualFilters: StanfordEventsContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
-    stanfordEvents(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset) {
+    stanfordEvents(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset, sortKey: START_TIME) {
         results {
             ...FragmentNodeStanfordEventTeaser
         }
@@ -39,7 +39,7 @@ query stanfordEvents($contextualFilters: StanfordEventsContextualFilterInput, $p
 }
 
 query stanfordEventsPastEvents($contextualFilters: StanfordEventsPastEventsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-    stanfordEventsPastEvents(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset) {
+    stanfordEventsPastEvents(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset, sortKey: START_TIME) {
         results {
             ...FragmentNodeStanfordEventTeaser
         }

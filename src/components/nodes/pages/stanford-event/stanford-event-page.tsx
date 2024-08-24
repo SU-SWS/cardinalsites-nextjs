@@ -13,6 +13,7 @@ import Email from "@components/elements/email"
 import Telephone from "@components/elements/telephone"
 import Link from "@components/elements/link"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -28,11 +29,11 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32 flex flex-col gap-20" {...props}>
-      <div className="flex flex-col">
-        <H1 className="order-2">{node.title}</H1>
+      <ReverseVisualOrder>
+        <H1>{node.title}</H1>
 
-        {node.suEventType && <div className="order-1">{node.suEventType[0].name}</div>}
-      </div>
+        {node.suEventType && <div>{node.suEventType[0].name}</div>}
+      </ReverseVisualOrder>
       {node.suEventSubheadline && <div className="type-3 font-bold">{node.suEventSubheadline}</div>}
       {node.suEventDek && <div>{node.suEventDek}</div>}
 

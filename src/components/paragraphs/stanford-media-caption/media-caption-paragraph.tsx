@@ -18,7 +18,7 @@ const MediaCaptionParagraph = async ({paragraph, ...props}: Props) => {
     paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo
 
   return (
-    <figure {...props} className={twMerge("centered lg:max-w-[980px]", props.className)}>
+    <figure {...props} className={twMerge("centered xl:max-w-[980px]", props.className)}>
       {image?.url && (
         <div className="relative aspect-[16/9] w-full">
           <Image

@@ -33,6 +33,7 @@ module.exports = {
       },
       gridTemplateColumns: {...twoColumn, ...threeColumn},
       containers: {
+        '8xl': '80rem',
         '9xl': '90rem',
         '10xl': '100rem',
         '11xl': '110rem',

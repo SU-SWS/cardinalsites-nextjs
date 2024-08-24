@@ -9,6 +9,7 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {ImageCardSkeleton} from "@components/patterns/image-card"
 import {TeaserParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {clsx} from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -17,8 +18,6 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors<TeaserParagraphBehaviors>(paragraph)
   const entities = paragraph.suEntityItem || []
-  const gridCols = ["@5xl:grid-cols-3", undefined, "@3xl:grid-cols-2"]
-  const gridClass = gridCols[entities.length >= 3 ? 0 : entities.length % 3]
 
   const EntityWrapper: ElementType =
     paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" ? "section" : "div"
@@ -26,13 +25,16 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <EntityWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10 lg:max-w-[980px]", props.className)}
+      className={twMerge("centered mb-20 flex flex-col gap-10 xl:max-w-[980px]", props.className)}
       aria-labelledby={EntityWrapper === "section" ? paragraph.id : undefined}
     >
       {behaviors.stanford_teaser?.heading_behavior !== "remove" && (
         <H2
           id={paragraph.id}
-          className={twMerge("mb-0 text-center", behaviors.stanford_teaser?.heading_behavior === "hide" && "sr-only")}
+          className={twMerge(
+            "mb-0 text-center",
+            clsx({"sr-only": behaviors.stanford_teaser?.heading_behavior === "hide"})
+          )}
         >
           {paragraph.suEntityHeadline}
         </H2>
@@ -40,7 +42,15 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       <Wysiwyg html={paragraph.suEntityDescription?.processed} />
 
-      <div className={twMerge("mb-20 grid gap-20 [&>*]:w-full", gridClass)}>
+      <div
+        className={twMerge(
+          "mb-20 grid gap-20 [&>*]:w-full",
+          clsx({
+            "@5xl:grid-cols-2": entities.length === 2,
+            "@8xl:grid-cols-3": entities.length >= 3,
+          })
+        )}
+      >
         {entities.map(entity => (
           <Suspense key={`${paragraph.id}-${entity.id}`} fallback={<ImageCardSkeleton />}>
             <EntityCard path={entity.path} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"} />

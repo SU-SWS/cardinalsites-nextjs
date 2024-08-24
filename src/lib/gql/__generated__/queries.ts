@@ -1343,6 +1343,7 @@ export const StanfordEventsDocument = gql`
     pageSize: $pageSize
     page: $page
     offset: $offset
+    sortKey: START_TIME
   ) {
     results {
       ...FragmentNodeStanfordEventTeaser
@@ -1361,6 +1362,7 @@ export const StanfordEventsPastEventsDocument = gql`
     pageSize: $pageSize
     page: $page
     offset: $offset
+    sortKey: START_TIME
   ) {
     results {
       ...FragmentNodeStanfordEventTeaser

@@ -16,7 +16,7 @@ const ThreeColumn = ({items}: {items: ParagraphUnion[]}) => {
   }
 
   return (
-    <div className="gutters grid gap-10 md:grid-cols-3 md:gap-20" {...draftProps}>
+    <div className="gutters grid gap-10 @10xl:grid-cols-3 @10xl:gap-20" {...draftProps}>
       <OneColumn items={leftItems} />
       <OneColumn items={mainItems} />
       <OneColumn items={rightItems} />

@@ -9,6 +9,7 @@ import Link from "@components/elements/link"
 import {H1, H2} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -34,11 +35,13 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
           </div>
         )}
 
-        <div className="flex flex-col">
-          <H1 className="order-2">{node.title}</H1>
+        <div>
+          <ReverseVisualOrder>
+            <H1>{node.title}</H1>
+            {node.suPersonShortTitle && <div className="mb-10">aa{node.suPersonShortTitle}</div>}
+          </ReverseVisualOrder>
 
-          {node.suPersonShortTitle && <div className="order-1 mb-10">{node.suPersonShortTitle}</div>}
-          {node.suPersonFullTitle && <div className="type-2 order-3">{node.suPersonFullTitle}</div>}
+          {node.suPersonFullTitle && <div className="type-2">bbb{node.suPersonFullTitle}</div>}
         </div>
       </div>
 

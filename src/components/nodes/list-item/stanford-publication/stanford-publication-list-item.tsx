@@ -3,6 +3,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
 import {twMerge} from "tailwind-merge"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -18,12 +19,12 @@ const StanfordPublicationListItem = ({node, headingLevel, ...props}: Props) => {
       aria-labelledby={node.id}
       className={twMerge("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
     >
-      <div className="flex flex-col">
-        <Heading className="type-3 order-first" id={node.id}>
+      <ReverseVisualOrder>
+        <Heading className="type-3" id={node.id}>
           <Link href={citationUrl || node.path}>{node.title}</Link>
         </Heading>
         <div className="font-bold">Publication</div>
-      </div>
+      </ReverseVisualOrder>
 
       {node.suPublicationTopics && (
         <div>

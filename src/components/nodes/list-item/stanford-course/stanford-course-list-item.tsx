@@ -2,6 +2,7 @@ import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
@@ -18,8 +19,8 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
 
   return (
     <article {...props} aria-labelledby={node.id}>
-      <div className="flex flex-col">
-        <Heading className="type-3 order-last" id={node.id}>
+      <ReverseVisualOrder>
+        <Heading className="type-3" id={node.id}>
           <Link href={node.path}>{node.title}</Link>
         </Heading>
 
@@ -35,7 +36,7 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
           )}
           {node.suCourseAcademicYear} {node.suCourseQuarters?.map(quarter => quarter.name).join(", ")}
         </div>
-      </div>
+      </ReverseVisualOrder>
 
       {node.suCourseInstructors && (
         <div>

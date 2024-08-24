@@ -6,6 +6,7 @@ import {H1} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -36,11 +37,11 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
   return (
     <article className="centered mt-32" {...props}>
       <div className="mx-auto mb-48 lg:w-10/12">
-        <div className="flex flex-col">
-          <H1 className="order-2">{node.title}</H1>
+        <ReverseVisualOrder>
+          <H1>{node.title}</H1>
 
-          {topics && <div className="order-1 flex gap-2">{topics.map(topic => topic.name).join(", ")}</div>}
-        </div>
+          {topics && <div>{topics.map(topic => topic.name).join(", ")}</div>}
+        </ReverseVisualOrder>
 
         {node.suNewsDek && <div className="mb-10">{node.suNewsDek}</div>}
 

@@ -3,6 +3,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 import ImageCard from "@components/patterns/image-card"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -26,13 +27,13 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
 
   return (
     <ImageCard {...props} aria-labelledby={node.id} imageUrl={image?.url} isArticle>
-      <div className="flex flex-col">
+      <ReverseVisualOrder>
         <Heading className="type-3 [&_a]:text-black" id={node.id}>
           <Link href={node.suNewsSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
-        {publishDate && <div className="order-first">{publishDate}</div>}
-      </div>
+        {publishDate && <div>{publishDate}</div>}
+      </ReverseVisualOrder>
 
       {node.suNewsDek && <div>{node.suNewsDek}</div>}
 

@@ -5,6 +5,7 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
 import Address from "@components/elements/address"
 import ImageCard from "@components/patterns/image-card"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -30,13 +31,13 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         <div className="type-5 w-full text-center font-bold">{startDay}</div>
       </div>
 
-      <div className="flex flex-col">
+      <ReverseVisualOrder>
         <Heading className="type-3 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
           <Link href={node.suEventSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
-        {node.suEventType && <div className="su-digital-red order-first">{node.suEventType[0].name}</div>}
-      </div>
+        {node.suEventType && <div className="su-digital-red">{node.suEventType[0].name}</div>}
+      </ReverseVisualOrder>
 
       {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}
 

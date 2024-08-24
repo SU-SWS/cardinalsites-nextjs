@@ -5,6 +5,7 @@ import {H1} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
 import {redirect} from "next/navigation"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -16,11 +17,11 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
   if (citationUrl) redirect(citationUrl)
   return (
     <article className="centered pt-32" {...props}>
-      <div className="flex flex-col gap-10">
-        <H1 className="order-2">{node.title}</H1>
+      <ReverseVisualOrder className="gap-10">
+        <H1>{node.title}</H1>
 
-        {node.suPublicationTopics && <div className="order-1">{node.suPublicationTopics[0].name}</div>}
-      </div>
+        {node.suPublicationTopics && <div>{node.suPublicationTopics[0].name}</div>}
+      </ReverseVisualOrder>
 
       <div className="flex flex-col gap-20 lg:flex-row">
         <Rows components={node.suPublicationComponents} className="order-2 flex-grow lg:order-1" />

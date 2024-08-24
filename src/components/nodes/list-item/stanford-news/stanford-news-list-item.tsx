@@ -4,6 +4,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d"
 import {twMerge} from "tailwind-merge"
+import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -28,9 +29,9 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
   return (
     <article {...props} aria-labelledby={node.id} className={twMerge("@container", props.className)}>
       <div className="flex w-full flex-col justify-between py-10 @3xl:flex-row">
-        <div className="@3xl::order-1 order-2">
-          <div className="flex flex-col gap-10">
-            <Heading className="type-3 order-last font-bold" id={node.id}>
+        <div className="order-2 @3xl:order-1">
+          <ReverseVisualOrder className="gap-10">
+            <Heading className="type-3 font-bold" id={node.id}>
               <Link
                 href={node.suNewsSource?.url || node.path}
                 className="order-2 text-digital-red no-underline hocus:text-black hocus:underline"
@@ -40,7 +41,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
             </Heading>
 
             {publishDate && <div>{publishDate}</div>}
-          </div>
+          </ReverseVisualOrder>
 
           {node.suNewsDek && <p>{node.suNewsDek}</p>}
 

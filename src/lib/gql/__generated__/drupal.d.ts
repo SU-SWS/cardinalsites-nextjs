@@ -283,45 +283,45 @@ export type ImageStyle = ImageStyleInterface & {
 /** List of image styles available to use. */
 export enum ImageStyleAvailable {
   /** Breakpoint - 2XL - 1x */
-  Breakpoint_2Xl_1X = 'BREAKPOINT_2XL_1X',
+  Breakpoint2Xl1X = 'BREAKPOINT2XL1X',
   /** Breakpoint - 2XL - 2x */
-  Breakpoint_2Xl_2X = 'BREAKPOINT_2XL_2X',
+  Breakpoint2Xl2X = 'BREAKPOINT2XL2X',
   /** Breakpoint - LG - 1x */
-  BreakpointLg_1X = 'BREAKPOINT_LG_1X',
+  BreakpointLg1X = 'BREAKPOINT_LG1X',
   /** Breakpoint - LG - 2x */
-  BreakpointLg_2X = 'BREAKPOINT_LG_2X',
+  BreakpointLg2X = 'BREAKPOINT_LG2X',
   /** Breakpoint - MD - 1x */
-  BreakpointMd_1X = 'BREAKPOINT_MD_1X',
+  BreakpointMd1X = 'BREAKPOINT_MD1X',
   /** Breakpoint - MD - 2x */
-  BreakpointMd_2X = 'BREAKPOINT_MD_2X',
+  BreakpointMd2X = 'BREAKPOINT_MD2X',
   /** Breakpoint - SM - 1x */
-  BreakpointSm_1X = 'BREAKPOINT_SM_1X',
+  BreakpointSm1X = 'BREAKPOINT_SM1X',
   /** Breakpoint - SM - 2x */
-  BreakpointSm_2X = 'BREAKPOINT_SM_2X',
+  BreakpointSm2X = 'BREAKPOINT_SM2X',
   /** Breakpoint - XL - 1x */
-  BreakpointXl_1X = 'BREAKPOINT_XL_1X',
+  BreakpointXl1X = 'BREAKPOINT_XL1X',
   /** Breakpoint - XL - 2x */
-  BreakpointXl_2X = 'BREAKPOINT_XL_2X',
+  BreakpointXl2X = 'BREAKPOINT_XL2X',
   /** Card - 1X - 478x318 */
-  Card_1X_478X318 = 'CARD_1X_478X318',
+  Card1X478X318 = 'CARD1X478X318',
   /** Card - 2X - 956x636 */
-  Card_2X_956X636 = 'CARD_2X_956X636',
+  Card2X956X636 = 'CARD2X956X636',
   /** Card - 478x239 */
-  Card_478X239 = 'CARD_478X239',
+  Card478X239 = 'CARD478X239',
   /** Card - 956x478 */
-  Card_956X478 = 'CARD_956X478',
+  Card956X478 = 'CARD956X478',
   /** Card - 1192x596 */
-  Card_1192X596 = 'CARD_1192X596',
+  Card1192X596 = 'CARD1192X596',
   /** Card - 1900x950 */
-  Card_1900X950 = 'CARD_1900X950',
+  Card1900X950 = 'CARD1900X950',
   /** CTA - 1X - 507x338 */
-  Cta_1X_507X338 = 'CTA_1X_507X338',
+  Cta1X507X338 = 'CTA1X507X338',
   /** CTA - 1X - 596x397 */
-  Cta_1X_596X397 = 'CTA_1X_596X397',
+  Cta1X596X397 = 'CTA1X596X397',
   /** CTA - 2X - 1014x676 */
-  Cta_2X_1014X676 = 'CTA_2X_1014X676',
+  Cta2X1014X676 = 'CTA2X1014X676',
   /** CTA - 2X - 1192x794 */
-  Cta_2X_1192X794 = 'CTA_2X_1192X794',
+  Cta2X1192X794 = 'CTA2X1192X794',
   /** Large (480 wide) */
   Large = 'LARGE',
   /** Large Square (480x480) */
@@ -343,13 +343,13 @@ export enum ImageStyleAvailable {
   /** Responsive Small (800) */
   ResponsiveSmall = 'RESPONSIVE_SMALL',
   /** Square - 478 */
-  Square_478 = 'SQUARE_478',
+  Square478 = 'SQUARE478',
   /** Square - 956 */
-  Square_956 = 'SQUARE_956',
+  Square956 = 'SQUARE956',
   /** Square - 1192 */
-  Square_1192 = 'SQUARE_1192',
+  Square1192 = 'SQUARE1192',
   /** Square - 1900 */
-  Square_1900 = 'SQUARE_1900',
+  Square1900 = 'SQUARE1900',
   /** Circle */
   StanfordCircle = 'STANFORD_CIRCLE',
   /** News List (280x132) */
