@@ -21,6 +21,9 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
 
+  const endMonth = end.toLocaleDateString("en-US", {month: "short", timeZone})
+  const endDay = parseInt(end.toLocaleDateString("en-US", {day: "numeric", timeZone}))
+
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ")
   const Heading = headingLevel === "h3" ? H3 : H2
@@ -32,8 +35,16 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
       className={twMerge("mx-auto flex w-full gap-10 py-10", props.className)}
     >
       <div aria-hidden className="flex w-fit flex-col items-start">
-        <div className="type-0 mb-4 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
-        <div className="type-5 w-full text-center font-bold">{startDay}</div>
+        <div className="type-0 mb-2 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
+        <div className="type-4 w-full text-center font-bold">{startDay}</div>
+
+        {(startMonth !== endMonth || startDay !== endDay) && (
+          <>
+            <div className="text-center">&mdash; to &mdash;</div>
+            <div className="type-0 mb-2 w-full text-center font-semibold">{endMonth.toUpperCase()}</div>
+            <div className="type-4 w-full text-center font-bold">{endDay}</div>
+          </>
+        )}
       </div>
       <div>
         <ReverseVisualOrder>

@@ -1,3 +1,4 @@
+import {Table, Thead, Th, Tbody, Tr, Td} from "@components/elements/responsive-tables/tables"
 import Link from "@components/elements/link"
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
 import Image from "next/image"
@@ -76,6 +77,19 @@ const options: HTMLReactParserOptions = {
           return <H5 {...nodeProps}>{domToReact(children, options)}</H5>
         case "h6":
           return <H6 {...nodeProps}>{domToReact(children, options)}</H6>
+        case "table":
+          return <Table {...nodeProps}>{domToReact(children, options)}</Table>
+        case "thead":
+          return <Thead {...nodeProps}>{domToReact(children, options)}</Thead>
+        case "tbody":
+          return <Tbody {...nodeProps}>{domToReact(children, options)}</Tbody>
+        case "th":
+          return <Th {...nodeProps}>{domToReact(children, options)}</Th>
+        case "td":
+          return <Td {...nodeProps}>{domToReact(children, options)}</Td>
+        case "tr":
+          return <Tr {...nodeProps}>{domToReact(children, options)}</Tr>
+        case "tfoot":
         case "b":
         case "cite":
         case "dt":
@@ -91,18 +105,11 @@ const options: HTMLReactParserOptions = {
         case "ul":
         case "ol":
         case "li":
-        case "table":
-        case "tbody":
-        case "th":
-        case "td":
-        case "tr":
         case "strong":
         case "em":
         case "s":
         case "sub":
         case "sup":
-        case "thead":
-        case "tfoot":
         case "caption":
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 

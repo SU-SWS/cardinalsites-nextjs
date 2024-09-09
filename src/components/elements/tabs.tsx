@@ -115,6 +115,7 @@ export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
       {...buttonProps}
       className={twMerge(
         "border-b-3 border-transparent p-3 text-left",
+        // Make sure the visual indicator color is a 3:1 contrast ratio.
         clsx({"border-cardinal-red": selected}),
         className
       )}
