@@ -36,7 +36,7 @@ const Page = async ({params: {uuid}}: Props) => {
 
         return (
           <div key={galleryImage.id}>
-            <figure key={galleryImage.id}>
+            <figure className="table" key={galleryImage.id}>
               <picture>
                 <Image
                   src={galleryImage.suGalleryImage.url}
