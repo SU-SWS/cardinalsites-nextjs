@@ -6,6 +6,8 @@ import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3} from "../src/styles/fonts"
 import DrupalWindowSync from "@components/elements/drupal-window-sync"
 import UserAnalytics from "@components/elements/user-analytics"
+import localFont from "next/font/local"
+import clsx from "clsx"
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({
   url: `https://www-media.stanford.edu/assets/favicon/apple-touch-icon-${size}x${size}.png`,
@@ -41,12 +43,18 @@ export const metadata = {
   },
 }
 
+const stanford = localFont({
+  src: "../public/fonts/stanford.woff2",
+  weight: "300",
+  variable: "--font-stanford",
+})
+
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
 
 const RootLayout = ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
   return (
-    <html lang="en" className={sourceSans3.className}>
+    <html lang="en" className={clsx(sourceSans3.className, stanford.variable)}>
       <UserAnalytics />
       <DrupalWindowSync />
       <body>

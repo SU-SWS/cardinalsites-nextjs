@@ -13,9 +13,10 @@ const PageFooter = ({...props}: Props) => {
       <div className="bg-cardinal-red py-10 [&_a:hocus]:text-white [&_a]:text-white [&_a]:no-underline">
         <div className="centered lg:flex lg:items-start lg:gap-20">
           <div className="mb-10 text-center">
-            <a className="text-center font-stanford" href="https://www.stanford.edu">
-              <div className="text-[3.2rem]">Stanford</div>
-              <div>University</div>
+            <a className="logo type-3 text-white hocus:text-white" href="https://www.stanford.edu">
+              Stanford
+              <br />
+              University
             </a>
           </div>
           <div className="mx-auto lg:mx-0 [&_a:focus]:underline [&_a:hover]:underline">
