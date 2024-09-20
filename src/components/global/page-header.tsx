@@ -12,10 +12,7 @@ const PageHeader = ({...props}: Props) => {
     <header {...props} className={twMerge("shadow-lg", props.className)}>
       <div className="bg-cardinal-red">
         <div className="centered py-3">
-          <a
-            className="font-stanford text-20 font-regular leading-none text-white no-underline hocus:text-white hocus:underline"
-            href="https://www.stanford.edu"
-          >
+          <a className="logo text-white no-underline hocus:text-white hocus:underline" href="https://www.stanford.edu">
             Stanford University
           </a>
         </div>
