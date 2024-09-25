@@ -1,7 +1,7 @@
 import Link from "@components/elements/link"
 import {ChevronRightIcon} from "@heroicons/react/20/solid"
 import {HtmlHTMLAttributes} from "react"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
   /**

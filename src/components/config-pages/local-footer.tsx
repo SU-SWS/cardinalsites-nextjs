@@ -22,7 +22,7 @@ import FacebookIcon from "@components/elements/icons/FacebookIcon"
 import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d"
 import {buildUrl} from "@lib/drupal/utils"
 import {getConfigPage} from "@lib/gql/gql-queries"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLDivElement>
 

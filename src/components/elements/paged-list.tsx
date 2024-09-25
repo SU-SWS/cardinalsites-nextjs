@@ -7,7 +7,7 @@ import usePagination from "@lib/hooks/usePagination"
 import useFocusOnRender from "@lib/hooks/useFocusOnRender"
 import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/react/20/solid"
 import {ArrowPathIcon} from "@heroicons/react/16/solid"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import useServerAction from "@lib/hooks/useServerAction"
 import {clsx} from "clsx"
 

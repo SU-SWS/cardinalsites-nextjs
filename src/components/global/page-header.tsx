@@ -3,7 +3,7 @@ import MainMenu from "@components/menu/main-menu"
 import GlobalMessage from "@components/config-pages/global-message"
 import Lockup from "@components/elements/lockup/lockup"
 import {HTMLAttributes} from "react"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLElement>
 

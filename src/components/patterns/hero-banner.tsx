@@ -1,6 +1,6 @@
 import React, {ElementType, HtmlHTMLAttributes} from "react"
 import Image from "next/image"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import {Maybe} from "@lib/gql/__generated__/drupal"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 

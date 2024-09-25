@@ -2,7 +2,7 @@ import Link from "@components/elements/link"
 import {clsx} from "clsx"
 import {MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d"
 import {HTMLAttributes} from "react"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLElement> & {
   /**

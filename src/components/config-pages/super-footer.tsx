@@ -5,7 +5,7 @@ import {H2} from "@components/elements/headers"
 import {StanfordSuperFooter} from "@lib/gql/__generated__/drupal.d"
 import {getConfigPage} from "@lib/gql/gql-queries"
 import {HTMLAttributes} from "react"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLDivElement>
 

@@ -3,7 +3,7 @@
 import {HTMLAttributes, JSX, useEffect, useRef} from "react"
 import Slider, {CustomArrowProps, Settings} from "react-slick"
 import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/16/solid"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 
 export const NextArrow = ({className, onClick}: CustomArrowProps) => {

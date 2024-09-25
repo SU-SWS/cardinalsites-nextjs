@@ -4,7 +4,7 @@ import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import Link from "@components/elements/link"
 import Wysiwyg from "@components/elements/wysiwyg"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

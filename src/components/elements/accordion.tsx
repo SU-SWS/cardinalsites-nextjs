@@ -5,7 +5,7 @@ import {useBoolean} from "usehooks-ts"
 import {H2, H3, H4} from "@components/elements/headers"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
 import {clsx} from "clsx"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLElement> & {
   /**

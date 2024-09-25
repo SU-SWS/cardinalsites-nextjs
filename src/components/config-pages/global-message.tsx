@@ -5,7 +5,7 @@ import Link from "@components/elements/link"
 import {clsx} from "clsx"
 import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal.d"
 import {getConfigPage} from "@lib/gql/gql-queries"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 const GlobalMessage = async () => {
   const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage")

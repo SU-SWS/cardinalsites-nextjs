@@ -18,7 +18,7 @@ import {
 } from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import {ListParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

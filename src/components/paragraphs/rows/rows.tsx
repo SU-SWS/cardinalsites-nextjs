@@ -5,7 +5,7 @@ import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generat
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
 import {HTMLAttributes} from "react"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Layout = Record<
   string,

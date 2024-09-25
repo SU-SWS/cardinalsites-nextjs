@@ -3,7 +3,7 @@ import SideNav from "@components/menu/side-nav"
 import {HtmlHTMLAttributes} from "react"
 import {MenuAvailable} from "@lib/gql/__generated__/drupal.d"
 import {getMenuActiveTrail} from "@lib/drupal/utils"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**

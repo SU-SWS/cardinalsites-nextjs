@@ -1,7 +1,7 @@
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordSpacer} from "@lib/gql/__generated__/drupal.d"
 import {clsx} from "clsx"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSpacer

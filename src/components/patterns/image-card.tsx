@@ -1,4 +1,4 @@
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import {ElementType, HTMLAttributes} from "react"

@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "@components/elements/link"
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordPersonCtum} from "@lib/gql/__generated__/drupal.d"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPersonCtum

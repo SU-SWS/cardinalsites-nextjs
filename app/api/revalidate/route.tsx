@@ -1,9 +1,18 @@
 import {NextRequest, NextResponse} from "next/server"
-import {revalidateTag} from "next/cache"
-import {getMenu} from "@lib/gql/gql-queries"
+import {revalidateTag, unstable_cache as nextCache} from "next/cache"
+import {getEntityFromPath, getMenu} from "@lib/gql/gql-queries"
 import {getMenuActiveTrail} from "@lib/drupal/utils"
 
 export const revalidate = 0
+
+const getHomePagePath = nextCache(
+  async () => {
+    const {entity} = await getEntityFromPath("/")
+    return entity?.path
+  },
+  [],
+  {tags: ["paths:/"]}
+)
 
 export const GET = async (request: NextRequest) => {
   const secret = request.nextUrl.searchParams.get("secret")
@@ -22,6 +31,10 @@ export const GET = async (request: NextRequest) => {
 
   const menu = await getMenu()
   if (!!getMenuActiveTrail(menu, path).length) tagsInvalidated.push("menu:main")
+
+  // When the home page is saved, it's url slug might be like `/home`. If the home page matches the slug, invalidate
+  // the home page path.
+  if ((await getHomePagePath()) === path) tagsInvalidated.push("paths:/")
 
   tagsInvalidated.map(tag => revalidateTag(tag))
 

@@ -4,7 +4,7 @@ import {H3} from "@components/elements/headers"
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSchedule

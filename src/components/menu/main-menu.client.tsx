@@ -10,7 +10,7 @@ import {clsx} from "clsx"
 import {useBoolean, useEventListener} from "usehooks-ts"
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react"
 import {usePathname} from "next/navigation"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 const menuLevelsToShow = 2
 

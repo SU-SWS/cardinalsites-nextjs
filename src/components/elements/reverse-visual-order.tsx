@@ -1,4 +1,4 @@
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import {HTMLAttributes} from "react"
 
 const ReverseVisualOrder = ({children, ...props}: HTMLAttributes<HTMLDivElement>) => {

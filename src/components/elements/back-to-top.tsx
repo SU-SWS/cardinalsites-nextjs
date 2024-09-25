@@ -5,7 +5,7 @@ import {ChevronUpIcon} from "@heroicons/react/20/solid"
 import {useBoolean, useDebounceCallback, useEventListener} from "usehooks-ts"
 import {useCallback} from "react"
 import {clsx} from "clsx"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 const BackToTop = () => {
   const {value, setFalse, setTrue} = useBoolean(false)

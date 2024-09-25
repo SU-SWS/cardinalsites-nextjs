@@ -4,7 +4,7 @@ import {H2, H3, H4} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 import HeroBanner from "@components/patterns/hero-banner"
 import {BannerParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
 

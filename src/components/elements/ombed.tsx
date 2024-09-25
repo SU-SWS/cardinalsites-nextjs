@@ -4,7 +4,7 @@ import {SignalIcon} from "@heroicons/react/20/solid"
 import Embed from "react-tiny-oembed"
 import {HtmlHTMLAttributes} from "react"
 import {useIntersectionObserver} from "usehooks-ts"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**

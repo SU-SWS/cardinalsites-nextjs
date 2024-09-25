@@ -5,7 +5,7 @@ import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes} from "react"
 import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d"
 import Link from "@components/elements/link"
-import {twMerge} from "tailwind-merge"
+import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordGallery
