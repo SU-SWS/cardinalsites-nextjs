@@ -11,7 +11,8 @@ export const getImagePlaceholder = async (src: string): Promise<ReturnProps> => 
     const buffer = await fetch(src).then(async res => Buffer.from(await res.arrayBuffer()))
     const {base64: blurDataURL} = await getPlaiceholder(buffer, {size: 10})
     return {placeholder: "blur", blurDataURL}
-  } catch (e) {
+  } catch (err) {
+    console.warn(err instanceof Error ? err.message : "Unable to produce placeholder image: " + src)
     return {}
   }
 }

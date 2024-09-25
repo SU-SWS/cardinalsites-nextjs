@@ -3,6 +3,7 @@ import {twMerge} from "tailwind-merge"
 import {HtmlHTMLAttributes, MouseEventHandler} from "react"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import {clsx} from "clsx"
+import {LinkProps} from "next/dist/client/link"
 
 type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   /**
@@ -32,7 +33,7 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   /**
    * Next.js prefetch functionality.
    */
-  prefetch?: boolean
+  prefetch?: LinkProps["prefetch"]
   /**
    * Type of button: submit, reset, or button.
    */
