@@ -7,6 +7,7 @@ import ActionLink from "@components/elements/action-link"
 import Button from "@components/elements/button"
 import ImageCard from "@components/patterns/image-card"
 import {CardParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {clsx} from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordCard
@@ -21,8 +22,10 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
 
   const headerTagChoice = (behaviors.su_card_styles?.heading || "h2").split(".", 2)
   const headerTag = headerTagChoice[0]
-  let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-3 font-bold") || ""
-  if (behaviors.su_card_styles?.hide_heading) headerClasses += " sr-only"
+  const headerClasses = clsx(
+    headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-2 font-bold") || undefined,
+    {"sr-only": behaviors.su_card_styles?.hide_heading}
+  )
 
   return (
     <ImageCard

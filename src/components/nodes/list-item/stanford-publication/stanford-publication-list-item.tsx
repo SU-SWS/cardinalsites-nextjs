@@ -20,7 +20,7 @@ const StanfordPublicationListItem = ({node, headingLevel, ...props}: Props) => {
       className={twMerge("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
     >
       <ReverseVisualOrder>
-        <Heading className="type-3" id={node.id}>
+        <Heading id={node.id}>
           <Link href={citationUrl || node.path}>{node.title}</Link>
         </Heading>
         <div className="font-bold">Publication</div>

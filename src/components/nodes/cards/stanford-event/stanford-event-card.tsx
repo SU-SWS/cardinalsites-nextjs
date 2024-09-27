@@ -47,7 +47,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
       </div>
 
       <ReverseVisualOrder>
-        <Heading className="type-3 [&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
+        <Heading className="[&_a]:text-black [&_a]:hocus:text-digital-red" id={node.id}>
           <Link href={node.suEventSource?.url || node.path}>{node.title}</Link>
         </Heading>
 

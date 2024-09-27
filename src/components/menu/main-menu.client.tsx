@@ -83,7 +83,7 @@ const MainMenuClient = ({menuItems}: Props) => {
             )}
           />
         </span>
-        <span className="group-hocus:underline" aria-hidden>
+        <span className="group-hocus-visible:underline" aria-hidden>
           {menuOpen ? "Close" : "Menu"}
         </span>
       </button>
@@ -149,7 +149,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
   const inTrail = activeTrail.includes(id) && !isCurrent
 
   const linkStyles = twMerge(
-    "w-full relative inline-block text-white lg:text-digital-red hocus:text-white lg:hocus:text-black no-underline hocus:underline py-5 lg:pl-0 border-l-[6px]",
+    "w-full relative inline-block text-white lg:text-digital-red hocus-visible:text-white lg:hocus-visible:text-black no-underline hocus-visible:underline py-5 lg:pl-0 border-l-[6px]",
     clsx(
       {
         "pl-10": level === 0,
@@ -208,7 +208,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
             {level === 0 && <div className="mb-[6px] ml-5 block h-[25px] w-[1px] shrink-0 bg-archway-light" />}
             <button
               ref={buttonRef}
-              className="group relative right-10 shrink-0 rounded-full border-b border-transparent bg-digital-red text-white hocus:border-black hocus:bg-white lg:right-0 lg:rounded-none lg:bg-transparent lg:text-digital-red"
+              className="group relative right-10 shrink-0 rounded-full border-b border-transparent bg-digital-red text-white hocus-visible:border-black hocus-visible:bg-white lg:right-0 lg:rounded-none lg:bg-transparent lg:text-digital-red"
               onClick={toggleSubmenu}
               aria-expanded={submenuOpen}
               aria-labelledby={linkId}
@@ -216,7 +216,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
               <ChevronDownIcon
                 height={35}
                 className={twMerge(
-                  "transition duration-150 ease-in-out group-hocus:scale-125 group-hocus:text-black",
+                  "transition duration-150 ease-in-out group-hocus-visible:scale-125 group-hocus-visible:text-black",
                   clsx({
                     "rotate-180": submenuOpen,
                   })

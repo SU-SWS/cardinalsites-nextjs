@@ -15,7 +15,7 @@ const StanfordCourseCard = ({node, headingLevel, ...props}: Props) => {
   return (
     <ImageCard {...props} aria-labelledby={node.id} isArticle>
       <ReverseVisualOrder>
-        <Heading className="type-3" id={node.id}>
+        <Heading id={node.id}>
           <Link href={node.path}>{node.title}</Link>
         </Heading>
 

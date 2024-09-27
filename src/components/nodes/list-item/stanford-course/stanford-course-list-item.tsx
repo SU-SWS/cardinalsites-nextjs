@@ -20,7 +20,7 @@ const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
   return (
     <article {...props} aria-labelledby={node.id}>
       <ReverseVisualOrder>
-        <Heading className="type-3" id={node.id}>
+        <Heading id={node.id}>
           <Link href={node.path}>{node.title}</Link>
         </Heading>
 
