@@ -42,7 +42,7 @@ export const Lockup = async () => {
             <div className="mr-2 border-black pr-2 lg:inline-block lg:border-r">
               <LockupLogo {...lockupProps} />
             </div>
-            <div className="type-3 font-normal text-black lg:inline-block">{siteName || "University"}</div>
+            <div className="type-2 font-normal text-black lg:inline-block">{siteName || "University"}</div>
           </div>
         </Link>
       </div>
