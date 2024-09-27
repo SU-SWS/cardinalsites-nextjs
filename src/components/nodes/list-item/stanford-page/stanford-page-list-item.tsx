@@ -20,7 +20,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
 
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
-    <article {...props} aria-labelledby={node.id} className={twMerge("py-10 @container", props.className)}>
+    <article {...props} aria-labelledby={node.id} className={twMerge("@container", props.className)}>
       <div className="flex flex-col justify-between gap-20 @4xl:flex-row" {...props}>
         <div className="order-2 @4xl:order-1">
           <Heading id={node.id}>

@@ -10,6 +10,8 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
 export const dynamic = "force-static"
+// https://vercel.com/docs/functions/runtimes#max-duration
+export const maxDuration = 30
 
 const Home = async () => {
   const {entity, error} = await getEntityFromPath<NodeStanfordPage>("/", isPreviewMode())

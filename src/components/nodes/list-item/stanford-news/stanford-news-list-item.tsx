@@ -28,10 +28,10 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
 
   return (
     <article {...props} aria-labelledby={node.id} className={twMerge("@container", props.className)}>
-      <div className="flex w-full flex-col justify-between py-10 @3xl:flex-row">
+      <div className="flex w-full flex-col justify-between @3xl:flex-row">
         <div className="order-2 @3xl:order-1">
           <ReverseVisualOrder className="gap-10">
-            <Heading className="type-3 font-bold" id={node.id}>
+            <Heading className="font-bold" id={node.id}>
               <Link
                 href={node.suNewsSource?.url || node.path}
                 className="order-2 text-digital-red no-underline hocus:text-black hocus:underline"
