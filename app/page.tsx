@@ -14,9 +14,7 @@ export const dynamic = "force-static"
 export const maxDuration = 30
 
 const Home = async () => {
-  const {entity, error} = await getEntityFromPath<NodeStanfordPage>("/", isPreviewMode())
-
-  if (error) throw error
+  const {entity} = await getEntityFromPath<NodeStanfordPage>("/", isPreviewMode())
   if (!entity) notFound()
 
   return (

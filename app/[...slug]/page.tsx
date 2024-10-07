@@ -14,10 +14,9 @@ export const maxDuration = 60
 
 const Page = async ({params}: PageProps) => {
   const path = getPathFromContext({params})
-  const {redirect: redirectPath, entity, error} = await getEntityFromPath<NodeUnion>(path)
+  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path)
 
-  if (error) throw error
-  if (redirectPath?.url) redirect(redirectPath.url)
+  if (redirectPath) redirect(redirectPath)
   if (!entity) notFound()
 
   return <NodePage node={entity} />

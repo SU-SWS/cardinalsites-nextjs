@@ -14,6 +14,10 @@ import {
 import {cache} from "react"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {unstable_cache as nextCache} from "next/cache"
+import {ClientError} from "graphql-request"
+import {GraphQLError} from "graphql/error"
+
+type DrupalGraphqlError = GraphQLError & {debugMessage: string}
 
 export const getEntityFromPath = cache(
   async <T extends NodeUnion | TermUnion>(
@@ -21,8 +25,7 @@ export const getEntityFromPath = cache(
     previewMode?: boolean
   ): Promise<{
     entity?: T
-    redirect?: RouteRedirect
-    error?: string
+    redirect?: RouteRedirect["url"]
   }> => {
     "use server"
 
@@ -37,14 +40,20 @@ export const getEntityFromPath = cache(
         try {
           query = await graphqlClient({cache: "no-cache"}, previewMode).Route({path})
         } catch (e) {
-          console.warn(e instanceof Error ? e.message : "An error occurred")
-          return {entity: undefined, redirect: undefined, error: e instanceof Error ? e.message : "An error occurred"}
+          if (e instanceof ClientError) {
+            // @ts-ignore
+            const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage)
+            console.warn([...new Set(messages)].join(" "))
+          } else {
+            console.warn(e instanceof Error ? e.message : "An error occurred")
+          }
+          return {}
         }
 
-        if (query.route?.__typename === "RouteRedirect") return {redirect: query.route, entity: undefined}
+        if (query.route?.__typename === "RouteRedirect") return {redirect: query.route.url}
         entity =
           query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
-        return {entity, redirect: undefined, error: undefined}
+        return {entity}
       },
       ["entities", path, previewMode ? "preview" : "anonymous"],
       {tags: ["all-entities", `paths:${path}`]}
@@ -150,7 +159,7 @@ export const getAllNodes = nextCache(
     return nodes
   }),
   ["all-nodes"],
-  {revalidate: 60 * 60 * 7, tags: ["all-entities"]}
+  {revalidate: 25200, tags: ["all-entities"]}
 )
 
 /**

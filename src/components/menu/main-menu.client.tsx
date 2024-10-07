@@ -194,7 +194,7 @@ const MenuItem = ({id, url, title, activeTrail, children, level}: MenuItemProps)
     <li
       ref={menuItemRef}
       className={twMerge(
-        "relative m-0 border-b border-cool-grey py-2 first:border-t last:border-0 lg:relative lg:mr-5 lg:border-black-20 lg:py-0 last:lg:mr-0",
+        "relative m-0 border-b border-cool-grey py-2 first:border-t last:border-0 lg:relative lg:border-black-20 lg:py-0 lg:pr-5 lg:first:border-t-0 last:lg:pr-0",
         clsx({"first:border-t-0 lg:border-b-0": level === 0})
       )}
     >

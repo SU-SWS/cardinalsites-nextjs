@@ -8,9 +8,8 @@ import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
 const PreviewPage = async ({params}: PageProps) => {
   if (!isPreviewMode()) notFound()
-  const {entity, error} = await getEntityFromPath<NodeUnion>(getPathFromContext({params}), true)
+  const {entity} = await getEntityFromPath<NodeUnion>(getPathFromContext({params}), true)
 
-  if (error) throw error
   if (!entity) notFound()
 
   return (

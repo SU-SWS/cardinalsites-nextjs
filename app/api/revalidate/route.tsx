@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from "next/server"
 import {revalidateTag, unstable_cache as nextCache} from "next/cache"
-import {getEntityFromPath, getMenu} from "@lib/gql/gql-queries"
-import {getMenuActiveTrail} from "@lib/drupal/utils"
+import {getEntityFromPath} from "@lib/gql/gql-queries"
 
 export const revalidate = 0
 
@@ -22,15 +21,12 @@ export const GET = async (request: NextRequest) => {
   let path = request.nextUrl.searchParams.get("slug")
   if (!path || path.startsWith("/node/")) return NextResponse.json({message: "Invalid slug"}, {status: 400})
 
-  const tagsInvalidated = ["paths", `paths:${path}`]
+  const tagsInvalidated = path.includes("/tags/") ? [] : [`paths:${path}`]
   if (path.startsWith("/tags/"))
     path
       .substring(6)
       .split("/")
       .map(tag => tagsInvalidated.push(tag))
-
-  const menu = await getMenu()
-  if (!!getMenuActiveTrail(menu, path).length) tagsInvalidated.push("menu:main")
 
   // When the home page is saved, it's url slug might be like `/home`. If the home page matches the slug, invalidate
   // the home page path.
