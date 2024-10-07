@@ -1,12 +1,10 @@
 import "../src/styles/index.css"
-import BackToTop from "@components/elements/back-to-top"
-import PageFooter from "@components/global/page-footer"
-import PageHeader from "@components/global/page-header"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3, stanford} from "../src/styles/typography/fonts"
 import DrupalWindowSync from "@components/elements/drupal-window-sync"
 import UserAnalytics from "@components/elements/user-analytics"
 import {twJoin} from "tailwind-merge"
+import GlobalPage from "@components/layouts/global-page"
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({
   url: `https://www-media.stanford.edu/assets/favicon/apple-touch-icon-${size}x${size}.png`,
@@ -56,18 +54,7 @@ const RootLayout = ({children, modal}: {children: React.ReactNode; modal: React.
             Skip to main content
           </a>
         </nav>
-
-        <div className="flex min-h-screen flex-col">
-          <PageHeader />
-
-          <main id="main-content" className="mb-32 flex-grow">
-            {children}
-          </main>
-
-          <BackToTop />
-
-          <PageFooter />
-        </div>
+        <GlobalPage>{children}</GlobalPage>
         {modal}
       </body>
     </html>

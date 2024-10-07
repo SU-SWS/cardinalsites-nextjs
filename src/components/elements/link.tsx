@@ -3,17 +3,17 @@ import Link from "next/link"
 import {EnvelopeIcon} from "@heroicons/react/24/outline"
 import ActionLink from "@components/elements/action-link"
 import Button from "@components/elements/button"
-import {LinkProps} from "next/dist/client/link"
+import {LinkProps as NextLinkProps} from "next/dist/client/link"
 
-type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> &
-  LinkProps & {
+export type LinkProps = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> &
+  NextLinkProps & {
     /**
      * Link URL.
      */
     href: string
   }
 
-const DrupalLink = ({href, className, children, ...props}: Props) => {
+const DrupalLink = ({href, className, children, ...props}: LinkProps) => {
   // Make sure all links have a href.
   href = href || "#"
   const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || "").replace(/\/$/, "")
