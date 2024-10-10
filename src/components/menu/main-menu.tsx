@@ -44,13 +44,14 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
             id={id}
             href={url || "#"}
             className={twMerge(
-              "flex-grow border-l-[6px] py-5 text-white no-underline transition-all hocus:text-white hocus-visible:border-white hocus-visible:underline lg:text-digital-red lg:hocus:text-black",
+              "flex-grow border-l-[6px] border-transparent py-5 text-white no-underline transition-all hocus:text-white hocus-visible:border-white hocus-visible:underline lg:text-digital-red lg:hocus:text-black",
               clsx({
-                "ml-5 pl-10 lg:ml-0 lg:border-b-[6px] lg:border-l-0 lg:pb-2 lg:pl-0": level === 0,
-                "pl-20 lg:pl-5": level === 1,
-                "pl-28 lg:pl-10": level === 2,
-                "pl-48 lg:pl-20": level === 3,
-                "ml-5 lg:ml-0": level !== 0,
+                "ml-5 pl-10 aria-current-page:border-digital-red data-intrail:border-transparent lg:ml-0 lg:border-b-[6px] lg:border-l-0 lg:pb-2 lg:pl-0 lg:aria-current-page:border-black lg:data-intrail:border-foggy-dark":
+                  level === 0,
+                "pl-20 aria-current-page:border-digital-red lg:pl-5 lg:hocus-visible:border-black-true": level === 1,
+                "pl-28 aria-current-page:border-digital-red lg:pl-10 lg:hocus-visible:border-black-true": level === 2,
+                "pl-48 aria-current-page:border-digital-red lg:pl-20 lg:hocus-visible:border-black-true": level === 3,
+                "ml-5 aria-current-page:border-digital-red lg:ml-0 lg:hocus-visible:border-black-true": level !== 0,
               })
             )}
           >

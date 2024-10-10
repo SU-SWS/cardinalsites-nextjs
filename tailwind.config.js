@@ -27,6 +27,13 @@ module.exports = {
     screens: decanter.theme.screens,
     extend: {
       ...decanter.theme.extend,
+      aria: {
+        current: "current='true'",
+        "current-page": "current='page'"
+      },
+      data: {
+        intrail: "intrail='true'",
+      },
       screens: {
         "3xl": "1600px",
       },

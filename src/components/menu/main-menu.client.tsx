@@ -152,26 +152,13 @@ type LinkItemProps = LinkProps & {
 export const MainMenuItemClientLink = ({href, children, level, ...props}: LinkItemProps) => {
   const currentPath = usePathname()
   const isCurrent = href === currentPath
-  const inTrail = !isCurrent && currentPath.includes(href)
+
   return (
     <Link
       {...props}
       href={href}
-      className={twMerge(
-        props.className,
-        clsx(
-          {
-            "border-digital-red lg:border-black": level === 0 && isCurrent,
-            "border-transparent lg:border-foggy-dark": level === 0 && !isCurrent && inTrail,
-            "border-transparent": level === 0 && !isCurrent && !inTrail,
-          },
-          {
-            "border-digital-red": level !== 0 && isCurrent,
-            "border-transparent": level !== 0 && !isCurrent,
-          }
-        )
-      )}
-      aria-current={isCurrent ? "true" : undefined}
+      data-intrail={!isCurrent && currentPath.includes(href)}
+      aria-current={isCurrent ? "page" : undefined}
     >
       {children}
     </Link>
