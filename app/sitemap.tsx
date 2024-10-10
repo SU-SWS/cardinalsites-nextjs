@@ -2,7 +2,7 @@ import {MetadataRoute} from "next"
 import {getAllNodes} from "@lib/gql/gql-queries"
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-export const revalidate = 25200
+export const revalidate = 604800
 export const dynamic = "force-static"
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {

@@ -18,7 +18,7 @@ const Editori11y = () => {
   }
 
   useEffect(() => {
-    fetch("/api/draft/disable", {cache: "no-store"})
+    fetch("/api/draft/disable", {cache: "no-cache"})
   }, [])
 
   return (
