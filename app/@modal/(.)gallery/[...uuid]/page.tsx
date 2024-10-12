@@ -88,4 +88,9 @@ const Page = async ({params: {uuid}}: Props) => {
     </InterceptionModal>
   )
 }
+
+export const generateStaticParams = async (): Promise<Array<Props["params"]>> => {
+  return []
+}
+
 export default Page

@@ -51,4 +51,8 @@ const Page = async ({params: {uuid}}: Props) => {
   )
 }
 
+export const generateStaticParams = async (): Promise<Array<Props["params"]>> => {
+  return []
+}
+
 export default Page

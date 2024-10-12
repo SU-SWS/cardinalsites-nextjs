@@ -20,4 +20,8 @@ const PreviewPage = async ({params}: PageProps) => {
   )
 }
 
+export const generateStaticParams = async (): Promise<PageProps["params"][]> => {
+  return []
+}
+
 export default PreviewPage
