@@ -18,7 +18,7 @@ const UserAnalytics = async () => {
   return (
     <>
       <Script async src="https://siteimproveanalytics.com/js/siteanalyze_80352.js" />
-      {ga4 && <GoogleAnalytics gaId={ga4} />}
+      {ga4 && ga4.split(",").map(ga4ID => <GoogleAnalytics key={ga4ID} gaId={ga4ID.trim()} />)}
       {gtm && <GoogleTagManager gtmId={gtm} />}
     </>
   )

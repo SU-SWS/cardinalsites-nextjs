@@ -75,7 +75,7 @@ export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLU
       </button>
       <div
         className={twMerge(
-          "top-100 absolute z-10 hidden w-full bg-black lg:relative lg:block lg:bg-transparent",
+          "top-100 absolute z-20 hidden w-full bg-black lg:relative lg:block lg:bg-transparent",
           clsx({block: menuOpen})
         )}
       >
