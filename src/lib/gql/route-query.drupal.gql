@@ -1,5 +1,5 @@
 # Query based on the url path string to find the entity that matches. Return the redirect or the entity.
-query Route($path: String!) {
+query Route($path: String!, $teaser: Boolean = false) {
     route(path: $path) {
         __typename
         ... on RouteRedirect {
@@ -10,8 +10,8 @@ query Route($path: String!) {
         }
         ... on RouteInternal {
             entity {
-                ...FragmentNodeUnion
-                ...FragmentTermInterface
+                ...FragmentNodeUnion @skip(if: $teaser)
+                ...FragmentNodeTeaserUnion @include(if: $teaser)
             }
         }
     }

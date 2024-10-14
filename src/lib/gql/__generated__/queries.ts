@@ -684,6 +684,42 @@ export const FragmentNodeStanfordPolicyFragmentDoc = gql`
   suPolicyUpdated {
     ...FragmentDateTime
   }
+  book {
+    id
+    title
+    url
+    expanded
+    children {
+      id
+      title
+      url
+      expanded
+      children {
+        id
+        title
+        url
+        expanded
+        children {
+          id
+          title
+          url
+          expanded
+          children {
+            id
+            title
+            url
+            expanded
+            children {
+              id
+              title
+              url
+              expanded
+            }
+          }
+        }
+      }
+    }
+  }
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentTextSummaryFragmentDoc}
@@ -804,9 +840,13 @@ export const FragmentNodeStanfordPolicyTeaserFragmentDoc = gql`
   body {
     ...FragmentTextSummary
   }
+  suPolicyUpdated {
+    ...FragmentDateTime
+  }
 }
     ${FragmentNodeInterfaceFragmentDoc}
-${FragmentTextSummaryFragmentDoc}`;
+${FragmentTextSummaryFragmentDoc}
+${FragmentDateTimeFragmentDoc}`;
 export const FragmentNodeStanfordPublicationTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordPublicationTeaser on NodeStanfordPublication {
   ...FragmentNodeInterface
@@ -1260,7 +1300,7 @@ export const MenuDocument = gql`
 }
     ${FragmentMenuLinkFragmentDoc}`;
 export const RouteDocument = gql`
-    query Route($path: String!) {
+    query Route($path: String!, $teaser: Boolean = false) {
   route(path: $path) {
     __typename
     ... on RouteRedirect {
@@ -1271,14 +1311,14 @@ export const RouteDocument = gql`
     }
     ... on RouteInternal {
       entity {
-        ...FragmentNodeUnion
-        ...FragmentTermInterface
+        ...FragmentNodeUnion @skip(if: $teaser)
+        ...FragmentNodeTeaserUnion @include(if: $teaser)
       }
     }
   }
 }
     ${FragmentNodeUnionFragmentDoc}
-${FragmentTermInterfaceFragmentDoc}`;
+${FragmentNodeTeaserUnionFragmentDoc}`;
 export const RedirectsDocument = gql`
     query Redirects($first: Int = 1000, $after: Cursor) {
   redirects(first: $first, after: $after) {

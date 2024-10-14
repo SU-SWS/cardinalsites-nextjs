@@ -9,7 +9,6 @@ import {
   RouteQuery,
   RouteRedirect,
   StanfordBasicSiteSetting,
-  TermUnion,
 } from "@lib/gql/__generated__/drupal.d"
 import {cache} from "react"
 import {graphqlClient} from "@lib/gql/gql-client"
@@ -20,9 +19,10 @@ import {GraphQLError} from "graphql/error"
 type DrupalGraphqlError = GraphQLError & {debugMessage: string}
 
 export const getEntityFromPath = cache(
-  async <T extends NodeUnion | TermUnion>(
+  async <T extends NodeUnion>(
     path: string,
-    previewMode?: boolean
+    previewMode?: boolean,
+    teaser?: boolean
   ): Promise<{
     entity?: T
     redirect?: RouteRedirect["url"]
@@ -38,11 +38,14 @@ export const getEntityFromPath = cache(
         if (path.startsWith("/node/")) return {}
 
         try {
-          query = await graphqlClient({cache: "no-cache"}, previewMode).Route({path})
+          query = await graphqlClient({cache: "no-cache"}, previewMode).Route({
+            path,
+            teaser: !!teaser,
+          })
         } catch (e) {
           if (e instanceof ClientError) {
             // @ts-ignore
-            const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage)
+            const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage || error.message)
             console.warn([...new Set(messages)].join(" "))
           } else {
             console.warn(e instanceof Error ? e.message : "An error occurred")
@@ -55,7 +58,7 @@ export const getEntityFromPath = cache(
           query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
         return {entity}
       },
-      ["entities", path, previewMode ? "preview" : "anonymous"],
+      [path, previewMode ? "preview" : "anonymous", teaser ? "teaser" : "full"],
       {tags: ["all-entities", `paths:${path}`]}
     )
 

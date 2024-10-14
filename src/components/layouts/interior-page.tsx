@@ -1,7 +1,7 @@
 import {getMenu} from "@lib/gql/gql-queries"
 import SideNav from "@components/menu/side-nav"
 import {HtmlHTMLAttributes} from "react"
-import {MenuAvailable} from "@lib/gql/__generated__/drupal.d"
+import {BookLink, MenuAvailable, MenuItem} from "@lib/gql/__generated__/drupal.d"
 import {getMenuActiveTrail} from "@lib/drupal/utils"
 import twMerge from "@lib/utils/twMerge"
 
@@ -10,10 +10,11 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
    * Current url path.
    */
   currentPath: string
+  menuItems?: MenuItem[] | BookLink[]
 }
 
-const InteriorPage = async ({children, currentPath, ...props}: Props) => {
-  const menu = await getMenu(MenuAvailable.Main, 4)
+const InteriorPage = async ({children, currentPath, menuItems, ...props}: Props) => {
+  const menu = menuItems || (await getMenu(MenuAvailable.Main, 4))
   const activeTrail: string[] = getMenuActiveTrail(menu, currentPath)
 
   // Peel off the menu items from the parent.

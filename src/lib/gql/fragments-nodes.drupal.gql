@@ -236,6 +236,42 @@ fragment FragmentNodeStanfordPolicy on NodeStanfordPolicy {
     suPolicyUpdated {
         ...FragmentDateTime
     }
+    book {
+        id
+        title
+        url
+        expanded
+        children {
+            id
+            title
+            url
+            expanded
+            children {
+                id
+                title
+                url
+                expanded
+                children {
+                    id
+                    title
+                    url
+                    expanded
+                    children {
+                        id
+                        title
+                        url
+                        expanded
+                        children {
+                            id
+                            title
+                            url
+                            expanded
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 fragment FragmentNodeStanfordPublication on NodeStanfordPublication {
@@ -345,6 +381,9 @@ fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {
     ...FragmentNodeInterface
     body {
         ...FragmentTextSummary
+    }
+    suPolicyUpdated {
+        ...FragmentDateTime
     }
 }
 

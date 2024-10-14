@@ -61,7 +61,7 @@ const options: HTMLReactParserOptions = {
           return cleanMediaMarkup(domNode)
 
         case "p":
-          nodeProps.className = twMerge(nodeProps.className, "max-w-[100ch] leading-[1.7] text-21")
+          nodeProps.className = twMerge("max-w-[100ch] leading-[1.7] text-21", nodeProps.className)
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case "script":
@@ -138,11 +138,11 @@ const fixClasses = (classes?: string | boolean): string => {
     .replaceAll(" font-splash ", " splash-text type-5 ")
     .replaceAll(" callout-text ", " font-bold type-3 ")
     .replaceAll(" related-text ", " shadow-lg border border-black-20 p-16 ")
+    .replaceAll(" intro-text ", " type-2 ")
     .replaceAll(
       " drop-cap ",
       " type-2 first-letter:font-bold first-letter:type-7 first-letter:float-left first-letter:my-2 first-letter:mr-4 "
     )
-    .replaceAll(" intro-text ", " type-3 ")
     .replace(/ tablesaw.*? /g, " ")
     .replace(/ +/g, " ")
     .trim()

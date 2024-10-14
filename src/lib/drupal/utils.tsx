@@ -1,5 +1,5 @@
 import {stringify} from "qs"
-import {TermUnion, MenuItem} from "@lib/gql/__generated__/drupal.d"
+import {TermUnion, MenuItem, BookLink} from "@lib/gql/__generated__/drupal.d"
 
 export const buildUrl = (path: string, params?: string | Record<string, string> | URLSearchParams): URL => {
   const url = new URL(path.charAt(0) === "/" ? `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${path}` : path)
@@ -57,8 +57,8 @@ export const buildTaxonomyTree = <T extends TermUnion>(terms: T[], parent: T["id
  * @return
  *   Active trail menu item ids.
  */
-export const getMenuActiveTrail = (menuItems: MenuItem[], currentPath?: string): string[] => {
-  const getActiveTrail = (menuItems: MenuItem[], trail: string[] = []): string[] => {
+export const getMenuActiveTrail = (menuItems: MenuItem[] | BookLink[], currentPath?: string): string[] => {
+  const getActiveTrail = (menuItems: MenuItem[] | BookLink[], trail: string[] = []): string[] => {
     let childTrail, currentTrail
     for (let i = 0; i < menuItems.length; i++) {
       currentTrail = [...trail]

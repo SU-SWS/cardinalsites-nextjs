@@ -68,7 +68,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 }
 
 const EntityCard = async ({path, headingLevel}: {path: string; headingLevel: "h3" | "h2"}) => {
-  const queryResponse = await getEntityFromPath<NodeUnion>(path)
+  const queryResponse = await getEntityFromPath<NodeUnion>(path, false, true)
   if (!queryResponse.entity) return
   return <NodeCard node={queryResponse.entity} headingLevel={headingLevel} />
 }
