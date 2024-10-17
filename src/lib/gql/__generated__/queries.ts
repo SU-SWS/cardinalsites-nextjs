@@ -478,6 +478,7 @@ export const FragmentNodeStanfordEventTeaserFragmentDoc = gql`
   suEventAltLoc
   suEventSubheadline
   suEventDek
+  suEventAltLoc
   suEventLocation {
     ...FragmentAddressType
   }
@@ -789,6 +790,14 @@ export const FragmentNodeStanfordCourseTeaserFragmentDoc = gql`
     ...FragmentTermInterface
   }
   suCourseAcademicYear
+  suCourseCode
+  suCourseQuarters {
+    ...FragmentTermInterface
+  }
+  suCourseInstructors
+  body {
+    processed
+  }
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
@@ -813,7 +822,6 @@ export const FragmentNodeStanfordNewsTeaserFragmentDoc = gql`
   }
   suNewsSource {
     url
-    title
   }
 }
     ${FragmentNodeInterfaceFragmentDoc}
@@ -828,12 +836,17 @@ export const FragmentNodeStanfordPageTeaserFragmentDoc = gql`
     ...FragmentMediaImage
   }
   suPageBanner {
-    ...FragmentParagraphStanfordBanner
+    ... on ParagraphStanfordBanner {
+      suBannerImage {
+        ...FragmentMediaImage
+      }
+    }
+    ...FragmentParagraphStanfordPageTitleBanner
   }
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentMediaImageFragmentDoc}
-${FragmentParagraphStanfordBannerFragmentDoc}`;
+${FragmentParagraphStanfordPageTitleBannerFragmentDoc}`;
 export const FragmentNodeStanfordPolicyTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordPolicyTeaser on NodeStanfordPolicy {
   ...FragmentNodeInterface

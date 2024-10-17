@@ -37,7 +37,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
 
       {node.suNewsDek && <div>{node.suNewsDek}</div>}
 
-      {topics && <div>{topics.map(topic => topic.name).join(", ")}</div>}
+      {!!topics.length && <div>{topics.map(topic => topic.name).join(", ")}</div>}
     </ImageCard>
   )
 }

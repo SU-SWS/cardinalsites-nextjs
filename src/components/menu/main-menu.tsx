@@ -34,8 +34,8 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
       id={id}
       level={level}
       className={twMerge(
-        "relative m-0 grid grid-cols-4-1 flex-wrap items-center justify-between border-b border-cool-grey py-2 first:border-t last:border-0 lg:relative lg:flex lg:border-black-20 lg:py-0 lg:pr-5 last:lg:pr-0",
-        clsx({"first:border-t-0 lg:border-b-0": level === 0, "lg:first:border-t-0": level === 1})
+        "relative m-0 grid grid-cols-10 items-center justify-between border-b border-cool-grey py-2 first:border-t last:border-0 lg:relative lg:border-black-20 lg:py-0 lg:pr-5 last:lg:pr-0",
+        clsx({"first:border-t-0 lg:flex lg:border-b-0": level === 0, "lg:first:border-t-0": level === 1})
       )}
       link={
         <>
@@ -44,7 +44,7 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
             id={id}
             href={url || "#"}
             className={twMerge(
-              "flex-grow border-l-[6px] border-transparent py-5 text-white no-underline transition-all hocus:text-white hocus-visible:border-white hocus-visible:underline lg:text-digital-red lg:hocus:text-black",
+              "col-span-9 flex-grow border-l-[6px] border-transparent py-5 text-white no-underline transition-all hocus:text-white hocus-visible:border-white hocus-visible:underline lg:text-digital-red lg:hocus:text-black",
               clsx({
                 "ml-5 pl-10 aria-current-page:border-digital-red data-intrail:border-transparent lg:ml-0 lg:border-b-[6px] lg:border-l-0 lg:pb-2 lg:pl-0 lg:aria-current-page:border-black lg:data-intrail:border-foggy-dark":
                   level === 0,
@@ -64,7 +64,7 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
       {children.length > 0 && (
         <ul
           className={twMerge(
-            "list-unstyled col-span-2 w-full min-w-[300px] px-0 lg:bg-white",
+            "list-unstyled col-span-10 w-full min-w-[300px] px-0 lg:bg-white",
             clsx({
               "lg:absolute lg:left-0 lg:right-full lg:top-full lg:shadow-2xl": level === 0,
               "lg:top-0": level !== 0,

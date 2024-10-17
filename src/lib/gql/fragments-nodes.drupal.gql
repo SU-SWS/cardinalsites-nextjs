@@ -312,6 +312,14 @@ fragment FragmentNodeStanfordCourseTeaser on NodeStanfordCourse {
         ...FragmentTermInterface
     }
     suCourseAcademicYear
+    suCourseCode
+    suCourseQuarters {
+        ...FragmentTermInterface
+    }
+    suCourseInstructors
+    body {
+        processed
+    }
 }
 
 fragment FragmentNodeStanfordEventTeaser on NodeStanfordEvent {
@@ -319,6 +327,7 @@ fragment FragmentNodeStanfordEventTeaser on NodeStanfordEvent {
     suEventAltLoc
     suEventSubheadline
     suEventDek
+    suEventAltLoc
     suEventLocation {
         ...FragmentAddressType
     }
@@ -353,7 +362,6 @@ fragment FragmentNodeStanfordNewsTeaser on NodeStanfordNews {
     }
     suNewsSource {
         url
-        title
     }
 }
 
@@ -364,7 +372,12 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
         ...FragmentMediaImage
     }
     suPageBanner {
-        ...FragmentParagraphStanfordBanner
+        ... on ParagraphStanfordBanner {
+            suBannerImage {
+                ...FragmentMediaImage
+            }
+        }
+        ...FragmentParagraphStanfordPageTitleBanner
     }
 }
 

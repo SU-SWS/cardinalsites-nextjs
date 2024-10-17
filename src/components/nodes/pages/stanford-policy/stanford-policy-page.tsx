@@ -173,7 +173,7 @@ const ChildTeaser = async ({path}: {path: Maybe<string> | undefined}) => {
 }
 
 const RelatedPolicy = async ({path}: {path: string}) => {
-  const queryResponse = await getEntityFromPath<NodeStanfordPolicy>(path)
+  const queryResponse = await getEntityFromPath<NodeStanfordPolicy>(path, false, true)
   if (!queryResponse.entity) return
   return <StanfordPolicyCard node={queryResponse.entity} headingLevel="h3" />
 }
