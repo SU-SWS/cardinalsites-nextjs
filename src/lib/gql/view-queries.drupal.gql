@@ -92,3 +92,15 @@ query stanfordSharedTags($contextualFilters: StanfordSharedTagsContextualFilterI
         }
     }
 }
+
+query search($filter: SearchFilterInput = {key: ""}, $pageSize: Int = 3, $page: Int $offset: Int) {
+    search(filter: $filter, pageSize: $pageSize, page: $page, offset: $offset) {
+        results {
+            ...FragmentNodeTeaserUnion
+        }
+        pageInfo {
+            ...FragmentViewPageInfo
+        }
+    }
+}
+

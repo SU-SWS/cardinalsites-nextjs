@@ -50,15 +50,28 @@ const PagedList = ({
 }: Props) => {
   const ref = useRef(false)
   const [items, setItems] = useState<JSX.Element[]>(Array.isArray(children) ? children : [children])
-  const [runAction, isRunning] = useServerAction<[number], JSX.Element>(loadPage)
-
   const router = useRouter()
   const searchParams = useSearchParams()
 
   // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
   // outside the range, fix the value, so it works as expected.
-  const {count: currentPage, setCount: setPage} = useCounter(1)
+  const {count: currentPage, setCount: setPage} = useCounter(parseInt(pageKey ? searchParams.get(pageKey) || "1" : "1"))
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
+
+  const afterAction = useCallback(() => {
+    if (!pageKey) return
+
+    // Use search params to retain any other parameters.
+    const params = new URLSearchParams(searchParams.toString())
+    if (params.get(pageKey) === currentPage.toString() || (params.get(pageKey) === null && currentPage === 1)) return
+
+    params.delete(pageKey)
+    currentPage > 1 && params.set(pageKey, `${currentPage}`)
+
+    router.replace(`?${params.toString()}${window.location.hash || ""}`, {scroll: false})
+  }, [currentPage, pageKey, router, searchParams])
+
+  const [runAction, isRunning] = useServerAction<[number], JSX.Element>(loadPage, afterAction)
 
   const focusItemRef = useRef<HTMLLIElement>(null)
 
@@ -87,17 +100,6 @@ const PagedList = ({
   useLayoutEffect(() => {
     if (focusOnElement) setFocusOnItem()
   }, [focusOnElement, setFocusOnItem])
-
-  useEffect(() => {
-    if (!pageKey || !loadPage) return
-
-    // Use search params to retain any other parameters.
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete(pageKey)
-    currentPage > 1 && params.set(pageKey, `${currentPage}`)
-
-    router.replace(`?${params.toString()}${window.location.hash || ""}`, {scroll: false})
-  }, [loadPage, router, currentPage, pageKey, searchParams])
 
   useEffect(() => {
     const initialPage = Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))

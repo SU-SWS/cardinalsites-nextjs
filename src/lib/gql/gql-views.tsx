@@ -9,23 +9,26 @@ import {
   NodeStanfordPerson,
   NodeStanfordPublication,
   NodeUnion,
+  SearchFilterInput,
   StanfordBasicPagesQueryVariables,
   StanfordBasicPagesSortKeys,
 } from "@lib/gql/__generated__/drupal.d"
 import {graphqlClient} from "@lib/gql/gql-client"
 
-export const VIEW_PAGE_SIZE = 20
+export const VIEW_PAGE_SIZE = 21
 
 export const loadViewPage = async (
   viewId: string,
   displayId: string,
   contextualFilter: string[],
   hasHeadline: boolean,
-  page: number
+  pageSize: number = VIEW_PAGE_SIZE,
+  page: number,
+  filter?: Maybe<Record<string, any>>
 ): Promise<JSX.Element> => {
   "use server"
 
-  const {items, totalItems} = await getViewPagedItems(viewId, displayId, contextualFilter, VIEW_PAGE_SIZE, page)
+  const {items, totalItems} = await getViewPagedItems(viewId, displayId, contextualFilter, pageSize, page, filter)
   return (
     <View
       viewId={viewId}
@@ -43,7 +46,7 @@ export const getViewPagedItems = async (
   contextualFilter?: Maybe<string[]>,
   pageSize?: Maybe<number>,
   page?: Maybe<number>,
-  offset?: Maybe<number>
+  filter?: Maybe<Record<string, any>>
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
   "use server"
 
@@ -51,9 +54,10 @@ export const getViewPagedItems = async (
   let totalItems = 0
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
   const itemsPerPage = pageSize ? Math.min(Math.ceil(pageSize / 3) * 3, 99) : undefined
-  const queryVariables: StanfordBasicPagesQueryVariables = {pageSize: itemsPerPage, page, offset}
+  const queryVariables: StanfordBasicPagesQueryVariables = {pageSize: itemsPerPage, page}
 
   const viewTags: Record<string, string> = {
+    search: "views:all",
     stanford_shared_tags: "views:all",
     stanford_basic_pages: "views:stanford_page",
     stanford_courses: "views:stanford_course",
@@ -70,6 +74,12 @@ export const getViewPagedItems = async (
 
   try {
     switch (`${viewId}--${displayId}`) {
+      case "search--search":
+        graphqlResponse = await client.search({filter: filter as SearchFilterInput, ...queryVariables})
+        items = graphqlResponse.search?.results as unknown as NodeUnion[]
+        totalItems = graphqlResponse.search?.pageInfo.total || 0
+        break
+
       case "stanford_basic_pages--card_grid_alpha":
         queryVariables.sortKey = StanfordBasicPagesSortKeys["Title"]
 

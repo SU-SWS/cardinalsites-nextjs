@@ -1,34 +1,9 @@
 import StanfordEventListItem from "@components/nodes/list-item/stanford-event/stanford-event-list-item"
 import LoadMoreList from "@components/elements/load-more-list"
-import EventsFilteredListView from "@components/views/stanford-events/events-filtered-list-view"
-import {NodeStanfordEvent, TermStanfordEventType} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
+import {ViewDisplayProps} from "@components/views/view"
 
-interface Props {
-  /**
-   * List of nodes to display.
-   */
-  items: NodeStanfordEvent[]
-  /**
-   * If those nodes titles should display as <h2> or <h3>
-   */
-  headingLevel?: "h2" | "h3"
-  /**
-   * Total number of items on all pages.
-   */
-  totalItems: number
-}
-
-const EventsListView = async ({items = [], headingLevel, totalItems}: Props) => {
-  if (items.length >= 5) {
-    const topics: TermStanfordEventType[] = []
-    items.map(event => event.suEventType?.map(topic => topics.push(topic)))
-    const uniqueTopics = [...new Map(topics.map(t => [t.id, t])).values()]
-
-    if (uniqueTopics.length > 1) {
-      return <EventsFilteredListView items={items} topics={uniqueTopics} totalItems={totalItems} />
-    }
-  }
-
+const EventsListView = async ({items, headingLevel, totalItems, loadPage}: ViewDisplayProps<NodeStanfordEvent>) => {
   return (
     <LoadMoreList
       buttonText={
@@ -41,6 +16,7 @@ const EventsListView = async ({items = [], headingLevel, totalItems}: Props) => 
         className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
       }}
       totalItems={totalItems}
+      loadPage={loadPage}
     >
       {items.map(item => (
         <StanfordEventListItem key={item.id} node={item} headingLevel={headingLevel} />

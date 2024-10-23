@@ -27,14 +27,14 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 }> => {
   const getData = nextCache(
     async () => {
-      let entity: T | undefined
-      let query: RouteQuery
-
       // Paths that start with /node/ should not be used.
       if (path.startsWith("/node/")) return {}
 
+      let entity: T | undefined
+      let query: RouteQuery
+
       try {
-        query = await graphqlClient({cache: "no-cache"}, previewMode).Route({
+        query = await graphqlClient(undefined, previewMode).Route({
           path,
           teaser: !!teaser,
         })
@@ -67,7 +67,7 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(
     async () => {
       let query: ConfigPagesQuery
       try {
-        query = await graphqlClient({cache: "no-cache"}).ConfigPages()
+        query = await graphqlClient().ConfigPages()
       } catch (e) {
         console.warn("Unable to fetch config pages: " + (e instanceof Error && e.stack))
         return
@@ -107,7 +107,7 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
 
   const getData = nextCache(
     async () => {
-      const menu = await graphqlClient({cache: "no-cache"}).Menu({name})
+      const menu = await graphqlClient().Menu({name})
       const menuItems = (menu.menu?.items || []) as MenuItem[]
 
       const filterInaccessible = (items: MenuItem[], level: number): MenuItem[] => {
@@ -134,7 +134,7 @@ export const getAllNodes = nextCache(
     const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
     while (fetchMore) {
-      nodeQuery = await graphqlClient({cache: "no-cache"}).AllNodes({first: 1000, ...cursors})
+      nodeQuery = await graphqlClient().AllNodes({first: 1000, ...cursors})
       queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
       fetchMore = false
 
@@ -162,6 +162,12 @@ export const getAlgoliaCredential = nextCache(
     if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
       return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
     }
+    const useAlgolia = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteAlgoliaUi"]>(
+      "StanfordBasicSiteSetting",
+      "suSiteAlgoliaUi"
+    )
+    if (!useAlgolia) return []
+
     const appId = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteAlgoliaId"]>(
       "StanfordBasicSiteSetting",
       "suSiteAlgoliaId"

@@ -1,22 +1,8 @@
 import CardViewGrid from "@components/views/card-view-grid"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d"
+import {ViewDisplayProps} from "@components/views/view"
 
-interface Props {
-  /**
-   * List of nodes to display.
-   */
-  items: NodeStanfordPerson[]
-  /**
-   * If those nodes titles should display as <h2> or <h3>
-   */
-  headingLevel?: "h2" | "h3"
-  /**
-   * Total number of items to build the pager.
-   */
-  totalItems: number
-}
-
-const PersonCardView = async ({items = [], headingLevel, totalItems}: Props) => {
-  return <CardViewGrid items={items} headingLevel={headingLevel} totalItems={totalItems} />
+const PersonCardView = async (props: ViewDisplayProps<NodeStanfordPerson>) => {
+  return <CardViewGrid {...props} />
 }
 export default PersonCardView

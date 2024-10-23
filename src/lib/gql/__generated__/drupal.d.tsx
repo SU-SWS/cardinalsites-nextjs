@@ -2108,6 +2108,8 @@ export type Query = {
   redirects: RedirectConnection
   /** Load a Route by path. */
   route?: Maybe<RouteUnion>
+  /** Query for view search display graphql_search. */
+  search?: Maybe<SearchResult>
   /** Query for view stanford_basic_pages display basic_page_type_list_graphql. */
   stanfordBasicPages?: Maybe<StanfordBasicPagesResult>
   /** List of all StanfordBasicSiteSetting on the platform. */
@@ -2283,6 +2285,14 @@ export type QueryRedirectsArgs = {
 /** The schema's entry-point for queries. */
 export type QueryRouteArgs = {
   path: Scalars["String"]["input"]
+}
+
+/** The schema's entry-point for queries. */
+export type QuerySearchArgs = {
+  filter: SearchFilterInput
+  offset?: InputMaybe<Scalars["Int"]["input"]>
+  page?: InputMaybe<Scalars["Int"]["input"]>
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>
 }
 
 /** The schema's entry-point for queries. */
@@ -2552,6 +2562,45 @@ export type SchemaInformation = {
   version?: Maybe<Scalars["String"]["output"]>
 }
 
+export type SearchFilterInput = {
+  /** Keyword Search  */
+  key: Scalars["String"]["input"]
+}
+
+/** Result for view search display graphql_search. */
+export type SearchResult = View & {
+  __typename?: "SearchResult"
+  /** The description of the view. */
+  description?: Maybe<Scalars["String"]["output"]>
+  /** The machine name of the display. */
+  display: Scalars["String"]["output"]
+  /** Exposed filters for the view. */
+  filters: Array<Maybe<ViewFilter>>
+  /** The ID of the view. */
+  id: Scalars["ID"]["output"]
+  /** The human friendly label of the view. */
+  label?: Maybe<Scalars["String"]["output"]>
+  /** The language code of the view. */
+  langcode?: Maybe<Scalars["String"]["output"]>
+  /** Information about the page in the view. */
+  pageInfo: ViewPageInfo
+  /** The results of the view. */
+  results: Array<SearchRow>
+  /** The machine name of the view. */
+  view: Scalars["String"]["output"]
+}
+
+/** All available types for view result row. */
+export type SearchRow =
+  | NodeStanfordCourse
+  | NodeStanfordEvent
+  | NodeStanfordEventSeries
+  | NodeStanfordNews
+  | NodeStanfordPage
+  | NodeStanfordPerson
+  | NodeStanfordPolicy
+  | NodeStanfordPublication
+
 /** Smart Date data. */
 export type SmartDateType = {
   __typename?: "SmartDateType"
@@ -2651,6 +2700,8 @@ export type StanfordBasicSiteSetting = ConfigPagesInterface &
      * in <a href="https://dashboard.algolia.com/account/api-keys/all>Algolia
      */
     suSiteAlgoliaSearch?: Maybe<Scalars["String"]["output"]>
+    /** Enable Algolia searching on the <a href="/search">search page</a>. */
+    suSiteAlgoliaUi?: Maybe<Scalars["Boolean"]["output"]>
     /** Check this box to enable the split-button drop down menu feature. */
     suSiteDropdowns?: Maybe<Scalars["Boolean"]["output"]>
     /** Maximum Menu Levels */
@@ -3793,6 +3844,7 @@ export type ViewReference = {
 
 /** All available view result types. */
 export type ViewResultUnion =
+  | SearchResult
   | StanfordBasicPagesResult
   | StanfordCoursesResult
   | StanfordEventsPastEventsResult
@@ -7442,6 +7494,7 @@ export type ConfigPagesQuery = {
       suSiteAlgoliaId?: string | null
       suSiteAlgoliaIndex?: string | null
       suSiteAlgoliaSearch?: string | null
+      suSiteAlgoliaUi?: boolean | null
       suSiteDropdowns?: boolean | null
       suSiteMenuLevels?: number | null
       suSiteName?: string | null
@@ -14221,6 +14274,287 @@ export type StanfordSharedTagsQuery = {
   __typename?: "Query"
   stanfordSharedTags?: {
     __typename?: "StanfordSharedTagsResult"
+    results: Array<
+      | {
+          __typename: "NodeStanfordCourse"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suCourseAcademicYear?: string | null
+          suCourseCode?: string | null
+          suCourseInstructors?: Array<string> | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suCourseSubject?: {
+            __typename: "TermSuCourseSubject"
+            id: string
+            name: string
+            path: string
+            weight: number
+            parent?:
+              | {__typename?: "TermBasicPageType"; id: string}
+              | {__typename?: "TermEventAudience"; id: string}
+              | {__typename?: "TermStanfordEventGroup"; id: string}
+              | {__typename?: "TermStanfordEventKeyword"; id: string}
+              | {__typename?: "TermStanfordEventSubject"; id: string}
+              | {__typename?: "TermStanfordEventType"; id: string}
+              | {__typename?: "TermStanfordNewsTopic"; id: string}
+              | {__typename?: "TermStanfordPersonType"; id: string}
+              | {__typename?: "TermStanfordPublicationTopic"; id: string}
+              | {__typename?: "TermSuCourseQuarter"; id: string}
+              | {__typename?: "TermSuCourseSubject"; id: string}
+              | {__typename?: "TermSuCourseTag"; id: string}
+              | {__typename?: "TermSuSharedTag"; id: string}
+              | null
+          } | null
+          suCourseQuarters?: Array<{
+            __typename: "TermSuCourseQuarter"
+            id: string
+            name: string
+            path: string
+            weight: number
+            parent?:
+              | {__typename?: "TermBasicPageType"; id: string}
+              | {__typename?: "TermEventAudience"; id: string}
+              | {__typename?: "TermStanfordEventGroup"; id: string}
+              | {__typename?: "TermStanfordEventKeyword"; id: string}
+              | {__typename?: "TermStanfordEventSubject"; id: string}
+              | {__typename?: "TermStanfordEventType"; id: string}
+              | {__typename?: "TermStanfordNewsTopic"; id: string}
+              | {__typename?: "TermStanfordPersonType"; id: string}
+              | {__typename?: "TermStanfordPublicationTopic"; id: string}
+              | {__typename?: "TermSuCourseQuarter"; id: string}
+              | {__typename?: "TermSuCourseSubject"; id: string}
+              | {__typename?: "TermSuCourseTag"; id: string}
+              | {__typename?: "TermSuSharedTag"; id: string}
+              | null
+          }> | null
+          body?: {__typename?: "TextSummary"; processed?: any | null} | null
+        }
+      | {
+          __typename: "NodeStanfordEvent"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suEventAltLoc?: string | null
+          suEventSubheadline?: string | null
+          suEventDek?: string | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suEventLocation?: {
+            __typename?: "Address"
+            langcode?: string | null
+            givenName?: string | null
+            additionalName?: string | null
+            familyName?: string | null
+            organization?: string | null
+            addressLine1?: string | null
+            addressLine2?: string | null
+            postalCode?: string | null
+            sortingCode?: string | null
+            dependentLocality?: string | null
+            locality?: string | null
+            administrativeArea?: string | null
+            country?: {__typename?: "AddressCountry"; name?: string | null; code?: string | null} | null
+          } | null
+          suEventDateTime: {
+            __typename?: "SmartDateType"
+            value: any
+            end_value: any
+            timezone?: string | null
+            rrule_index?: number | null
+            rrule?: number | null
+          }
+          suEventType?: Array<{
+            __typename: "TermStanfordEventType"
+            id: string
+            name: string
+            path: string
+            weight: number
+            parent?:
+              | {__typename?: "TermBasicPageType"; id: string}
+              | {__typename?: "TermEventAudience"; id: string}
+              | {__typename?: "TermStanfordEventGroup"; id: string}
+              | {__typename?: "TermStanfordEventKeyword"; id: string}
+              | {__typename?: "TermStanfordEventSubject"; id: string}
+              | {__typename?: "TermStanfordEventType"; id: string}
+              | {__typename?: "TermStanfordNewsTopic"; id: string}
+              | {__typename?: "TermStanfordPersonType"; id: string}
+              | {__typename?: "TermStanfordPublicationTopic"; id: string}
+              | {__typename?: "TermSuCourseQuarter"; id: string}
+              | {__typename?: "TermSuCourseSubject"; id: string}
+              | {__typename?: "TermSuCourseTag"; id: string}
+              | {__typename?: "TermSuSharedTag"; id: string}
+              | null
+          }> | null
+          suEventSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
+        }
+      | {
+          __typename: "NodeStanfordEventSeries"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suEventSeriesDek?: string | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+        }
+      | {
+          __typename: "NodeStanfordNews"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suNewsDek?: string | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suNewsFeaturedMedia?: {
+            __typename: "MediaImage"
+            id: string
+            name: string
+            mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
+          } | null
+          suNewsTopics?: Array<{
+            __typename: "TermStanfordNewsTopic"
+            id: string
+            name: string
+            path: string
+            weight: number
+            parent?:
+              | {__typename?: "TermBasicPageType"; id: string}
+              | {__typename?: "TermEventAudience"; id: string}
+              | {__typename?: "TermStanfordEventGroup"; id: string}
+              | {__typename?: "TermStanfordEventKeyword"; id: string}
+              | {__typename?: "TermStanfordEventSubject"; id: string}
+              | {__typename?: "TermStanfordEventType"; id: string}
+              | {__typename?: "TermStanfordNewsTopic"; id: string}
+              | {__typename?: "TermStanfordPersonType"; id: string}
+              | {__typename?: "TermStanfordPublicationTopic"; id: string}
+              | {__typename?: "TermSuCourseQuarter"; id: string}
+              | {__typename?: "TermSuCourseSubject"; id: string}
+              | {__typename?: "TermSuCourseTag"; id: string}
+              | {__typename?: "TermSuSharedTag"; id: string}
+              | null
+          }> | null
+          suNewsPublishingDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
+          suNewsSource?: {__typename?: "Link"; url?: string | null} | null
+        }
+      | {
+          __typename: "NodeStanfordPage"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suPageDescription?: string | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suPageImage?: {
+            __typename: "MediaImage"
+            id: string
+            name: string
+            mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
+          } | null
+          suPageBanner?:
+            | {
+                __typename?: "ParagraphStanfordBanner"
+                suBannerImage?: {
+                  __typename: "MediaImage"
+                  id: string
+                  name: string
+                  mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
+                } | null
+              }
+            | {
+                __typename: "ParagraphStanfordPageTitleBanner"
+                id: string
+                behaviors?: string | null
+                status: boolean
+                suTitleBannerImage: {
+                  __typename: "MediaImage"
+                  id: string
+                  name: string
+                  mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
+                }
+              }
+            | null
+        }
+      | {
+          __typename: "NodeStanfordPerson"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          suPersonFullTitle?: string | null
+          suPersonShortTitle?: string | null
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suPersonPhoto?: {
+            __typename: "MediaImage"
+            id: string
+            name: string
+            mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
+          } | null
+        }
+      | {
+          __typename: "NodeStanfordPolicy"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          body?: {__typename?: "TextSummary"; processed?: any | null; summary?: any | null} | null
+          suPolicyUpdated?: {__typename?: "DateTime"; timezone: any; time: any} | null
+        }
+      | {
+          __typename: "NodeStanfordPublication"
+          id: string
+          title: string
+          status: boolean
+          path: string
+          changed: {__typename?: "DateTime"; timezone: any; time: any}
+          created: {__typename?: "DateTime"; timezone: any; time: any}
+          suPublicationTopics?: Array<{
+            __typename: "TermStanfordPublicationTopic"
+            id: string
+            name: string
+            path: string
+            weight: number
+            parent?:
+              | {__typename?: "TermBasicPageType"; id: string}
+              | {__typename?: "TermEventAudience"; id: string}
+              | {__typename?: "TermStanfordEventGroup"; id: string}
+              | {__typename?: "TermStanfordEventKeyword"; id: string}
+              | {__typename?: "TermStanfordEventSubject"; id: string}
+              | {__typename?: "TermStanfordEventType"; id: string}
+              | {__typename?: "TermStanfordNewsTopic"; id: string}
+              | {__typename?: "TermStanfordPersonType"; id: string}
+              | {__typename?: "TermStanfordPublicationTopic"; id: string}
+              | {__typename?: "TermSuCourseQuarter"; id: string}
+              | {__typename?: "TermSuCourseSubject"; id: string}
+              | {__typename?: "TermSuCourseTag"; id: string}
+              | {__typename?: "TermSuSharedTag"; id: string}
+              | null
+          }> | null
+        }
+    >
+    pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
+  } | null
+}
+
+export type SearchQueryVariables = Exact<{
+  filter?: InputMaybe<SearchFilterInput>
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>
+  page?: InputMaybe<Scalars["Int"]["input"]>
+  offset?: InputMaybe<Scalars["Int"]["input"]>
+}>
+
+export type SearchQuery = {
+  __typename?: "Query"
+  search?: {
+    __typename?: "SearchResult"
     results: Array<
       | {
           __typename: "NodeStanfordCourse"

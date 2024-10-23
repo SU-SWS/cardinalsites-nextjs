@@ -1144,6 +1144,7 @@ export const ConfigPagesDocument = gql`
       suSiteAlgoliaId
       suSiteAlgoliaIndex
       suSiteAlgoliaSearch
+      suSiteAlgoliaUi
       suSiteDropdowns
       suSiteMenuLevels
       suSiteName
@@ -1499,6 +1500,19 @@ export const StanfordSharedTagsDocument = gql`
 }
     ${FragmentNodeTeaserUnionFragmentDoc}
 ${FragmentViewPageInfoFragmentDoc}`;
+export const SearchDocument = gql`
+    query search($filter: SearchFilterInput = {key: ""}, $pageSize: Int = 3, $page: Int, $offset: Int) {
+  search(filter: $filter, pageSize: $pageSize, page: $page, offset: $offset) {
+    results {
+      ...FragmentNodeTeaserUnion
+    }
+    pageInfo {
+      ...FragmentViewPageInfo
+    }
+  }
+}
+    ${FragmentNodeTeaserUnionFragmentDoc}
+${FragmentViewPageInfoFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -1581,6 +1595,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     stanfordSharedTags(variables?: DrupalTypes.StanfordSharedTagsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.StanfordSharedTagsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordSharedTagsQuery>(StanfordSharedTagsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'stanfordSharedTags', 'query', variables);
+    },
+    search(variables?: DrupalTypes.SearchQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<DrupalTypes.SearchQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.SearchQuery>(SearchDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'search', 'query', variables);
     }
   };
 }

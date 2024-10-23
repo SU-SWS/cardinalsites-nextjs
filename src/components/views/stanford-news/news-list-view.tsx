@@ -1,28 +1,9 @@
 import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item"
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 import PagedList from "@components/elements/paged-list"
-import {JSX} from "react"
+import {ViewDisplayProps} from "@components/views/view"
 
-interface Props {
-  /**
-   * List of nodes to display.
-   */
-  items: NodeStanfordNews[]
-  /**
-   * If those nodes titles should display as <h2> or <h3>
-   */
-  headingLevel?: "h2" | "h3"
-  /**
-   * Total number of items to build the pager.
-   */
-  totalItems: number
-  /**
-   * Server action to load a page.
-   */
-  loadPage?: (_page: number) => Promise<JSX.Element>
-}
-
-const NewsListView = async ({items, headingLevel, totalItems, loadPage}: Props) => {
+const NewsListView = async ({items, headingLevel, totalItems, loadPage}: ViewDisplayProps<NodeStanfordNews>) => {
   return (
     <PagedList
       ulProps={{className: "list-unstyled mb-20"}}
