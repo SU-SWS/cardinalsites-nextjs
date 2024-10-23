@@ -3,7 +3,7 @@ import StanfordNewsCard from "@components/nodes/cards/stanford-news/stanford-new
 import {StanfordNewsData} from "../StanfordNews.data"
 import {ComponentProps} from "react"
 import {getStoryBookImage, getStoryBookTaxonomyTerm} from "../../storybook-entities"
-import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal"
+import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordNewsCard> & {
   title: NodeStanfordNews["title"]

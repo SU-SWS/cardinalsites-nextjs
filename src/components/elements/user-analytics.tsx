@@ -1,5 +1,5 @@
 import {getConfigPageField} from "@lib/gql/gql-queries"
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal"
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
 import Script from "next/script"
 import {GoogleAnalytics, GoogleTagManager} from "@next/third-parties/google"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"

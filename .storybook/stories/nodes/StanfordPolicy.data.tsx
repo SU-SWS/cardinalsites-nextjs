@@ -1,4 +1,4 @@
-import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d"
 
 export const StanfordPolicyData = () => {
   return {

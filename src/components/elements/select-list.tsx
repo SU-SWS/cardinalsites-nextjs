@@ -18,7 +18,7 @@ import {ChevronDownIcon} from "@heroicons/react/20/solid"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 
 interface OptionProps {
-  rootRef: RefObject<HTMLUListElement>
+  rootRef: RefObject<HTMLUListElement | null>
   children?: ReactNode
   value: string
   disabled?: boolean

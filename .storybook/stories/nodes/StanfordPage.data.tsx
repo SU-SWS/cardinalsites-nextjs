@@ -1,4 +1,4 @@
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d"
 
 export const StanfordPageData = () => {
   return {

@@ -1,4 +1,4 @@
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
 
 export const StanfordCourseData = () => {
   return {

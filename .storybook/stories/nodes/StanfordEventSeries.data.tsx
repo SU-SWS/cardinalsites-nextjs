@@ -1,4 +1,4 @@
-import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal.d"
 
 export const StanfordEventSeriesData = () => {
   return {

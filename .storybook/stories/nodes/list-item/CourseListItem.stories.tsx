@@ -3,7 +3,7 @@ import type {Meta, StoryObj} from "@storybook/react"
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item"
 import {CourseCard} from "../cards/CourseCard.stories"
 import {ComponentProps} from "react"
-import {NodeStanfordCourse, TermSuCourseSubject} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordCourse, TermSuCourseSubject} from "@lib/gql/__generated__/drupal.d"
 import {getStoryBookTaxonomyTerm} from "../../storybook-entities"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordCourseListItem> & {

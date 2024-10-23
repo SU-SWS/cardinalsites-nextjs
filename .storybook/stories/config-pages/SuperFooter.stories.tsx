@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import SuperFooter from "@components/config-pages/super-footer"
 import {ComponentProps} from "react"
-import {StanfordSuperFooter, Text} from "@lib/gql/__generated__/drupal"
+import {StanfordSuperFooter, Text} from "@lib/gql/__generated__/drupal.d"
 import {createMock} from "storybook-addon-module-mock"
 import * as gql from "@lib/gql/gql-queries"
 

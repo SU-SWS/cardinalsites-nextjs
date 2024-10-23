@@ -5,6 +5,8 @@ import AlgoliaSearch from "@components/algolia/algolia-search"
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
+// https://vercel.com/docs/functions/runtimes#max-duration
+export const maxDuration = 60
 
 export const metadata = {
   title: "Search",
@@ -15,7 +17,8 @@ export const metadata = {
     noarchive: true,
   },
 }
-const Page = async ({searchParams}: {searchParams?: {[_key: string]: string}}) => {
+const Page = async (props: {searchParams?: Promise<{[_key: string]: string}>}) => {
+  const searchParams = await props.searchParams
   const [appId, indexName, apiKey] = await getAlgoliaCredential()
 
   const initialState: IndexUiState = {refinementList: {}}

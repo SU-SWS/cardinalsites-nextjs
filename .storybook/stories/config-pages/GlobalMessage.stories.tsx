@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import GlobalMessage from "@components/config-pages/global-message"
 import {ComponentProps} from "react"
-import {Link, StanfordGlobalMessage, Text} from "@lib/gql/__generated__/drupal"
+import {Link, StanfordGlobalMessage, Text} from "@lib/gql/__generated__/drupal.d"
 import {createMock} from "storybook-addon-module-mock"
 import * as gql from "@lib/gql/gql-queries"
 

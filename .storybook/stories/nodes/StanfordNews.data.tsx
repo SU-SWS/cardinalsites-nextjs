@@ -1,4 +1,4 @@
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 
 export const StanfordNewsData = () => {
   return {

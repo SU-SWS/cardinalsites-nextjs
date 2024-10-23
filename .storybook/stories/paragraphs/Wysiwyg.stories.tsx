@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-paragraph"
 import {ComponentProps} from "react"
-import {ParagraphStanfordWysiwyg, Text} from "@lib/gql/__generated__/drupal"
+import {ParagraphStanfordWysiwyg, Text} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof WysiwygParagraph> & {
   text: Text["processed"]

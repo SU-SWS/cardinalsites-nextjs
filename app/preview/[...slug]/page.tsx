@@ -3,12 +3,13 @@ import EditorAlert from "@components/elements/editor-alert"
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {notFound} from "next/navigation"
-import {getPathFromContext, PageProps} from "@lib/drupal/utils"
+import {getPathFromContext, PageProps, Slug} from "@lib/drupal/utils"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 
-const PreviewPage = async ({params}: PageProps) => {
+const PreviewPage = async (props: PageProps) => {
+  const params = await props.params
   if (!isPreviewMode()) notFound()
-  const {entity} = await getEntityFromPath<NodeUnion>(getPathFromContext({params}), true)
+  const {entity} = await getEntityFromPath<NodeUnion>(getPathFromContext(params.slug), true)
 
   if (!entity) notFound()
 
@@ -20,7 +21,7 @@ const PreviewPage = async ({params}: PageProps) => {
   )
 }
 
-export const generateStaticParams = async (): Promise<PageProps["params"][]> => {
+export const generateStaticParams = async (): Promise<Array<Slug>> => {
   return []
 }
 

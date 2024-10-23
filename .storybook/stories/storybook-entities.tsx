@@ -1,4 +1,4 @@
-import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "@lib/gql/__generated__/drupal"
+import {MediaImage, MediaStanfordGalleryImage, MediaVideo, TermInterface} from "@lib/gql/__generated__/drupal.d"
 
 export const getStoryBookImage = (imageUrl?: string): MediaImage => {
   return {

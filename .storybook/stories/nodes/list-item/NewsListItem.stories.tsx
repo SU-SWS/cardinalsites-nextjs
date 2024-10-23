@@ -3,7 +3,7 @@ import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stan
 import {NewsCard} from "../cards/NewsCard.stories"
 import {ComponentProps} from "react"
 import {getStoryBookImage, getStoryBookTaxonomyTerm} from "../../storybook-entities"
-import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal"
+import {DateTime, Image, NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordNewsListItem> & {
   title: NodeStanfordNews["title"]
