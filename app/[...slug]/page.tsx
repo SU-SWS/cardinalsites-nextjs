@@ -4,7 +4,7 @@ import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
 import {getAllNodes, getEntityFromPath} from "@lib/gql/gql-queries"
 import {getNodeMetadata} from "./metadata"
 import {notFound, redirect} from "next/navigation"
-import {getPathFromContext, PageProps} from "@lib/drupal/utils"
+import {getPathFromContext, PageProps, Slug} from "@lib/drupal/utils"
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
@@ -30,7 +30,7 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
   return entity ? getNodeMetadata(entity) : {}
 }
 
-export const generateStaticParams = async (): Promise<Array<{slug: string[]}>> => {
+export const generateStaticParams = async (): Promise<Array<Slug>> => {
   const pagesToBuild = parseInt(process.env.BUILD_PAGES || "0")
   if (pagesToBuild === 0) return []
   const nodePaths = (await getAllNodes()).map(node => ({slug: node.path.split("/").filter(part => !!part)}))

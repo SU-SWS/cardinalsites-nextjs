@@ -9,8 +9,10 @@ export const buildUrl = (path: string, params?: string | Record<string, string> 
   return url
 }
 
+export type Slug = {slug: string[]}
+
 export type PageProps = {
-  params: Promise<{slug: string[]}>
+  params: Promise<Slug>
   searchParams?: Promise<Record<string, string | string[] | undefined>>
 }
 

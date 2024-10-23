@@ -94,7 +94,7 @@ const Page = async (props: Props) => {
   )
 }
 
-export const generateStaticParams = async (): Promise<Array<Props["params"]>> => {
+export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => {
   return []
 }
 
