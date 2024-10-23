@@ -12,7 +12,8 @@ export const dynamic = "force-static"
 // https://vercel.com/docs/functions/runtimes#max-duration
 export const maxDuration = 60
 
-const Page = async ({params}: PageProps) => {
+const Page = async (props: PageProps) => {
+  const params = await props.params
   const path = getPathFromContext({params})
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path)
 
@@ -22,7 +23,8 @@ const Page = async ({params}: PageProps) => {
   return <NodePage node={entity} />
 }
 
-export const generateMetadata = async ({params}: PageProps): Promise<Metadata> => {
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
+  const params = await props.params
   const path = getPathFromContext({params})
   const {entity} = await getEntityFromPath<NodeUnion>(path)
   return entity ? getNodeMetadata(entity) : {}

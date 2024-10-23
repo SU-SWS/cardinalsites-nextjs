@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import Lockup from "@components/elements/lockup/lockup"
 import {ComponentProps} from "react"
-import {Image, LockupSetting} from "@lib/gql/__generated__/drupal"
+import {Image, LockupSetting} from "@lib/gql/__generated__/drupal.d"
 import {createMock} from "storybook-addon-module-mock"
 import * as gql from "@lib/gql/gql-queries"
 

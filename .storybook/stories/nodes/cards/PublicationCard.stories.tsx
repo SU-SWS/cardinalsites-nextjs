@@ -3,7 +3,7 @@ import StanfordPublicationCard from "@components/nodes/cards/stanford-publicatio
 import {StanfordPublicationData} from "../StanfordPublication.data"
 import {ComponentProps} from "react"
 import {getStoryBookTaxonomyTerm} from "../../storybook-entities"
-import {NodeStanfordPublication, TermStanfordPublicationTopic} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordPublication, TermStanfordPublicationTopic} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPublicationCard> & {
   title: NodeStanfordPublication["title"]

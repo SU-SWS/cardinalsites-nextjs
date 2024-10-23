@@ -3,7 +3,7 @@
 import {liteClient} from "algoliasearch/lite"
 import {useHits, useSearchBox} from "react-instantsearch"
 import {InstantSearchNext} from "react-instantsearch-nextjs"
-import {useRef} from "react"
+import {useEffect, useRef} from "react"
 import Button from "@components/elements/button"
 import {UseSearchBoxProps} from "react-instantsearch"
 import {useRouter} from "next/navigation"
@@ -23,6 +23,7 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: 
 
   return (
     <div>
+      {/* @ts-ignore */}
       <InstantSearchNext
         indexName={searchIndex}
         searchClient={searchClient}
@@ -60,9 +61,9 @@ const SearchBox = (props?: UseSearchBoxProps) => {
   const {query, refine} = useSearchBox(props)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  if (query) {
-    router.replace(`?q=${query}`, {scroll: false})
-  }
+  useEffect(() => {
+    if (query) router.replace(`?q=${query}`, {scroll: false})
+  }, [query, router])
 
   return (
     <form
@@ -95,9 +96,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
           id="search-input"
           className="type-2 h-20 max-w-xl rounded-full hocus:shadow-2xl"
           ref={inputRef}
-          autoComplete="on"
           autoCorrect="on"
-          autoCapitalize="off"
           spellCheck={false}
           maxLength={512}
           type="search"

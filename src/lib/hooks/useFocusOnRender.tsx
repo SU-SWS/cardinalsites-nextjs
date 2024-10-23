@@ -14,7 +14,10 @@ import {useBoolean} from "usehooks-ts"
  * @return
  *   Function to focus on the element.
  */
-const useFocusOnRender = (focusOnElement: RefObject<HTMLElement>, defaultFocus: boolean = true): (() => void) => {
+const useFocusOnRender = (
+  focusOnElement: RefObject<HTMLElement | null>,
+  defaultFocus: boolean = true
+): (() => void) => {
   const {value, setTrue, setFalse} = useBoolean(defaultFocus)
 
   useLayoutEffect(() => {

@@ -3,7 +3,7 @@ import LocalFooter from "@components/config-pages/local-footer"
 import {ComponentProps} from "react"
 import {createMock} from "storybook-addon-module-mock"
 import * as gql from "@lib/gql/gql-queries"
-import {StanfordLocalFooter} from "@lib/gql/__generated__/drupal"
+import {StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof LocalFooter> & {}
 

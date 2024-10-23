@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from "@storybook/react"
 import StanfordPersonListItem from "@components/nodes/list-item/stanford-person/stanford-person-list-item"
 import {PersonCard} from "../cards/PersonCard.stories"
 import {ComponentProps} from "react"
-import {Image, NodeStanfordPerson} from "@lib/gql/__generated__/drupal"
+import {Image, NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d"
 import {getStoryBookImage} from "../../storybook-entities"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordPersonListItem> & {

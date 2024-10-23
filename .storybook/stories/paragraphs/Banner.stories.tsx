@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import {ComponentProps} from "react"
-import {ParagraphStanfordBanner, Text} from "@lib/gql/__generated__/drupal"
+import {ParagraphStanfordBanner, Text} from "@lib/gql/__generated__/drupal.d"
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import {getStoryBookImage} from "../storybook-entities"
 

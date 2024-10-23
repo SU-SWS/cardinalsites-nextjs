@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from "@storybook/react"
 import StanfordEventSeriesListItem from "@components/nodes/list-item/stanford-event-series/stanford-event-series-list-item"
 import {EventSeriesCard} from "../cards/EventSeriesCard.stories"
 import {ComponentProps} from "react"
-import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal"
+import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal.d"
 
 type ComponentStoryProps = ComponentProps<typeof StanfordEventSeriesListItem> & {
   title: NodeStanfordEventSeries["title"]

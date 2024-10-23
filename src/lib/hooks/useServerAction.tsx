@@ -16,7 +16,7 @@ const useServerAction = <P extends any[], R>(
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<R>()
   const {value: finished, setTrue: setFinished} = useBoolean(false)
-  const resolver = useRef<(_value?: R | PromiseLike<R>) => void>()
+  const resolver = useRef<(_value?: R | PromiseLike<R>) => void>(undefined)
 
   useEffect(() => {
     if (!finished) return

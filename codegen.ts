@@ -12,7 +12,7 @@ const config: CodegenConfig = {
   }],
   documents: 'src/lib/gql/*.drupal.gql',
   generates: {
-    'src/lib/gql/__generated__/drupal.d.ts': {
+    'src/lib/gql/__generated__/drupal.d.tsx': {
       plugins: [
         'typescript',
         'typescript-operations',

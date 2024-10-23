@@ -1,7 +1,7 @@
 import React, {ElementType, HtmlHTMLAttributes} from "react"
 import Image from "next/image"
 import twMerge from "@lib/utils/twMerge"
-import {Maybe} from "@lib/gql/__generated__/drupal"
+import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 import {clsx} from "clsx"
 

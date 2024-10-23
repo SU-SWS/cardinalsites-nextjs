@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react"
 import {ComponentProps} from "react"
-import {ParagraphStanfordCard, Text} from "@lib/gql/__generated__/drupal"
+import {ParagraphStanfordCard, Text} from "@lib/gql/__generated__/drupal.d"
 import CardParagraph from "@components/paragraphs/stanford-card/card-paragraph"
 import {getStoryBookImage} from "../storybook-entities"
 

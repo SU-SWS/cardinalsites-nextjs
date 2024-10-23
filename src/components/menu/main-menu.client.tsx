@@ -8,6 +8,7 @@ import {HTMLAttributes, ReactNode, useCallback, useEffect, useRef} from "react"
 import {usePathname} from "next/navigation"
 import twMerge from "@lib/utils/twMerge"
 import Link, {LinkProps} from "@components/elements/link"
+import {RefObject} from "react"
 
 export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLUListElement>) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -29,7 +30,7 @@ export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLU
   )
 
   useEffect(() => closeMenu(), [browserUrl, closeMenu])
-  useEventListener("keydown", handleEscape, menuRef)
+  useEventListener("keydown", handleEscape, menuRef as RefObject<HTMLDivElement>)
 
   return (
     <nav {...props} ref={menuRef}>
@@ -112,7 +113,7 @@ export const MainMenuItemClientWrapper = ({id, level, link, children, ...props}:
     [level, submenuOpen, closeSubmenu]
   )
 
-  useEventListener("keydown", handleEscape, menuItemRef)
+  useEventListener("keydown", handleEscape, menuItemRef as unknown as RefObject<HTMLDivElement>)
 
   return (
     <li {...props} ref={menuItemRef}>

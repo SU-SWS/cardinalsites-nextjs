@@ -10,7 +10,6 @@ import {
   RouteRedirect,
   StanfordBasicSiteSetting,
 } from "@lib/gql/__generated__/drupal.d"
-import {cache} from "react"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {unstable_cache as nextCache} from "next/cache"
 import {ClientError} from "graphql-request"
@@ -18,59 +17,52 @@ import {GraphQLError} from "graphql/error"
 
 type DrupalGraphqlError = GraphQLError & {debugMessage: string}
 
-export const getEntityFromPath = cache(
-  async <T extends NodeUnion>(
-    path: string,
-    previewMode?: boolean,
-    teaser?: boolean
-  ): Promise<{
-    entity?: T
-    redirect?: RouteRedirect["url"]
-  }> => {
-    "use server"
+export const getEntityFromPath = async <T extends NodeUnion>(
+  path: string,
+  previewMode?: boolean,
+  teaser?: boolean
+): Promise<{
+  entity?: T
+  redirect?: RouteRedirect["url"]
+}> => {
+  const getData = nextCache(
+    async () => {
+      let entity: T | undefined
+      let query: RouteQuery
 
-    const getData = nextCache(
-      async () => {
-        let entity: T | undefined
-        let query: RouteQuery
+      // Paths that start with /node/ should not be used.
+      if (path.startsWith("/node/")) return {}
 
-        // Paths that start with /node/ should not be used.
-        if (path.startsWith("/node/")) return {}
-
-        try {
-          query = await graphqlClient({cache: "no-cache"}, previewMode).Route({
-            path,
-            teaser: !!teaser,
-          })
-        } catch (e) {
-          if (e instanceof ClientError) {
-            // @ts-ignore
-            const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage || error.message)
-            console.warn([...new Set(messages)].join(" "))
-          } else {
-            console.warn(e instanceof Error ? e.message : "An error occurred")
-          }
-          return {}
+      try {
+        query = await graphqlClient({cache: "no-cache"}, previewMode).Route({
+          path,
+          teaser: !!teaser,
+        })
+      } catch (e) {
+        if (e instanceof ClientError) {
+          // @ts-ignore
+          const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage || error.message)
+          console.warn([...new Set(messages)].join(" "))
+        } else {
+          console.warn(e instanceof Error ? e.message : "An error occurred")
         }
+        return {}
+      }
 
-        if (query.route?.__typename === "RouteRedirect") return {redirect: query.route.url}
-        entity =
-          query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
-        return {entity}
-      },
-      [path, previewMode ? "preview" : "anonymous", teaser ? "teaser" : "full"],
-      {tags: ["all-entities", `paths:${path}`]}
-    )
+      if (query.route?.__typename === "RouteRedirect") return {redirect: query.route.url}
+      entity = query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
+      return {entity}
+    },
+    [path, previewMode ? "preview" : "anonymous", teaser ? "teaser" : "full"],
+    {tags: ["all-entities", `paths:${path}`]}
+  )
 
-    return getData()
-  }
-)
+  return getData()
+}
 
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  "use server"
-
   const getData = nextCache(
     async () => {
       let query: ConfigPagesQuery
@@ -110,8 +102,7 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
   return getData()
 }
 
-export const getMenu = cache(async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
-  "use server"
+export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   const menuName = name?.toLowerCase() || "main"
 
   const getData = nextCache(
@@ -132,12 +123,10 @@ export const getMenu = cache(async (name?: MenuAvailable, maxLevels?: number): P
   )
 
   return getData()
-})
+}
 
 export const getAllNodes = nextCache(
-  cache(async () => {
-    "use server"
-
+  async () => {
     const nodes: NodeUnion[] = []
     let fetchMore = true
     let nodeQuery: AllNodesQuery
@@ -160,7 +149,7 @@ export const getAllNodes = nextCache(
     }
 
     return nodes
-  }),
+  },
   ["all-nodes"],
   {revalidate: 25200, tags: ["all-entities"]}
 )

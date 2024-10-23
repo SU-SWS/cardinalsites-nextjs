@@ -13,7 +13,6 @@ const Citation = ({citation}: {citation: CitationUnion}) => {
           ))}
         </div>
       )}
-
       {citation.suPublisher && (
         <div>
           <strong>Publisher</strong>

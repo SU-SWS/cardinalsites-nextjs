@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest) => {
   if (!slug) {
     return NextResponse.json({message: "Invalid slug path"}, {status: 401})
   }
-  cookies().set("preview", secret, {
+  ;(await cookies()).set("preview", secret, {
     maxAge: 60 * 60,
     httpOnly: true,
     sameSite: "none",
@@ -26,6 +26,6 @@ export const GET = async (request: NextRequest) => {
   })
 
   // Redirect to the path from the fetched post
-  // We don"t redirect to searchParams.slug as that might lead to open redirect vulnerabilities
+  // We don't redirect to searchParams.slug as that might lead to open redirect vulnerabilities
   redirect(`/preview${slug === "/home" ? "" : slug}`)
 }
