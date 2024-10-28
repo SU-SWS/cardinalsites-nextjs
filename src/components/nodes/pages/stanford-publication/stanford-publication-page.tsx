@@ -6,6 +6,7 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
 import {redirect} from "next/navigation"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import StanfordPublicationMetadata from "@components/nodes/pages/stanford-publication/stanford-publication-metadata"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -17,6 +18,7 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
   if (citationUrl) redirect(citationUrl)
   return (
     <article className="centered pt-32" {...props}>
+      <StanfordPublicationMetadata node={node} />
       <ReverseVisualOrder className="gap-10">
         <H1>{node.title}</H1>
 

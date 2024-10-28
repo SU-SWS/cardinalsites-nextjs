@@ -5,6 +5,7 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d"
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import PageTitleBannerParagraph from "@components/paragraphs/stanford-page-title-banner/page-title-banner-paragraph"
+import StanfordPageMetadata from "@components/nodes/pages/stanford-page/stanford-page-metadata"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -16,6 +17,7 @@ const StanfordPagePage = ({node, ...props}: Props) => {
 
   return (
     <article {...props}>
+      <StanfordPageMetadata node={node} />
       {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
         <header>
           <BannerParagraph paragraph={node.suPageBanner} eagerLoadImage />

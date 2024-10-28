@@ -9,7 +9,6 @@ import {UseSearchBoxProps} from "react-instantsearch"
 import {useRouter} from "next/navigation"
 import {IndexUiState} from "instantsearch.js/es/types/ui-state"
 import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default"
-import {Hit as HitType} from "instantsearch.js"
 
 type Props = {
   appId: string
@@ -40,14 +39,15 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: 
 }
 
 const HitList = () => {
-  const {items: hits} = useHits<HitType<DefaultAlgoliaHit>>()
-  if (hits.length === 0) {
+  const {items} = useHits<DefaultAlgoliaHit>()
+
+  if (items.length === 0) {
     return <p>No results for your search. Please try another search.</p>
   }
 
   return (
     <ul className="list-unstyled">
-      {hits.map(hit => (
+      {items.map(hit => (
         <li key={hit.objectID} className="border-b border-gray-300 last:border-0">
           <DefaultHit hit={hit} />
         </li>

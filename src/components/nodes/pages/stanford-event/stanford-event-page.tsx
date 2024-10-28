@@ -8,12 +8,13 @@ import Rows from "@components/paragraphs/rows/rows"
 import {H1, H2, H3} from "@components/elements/headers"
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordEvent, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
 import Email from "@components/elements/email"
 import Telephone from "@components/elements/telephone"
 import Link from "@components/elements/link"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import StanfordEventMetadata from "@components/nodes/pages/stanford-event/stanford-event-metadata"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -29,6 +30,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32 flex flex-col gap-20" {...props}>
+      <StanfordEventMetadata node={node} />
       <ReverseVisualOrder>
         <H1>{node.title}</H1>
 
@@ -117,7 +119,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
       {node.suEventSchedule && (
         <div>
           {node.suEventSchedule.map(scheduleInstance => (
-            <ScheduleParagraph paragraph={scheduleInstance as ParagraphStanfordSchedule} key={scheduleInstance.id} />
+            <ScheduleParagraph paragraph={scheduleInstance} key={scheduleInstance.id} />
           ))}
         </div>
       )}

@@ -1,7 +1,9 @@
-const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL)
+import type {NextConfig} from "next"
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
+
+/** @type {import("next").NextConfig} */
+const nextConfig: NextConfig = {
   experimental: {},
   typescript: {
     // Disable build errors since dev dependencies aren't loaded on prod. Rely on GitHub actions to throw any errors.
@@ -15,7 +17,7 @@ const nextConfig = {
         hostname: "**.stanford.edu",
       },
       {
-        protocol: drupalUrl.protocol.replace(":", ""),
+        protocol: drupalUrl.protocol === "https:" ? "https" : "http",
         hostname: drupalUrl.hostname,
       },
       {
@@ -32,18 +34,13 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/wp-:path*",
-          destination: "/not-found",
-        },
-      ],
-    }
-  },
   async redirects() {
     return [
+      {
+        source: "/wp-:path*",
+        destination: "/not-found",
+        permanent: true,
+      },
       {
         source: "/home",
         destination: "/",

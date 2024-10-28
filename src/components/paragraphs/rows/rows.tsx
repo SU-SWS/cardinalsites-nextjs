@@ -1,5 +1,5 @@
 import OneColumn from "@components/paragraphs/rows/one-column"
-import TwoColumn from "@components/paragraphs/rows/two-column"
+import TwoColumn, {TwoColumnConfig} from "@components/paragraphs/rows/two-column"
 import ThreeColumn from "@components/paragraphs/rows/three-column"
 import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
@@ -12,7 +12,7 @@ type Layout = Record<
   {
     item: ParagraphStanfordLayout
     layout: LayoutParagraphBehaviors["layout"]
-    config?: Record<string, any>
+    config?: Record<string, unknown>
     children: ParagraphUnion[]
   }
 >
@@ -68,10 +68,11 @@ const Row = ({
   items,
 }: {
   layout: LayoutParagraphBehaviors["layout"]
-  layoutSettings?: Record<string, any>
+  layoutSettings?: Record<string, unknown>
   items: ParagraphUnion[]
 }) => {
-  if (layout === "layout_paragraphs_2_column") return <TwoColumn config={layoutSettings} items={items} />
+  if (layout === "layout_paragraphs_2_column")
+    return <TwoColumn config={layoutSettings as TwoColumnConfig} items={items} />
   if (layout === "layout_paragraphs_3_column") return <ThreeColumn items={items} />
 
   // Fall back to one column if the layout is unknown.

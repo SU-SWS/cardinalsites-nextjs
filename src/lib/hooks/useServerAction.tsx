@@ -9,7 +9,7 @@ import {useBoolean} from "usehooks-ts"
  * @param action
  * @param onFinished
  */
-const useServerAction = <P extends any[], R>(
+const useServerAction = <P extends unknown[], R>(
   action?: (..._args: P) => Promise<R>,
   onFinished?: (_: R | undefined) => void
 ): [(..._args: P) => Promise<R | undefined>, boolean] => {
@@ -28,10 +28,12 @@ const useServerAction = <P extends any[], R>(
   const runAction = async (...args: P): Promise<R | undefined> => {
     startTransition(() => {
       if (action) {
-        action(...args).then(data => {
-          setResult(data)
-          setFinished()
-        })
+        action(...args)
+          .then(data => {
+            setResult(data)
+            setFinished()
+          })
+          .catch(_e => console.warn("An error happened with a server action."))
       }
     })
 

@@ -7,7 +7,7 @@ type Props = {
   search: string
 }
 const SiteSearch = async ({search}: Props) => {
-  let {items: viewItems, totalItems} = await getViewPagedItems("search", "search", undefined, 12, 0, {
+  const {items: viewItems, totalItems} = await getViewPagedItems("search", "search", undefined, 12, 0, {
     key: search || "",
   })
 

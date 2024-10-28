@@ -5,7 +5,6 @@ import {useEffect} from "react"
 
 const Editori11y = () => {
   const startEditoria11y = () => {
-    // @ts-ignore
     if (typeof Ed11y != "undefined") {
       // @ts-ignore
       new Ed11y({
@@ -18,7 +17,7 @@ const Editori11y = () => {
   }
 
   useEffect(() => {
-    fetch("/api/draft/disable")
+    fetch("/api/draft/disable").catch(_e => console.warn("Disabling preview mode failed"))
   }, [])
 
   return (

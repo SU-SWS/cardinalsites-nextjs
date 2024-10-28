@@ -1,6 +1,9 @@
 /**
  * Types that are not provided by Graphql integration.
  */
+declare global {
+  const Ed11y: object
+}
 
 export type LayoutParagraphBehaviors = {
   layout: "layout_paragraphs_1_column" | "layout_paragraphs_2_column" | "layout_paragraphs_3_column" | string

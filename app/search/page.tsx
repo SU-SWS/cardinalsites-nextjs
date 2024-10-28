@@ -27,7 +27,7 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
   const [appId, indexName, apiKey] = await getAlgoliaCredential()
 
   const initialState: IndexUiState = {refinementList: {}}
-  if (searchParams?.q) initialState.query = searchParams.q as string
+  if (searchParams?.q) initialState.query = searchParams.q
 
   return (
     <div className="centered mt-32">

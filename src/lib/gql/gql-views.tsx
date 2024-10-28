@@ -24,7 +24,7 @@ export const loadViewPage = async (
   hasHeadline: boolean,
   pageSize: number = VIEW_PAGE_SIZE,
   page: number,
-  filter?: Maybe<Record<string, any>>
+  filter?: Maybe<Record<string, string | number | Array<string | number>>>
 ): Promise<JSX.Element> => {
   "use server"
 
@@ -46,7 +46,7 @@ export const getViewPagedItems = async (
   contextualFilter?: Maybe<string[]>,
   pageSize?: Maybe<number>,
   page?: Maybe<number>,
-  filter?: Maybe<Record<string, any>>
+  filter?: Maybe<Record<string, string | number | Array<string | number>>>
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
   "use server"
 

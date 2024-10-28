@@ -60,7 +60,7 @@ const usePagination = (totalCount: number, currentPage = 1, pageSize = 5, siblin
 }
 
 const range = (start: number, end: number) => {
-  let length = end - start + 1
+  const length = end - start + 1
   /*
   	Create an array of certain length and set the elements within it from
     start value to end value.

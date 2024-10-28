@@ -3,7 +3,7 @@ import Address from "@components/elements/address"
 import {H3} from "@components/elements/headers"
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordPersonCtum, ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -33,7 +33,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
       {paragraph.suScheduleSpeaker && (
         <div>
           {paragraph.suScheduleSpeaker.map(speaker => (
-            <PersonCtaParagraph paragraph={speaker as ParagraphStanfordPersonCtum} key={speaker.id} />
+            <PersonCtaParagraph paragraph={speaker} key={speaker.id} />
           ))}
         </div>
       )}

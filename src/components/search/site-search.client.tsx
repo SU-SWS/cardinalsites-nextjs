@@ -7,7 +7,7 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   /**
    * Server action to load a page.
    */
-  loadPage?: (_page: number, _filters?: Record<string, any>) => Promise<JSX.Element>
+  loadPage?: (_page: number, _filters?: Record<string, string>) => Promise<JSX.Element>
   /**
    * Total number of items to build the pager.
    */

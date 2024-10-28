@@ -1,11 +1,10 @@
 import Rows from "@components/paragraphs/rows/rows"
 import {notFound} from "next/navigation"
-import {getConfigPageField, getEntityFromPath} from "@lib/gql/gql-queries"
-import {NodeStanfordPage, NodeUnion, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {getEntityFromPath} from "@lib/gql/gql-queries"
+import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
-import {Metadata} from "next"
-import {getNodeMetadata} from "./[...slug]/metadata"
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
+import StanfordPageMetadata from "@components/nodes/pages/stanford-page/stanford-page-metadata"
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const revalidate = false
@@ -19,6 +18,7 @@ const Home = async () => {
 
   return (
     <article>
+      <StanfordPageMetadata node={entity} isHome />
       {entity.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
         <header>
           <BannerParagraph paragraph={entity.suPageBanner} eagerLoadImage />
@@ -27,19 +27,6 @@ const Home = async () => {
       {entity.suPageComponents && <Rows components={entity.suPageComponents} />}
     </article>
   )
-}
-
-export const generateMetadata = async (): Promise<Metadata> => {
-  const siteName = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteName"]>(
-    "StanfordBasicSiteSetting",
-    "suSiteName"
-  )
-
-  const {entity} = await getEntityFromPath<NodeUnion>("/")
-  const metadata = entity ? await getNodeMetadata(entity) : {}
-  metadata.title = siteName || metadata.title
-  if (metadata.openGraph?.title) metadata.openGraph.title = siteName || metadata.openGraph.title
-  return metadata
 }
 
 export default Home

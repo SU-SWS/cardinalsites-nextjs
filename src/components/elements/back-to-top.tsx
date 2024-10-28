@@ -21,7 +21,7 @@ const BackToTop = () => {
     scrollTo({
       left: 0,
       top: 0,
-      behavior: !!window.matchMedia("(prefers-reduced-motion: reduce)")?.matches ? "instant" : "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)")?.matches ? "instant" : "smooth",
     })
     document.getElementById("main-content")?.focus({preventScroll: true})
   }, [])

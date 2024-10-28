@@ -53,7 +53,11 @@ const Accordion = ({
   const id = useId()
 
   const onButtonClick = () => {
-    onClick ? onClick() : toggleExpanded()
+    if (onClick) {
+      onClick()
+    } else {
+      toggleExpanded()
+    }
   }
 
   // When the accordion is externally controlled.

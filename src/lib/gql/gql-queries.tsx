@@ -30,7 +30,6 @@ export const getEntityFromPath = async <T extends NodeUnion>(
       // Paths that start with /node/ should not be used.
       if (path.startsWith("/node/")) return {}
 
-      let entity: T | undefined
       let query: RouteQuery
 
       try {
@@ -50,7 +49,8 @@ export const getEntityFromPath = async <T extends NodeUnion>(
       }
 
       if (query.route?.__typename === "RouteRedirect") return {redirect: query.route.url}
-      entity = query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
+      const entity: T | undefined =
+        query.route?.__typename === "RouteInternal" && query.route.entity ? (query.route.entity as T) : undefined
       return {entity}
     },
     [path, previewMode ? "preview" : "anonymous", teaser ? "teaser" : "full"],

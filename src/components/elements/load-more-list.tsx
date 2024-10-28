@@ -48,14 +48,18 @@ const LoadMoreList = ({buttonText, children, ulProps, liProps, totalItems, loadP
 
   const focusItemRef = useRef<HTMLLIElement>(null)
 
-  const showMoreItems = async () => {
+  const showMoreItems = () => {
     if (loadPage) {
-      const results = await runLoadPage(page + 1)
-      setItems([...items, ...results?.props.children])
-    }
+      runLoadPage(page + 1)
+        .then(results => {
+          const resultChildren = results?.props.children
+          setItems([...items, ...resultChildren])
 
-    enableFocusElement()
-    incrementPage()
+          enableFocusElement()
+          incrementPage()
+        })
+        .catch(_e => console.warn("An error happened"))
+    }
   }
 
   const setFocusOnItem = useFocusOnRender(focusItemRef, false)

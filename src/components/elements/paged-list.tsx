@@ -66,7 +66,7 @@ const PagedList = ({
     if (params.get(pageKey) === currentPage.toString() || (params.get(pageKey) === null && currentPage === 1)) return
 
     params.delete(pageKey)
-    currentPage > 1 && params.set(pageKey, `${currentPage}`)
+    if (currentPage > 1) params.set(pageKey, `${currentPage}`)
 
     router.replace(`?${params.toString()}${window.location.hash || ""}`, {scroll: false})
   }, [currentPage, pageKey, router, searchParams])
@@ -103,7 +103,7 @@ const PagedList = ({
 
   useEffect(() => {
     const initialPage = Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))
-    initialPage > 1 && !ref.current && goToPage(initialPage, true)
+    if (initialPage > 1 && !ref.current) goToPage(initialPage, true)
     ref.current = true
   }, [totalPages, searchParams, pageKey, currentPage, goToPage])
 

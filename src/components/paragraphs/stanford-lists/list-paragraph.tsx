@@ -19,12 +19,13 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   const displayId = paragraph.suListView?.display || ""
   const limit = paragraph.suListView?.pageSize || VIEW_PAGE_SIZE
 
-  let {items: viewItems, totalItems} =
+  const pagedItems =
     viewId && displayId
       ? await getViewPagedItems(viewId, displayId, paragraph.suListView?.contextualFilter, limit)
       : {items: [], totalItems: 0}
 
-  if (limit) viewItems = viewItems.slice(0, limit)
+  const {totalItems} = pagedItems
+  const viewItems = limit ? pagedItems.items.slice(0, limit) : pagedItems.items
 
   const addLoadMore = (limit || 3) >= VIEW_PAGE_SIZE && totalItems > viewItems.length
 

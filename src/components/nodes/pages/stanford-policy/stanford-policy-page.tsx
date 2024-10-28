@@ -11,6 +11,7 @@ import Button from "@components/elements/button"
 import {ChevronLeftIcon} from "@heroicons/react/16/solid"
 import {ChevronRightIcon} from "@heroicons/react/20/solid"
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item"
+import StanfordPolicyMetadata from "@components/nodes/pages/stanford-policy/stanford-policy-metadata"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
@@ -20,20 +21,21 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordPolicyPage = async ({node, ...props}: Props) => {
   const changeLog = node.suPolicyChangelog?.filter(change => change.suPolicyPublic) || []
 
-  let flattenedMenu: BookLink[] = []
+  const flattenedMenu: BookLink[] = []
   const flattenBookMenu = (bookItem: BookLink) => {
     const item = {...bookItem}
     item.children = []
     flattenedMenu.push(item)
     if (bookItem.children) bookItem.children.map(child => flattenBookMenu(child))
   }
-  node.book && flattenBookMenu(node.book)
+  if (node.book) flattenBookMenu(node.book)
 
   const nextPage = flattenedMenu[flattenedMenu.findIndex(page => page.url === node.path) + 1]
   const prevPage = flattenedMenu[flattenedMenu.findIndex(page => page.url === node.path) - 1]
 
   return (
     <article className="centered pt-32" {...props}>
+      <StanfordPolicyMetadata node={node} />
       <div className="flex gap-5">
         <H1 className="flex-grow">{node.title}</H1>
         <div className="flex h-fit gap-5">

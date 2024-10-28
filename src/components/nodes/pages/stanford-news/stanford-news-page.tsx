@@ -7,6 +7,7 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 import {isPreviewMode} from "@lib/drupal/is-preview-mode"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import StanfordNewsMetadata from "@components/nodes/pages/stanford-news/stanford-news-metadata"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -36,6 +37,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32" {...props}>
+      <StanfordNewsMetadata node={node} />
       <div className="mx-auto mb-48 lg:w-10/12">
         <ReverseVisualOrder>
           <H1>{node.title}</H1>
