@@ -10,6 +10,7 @@ import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {ImageCardSkeleton} from "@components/patterns/image-card"
 import {TeaserParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
 import {clsx} from "clsx"
+import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -68,7 +69,10 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 }
 
 const EntityCard = async ({path, headingLevel}: {path: NodeInterface["path"]; headingLevel: "h3" | "h2"}) => {
+  "use cache"
   if (!path) return
+  cacheTag("all-entities", `paths:${path}`)
+
   const queryResponse = await getEntityFromPath<NodeUnion>(path, false, true)
   if (!queryResponse.entity) return
   return <NodeCard node={queryResponse.entity} headingLevel={headingLevel} />

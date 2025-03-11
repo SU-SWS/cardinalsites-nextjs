@@ -98,10 +98,15 @@ populate the data in Drupal or make the field optional.
 
 ## Cache
 
-Next.js caches data fetches pretty heavy. On top of that, in production builds, the data and pages are build and cached.
-If you experience any issues during development, delete the `.next` directory and restart your local server.
+This project uses [Next.JS "use cache" directive](https://nextjs.org/docs/app/api-reference/directives/use-cache).
+This allows the caching of data that is fetched, components, pages, and layouts. With some exceptions, we want to cache 
+all data indefinitely. Then invalidating that cache upon some action performed in the Drupal application, such as a
+piece of content is updated. The default cache behavior of Next.JS has been overridden to infinite cache. Simply adding
+`"use cache"` on a component, function, or page will then cache it forever. Some pages, such as the [sitemap.xml](app/sitemap.tsx),
+can set their cache to be shorter by using the [cacheLife()](https://nextjs.org/docs/app/api-reference/functions/cacheLife)
+function. It's recommended to use a long of cache life as needed to keep cache read/writes to a minimum.
 
-In the layout and pages, we set the `revalidate` variable to `false`. This caches the page and layout build indefinitely.
+In the layout and pages we set `"use cache"` at the top of the file. This caches the page and layout build indefinitely.
 Layouts and page caches are treated separately and can be invalidated independently of each other, while also allowing
 specific parts of each to be invalidated. A route handler is provided that allows the CMS system to invalidate 
 appropriate areas of the site. Making a `GET` request to `/api/revalidate?secret=[secret]&path=/[path]` with the correct
@@ -123,7 +128,7 @@ be rebuilt upon the next request. This shouldn't impact the CMS system since the
 
 Page routes are cache separately from Layouts. When invalidating a route or any fetch requests on the route, the layout
 caches will not be impacted. Using the route handler, if we invalidate the path `/foo/bar` using the [revalidatePath](https://nextjs.org/docs/app/api-reference/functions/revalidatePath)
-function, it will invalidate any `fetch` request that was used to build that single page and no other pages. Requests
+function, it will invalidate any cache data that was used to build that single page and no other pages. Requests
 like list paragraphs, or external fetches will be re-executed when the page is requested.
 
 Pages may contain list paragraphs. Those paragraphs have a separate `fetch` so they can be invalidated when a content
@@ -142,8 +147,41 @@ has documentation explaining how their cache is handled.
 Files, pdf, txt, etc., assets are referenced directly from the CMS. Their cache is managed by the Drupal hosting provider
 and/or Varnish/CDN/Etc.
 
+### Troubleshooting Cache Issues
 
+If you experience any issues during development, most times opening the browser's inspector tools and reloading the page
+will bypass any cached data. If necessary, delete the `.next` directory and restart your local server.
+
+Cache issues on the front end can be very different from Drupal related cache issues. Although both systems use a form
+of cache tags, there are no relationship between the two caching systems. When a save action is performed in Drupal, a
+revalidation request is made to this platform. Occasionally there can be a communication issue or perhaps the Next.JS
+cache refuses to invalidate the appropriate areas. Here are some ways to attempt to resolve the issue:
+
+1. Resave the page that is outdated.
+   - This will make a second request to the FE and attempt to revalidate it again.
+2. Resave a menu item or a page within the menu.
+   - This will invalidate the menu on all pages.
+   - If resaving a page within the menu, make sure to change some value in the menu area to trigger the invalidation. 
+   Changing a weight from 50 to 49 can be the easiest solution.
+3. Resave the configuration page that is outdated.
+   - Resaving a global message or site settings will clear cache for all config pages. This will rebuild all pages.
+4. Enable debugging in the "Next" module in Drupal.
+   - `drush cset next.settings debug 1` will add watchdog logs. These can be streamed in Acquia logs or viewed in the UI
+   if the dblog module is enabled. Errors in the logs will indicate some issue that should be inspected more closely.
+   - Remember to disable the debug once the issue is resolved.
+
+If all of the above fails, there are two quick fixes that can help in a pinch.
+
+1. As stated above making a `GET` request to `/api/revalidate?secret=[secret]&path=/[path/tags]` with the correct
+   parameters will perform a cache invalidation. This will invalidate just a piece of the page(s).
+2. As a last resort, making a `GET` request to `/api/revalidate/page?secret=[secret]&path=/[path]` will invalidate every
+   bit of cached data for that specific path. The system will then refetch the menu, config pages, and the page data to
+   rebuild that one page. This approach will not invalidate cache on any other page and it does not support cache tags.
+   It is very specific to only that single path.
+
+### Cache Documentation
 - [Next.JS cache documentation](https://nextjs.org/docs/app/building-your-application/caching)
+- [Next.JS "use cache" directive](https://nextjs.org/docs/app/api-reference/directives/use-cache)
 - [Vercel Edge Caching](https://vercel.com/docs/edge-network/caching)
 
 ## Learn More
