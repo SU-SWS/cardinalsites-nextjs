@@ -54,6 +54,12 @@ module.exports = {
       fontFamily: {
         stanford: ["var(--font-stanford)", "sans-serif"],
       },
+      listStyleType: {
+        "lower-alpha": "lower-alpha",
+        "upper-alpha": "upper-alpha",
+        "lower-roman": "lower-roman",
+        "upper-roman": "upper-roman",
+      }
     },
   },
   plugins: [

@@ -8,6 +8,7 @@ import {H2, H3, H4, H5, H6} from "@components/elements/headers"
 import twMerge from "@lib/utils/twMerge"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import Mathjax from "@components/tools/mathjax"
+import clsx from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -90,6 +91,18 @@ const options: HTMLReactParserOptions = {
           return <Td {...nodeProps}>{domToReact(children, options)}</Td>
         case "tr":
           return <Tr {...nodeProps}>{domToReact(children, options)}</Tr>
+        case "ol":
+          // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
+          nodeProps.className = twMerge(
+            nodeProps.className,
+            clsx({
+              "list-lower-alpha": nodeProps?.type === "a",
+              "list-upper-alpha": nodeProps?.type === "A",
+              "list-lower-roman": nodeProps?.type === "i",
+              "list-upper-roman": nodeProps?.type === "I",
+            })
+          )
+          return <ol {...nodeProps}>{domToReact(children, options)}</ol>
         case "tfoot":
         case "b":
         case "cite":
@@ -104,7 +117,6 @@ const options: HTMLReactParserOptions = {
         case "span":
         case "blockquote":
         case "ul":
-        case "ol":
         case "li":
         case "strong":
         case "em":
