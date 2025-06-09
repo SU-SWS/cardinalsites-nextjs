@@ -49,7 +49,7 @@ const Rows = async ({components, className, ...props}: Props) => {
   })
 
   return (
-    <div className={twMerge("space-y-32 @container", className)} {...props}>
+    <div className={twMerge("@container", className)} {...props}>
       {Object.keys(layouts).map(layoutId => (
         <Row
           key={layoutId}
@@ -73,10 +73,10 @@ const Row = ({
 }) => {
   if (layout === "layout_paragraphs_2_column")
     return <TwoColumn config={layoutSettings as TwoColumnConfig} items={items} />
-  if (layout === "layout_paragraphs_3_column") return <ThreeColumn items={items} />
+  if (layout === "layout_paragraphs_3_column") return <ThreeColumn config={layoutSettings} items={items} />
 
   // Fall back to one column if the layout is unknown.
-  return <OneColumn items={items} />
+  return <OneColumn config={layoutSettings} items={items} />
 }
 
 export default Rows

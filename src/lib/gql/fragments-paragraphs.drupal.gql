@@ -128,6 +128,9 @@ fragment FragmentParagraphStanfordStatCard on ParagraphStanfordStatCard {
     suStatBgColor {
         color
     }
+    suStatBody {
+        processed
+    }
     suStatButton {
         url
         title

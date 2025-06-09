@@ -356,6 +356,9 @@ export const FragmentParagraphStanfordStatCardFragmentDoc = gql`
   suStatBgColor {
     color
   }
+  suStatBody {
+    processed
+  }
   suStatButton {
     url
     title
