@@ -70,7 +70,7 @@ export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLU
             )}
           />
         </span>
-        <span className="group-hocus-visible:underline" aria-hidden>
+        <span className="group-hocus-visible:underline" aria-hidden="true">
           {menuOpen ? "Close" : "Menu"}
         </span>
       </button>
@@ -121,25 +121,22 @@ export const MainMenuItemClientWrapper = ({id, level, link, children, ...props}:
 
       {children && (
         <>
-          <span className="ml-auto flex items-center">
-            <button
-              aria-labelledby={id}
-              className="group relative right-10 shrink-0 rounded-full border-b border-transparent bg-digital-red text-white hocus-visible:border-black hocus-visible:bg-white lg:right-0 lg:rounded-none lg:bg-transparent lg:text-digital-red"
-              ref={buttonRef}
-              onClick={toggleSubmenu}
-              aria-expanded={submenuOpen}
-            >
-              <ChevronDownIcon
-                height={35}
-                className={twMerge(
-                  "transition duration-150 ease-in-out group-hocus-visible:scale-125 group-hocus-visible:text-black",
-                  clsx({
-                    "rotate-180": submenuOpen,
-                  })
-                )}
-              />
-            </button>
-          </span>
+          <button
+            aria-labelledby={id}
+            className="group relative right-10 col-start-10 w-fit shrink-0 rounded-full border-b border-transparent bg-digital-red text-white hocus-visible:border-black hocus-visible:bg-white lg:right-0 lg:rounded-none lg:bg-transparent lg:text-digital-red"
+            ref={buttonRef}
+            onClick={toggleSubmenu}
+            aria-expanded={submenuOpen}
+          >
+            <ChevronDownIcon
+              height={35}
+              className={twMerge(
+                "ml-auto transition duration-150 ease-in-out group-hocus-visible:scale-125 group-hocus-visible:text-black",
+                clsx({"rotate-180": submenuOpen})
+              )}
+            />
+          </button>
+
           {submenuOpen && children}
         </>
       )}
