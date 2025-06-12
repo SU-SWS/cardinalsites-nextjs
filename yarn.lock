@@ -5192,12 +5192,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.0.0":
-  version: 24.0.0
-  resolution: "@types/node@npm:24.0.0"
+"@types/node@npm:24.0.1":
+  version: 24.0.1
+  resolution: "@types/node@npm:24.0.1"
   dependencies:
     undici-types: "npm:~7.8.0"
-  checksum: 10c0/075f3129aa88932a0b4c3c9c28486f93a8d295151138b1fdd590cbbb59ec92d59b66201f99a0f061a7c8955a09d06ecc3fa070ed3c438a521a9890d1a3460958
+  checksum: 10c0/91cd50d1ac32a2172cbc67b65c78391fbd469b24743e3665427aa60bebaf4620cb9ac2e91c09a8081a78d08855c00faca659c287c1725ce8ca5e80ece3a20520
   languageName: node
   linkType: hard
 
@@ -7701,8 +7701,8 @@ __metadata:
     "@storybook/react": "npm:^9.0.8"
     "@storybook/testing-library": "npm:^0.2.2"
     "@tailwindcss/container-queries": "npm:^0.1.1"
-    "@types/node": "npm:24.0.0"
-    "@types/react": "npm:19.1.7"
+    "@types/node": "npm:24.0.1"
+    "@types/react": "npm:19.1.8"
     "@types/react-dom": "npm:19.1.6"
     "@types/react-slick": "npm:^0.23.13"
     algoliasearch: "npm:^5.27.0"
@@ -7716,7 +7716,7 @@ __metadata:
     eslint-config-next: "npm:15.3.3"
     eslint-config-prettier: "npm:^10.1.5"
     eslint-plugin-prettier: "npm:^5.4.1"
-    eslint-plugin-storybook: "npm:^9.0.8"
+    eslint-plugin-storybook: "npm:^9.0.9"
     graphql: "npm:^16.11.0"
     graphql-request: "npm:^7.2.0"
     graphql-tag: "npm:^2.12.6"
@@ -7724,7 +7724,7 @@ __metadata:
     html-react-parser: "npm:^5.2.5"
     next: "npm:15.3.3"
     plaiceholder: "npm:^3.0.0"
-    postcss: "npm:^8.5.4"
+    postcss: "npm:^8.5.5"
     prettier: "npm:^3.5.3"
     prettier-plugin-tailwindcss: "npm:^0.6.12"
     qs: "npm:^6.14.0"
@@ -7739,7 +7739,7 @@ __metadata:
     react-super-responsive-table: "npm:^6.0.2"
     react-tiny-oembed: "npm:^1.1.0"
     sharp: "npm:0.34.1"
-    storybook: "npm:^9.0.8"
+    storybook: "npm:^9.0.9"
     storybook-addon-module-mock: "npm:^1.4.0"
     tailwind-merge: "npm:^2.6.0"
     tailwindcss: "npm:^3.4.17"
@@ -8802,15 +8802,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^9.0.8":
-  version: 9.0.8
-  resolution: "eslint-plugin-storybook@npm:9.0.8"
+"eslint-plugin-storybook@npm:^9.0.9":
+  version: 9.0.9
+  resolution: "eslint-plugin-storybook@npm:9.0.9"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.8.1"
   peerDependencies:
     eslint: ">=8"
-    storybook: ^9.0.8
-  checksum: 10c0/71bc7745a919d0873190ff1b042931f23c35d980056ebdf227ec9d48aa7678133a3a2aa7d3ca1478374ad256b76d6ad0d48f8d202b09cfdf892a6c7c67755cf6
+    storybook: ^9.0.9
+  checksum: 10c0/458c7f543ce7aa129675c94d946f334d4e11f39b2a93d55b5fb416befccc64d281e9504bdb3df83d1e819d8f6e1a54962d375e37b9b234e2f718308c402611e3
   languageName: node
   linkType: hard
 
@@ -12479,14 +12479,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.4":
-  version: 8.5.4
-  resolution: "postcss@npm:8.5.4"
+"postcss@npm:^8.5.5":
+  version: 8.5.5
+  resolution: "postcss@npm:8.5.5"
   dependencies:
     nanoid: "npm:^3.3.11"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10c0/0feff648614a834f7cd5396ea6b05b658ca0507e10a4eaad03b56c348f6aec93f42a885fc1b30522630c6a7e49ae53b38a061e3cba526f2d9857afbe095a22bb
+  checksum: 10c0/6415873fab84de05c2d8fd18f72ea6654bca437bb4b9f02ca819c438501e4b3a450023e575e17587c6eaa5bedddaaa4dad3af210f5cf166e30cec09cac58baf8
   languageName: node
   linkType: hard
 
@@ -14101,9 +14101,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@npm:^9.0.8":
-  version: 9.0.8
-  resolution: "storybook@npm:9.0.8"
+"storybook@npm:^9.0.9":
+  version: 9.0.9
+  resolution: "storybook@npm:9.0.9"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@testing-library/jest-dom": "npm:^6.6.3"
@@ -14123,7 +14123,7 @@ __metadata:
       optional: true
   bin:
     storybook: ./bin/index.cjs
-  checksum: 10c0/8d40206c7ea7ed0c144b6937421abf926ca6171475e46bdbc16c42f4e4cd277ade47406f369e772df9aaa1603918827d45f67822c992e500003b7839896cd2ec
+  checksum: 10c0/d55ad6b5d51a3a1a6b2a3a6d028d16d035c010d43451bdfe903f7dce0ed7c8bfbd3186c2e6db0136bc76b9b60facad445ffef2a5b6931e611ce490ae797f66cb
   languageName: node
   linkType: hard
 

@@ -365,6 +365,8 @@ export const FragmentParagraphStanfordStatCardFragmentDoc = gql`
   }
   suStatCentered
   suStatHeadline
+  suStatHeadlineLvl
+  suStatHeadingHide
   suStatIcon {
     iconName
     style

@@ -137,6 +137,8 @@ fragment FragmentParagraphStanfordStatCard on ParagraphStanfordStatCard {
     }
     suStatCentered
     suStatHeadline
+    suStatHeadlineLvl
+    suStatHeadingHide
     suStatIcon {
         iconName
         style

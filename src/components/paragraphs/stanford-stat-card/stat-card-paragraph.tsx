@@ -1,6 +1,6 @@
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordStatCard} from "@lib/gql/__generated__/drupal.d"
-import {H2} from "@components/elements/headers"
+import {H2, H3, H4} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Link from "@components/elements/link"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
@@ -14,10 +14,16 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordStatCard
 }
 const StatCardParagraph = ({paragraph, ...props}: Props) => {
+  const headerTagChoice = (paragraph.suStatHeadlineLvl || "h2").split(".", 2)
+  const headerTag = headerTagChoice[0]
+  const headerClasses = clsx(
+    headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-2 font-bold") || undefined,
+    {"sr-only": paragraph.suStatHeadingHide}
+  )
+
   let statMatches: RegExpMatchArray | null = null
   let decimalPlaces = 0
   let prefix: string | undefined
-
 
   // The stat starts with numbers.
   if (/^[0-9]/.test(paragraph.suStatStat)) {
@@ -37,7 +43,8 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
     }
   }
   const allowTextColors = !paragraph.suStatBgColor?.color || ["f4f4f4"].includes(paragraph.suStatBgColor?.color)
-  const whiteText = paragraph.suStatBgColor?.color && !["f4f4f4", "e98300", "e04f39"].includes(paragraph.suStatBgColor?.color)
+  const whiteText =
+    paragraph.suStatBgColor?.color && !["f4f4f4", "e98300", "e04f39"].includes(paragraph.suStatBgColor?.color)
 
   return (
     <ImageCard
@@ -59,10 +66,30 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
       aria-labelledby={paragraph.suStatHeadline ? paragraph.uuid : undefined}
       imageUrl={paragraph.suStatImage?.mediaImage.url}
       imageAlt={paragraph.suStatImage?.mediaImage.alt}
-      isArticle={!!paragraph.suStatHeadline}
+      isArticle={!!paragraph.suStatHeadline && headerTag !== "div"}
     >
       <ReverseVisualOrder>
-        <H2 className="mb-0">{paragraph.suStatHeadline}</H2>
+        {paragraph.suStatHeadline && (
+          <>
+            {headerTag === "h2" && (
+              <H2 id={paragraph.uuid} className={twMerge("mb-0", headerClasses)}>
+                {paragraph.suStatHeadline}
+              </H2>
+            )}
+            {headerTag === "h3" && (
+              <H3 id={paragraph.uuid} className={twMerge("mb-0", headerClasses)}>
+                {paragraph.suStatHeadline}
+              </H3>
+            )}
+            {headerTag === "h4" && (
+              <H4 id={paragraph.uuid} className={twMerge("mb-0", headerClasses)}>
+                {paragraph.suStatHeadline}
+              </H4>
+            )}
+            {headerTag === "div" && <div className={twMerge("mb-0", headerClasses)}>{paragraph.suStatHeadline}</div>}
+          </>
+        )}
+
         <div>
           {paragraph.suStatImage && <div></div>}
           {paragraph.suStatIcon && (
