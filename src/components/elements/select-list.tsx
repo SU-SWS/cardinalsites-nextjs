@@ -24,7 +24,10 @@ interface OptionProps {
   disabled?: boolean
 }
 
-const renderSelectedValue = (value: SelectValue<string, boolean>, options: SelectOptionDefinition<string>[]) => {
+const renderSelectedValue = (
+  value: SelectValue<string, boolean>,
+  options: SelectOptionDefinition<string>[]
+): ReactNode | string | null => {
   if (Array.isArray(value)) {
     return value.map(item => (
       <span
