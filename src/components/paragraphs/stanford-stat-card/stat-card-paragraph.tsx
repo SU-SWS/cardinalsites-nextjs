@@ -97,7 +97,6 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
               <span
                 aria-hidden="true"
                 className={clsx(`fa-${paragraph.suStatIcon.iconName} ${paragraph.suStatIcon.style} text-[60px]`, {
-                  "text-black": allowTextColors && paragraph.suStatIconColor?.color === "2e2d29",
                   "text-cardinal-red": allowTextColors && paragraph.suStatIconColor?.color === "8c1515",
                   "text-plum": allowTextColors && paragraph.suStatIconColor?.color === "620059",
                   "text-lagunita": allowTextColors && paragraph.suStatIconColor?.color === "007c92",
@@ -115,7 +114,6 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
               prefix={prefix}
               suffix={(statMatches && statMatches[2]) || undefined}
               className={clsx("text-[40px] font-bold @xl:text-[50px] @2xl:text-[60px]", {
-                "text-black": allowTextColors && paragraph.suStatStatColor?.color === "2e2d29",
                 "text-cardinal-red": allowTextColors && paragraph.suStatStatColor?.color === "8c1515",
                 "text-plum": allowTextColors && paragraph.suStatStatColor?.color === "620059",
                 "text-lagunita": allowTextColors && paragraph.suStatStatColor?.color === "007c92",
