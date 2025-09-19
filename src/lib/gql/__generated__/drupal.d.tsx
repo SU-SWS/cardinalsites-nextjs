@@ -1546,9 +1546,13 @@ export type NodeStanfordNews = EdgeNode &
      */
     suNewsDek?: Maybe<Scalars["String"]["output"]>
     /**
-     * Maximum one featured media. <em>The “featured media” will appear as a
-     * thumbnail on the list page, and as a thumbnail on the teaser card
-     * paragraph.</em>
+     * Maximum of one featured media item. <em>The featured media will appear as a
+     * thumbnail on the list page and on the teaser card paragraph.</em> The
+     * alternative text for the image should not be just the image or person’s
+     * name. The image should either be marked as decorative, or the alternative text
+     * should describe the image. See the <a
+     * Guide: Alternative text (alt text) for images and other media</a> for
+     * additional information.
      */
     suNewsFeaturedMedia?: Maybe<MediaImage>
     /** Hide Social Share Icons */
