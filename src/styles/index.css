@@ -1,9 +1,122 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
+@import "decanter";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-aquamarine: #78dbe4;
+  --color-flamingo: #ecc7cd;
+  --color-fuchsia: #e31c79;
+  --color-lavender: #c5b4e3;
+  --color-lime: #dbe442;
+  --color-periwinkle: #485cc7;
+  --color-robins-egg: #77c5d5;
+  --color-sapphire: #005776;
+  --color-slate: #4e4b48;
 
+  --font-sans: var(--font-source-sans);
+  --font-serif: var(--font-source-serif);
+  --font-stanford: var(--font-stanford);
+}
+
+/* Custom utilities and components */
+@layer utilities {
+  /* Scale utilities */
+  .scale-\[-100\] {
+    transform: scale(-1);
+  }
+}
+
+/* Grid template columns - dynamically generated */
+@layer utilities {
+  /* Two column grids */
+  .grid-cols-1-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .grid-cols-1-2 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+  .grid-cols-1-3 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  }
+  .grid-cols-1-4 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+  }
+  .grid-cols-2-1 {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  .grid-cols-3-1 {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+  .grid-cols-4-1 {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
+  }
+
+  /* Three column grids */
+  .grid-cols-1-1-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .grid-cols-1-1-2 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+  }
+  .grid-cols-1-1-3 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 3fr);
+  }
+  .grid-cols-1-1-4 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 4fr);
+  }
+  .grid-cols-1-2-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  }
+  .grid-cols-1-3-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+  }
+  .grid-cols-1-4-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr);
+  }
+  .grid-cols-2-1-1 {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .grid-cols-3-1-1 {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .grid-cols-4-1-1 {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* List style types */
+@layer utilities {
+  .list-lower-alpha {
+    list-style-type: lower-alpha;
+  }
+  .list-upper-alpha {
+    list-style-type: upper-alpha;
+  }
+  .list-lower-roman {
+    list-style-type: lower-roman;
+  }
+  .list-upper-roman {
+    list-style-type: upper-roman;
+  }
+}
+
+/* Data attribute utilities */
+@layer utilities {
+  .data-\[intrail\=true\]\:block[data-intrail="true"] {
+    display: block;
+  }
+  .data-\[intrail\=true\]\:hidden[data-intrail="true"] {
+    display: none;
+  }
+}
+
+/* Aria attribute utilities */
+@layer utilities {
+  .aria-\[current\=true\]\:font-bold[aria-current="true"] {
+    font-weight: bold;
+  }
+  .aria-\[current\=page\]\:font-bold[aria-current="page"] {
+    font-weight: bold;
+  }
+}
 
 /* Styles for react-tiny-oembed containers */
 .aspect-\[16\/9\] .__embed_column {
