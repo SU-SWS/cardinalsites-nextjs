@@ -18,9 +18,9 @@ fragment FragmentNodeStanfordPage on NodeStanfordPage {
     layoutSelection {
         id
     }
-    body {
-        processed
-    }
+    # body {
+    #     processed
+    # }
     suBasicPageType {
         ...FragmentTermInterface
     }
@@ -130,9 +130,9 @@ fragment FragmentNodeStanfordEventSeries on NodeStanfordEventSeries {
 }
 
 fragment FragmentNodeStanfordNews on NodeStanfordNews {
-    body {
-        processed
-    }
+    # body {
+    #     processed
+    # }
     suNewsBanner {
         ...FragmentMediaUnion
     }

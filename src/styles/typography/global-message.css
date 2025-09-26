@@ -1,0 +1,15 @@
+@layer utilities {
+  .global-message {
+    --link-color: theme(--color-white);
+    --link-hover-color: theme(--color-black);
+  }
+
+  .global-message a {
+    color: var(--link-color);
+  }
+
+  .global-message a:hover,
+  .global-message a:focus {
+    color: var(--link-hover-color);
+  }
+}

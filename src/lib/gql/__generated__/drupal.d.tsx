@@ -1507,8 +1507,6 @@ export type NodeStanfordNews = EdgeNode &
   MetaTagInterface &
   NodeInterface & {
     __typename?: "NodeStanfordNews"
-    /** Body */
-    body?: Maybe<TextSummary>
     /** The time that the node was last edited. */
     changed: DateTime
     /** The date and time that the content was created. */
@@ -1548,9 +1546,13 @@ export type NodeStanfordNews = EdgeNode &
      */
     suNewsDek?: Maybe<Scalars["String"]["output"]>
     /**
-     * Maximum one featured media. <em>The “featured media” will appear as a
-     * thumbnail on the list page, and as a thumbnail on the teaser card
-     * paragraph.</em>
+     * Maximum of one featured media item. <em>The featured media will appear as a
+     * thumbnail on the list page and on the teaser card paragraph.</em> The
+     * alternative text for the image should not be just the image or person’s
+     * name. The image should either be marked as decorative, or the alternative text
+     * should describe the image. See the <a
+     * Guide: Alternative text (alt text) for images and other media</a> for
+     * additional information.
      */
     suNewsFeaturedMedia?: Maybe<MediaImage>
     /** Hide Social Share Icons */
@@ -1778,8 +1780,6 @@ export type NodeStanfordPage = EdgeNode &
   MetaTagInterface &
   NodeInterface & {
     __typename?: "NodeStanfordPage"
-    /** Body */
-    body?: Maybe<TextSummary>
     /** The time that the node was last edited. */
     changed: DateTime
     /** The date and time that the content was created. */
@@ -2638,14 +2638,7 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface &
     suStatHeadline: Scalars["String"]["output"]
     /** Headling Level */
     suStatHeadlineLvl: Scalars["String"]["output"]
-    /**
-     * Name of the Font Awesome Icon. See <a href="https://fontawesome.com/icons">the
-     * Font Awesome icon list</a> for valid icon names, or begin typing for an
-     * autocomplete list. Note that all four versions of the icon will be shown -
-     * Light, Regular, Solid, Duotone, and Thin respectively. Please note that if the
-     * icon name does not appear in the autocomplete drop-down, it may not be
-     * available for use.
-     */
+    /** Icon */
     suStatIcon?: Maybe<FontawesomeIconType>
     /** Icon Color */
     suStatIconColor?: Maybe<ColorFieldType>
@@ -5531,7 +5524,6 @@ export type NodeQuery = {
               attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
             }
         >
-        body?: {__typename?: "TextSummary"; processed?: any | null} | null
         suNewsBanner?:
           | {
               __typename: "MediaImage"
@@ -6043,7 +6035,6 @@ export type NodeQuery = {
             }
         >
         layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
-        body?: {__typename?: "TextSummary"; processed?: any | null} | null
         suBasicPageType?: Array<{
           __typename: "TermBasicPageType"
           uuid: string
@@ -7925,7 +7916,6 @@ export type NewsQuery = {
       suNewsHideSocial?: boolean | null
       uuid: string
       path?: string | null
-      body?: {__typename?: "TextSummary"; processed?: any | null} | null
       suNewsBanner?:
         | {
             __typename: "MediaImage"
@@ -8135,7 +8125,6 @@ export type BasicPagesQuery = {
       uuid: string
       path?: string | null
       layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
-      body?: {__typename?: "TextSummary"; processed?: any | null} | null
       suBasicPageType?: Array<{
         __typename: "TermBasicPageType"
         uuid: string
@@ -10872,7 +10861,6 @@ export type FragmentNodeStanfordPageFragment = {
   __typename?: "NodeStanfordPage"
   suPageDescription?: string | null
   layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
-  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suBasicPageType?: Array<{
     __typename: "TermBasicPageType"
     uuid: string
@@ -11829,7 +11817,6 @@ export type FragmentNodeStanfordNewsFragment = {
   suNewsByline?: string | null
   suNewsDek?: string | null
   suNewsHideSocial?: boolean | null
-  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suNewsBanner?:
     | {
         __typename: "MediaImage"
@@ -13546,7 +13533,6 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
         attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
       }
   >
-  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suNewsBanner?:
     | {
         __typename: "MediaImage"
@@ -14060,7 +14046,6 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
       }
   >
   layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
-  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suBasicPageType?: Array<{
     __typename: "TermBasicPageType"
     uuid: string
@@ -17047,7 +17032,6 @@ export type RouteQuery = {
                     attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
                   }
               >
-              body?: {__typename?: "TextSummary"; processed?: any | null} | null
               suNewsBanner?:
                 | {
                     __typename: "MediaImage"
@@ -17603,7 +17587,6 @@ export type RouteQuery = {
                   }
               >
               layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
-              body?: {__typename?: "TextSummary"; processed?: any | null} | null
               suBasicPageType?: Array<{
                 __typename: "TermBasicPageType"
                 uuid: string

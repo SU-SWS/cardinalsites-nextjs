@@ -1,31 +1,22 @@
-@import "decanter";
+/* @import "./centered-container.css";
+@import "./typography/global-message.css";
+@import "./typography/local-footer.css";
+@import "./typography/wysiwyg.css"; */
+@import "decanter/static/css/decanter.css";
 
 @theme {
-  --color-aquamarine: #78dbe4;
-  --color-flamingo: #ecc7cd;
-  --color-fuchsia: #e31c79;
-  --color-lavender: #c5b4e3;
-  --color-lime: #dbe442;
-  --color-periwinkle: #485cc7;
-  --color-robins-egg: #77c5d5;
-  --color-sapphire: #005776;
-  --color-slate: #4e4b48;
-
   --font-sans: var(--font-source-sans);
   --font-serif: var(--font-source-serif);
   --font-stanford: var(--font-stanford);
 }
 
-/* Custom utilities and components */
+/* Custom utilities */
 @layer utilities {
   /* Scale utilities */
   .scale-\[-100\] {
     transform: scale(-1);
   }
-}
 
-/* Grid template columns - dynamically generated */
-@layer utilities {
   /* Two column grids */
   .grid-cols-1-1 {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -80,10 +71,8 @@
   .grid-cols-4-1-1 {
     grid-template-columns: minmax(0, 4fr) minmax(0, 1fr) minmax(0, 1fr);
   }
-}
 
-/* List style types */
-@layer utilities {
+  /* List style types */
   .list-lower-alpha {
     list-style-type: lower-alpha;
   }
@@ -96,20 +85,15 @@
   .list-upper-roman {
     list-style-type: upper-roman;
   }
-}
-
-/* Data attribute utilities */
-@layer utilities {
+  /* Data attribute utilities */
   .data-\[intrail\=true\]\:block[data-intrail="true"] {
     display: block;
   }
   .data-\[intrail\=true\]\:hidden[data-intrail="true"] {
     display: none;
   }
-}
 
-/* Aria attribute utilities */
-@layer utilities {
+  /* Aria attribute utilities */
   .aria-\[current\=true\]\:font-bold[aria-current="true"] {
     font-weight: bold;
   }

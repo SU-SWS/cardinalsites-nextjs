@@ -1,0 +1,13 @@
+@layer components {
+  .local-footer .wysiwyg h2 {
+    font-size: 1.5em;
+  }
+
+  .local-footer .wysiwyg h3 {
+    font-size: 1.3em;
+  }
+
+  .local-footer .wysiwyg h4 {
+    font-size: 1.1em;
+  }
+}

@@ -1,0 +1,79 @@
+@theme {
+  /* Define your screen margins as custom properties */
+  --gutter-sm: 20px;
+  --gutter-md: 24px;
+  --gutter-lg: 28px;
+  --gutter-xl: 32px;
+  --gutter-2xl: 36px;
+  --gutter-3xl: 40px;
+  --gutter-smallest: 20px;
+  --screen-largest: 1280px;
+}
+/* 
+@layer components {
+  .centered {
+    max-width: calc(100vw - (var(--gutter-smallest) * 2));
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: theme(--breakpoint-sm)) {
+      max-width: calc(100vw - (var(--gutter-sm) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-md)) {
+      max-width: calc(100vw - (var(--gutter-md) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-lg)) {
+      max-width: calc(100vw - (var(--gutter-lg) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-xl)) {
+      max-width: calc(100vw - (var(--gutter-xl) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-2xl)) {
+      max-width: calc(100vw - (var(--gutter-2xl) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-3xl)) {
+      max-width: calc(100vw - (var(--gutter-3xl) * 2));
+    }
+
+    @media only screen and (min-width: calc(var(--screen-largest) + (var(--gutter-3xl) * 2))) {
+      max-width: var(--screen-largest);
+    }
+  }
+
+  .gutters {
+    max-width: calc(100vw - (var(--gutter-smallest) * 2));
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: theme(--breakpoint-sm)) {
+      max-width: calc(100vw - (var(--gutter-sm) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-md)) {
+      max-width: calc(100vw - (var(--gutter-md) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-lg)) {
+      max-width: calc(100vw - (var(--gutter-lg) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-xl)) {
+      max-width: calc(100vw - (var(--gutter-xl) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-2xl)) {
+      max-width: calc(100vw - (var(--gutter-2xl) * 2));
+    }
+
+    @media (min-width: theme(--breakpoint-3xl)) {
+      max-width: calc(100vw - (var(--gutter-3xl) * 2));
+    }
+  }
+} */
