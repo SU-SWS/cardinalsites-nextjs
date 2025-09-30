@@ -33,11 +33,16 @@
       "@hooks/*": [
         "./src/hooks/*"
       ]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   },
   "include": [
     "next-env.d.ts",
     "src/**/*.tsx",
+    "src/**/*.ts",
     "app/**/*.tsx",
     ".storybook/stories/**/*.tsx",
     ".next/types/**/*.ts"

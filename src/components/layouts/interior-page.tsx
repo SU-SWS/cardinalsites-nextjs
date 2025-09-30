@@ -9,7 +9,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * Current url path.
    */
-  currentPath: string
+  currentPath?: string
   menuItems?: MenuItem[] | BookLink[]
 }
 
