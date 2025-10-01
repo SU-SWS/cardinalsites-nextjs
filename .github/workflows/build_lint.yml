@@ -30,7 +30,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     container:
-      image: pookmish/drupal8ci:latest
+      image: pookmish/drupal8ci:php8.3
       env:
         BUILD_PAGES: 100
         SITENAME: sitedir

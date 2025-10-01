@@ -1,4 +1,3 @@
-import LoginButton from "@components/elements/auth/login-button"
 import InteriorPage from "@components/layouts/interior-page"
 import {H1} from "@components/elements/headers"
 import {Metadata} from "next"
