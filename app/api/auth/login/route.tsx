@@ -3,7 +3,7 @@ import {NextRequest, NextResponse} from "next/server"
 import {getSamlConfig} from "@lib/auth/saml-config"
 
 export const GET = async (req: NextRequest) => {
-  const samlConfig = getSamlConfig(req.nextUrl.origin)
+  const samlConfig = await getSamlConfig(req.nextUrl.origin)
   try {
     // Validate required config before creating SAML instance
     if (!samlConfig.issuer) {

@@ -1,13 +1,17 @@
 import {SAML} from "passport-saml/lib/node-saml"
 import {NextRequest, NextResponse} from "next/server"
 import {getSamlConfig} from "@lib/auth/saml-config"
+import {fetchCertFromVault} from "@lib/utils/vault"
 
 export const GET = async (req: NextRequest) => {
-  const samlConfig = getSamlConfig(req.nextUrl.origin)
+  const samlConfig = await getSamlConfig(req.nextUrl.origin)
   try {
+    const signingCert = await fetchCertFromVault(
+      process.env.VAULT_SAML_SIGNING_KEY_PATH as string,
+      process.env.VAULT_SAML_SIGNING_KEY_KEY as string
+    )
     const saml = new SAML(samlConfig)
     // Generate SAML metadata - pass certificates as parameters, not in config
-    const signingCert = Buffer.from(process.env.SAML_SIGNING_CERT as string, "base64").toString()
     const metadata = saml.generateServiceProviderMetadata(signingCert, signingCert)
 
     return new Response(metadata, {

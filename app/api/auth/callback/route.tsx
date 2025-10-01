@@ -6,7 +6,7 @@ import {cookies} from "next/headers"
 import {getSamlConfig} from "@lib/auth/saml-config"
 
 export const POST = async (req: NextRequest) => {
-  const samlConfig = getSamlConfig(req.nextUrl.origin)
+  const samlConfig = await getSamlConfig(req.nextUrl.origin)
   const body = await req.formData()
   const samlResponse = body.get("SAMLResponse") as string
   let relayState = (body.get("RelayState") as string) || "/"
