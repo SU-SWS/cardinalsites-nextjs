@@ -18,7 +18,7 @@ export const middleware = async (request: NextRequest) => {
   const response = NextResponse.next()
   response.headers.set("x-user-id", payload.uid || "")
   response.headers.set("x-user-email", payload.mail || "")
-  response.headers.set("x-user-name", typeof payload.displayName || "")
+  response.headers.set("x-user-name", payload.displayName || "")
 
   return response
 }
@@ -27,5 +27,5 @@ export const middleware = async (request: NextRequest) => {
 // If this is changed, the directory /app/internal may need to be renamed,
 // or removed if the whole site is behind authentication.
 export const config = {
-  matcher: ["/internal/:path*"],
+  matcher: ["/internal/:path*", "/user"],
 }

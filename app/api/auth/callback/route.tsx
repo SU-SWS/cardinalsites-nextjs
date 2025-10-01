@@ -9,7 +9,9 @@ export const POST = async (req: NextRequest) => {
   const samlConfig = getSamlConfig(req.nextUrl.origin)
   const body = await req.formData()
   const samlResponse = body.get("SAMLResponse") as string
-  const relayState = (body.get("RelayState") as string) || "/"
+  let relayState = (body.get("RelayState") as string) || "/"
+  if (relayState == "/user/login") relayState = "/user"
+
   const cookieStore = await cookies()
 
   if (!samlResponse) {
