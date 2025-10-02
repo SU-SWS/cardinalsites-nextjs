@@ -8,8 +8,11 @@ export const getSamlConfig = async (origin: string): Promise<SamlConfig> => {
   try {
     // Fetch certificates from Vault
     const [idpCert, spPrivateKey] = await Promise.all([
-      fetchFromVault(process.env.VAULT_SAML_IDP_CERT_PATH as string, process.env.VAULT_SAML_IDP_CERT_KEY as string),
-      fetchFromVault(
+      fetchFromVault<string>(
+        process.env.VAULT_SAML_IDP_CERT_PATH as string,
+        process.env.VAULT_SAML_IDP_CERT_KEY as string
+      ),
+      fetchFromVault<string>(
         process.env.VAULT_SAML_SP_PRIVATE_KEY_PATH as string,
         process.env.VAULT_SAML_SP_PRIVATE_KEY_KEY as string
       ),

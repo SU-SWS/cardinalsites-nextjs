@@ -36,7 +36,7 @@ jobs:
         SITENAME: sitedir
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_DATABASE: drupal
           MYSQL_USER: drupal
@@ -76,7 +76,6 @@ jobs:
           chmod -R 777 docroot/sites/default/files/ &&
           apachectl stop && apachectl start &&
           composer install -n &&
-          drush settings &&
           drush drupal:install -n &&
           drush sqlq 'truncate config_pages__su_site_algolia_id'
       - name: Build Frontend
