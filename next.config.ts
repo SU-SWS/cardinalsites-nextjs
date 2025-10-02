@@ -61,11 +61,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/user/:slug*",
-        destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/user/login",
-        permanent: true,
-      },
-      {
         source: "/saml/login",
         destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/user/login",
         permanent: true,

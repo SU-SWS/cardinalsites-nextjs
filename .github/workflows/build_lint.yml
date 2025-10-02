@@ -30,13 +30,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     container:
-      image: pookmish/drupal8ci:latest
+      image: pookmish/drupal8ci:php8.3
       env:
         BUILD_PAGES: 100
         SITENAME: sitedir
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_DATABASE: drupal
           MYSQL_USER: drupal
@@ -61,11 +61,11 @@ jobs:
             docroot/libraries
             docroot/modules/contrib
             frontend/node_modules
-          key: build-${{ hashFiles('blt/blt.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
+          key: build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
           restore-keys: |
-            build-${{ hashFiles('blt/blt.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
-            build-${{ hashFiles('blt/blt.yml') }}-${{ hashFiles('composer.json') }}-
-            build-${{ hashFiles('blt/blt.yml') }}-
+            build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
+            build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-
+            build-${{ hashFiles('drush/drush.yml') }}-
       - name: Sync Site
         run: |
           git config --system --add safe.directory '*' &&
@@ -76,15 +76,16 @@ jobs:
           chmod -R 777 docroot/sites/default/files/ &&
           apachectl stop && apachectl start &&
           composer install -n &&
-          blt drupal:install -n &&
+          drush drupal:install -n &&
           drush sqlq 'truncate config_pages__su_site_algolia_id'
       - name: Build Frontend
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
           cp .env.example .env.local &&
           sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=http://localhost|g" .env.local &&
+          sed -i -r 's/BUILD_PAGES=.*/BUILD_PAGES=-1/g' .env.local &&
           cd $GITHUB_WORKSPACE &&
-          drush su-next-connect >> $GITHUB_WORKSPACE/frontend/.env.local &&
+          drush stanford-decoupled:connect-next >> $GITHUB_WORKSPACE/frontend/.env.local &&
           cd $GITHUB_WORKSPACE/frontend &&
           yarn &&
           yarn build
