@@ -1,5 +1,5 @@
 import {SamlConfig} from "passport-saml"
-import {fetchCertFromVault} from "@lib/utils/vault"
+import {fetchFromVault} from "@lib/utils/vault"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 
 export const getSamlConfig = async (origin: string): Promise<SamlConfig> => {
@@ -8,8 +8,8 @@ export const getSamlConfig = async (origin: string): Promise<SamlConfig> => {
   try {
     // Fetch certificates from Vault
     const [idpCert, spPrivateKey] = await Promise.all([
-      fetchCertFromVault(process.env.VAULT_SAML_IDP_CERT_PATH as string, process.env.VAULT_SAML_IDP_CERT_KEY as string),
-      fetchCertFromVault(
+      fetchFromVault(process.env.VAULT_SAML_IDP_CERT_PATH as string, process.env.VAULT_SAML_IDP_CERT_KEY as string),
+      fetchFromVault(
         process.env.VAULT_SAML_SP_PRIVATE_KEY_PATH as string,
         process.env.VAULT_SAML_SP_PRIVATE_KEY_KEY as string
       ),
