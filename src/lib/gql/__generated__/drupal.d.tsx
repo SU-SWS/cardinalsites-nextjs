@@ -5728,7 +5728,6 @@ export type NodeQuery = {
         suOppContactName?: string | null
         suOppContactPhone?: any | null
         suOppCourseCode?: Array<string> | null
-        suOppStatus?: boolean | null
         uuid: string
         title: string
         path?: string | null
@@ -5902,8 +5901,6 @@ export type NodeQuery = {
           name: string
           mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
         } | null
-        suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-        suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
         suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
         suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suOppSponsor?: Array<{
@@ -5934,7 +5931,6 @@ export type NodeQuery = {
             | {__typename?: "TermSuCourseTag"; uuid: string}
             | null
         }> | null
-        suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
         suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
         suOppTags?: Array<{
           __typename: "TermOpportunityTagFilter"
@@ -12490,7 +12486,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
   suOppContactName?: string | null
   suOppContactPhone?: any | null
   suOppCourseCode?: Array<string> | null
-  suOppStatus?: boolean | null
   body?: {__typename?: "TextSummary"; processed?: any | null; summary?: any | null} | null
   suOppApplicationDeadline?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppCardFooter?: {__typename?: "Text"; processed?: any | null} | null
@@ -12647,8 +12642,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
     name: string
     mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
   } | null
-  suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-  suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
   suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suOppSponsor?: Array<{
@@ -12679,7 +12672,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
       | {__typename?: "TermSuCourseTag"; uuid: string}
       | null
   }> | null
-  suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
   suOppTags?: Array<{
     __typename: "TermOpportunityTagFilter"
@@ -13744,7 +13736,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
   suOppContactName?: string | null
   suOppContactPhone?: any | null
   suOppCourseCode?: Array<string> | null
-  suOppStatus?: boolean | null
   uuid: string
   title: string
   path?: string | null
@@ -13918,8 +13909,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
     name: string
     mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
   } | null
-  suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-  suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
   suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suOppSponsor?: Array<{
@@ -13950,7 +13939,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
       | {__typename?: "TermSuCourseTag"; uuid: string}
       | null
   }> | null
-  suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
   suOppTags?: Array<{
     __typename: "TermOpportunityTagFilter"
@@ -17262,7 +17250,6 @@ export type RouteQuery = {
               suOppContactName?: string | null
               suOppContactPhone?: any | null
               suOppCourseCode?: Array<string> | null
-              suOppStatus?: boolean | null
               uuid: string
               title: string
               path?: string | null
@@ -17458,8 +17445,6 @@ export type RouteQuery = {
                 name: string
                 mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
               } | null
-              suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-              suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
               suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
               suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suOppSponsor?: Array<{
@@ -17490,7 +17475,6 @@ export type RouteQuery = {
                   | {__typename?: "TermSuCourseTag"; uuid: string}
                   | null
               }> | null
-              suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
               suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
               suOppTags?: Array<{
                 __typename: "TermOpportunityTagFilter"

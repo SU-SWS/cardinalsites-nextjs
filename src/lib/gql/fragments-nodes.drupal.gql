@@ -334,12 +334,6 @@ fragment FragmentNodeStanfordOpportunity on NodeStanfordOpportunity {
     suOppImage {
         ...FragmentMediaImage
     }
-    suOppLearnMore {
-        ...FragmentLink
-    }
-    suOppOpenDate {
-        ...FragmentDateTime
-    }
     suOppPrerequisites {
         ...FragmentText
     }
@@ -349,10 +343,6 @@ fragment FragmentNodeStanfordOpportunity on NodeStanfordOpportunity {
     suOppSponsor {
         ...FragmentTermInterface
     }
-    suOppStartDate {
-        ...FragmentDateTime
-    }
-    suOppStatus
     suOppSummary {
         ...FragmentText
     }

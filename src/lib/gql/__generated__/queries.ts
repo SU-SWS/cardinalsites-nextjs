@@ -879,12 +879,6 @@ export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
   suOppImage {
     ...FragmentMediaImage
   }
-  suOppLearnMore {
-    ...FragmentLink
-  }
-  suOppOpenDate {
-    ...FragmentDateTime
-  }
   suOppPrerequisites {
     ...FragmentText
   }
@@ -894,10 +888,6 @@ export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
   suOppSponsor {
     ...FragmentTermInterface
   }
-  suOppStartDate {
-    ...FragmentDateTime
-  }
-  suOppStatus
   suOppSummary {
     ...FragmentText
   }
