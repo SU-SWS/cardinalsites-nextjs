@@ -6,12 +6,12 @@ const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
 const nextConfig: NextConfig = {
   experimental: {
     useCache: true,
-    cacheLife: {
-      default: {
-        stale: undefined,
-        revalidate: INFINITE_CACHE,
-        expire: INFINITE_CACHE,
-      },
+  },
+  cacheLife: {
+    default: {
+      stale: undefined,
+      revalidate: INFINITE_CACHE,
+      expire: INFINITE_CACHE,
     },
   },
   typescript: {

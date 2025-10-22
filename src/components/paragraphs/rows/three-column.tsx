@@ -1,7 +1,7 @@
 import OneColumn from "@components/paragraphs/rows/one-column"
 import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {LayoutParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
 import twMerge from "@lib/utils/twMerge"
 

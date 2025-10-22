@@ -76,7 +76,7 @@ The JSON API is used for data points that are more simple and don't require very
 Things like the config pages and the main menu are fetched from JSON API. These APIs also use GET methods. This way they 
 can be easily cached by Drupal/Varnish/CDN services and result in faster data transfer.
 
-JSON API functions are found in the [./src/lib/drupal directory](./src/lib/drupal). 
+JSON API functions are found in the [./src/lib/drupal directory](src/lib/@types/drupal). 
 
 ### GraphQL
 

@@ -3,7 +3,7 @@ import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
-import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {LayoutParagraphBehaviors} from "drupal"
 
 export type TwoColumnConfig = LayoutParagraphBehaviors["config"] & {column_widths: "33-67" | "67-33"}
 type Props = {

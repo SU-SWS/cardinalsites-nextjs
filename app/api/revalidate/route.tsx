@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest) => {
   // the home page path.
   if ((await getHomePagePath()) === path) tagsInvalidated.push("paths:/")
 
-  tagsInvalidated.map(tag => revalidateTag(tag))
+  tagsInvalidated.map(tag => revalidateTag(tag, "max"))
 
   return NextResponse.json({revalidated: true, tags: tagsInvalidated})
 }

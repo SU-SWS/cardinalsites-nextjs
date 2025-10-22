@@ -6,7 +6,7 @@ import Accordion, {AccordionHeaderChoice} from "@components/elements/accordion"
 import twMerge from "@lib/utils/twMerge"
 import ExpandCollapseAll from "@components/paragraphs/stanford-faq/expand-collapse-all"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import {FAQParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {FAQParagraphBehaviors} from "drupal"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordFaq

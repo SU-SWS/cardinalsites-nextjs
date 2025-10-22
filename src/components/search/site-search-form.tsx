@@ -1,4 +1,4 @@
-import {HTMLAttributes} from "react"
+import {HTMLAttributes, useId} from "react"
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid"
 import {getConfigPageField} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
@@ -13,9 +13,12 @@ const SiteSearchForm = async ({inputValue, ...props}: Props) => {
     "suHideSiteSearch"
   )
   if (hideSearch) return
+  return <SearchForm inputValue={inputValue} {...props} />
+}
 
-  const inputId = `site-search-input-${Math.floor(Math.random() * 1000)}`
-
+// Need a non-async function to be able to use useId() hook.
+const SearchForm = ({inputValue, ...props}: Props) => {
+  const inputId = useId()
   return (
     <form aria-label="Site Search" action="/search" {...props}>
       <div className="sr-only">

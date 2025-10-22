@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from "next/server"
 import {verifyJWT, getJWTCookieName} from "./src/lib/auth/jwt-auth"
 
-export const middleware = async (request: NextRequest) => {
+export const proxy = async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname
   const loginUrl = new URL("/api/auth/login", request.url)
   loginUrl.searchParams.set("destination", pathname)
