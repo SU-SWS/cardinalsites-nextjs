@@ -1,6 +1,8 @@
 import type {NextConfig} from "next"
 import {INFINITE_CACHE} from "next/dist/lib/constants"
 
+const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
+
 const nextConfig: NextConfig = {
   experimental: {
     useCache: true,
@@ -20,11 +22,14 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2678400,
     dangerouslyAllowLocalIP: !!(process.env.CI || process.env.NODE_ENV === "development"),
     remotePatterns: [
-      new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string),
       {
         // Allow any stanford domain for images, but require https.
         protocol: "https",
         hostname: "**.stanford.edu",
+      },
+      {
+        protocol: drupalUrl.protocol === "https:" ? "https" : "http",
+        hostname: drupalUrl.hostname,
       },
       {
         protocol: "https",
