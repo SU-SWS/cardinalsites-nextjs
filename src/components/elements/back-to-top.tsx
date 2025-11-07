@@ -30,7 +30,7 @@ const BackToTop = () => {
     <Button
       buttonElem
       className={twMerge(
-        "fixed bottom-10 right-10 transition-all duration-300",
+        "fixed bottom-10 right-10 z-[100] transition-all duration-300",
         clsx({
           "visible opacity-100": value,
           "invisible opacity-0": !value,
