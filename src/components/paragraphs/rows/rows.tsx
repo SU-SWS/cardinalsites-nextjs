@@ -3,7 +3,7 @@ import TwoColumn, {TwoColumnConfig} from "@components/paragraphs/rows/two-column
 import ThreeColumn from "@components/paragraphs/rows/three-column"
 import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import {LayoutParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {LayoutParagraphBehaviors} from "drupal"
 import {HTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
 

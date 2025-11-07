@@ -1507,6 +1507,8 @@ export type NodeStanfordNews = EdgeNode &
   MetaTagInterface &
   NodeInterface & {
     __typename?: "NodeStanfordNews"
+    /** Body */
+    body?: Maybe<TextSummary>
     /** The time that the node was last edited. */
     changed: DateTime
     /** The date and time that the content was created. */
@@ -1780,6 +1782,8 @@ export type NodeStanfordPage = EdgeNode &
   MetaTagInterface &
   NodeInterface & {
     __typename?: "NodeStanfordPage"
+    /** Body */
+    body?: Maybe<TextSummary>
     /** The time that the node was last edited. */
     changed: DateTime
     /** The date and time that the content was created. */
@@ -2638,7 +2642,14 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface &
     suStatHeadline: Scalars["String"]["output"]
     /** Headling Level */
     suStatHeadlineLvl: Scalars["String"]["output"]
-    /** Icon */
+    /**
+     * Name of the Font Awesome Icon. See <a href="https://fontawesome.com/icons">the
+     * Font Awesome icon list</a> for valid icon names, or begin typing for an
+     * autocomplete list. Note that all four versions of the icon will be shown -
+     * Light, Regular, Solid, Duotone, and Thin respectively. Please note that if the
+     * icon name does not appear in the autocomplete drop-down, it may not be
+     * available for use.
+     */
     suStatIcon?: Maybe<FontawesomeIconType>
     /** Icon Color */
     suStatIconColor?: Maybe<ColorFieldType>
@@ -5524,6 +5535,7 @@ export type NodeQuery = {
               attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
             }
         >
+        body?: {__typename?: "TextSummary"; processed?: any | null} | null
         suNewsBanner?:
           | {
               __typename: "MediaImage"
@@ -5720,7 +5732,6 @@ export type NodeQuery = {
         suOppContactName?: string | null
         suOppContactPhone?: any | null
         suOppCourseCode?: Array<string> | null
-        suOppStatus?: boolean | null
         uuid: string
         title: string
         path?: string | null
@@ -5894,8 +5905,6 @@ export type NodeQuery = {
           name: string
           mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
         } | null
-        suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-        suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
         suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
         suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suOppSponsor?: Array<{
@@ -5926,7 +5935,6 @@ export type NodeQuery = {
             | {__typename?: "TermSuCourseTag"; uuid: string}
             | null
         }> | null
-        suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
         suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
         suOppTags?: Array<{
           __typename: "TermOpportunityTagFilter"
@@ -6035,6 +6043,7 @@ export type NodeQuery = {
             }
         >
         layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
+        body?: {__typename?: "TextSummary"; processed?: any | null} | null
         suBasicPageType?: Array<{
           __typename: "TermBasicPageType"
           uuid: string
@@ -7916,6 +7925,7 @@ export type NewsQuery = {
       suNewsHideSocial?: boolean | null
       uuid: string
       path?: string | null
+      body?: {__typename?: "TextSummary"; processed?: any | null} | null
       suNewsBanner?:
         | {
             __typename: "MediaImage"
@@ -8125,6 +8135,7 @@ export type BasicPagesQuery = {
       uuid: string
       path?: string | null
       layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
+      body?: {__typename?: "TextSummary"; processed?: any | null} | null
       suBasicPageType?: Array<{
         __typename: "TermBasicPageType"
         uuid: string
@@ -10861,6 +10872,7 @@ export type FragmentNodeStanfordPageFragment = {
   __typename?: "NodeStanfordPage"
   suPageDescription?: string | null
   layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
+  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suBasicPageType?: Array<{
     __typename: "TermBasicPageType"
     uuid: string
@@ -11817,6 +11829,7 @@ export type FragmentNodeStanfordNewsFragment = {
   suNewsByline?: string | null
   suNewsDek?: string | null
   suNewsHideSocial?: boolean | null
+  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suNewsBanner?:
     | {
         __typename: "MediaImage"
@@ -12477,7 +12490,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
   suOppContactName?: string | null
   suOppContactPhone?: any | null
   suOppCourseCode?: Array<string> | null
-  suOppStatus?: boolean | null
   body?: {__typename?: "TextSummary"; processed?: any | null; summary?: any | null} | null
   suOppApplicationDeadline?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppCardFooter?: {__typename?: "Text"; processed?: any | null} | null
@@ -12634,8 +12646,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
     name: string
     mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
   } | null
-  suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-  suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
   suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suOppSponsor?: Array<{
@@ -12666,7 +12676,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
       | {__typename?: "TermSuCourseTag"; uuid: string}
       | null
   }> | null
-  suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
   suOppTags?: Array<{
     __typename: "TermOpportunityTagFilter"
@@ -13533,6 +13542,7 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
         attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
       }
   >
+  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suNewsBanner?:
     | {
         __typename: "MediaImage"
@@ -13730,7 +13740,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
   suOppContactName?: string | null
   suOppContactPhone?: any | null
   suOppCourseCode?: Array<string> | null
-  suOppStatus?: boolean | null
   uuid: string
   title: string
   path?: string | null
@@ -13904,8 +13913,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
     name: string
     mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
   } | null
-  suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-  suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
   suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suOppSponsor?: Array<{
@@ -13936,7 +13943,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
       | {__typename?: "TermSuCourseTag"; uuid: string}
       | null
   }> | null
-  suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
   suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
   suOppTags?: Array<{
     __typename: "TermOpportunityTagFilter"
@@ -14046,6 +14052,7 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
       }
   >
   layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
+  body?: {__typename?: "TextSummary"; processed?: any | null} | null
   suBasicPageType?: Array<{
     __typename: "TermBasicPageType"
     uuid: string
@@ -17032,6 +17039,7 @@ export type RouteQuery = {
                     attributes: {__typename?: "MetaTagValueAttributes"; name?: string | null; content?: string | null}
                   }
               >
+              body?: {__typename?: "TextSummary"; processed?: any | null} | null
               suNewsBanner?:
                 | {
                     __typename: "MediaImage"
@@ -17246,7 +17254,6 @@ export type RouteQuery = {
               suOppContactName?: string | null
               suOppContactPhone?: any | null
               suOppCourseCode?: Array<string> | null
-              suOppStatus?: boolean | null
               uuid: string
               title: string
               path?: string | null
@@ -17442,8 +17449,6 @@ export type RouteQuery = {
                 name: string
                 mediaImage: {__typename?: "Image"; url: string; alt?: string | null; height: number; width: number}
               } | null
-              suOppLearnMore?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
-              suOppOpenDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
               suOppPrerequisites?: {__typename?: "Text"; processed?: any | null} | null
               suOppSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suOppSponsor?: Array<{
@@ -17474,7 +17479,6 @@ export type RouteQuery = {
                   | {__typename?: "TermSuCourseTag"; uuid: string}
                   | null
               }> | null
-              suOppStartDate?: {__typename?: "DateTime"; timezone: any; time: any} | null
               suOppSummary?: {__typename?: "Text"; processed?: any | null} | null
               suOppTags?: Array<{
                 __typename: "TermOpportunityTagFilter"
@@ -17587,6 +17591,7 @@ export type RouteQuery = {
                   }
               >
               layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
+              body?: {__typename?: "TextSummary"; processed?: any | null} | null
               suBasicPageType?: Array<{
                 __typename: "TermBasicPageType"
                 uuid: string

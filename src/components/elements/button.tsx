@@ -5,7 +5,7 @@ import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import {clsx} from "clsx"
 import {LinkProps} from "next/dist/client/link"
 
-type Props = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
+export type ButtonProps = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   /**
    * Link URL.
    */
@@ -53,7 +53,7 @@ export const Button = ({
   children,
   className,
   ...props
-}: Props) => {
+}: ButtonProps) => {
   const standardClasses = clsx({
     "flex items-center w-fit mx-auto": centered,
     "inline-block text-center w-fit": !centered,

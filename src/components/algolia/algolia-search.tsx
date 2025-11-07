@@ -24,6 +24,7 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
         searchClient={searchClient}
         future={{preserveSharedStateOnUnmount: true}}
         routing={{
+          router: {cleanUrlOnDispose: false},
           stateMapping: {
             stateToRoute(uiState): Record<string, string> {
               const indexUiState = uiState[searchIndex]

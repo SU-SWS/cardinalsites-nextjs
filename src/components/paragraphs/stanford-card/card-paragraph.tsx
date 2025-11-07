@@ -6,7 +6,7 @@ import Wysiwyg from "@components/elements/wysiwyg"
 import ActionLink from "@components/elements/action-link"
 import Button from "@components/elements/button"
 import ImageCard from "@components/patterns/image-card"
-import {CardParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {CardParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

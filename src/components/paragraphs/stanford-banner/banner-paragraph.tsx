@@ -6,7 +6,7 @@ import Button from "@components/elements/button"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
 import HeroBanner from "@components/patterns/hero-banner"
-import {BannerParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {BannerParagraphBehaviors} from "drupal"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordBanner

@@ -6,12 +6,12 @@ const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
 const nextConfig: NextConfig = {
   experimental: {
     useCache: true,
-    cacheLife: {
-      default: {
-        stale: undefined,
-        revalidate: INFINITE_CACHE,
-        expire: INFINITE_CACHE,
-      },
+  },
+  cacheLife: {
+    default: {
+      stale: undefined,
+      revalidate: INFINITE_CACHE,
+      expire: INFINITE_CACHE,
     },
   },
   typescript: {
@@ -19,6 +19,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: process.env.CI !== "true",
   },
   images: {
+    minimumCacheTTL: 2678400,
+    dangerouslyAllowLocalIP: !!(process.env.CI || process.env.NODE_ENV === "development"),
     remotePatterns: [
       {
         // Allow any stanford domain for images, but require https.
@@ -58,11 +60,6 @@ const nextConfig: NextConfig = {
       {
         source: "/node/:slug",
         destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/node/:slug",
-        permanent: true,
-      },
-      {
-        source: "/user/:slug*",
-        destination: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + "/user/login",
         permanent: true,
       },
       {

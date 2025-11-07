@@ -8,7 +8,7 @@ import twMerge from "@lib/utils/twMerge"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {ImageCardSkeleton} from "@components/patterns/image-card"
-import {TeaserParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {TeaserParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 
