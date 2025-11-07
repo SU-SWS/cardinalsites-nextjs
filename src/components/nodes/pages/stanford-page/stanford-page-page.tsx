@@ -7,6 +7,7 @@ import BannerParagraph from "@components/paragraphs/stanford-banner/banner-parag
 import PageTitleBannerParagraph from "@components/paragraphs/stanford-page-title-banner/page-title-banner-paragraph"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
+import Wysiwyg from "@components/elements/wysiwyg"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -40,6 +41,7 @@ const StanfordPagePage = ({node, ...props}: Props) => {
 
       {!fullWidth && (
         <InteriorPage currentPath={node.path || "#"}>
+          <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
           <Rows components={node.suPageComponents} />
         </InteriorPage>
       )}

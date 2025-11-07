@@ -5,7 +5,7 @@ import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
 import {ParagraphStanfordFilteredList} from "@lib/gql/__generated__/drupal.d"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
-import {ListParagraphBehaviors} from "@lib/drupal/drupal-jsonapi.d"
+import {ListParagraphBehaviors} from "drupal"
 import {getViewPagedItems, loadViewPage, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

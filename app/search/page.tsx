@@ -1,6 +1,5 @@
 import {H1} from "@components/elements/headers"
 import {getAlgoliaCredential} from "@lib/gql/gql-queries"
-import {IndexUiState} from "instantsearch.js/es/types/ui-state"
 import AlgoliaSearch from "@components/algolia/algolia-search"
 import SiteSearch from "@components/search/site-search"
 import {redirect} from "next/navigation"
@@ -34,9 +33,6 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
 
   const [appId, indexName, apiKey] = await getAlgoliaCredential()
 
-  const initialState: IndexUiState = {refinementList: {}}
-  if (searchParams?.q) initialState.query = searchParams.q
-
   return (
     <div className="centered mt-32">
       <div className="mx-auto 3xl:w-10/12">
@@ -44,9 +40,7 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
           Search
         </H1>
 
-        {appId && indexName && apiKey && (
-          <AlgoliaSearch appId={appId} searchIndex={indexName} searchApiKey={apiKey} initialUiState={initialState} />
-        )}
+        {appId && indexName && apiKey && <AlgoliaSearch appId={appId} searchIndex={indexName} searchApiKey={apiKey} />}
 
         {!appId && <SiteSearch search={searchParams?.q || ""} />}
         <noscript>Please enable javascript to view search results</noscript>

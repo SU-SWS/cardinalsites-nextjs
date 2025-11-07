@@ -1,6 +1,5 @@
 "use client"
 
-import {useEffect, useState} from "react"
 import FacebookIcon from "@components/elements/icons/FacebookIcon"
 import LinkedInIcon from "@components/elements/icons/LinkedInIcon"
 import TwitterIcon from "@components/elements/icons/TwitterIcon"
@@ -10,8 +9,6 @@ import {usePathname} from "next/navigation"
 import {useIsClient} from "usehooks-ts"
 
 const SocialIcons = ({...props}) => {
-  const [subject, setSubject] = useState<string>("")
-  useEffect(() => setSubject(document.title), [])
   const path = usePathname()
   const isClient = useIsClient()
 
@@ -41,7 +38,10 @@ const SocialIcons = ({...props}) => {
         <LinkedInIcon />
         <span className="sr-only">LinkedIn</span>
       </a>
-      <a href={`mailto:?subject=${subject}&body=${path}`} className="text-black transition hocus:text-digital-blue">
+      <a
+        href={`mailto:?subject=${encodeURIComponent(document.title)}&body=${path}`}
+        className="text-black transition hocus:text-digital-blue"
+      >
         <EnvelopeIcon width={30} />
         <span className="sr-only">Email</span>
       </a>

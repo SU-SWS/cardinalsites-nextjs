@@ -7,6 +7,7 @@ import {
   ConfigPagesUnion,
   MenuAvailable,
   MenuItem,
+  MenuQuery,
   NodeUnion,
   RouteQuery,
   RouteRedirect,
@@ -63,7 +64,7 @@ export const getConfigPage = async <T extends ConfigPagesUnion>(
   try {
     query = await graphqlClient().ConfigPages()
   } catch (e) {
-    console.warn("Unable to fetch config pages: " + (e instanceof Error && e.stack))
+    console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
     return
   }
 
@@ -91,8 +92,15 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
   const menuName = name?.toLowerCase() || "main"
   cacheTag("menus", `menu:${menuName}`)
 
-  const menu = await graphqlClient().Menu({name})
-  const menuItems = (menu.menu?.items || []) as MenuItem[]
+  let menu: MenuQuery = {}
+  let menuItems: MenuItem[] = []
+  try {
+    menu = await graphqlClient().Menu({name})
+    menuItems = (menu.menu?.items || []) as MenuItem[]
+  } catch (_e) {
+    console.error("Unable to fetch menu")
+    return []
+  }
 
   const filterInaccessible = (items: MenuItem[], level: number): MenuItem[] => {
     if ((maxLevels || maxLevels === 0) && level > maxLevels) return []

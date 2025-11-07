@@ -8,6 +8,7 @@ import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
+import Wysiwyg from "@components/elements/wysiwyg"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -81,6 +82,7 @@ const StanfordNewsPage = ({node, ...props}: Props) => {
         </figure>
       )}
 
+      <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
       <Rows components={node.suNewsComponents} className="mx-auto lg:w-8/12" />
     </article>
   )

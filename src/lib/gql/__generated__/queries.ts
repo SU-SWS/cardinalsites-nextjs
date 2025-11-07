@@ -592,6 +592,9 @@ export const FragmentDateTimeFragmentDoc = gql`
     `;
 export const FragmentNodeStanfordNewsFragmentDoc = gql`
     fragment FragmentNodeStanfordNews on NodeStanfordNews {
+  body {
+    processed
+  }
   suNewsBanner {
     ...FragmentMediaUnion
   }
@@ -631,6 +634,9 @@ export const FragmentNodeStanfordPageFragmentDoc = gql`
     fragment FragmentNodeStanfordPage on NodeStanfordPage {
   layoutSelection {
     id
+  }
+  body {
+    processed
   }
   suBasicPageType {
     ...FragmentTermInterface
@@ -873,12 +879,6 @@ export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
   suOppImage {
     ...FragmentMediaImage
   }
-  suOppLearnMore {
-    ...FragmentLink
-  }
-  suOppOpenDate {
-    ...FragmentDateTime
-  }
   suOppPrerequisites {
     ...FragmentText
   }
@@ -888,10 +888,6 @@ export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
   suOppSponsor {
     ...FragmentTermInterface
   }
-  suOppStartDate {
-    ...FragmentDateTime
-  }
-  suOppStatus
   suOppSummary {
     ...FragmentText
   }

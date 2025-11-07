@@ -16,7 +16,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -33,14 +33,20 @@
       "@hooks/*": [
         "./src/hooks/*"
       ]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/lib/@types"
+    ]
   },
   "include": [
     "next-env.d.ts",
     "src/**/*.tsx",
+    "src/**/*.ts",
     "app/**/*.tsx",
     ".storybook/stories/**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

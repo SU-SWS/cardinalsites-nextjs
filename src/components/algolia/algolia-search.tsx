@@ -3,21 +3,18 @@
 import {liteClient} from "algoliasearch/lite"
 import {useHits, useSearchBox} from "react-instantsearch"
 import {InstantSearchNext} from "react-instantsearch-nextjs"
-import {useEffect, useRef} from "react"
+import {useRef} from "react"
 import Button from "@components/elements/button"
 import {UseSearchBoxProps} from "react-instantsearch"
-import {useRouter} from "next/navigation"
-import {IndexUiState} from "instantsearch.js/es/types/ui-state"
 import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default"
 
 type Props = {
   appId: string
   searchIndex: string
   searchApiKey: string
-  initialUiState?: IndexUiState
 }
 
-const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: Props) => {
+const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
   const searchClient = liteClient(appId, searchApiKey)
 
   return (
@@ -25,8 +22,22 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey, initialUiState = {}}: 
       <InstantSearchNext
         indexName={searchIndex}
         searchClient={searchClient}
-        initialUiState={{[searchIndex]: initialUiState}}
         future={{preserveSharedStateOnUnmount: true}}
+        routing={{
+          router: {cleanUrlOnDispose: false},
+          stateMapping: {
+            stateToRoute(uiState): Record<string, string> {
+              const indexUiState = uiState[searchIndex]
+              if (indexUiState.query) return {q: indexUiState.query}
+              return {}
+            },
+            routeToState(routeState: Record<string, string>) {
+              return {
+                [searchIndex]: {query: routeState.q},
+              }
+            },
+          },
+        }}
       >
         <div className="space-y-10">
           <SearchBox />
@@ -56,13 +67,8 @@ const HitList = () => {
 }
 
 const SearchBox = (props?: UseSearchBoxProps) => {
-  const router = useRouter()
   const {query, refine} = useSearchBox(props)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (query) router.replace(`?q=${query}`, {scroll: false})
-  }, [query, router])
 
   return (
     <form
