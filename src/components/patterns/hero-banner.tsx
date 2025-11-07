@@ -80,7 +80,7 @@ const HeroBanner = async ({
       {children && (
         <div
           className={twMerge(
-            "relative z-50 flex size-full flex-col gap-10",
+            "relative z-[11] flex size-full flex-col gap-10",
             clsx({
               "cc rs-py-4 items-center justify-center text-center text-white @6xl:max-w-800":
                 overlayPosition === "center",
