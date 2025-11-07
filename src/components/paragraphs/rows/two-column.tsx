@@ -17,10 +17,9 @@ const TwoColumn = ({items, config}: Props) => {
   return (
     <div
       className={twMerge(
-        "gutters mb-32 grid gap-10 @7xl:grid-cols-2 @7xl:gap-20",
+        "mb-32",
         clsx({
-          "@7xl:grid-cols-1-2": config?.column_widths === "33-67",
-          "@7xl:grid-cols-2-1": config?.column_widths === "67-33",
+          gutters: !config?.bg_color,
           "px-5 pb-20 pt-20": !!config?.bg_color,
           "pt-0": config?.top_padding === "none",
           "pt-40": config?.top_padding === "more",
@@ -36,15 +35,25 @@ const TwoColumn = ({items, config}: Props) => {
       )}
       data-columns="2"
     >
-      <OneColumn
-        items={leftItems}
-        config={{top_padding: "none", bottom_margin: "none"}}
-        className={clsx({
-          "after:contents('') relative after:absolute after:-right-10 after:top-0 after:h-full after:w-[1px] after:bg-black":
-            config?.vertical_dividers,
-        })}
-      />
-      <OneColumn items={rightItems} config={{top_padding: "none", bottom_margin: "none"}} />
+      <div
+        className={twMerge(
+          "centered grid gap-10 @6xl:grid-cols-2 @6xl:gap-20",
+          clsx({
+            "@6xl:grid-cols-1-2": config?.column_widths === "33-67",
+            "@6xl:grid-cols-2-1": config?.column_widths === "67-33",
+          })
+        )}
+      >
+        <OneColumn
+          items={leftItems}
+          config={{top_padding: "none", bottom_margin: "none"}}
+          className={clsx({
+            "after:contents('') relative after:absolute after:-right-10 after:top-0 after:h-full after:w-[1px] after:bg-black":
+              config?.vertical_dividers,
+          })}
+        />
+        <OneColumn items={rightItems} config={{top_padding: "none", bottom_margin: "none"}} />
+      </div>
     </div>
   )
 }
