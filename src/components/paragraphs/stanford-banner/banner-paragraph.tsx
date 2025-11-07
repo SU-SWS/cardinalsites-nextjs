@@ -32,6 +32,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
       imageAlt={paragraph.suBannerImage?.mediaImage.alt}
       isSection={!!paragraph.suBannerHeader && headerTag !== "div"}
       overlayPosition={behaviors.hero_pattern?.overlay_position}
+      overlayColor={behaviors.hero_pattern?.overlay_color}
       eagerLoadImage={eagerLoadImage}
     >
       {hasCard && (

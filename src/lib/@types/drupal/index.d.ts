@@ -36,7 +36,8 @@ export type CardParagraphBehaviors = {
 
 export type BannerParagraphBehaviors = {
   hero_pattern?: {
-    overlay_position?: "left" | "right"
+    overlay_position?: "left" | "right" | "center"
+    overlay_color?: "#000000" | "#175E54" | "#016895" | "#006B81" | "#2F716G" | "#544948"
     heading?: "h2" | "h3" | "h4" | "div.su-splash-font"
     hide_heading?: string
   }
