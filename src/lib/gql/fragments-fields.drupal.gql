@@ -84,6 +84,13 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
 fragment FragmentMediaVideo on MediaVideo {
     ...FragmentMediaInterface
     mediaOembedVideo
+    suMediaDescription
+    suVideoDuration
+    suVideoSubtitles {
+        description
+        name
+        url
+    }
 }
 
 fragment FragmentMediaUnion on MediaUnion {

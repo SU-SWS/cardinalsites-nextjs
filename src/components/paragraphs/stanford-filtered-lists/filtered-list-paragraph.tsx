@@ -7,6 +7,7 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import twMerge from "@lib/utils/twMerge"
 import {ListParagraphBehaviors} from "drupal"
 import {getViewPagedItems, loadViewPage, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
+import {clsx} from "clsx"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordFilteredList
@@ -39,14 +40,14 @@ const FilteredListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <ListWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10", props.className)}
+      className={twMerge("centered mb-20 flex flex-col gap-20", props.className)}
       aria-labelledby={ListWrapper === "section" ? paragraph.uuid : undefined}
       data-nosnippet
     >
       {paragraph.suListHeadline && behaviors.list_paragraph?.heading_behavior !== "remove" && (
         <H2
           id={paragraph.uuid}
-          className={twMerge("text-center", behaviors.list_paragraph?.heading_behavior === "hide" && "sr-only")}
+          className={twMerge("mb-0", clsx({"sr-only": behaviors.list_paragraph?.heading_behavior === "hide"}))}
         >
           {paragraph.suListHeadline}
         </H2>

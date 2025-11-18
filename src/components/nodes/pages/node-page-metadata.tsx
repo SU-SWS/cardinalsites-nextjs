@@ -4,6 +4,7 @@ import {
   MetaTagValue as MetaTagValueType,
   MetaTagProperty as MetaTagPropertyType,
   StanfordBasicSiteSetting,
+  Maybe,
 } from "@lib/gql/__generated__/drupal.d"
 import {JSX} from "react"
 
@@ -19,7 +20,7 @@ type Props = {
   /**
    * If no description metatag is provided by the backend, use this.
    */
-  backupDescription?: string
+  backupDescription?: Maybe<string>
   /**
    * Additional meta data if desired.
    */

@@ -1,50 +1,44 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
 import ImageCard from "@components/patterns/image-card"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
-  node: NodeStanfordNews
+  node: NodeStanfordMedia
   headingLevel?: "h2" | "h3"
 }
 
-const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
-  const image = node.suNewsFeaturedMedia?.mediaImage
+const StanfordMediaCard = ({node, headingLevel, ...props}: Props) => {
+  const image = node.suMediaImage?.mediaImage
 
-  const topics = node.suNewsTopics?.slice(0, 3) || []
+  const topics = node.suMediaTypes?.slice(0, 3) || []
   const Heading = headingLevel === "h3" ? H3 : H2
 
-  const publishDate = node.suNewsPublishingDate?.time
-    ? new Date(node.suNewsPublishingDate.time).toLocaleDateString("en-us", {
+  const publishDate = node.suMediaDate?.time
+    ? new Date(node.suMediaDate.time).toLocaleDateString("en-us", {
         month: "long",
         day: "numeric",
         year: "numeric",
-        timeZone: node.suNewsPublishingDate.timezone,
+        timeZone: node.suMediaDate.timezone,
       })
     : undefined
 
   return (
-    <ImageCard
-      {...props}
-      aria-labelledby={node.uuid}
-      imageUrl={image?.url}
-      isArticle
-      squareImage={node.layoutSelection?.id === "news_spotlight"}
-    >
+    <ImageCard {...props} aria-labelledby={node.uuid} imageUrl={image?.url} isArticle>
       <ReverseVisualOrder>
         <Heading className="[&_a]:text-black" id={node.uuid}>
-          <Link href={node.suNewsSource?.url || node.path || "#"}>{node.title}</Link>
+          <Link href={node.suMediaSource?.url || node.path || "#"}>{node.title}</Link>
         </Heading>
 
         {publishDate && <div>{publishDate}</div>}
       </ReverseVisualOrder>
 
-      {node.suNewsDek && <div>{node.suNewsDek}</div>}
+      {node.suMediaDek && <div>{node.suMediaDek}</div>}
 
       {!!topics.length && <div>{topics.map(topic => topic.name).join(", ")}</div>}
     </ImageCard>
   )
 }
-export default StanfordNewsCard
+export default StanfordMediaCard

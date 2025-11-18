@@ -221,6 +221,13 @@ export const FragmentMediaVideoFragmentDoc = gql`
     fragment FragmentMediaVideo on MediaVideo {
   ...FragmentMediaInterface
   mediaOembedVideo
+  suMediaDescription
+  suVideoDuration
+  suVideoSubtitles {
+    description
+    name
+    url
+  }
 }
     ${FragmentMediaInterfaceFragmentDoc}`;
 export const FragmentMediaUnionFragmentDoc = gql`
@@ -584,6 +591,46 @@ export const FragmentNodeStanfordEventSeriesFragmentDoc = gql`
     ${FragmentParagraphUnionFragmentDoc}
 ${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
+export const FragmentNodeStanfordMediaFragmentDoc = gql`
+    fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
+  body {
+    processed
+  }
+  suMediaAudioVideo {
+    ...FragmentMediaEmbeddable
+    ...FragmentMediaVideo
+  }
+  suMediaDate {
+    time
+    timezone
+  }
+  suMediaDek
+  suMediaDuration
+  suMediaEpisode
+  suMediaImage {
+    ...FragmentMediaImage
+  }
+  suMediaPerson {
+    ...FragmentNodeInterface
+    suPersonShortTitle
+  }
+  suMediaSeason
+  suMediaSeries
+  suMediaSource {
+    url
+  }
+  suMediaTranscript {
+    processed
+  }
+  suMediaTypes {
+    ...FragmentTermInterface
+  }
+}
+    ${FragmentMediaEmbeddableFragmentDoc}
+${FragmentMediaVideoFragmentDoc}
+${FragmentMediaImageFragmentDoc}
+${FragmentNodeInterfaceFragmentDoc}
+${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentDateTimeFragmentDoc = gql`
     fragment FragmentDateTime on DateTime {
   timezone
@@ -618,10 +665,83 @@ export const FragmentNodeStanfordNewsFragmentDoc = gql`
   suNewsTopics {
     ...FragmentTermInterface
   }
+  suNewsQuote
+  layoutSelection {
+    id
+  }
 }
     ${FragmentMediaUnionFragmentDoc}
 ${FragmentParagraphUnionFragmentDoc}
 ${FragmentDateTimeFragmentDoc}
+${FragmentTermInterfaceFragmentDoc}`;
+export const FragmentLinkFragmentDoc = gql`
+    fragment FragmentLink on Link {
+  url
+  title
+}
+    `;
+export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
+    fragment FragmentNodeStanfordOpportunity on NodeStanfordOpportunity {
+  body {
+    ...FragmentTextSummary
+  }
+  suOppApplicationDeadline {
+    ...FragmentDateTime
+  }
+  suOppCardFooter {
+    ...FragmentText
+  }
+  suOppComponents {
+    ...FragmentParagraphUnion
+  }
+  suOppContactEmail
+  suOppContactName
+  suOppContactPhone
+  suOppContactUrl {
+    ...FragmentLink
+  }
+  suOppCourseCode
+  suOppCtaUrl {
+    ...FragmentLink
+  }
+  suOppEligibility {
+    ...FragmentText
+  }
+  suOppIcon {
+    iconName
+    style
+  }
+  suOppImage {
+    ...FragmentMediaImage
+  }
+  suOppPrerequisites {
+    ...FragmentText
+  }
+  suOppSource {
+    ...FragmentLink
+  }
+  suOppSponsor {
+    ...FragmentTermInterface
+  }
+  suOppSummary {
+    ...FragmentText
+  }
+  suOppTags {
+    ...FragmentTermInterface
+  }
+  suOppType {
+    ...FragmentTermInterface
+  }
+  suOppUnits {
+    ...FragmentTermInterface
+  }
+}
+    ${FragmentTextSummaryFragmentDoc}
+${FragmentDateTimeFragmentDoc}
+${FragmentTextFragmentDoc}
+${FragmentParagraphUnionFragmentDoc}
+${FragmentLinkFragmentDoc}
+${FragmentMediaImageFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentParagraphStanfordPageTitleBannerFragmentDoc = gql`
     fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
@@ -816,12 +936,6 @@ export const FragmentNodeStanfordPersonTeaserFragmentDoc = gql`
   }
 }
     ${FragmentMediaImageFragmentDoc}`;
-export const FragmentLinkFragmentDoc = gql`
-    fragment FragmentLink on Link {
-  url
-  title
-}
-    `;
 export const FragmentNodeStanfordPublicationFragmentDoc = gql`
     fragment FragmentNodeStanfordPublication on NodeStanfordPublication {
   suPublicationAuthorRef {
@@ -845,92 +959,31 @@ ${FragmentParagraphUnionFragmentDoc}
 ${FragmentLinkFragmentDoc}
 ${FragmentMediaImageFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}`;
-export const FragmentNodeStanfordOpportunityFragmentDoc = gql`
-    fragment FragmentNodeStanfordOpportunity on NodeStanfordOpportunity {
-  body {
-    ...FragmentTextSummary
-  }
-  suOppApplicationDeadline {
-    ...FragmentDateTime
-  }
-  suOppCardFooter {
-    ...FragmentText
-  }
-  suOppComponents {
-    ...FragmentParagraphUnion
-  }
-  suOppContactEmail
-  suOppContactName
-  suOppContactPhone
-  suOppContactUrl {
-    ...FragmentLink
-  }
-  suOppCourseCode
-  suOppCtaUrl {
-    ...FragmentLink
-  }
-  suOppEligibility {
-    ...FragmentText
-  }
-  suOppIcon {
-    iconName
-    style
-  }
-  suOppImage {
-    ...FragmentMediaImage
-  }
-  suOppPrerequisites {
-    ...FragmentText
-  }
-  suOppSource {
-    ...FragmentLink
-  }
-  suOppSponsor {
-    ...FragmentTermInterface
-  }
-  suOppSummary {
-    ...FragmentText
-  }
-  suOppTags {
-    ...FragmentTermInterface
-  }
-  suOppType {
-    ...FragmentTermInterface
-  }
-  suOppUnits {
-    ...FragmentTermInterface
-  }
-}
-    ${FragmentTextSummaryFragmentDoc}
-${FragmentDateTimeFragmentDoc}
-${FragmentTextFragmentDoc}
-${FragmentParagraphUnionFragmentDoc}
-${FragmentLinkFragmentDoc}
-${FragmentMediaImageFragmentDoc}
-${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentNodeUnionFragmentDoc = gql`
     fragment FragmentNodeUnion on NodeUnion {
   ...FragmentNodePage
   ...FragmentNodeStanfordCourse
   ...FragmentNodeStanfordEvent
   ...FragmentNodeStanfordEventSeries
+  ...FragmentNodeStanfordMedia
   ...FragmentNodeStanfordNews
+  ...FragmentNodeStanfordOpportunity
   ...FragmentNodeStanfordPage
   ...FragmentNodeStanfordPerson
   ...FragmentNodeStanfordPolicy
   ...FragmentNodeStanfordPublication
-  ...FragmentNodeStanfordOpportunity
 }
     ${FragmentNodePageFragmentDoc}
 ${FragmentNodeStanfordCourseFragmentDoc}
 ${FragmentNodeStanfordEventFragmentDoc}
 ${FragmentNodeStanfordEventSeriesFragmentDoc}
+${FragmentNodeStanfordMediaFragmentDoc}
 ${FragmentNodeStanfordNewsFragmentDoc}
+${FragmentNodeStanfordOpportunityFragmentDoc}
 ${FragmentNodeStanfordPageFragmentDoc}
 ${FragmentNodeStanfordPersonFragmentDoc}
 ${FragmentNodeStanfordPolicyFragmentDoc}
-${FragmentNodeStanfordPublicationFragmentDoc}
-${FragmentNodeStanfordOpportunityFragmentDoc}`;
+${FragmentNodeStanfordPublicationFragmentDoc}`;
 export const FragmentNodeStanfordCourseTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordCourseTeaser on NodeStanfordCourse {
   suCourseSubject {
@@ -952,6 +1005,36 @@ export const FragmentNodeStanfordEventSeriesTeaserFragmentDoc = gql`
   suEventSeriesDek
 }
     `;
+export const FragmentNodeStanfordMediaTeaserFragmentDoc = gql`
+    fragment FragmentNodeStanfordMediaTeaser on NodeStanfordMedia {
+  body {
+    processed
+  }
+  suMediaDate {
+    time
+  }
+  suMediaDek
+  suMediaDuration
+  suMediaEpisode
+  suMediaImage {
+    ...FragmentMediaImage
+  }
+  suMediaPerson {
+    ...FragmentNodeInterface
+    suPersonShortTitle
+  }
+  suMediaSeason
+  suMediaSeries
+  suMediaSource {
+    url
+  }
+  suMediaTypes {
+    ...FragmentTermInterface
+  }
+}
+    ${FragmentMediaImageFragmentDoc}
+${FragmentNodeInterfaceFragmentDoc}
+${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentNodeStanfordNewsTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordNewsTeaser on NodeStanfordNews {
   suNewsDek
@@ -967,10 +1050,41 @@ export const FragmentNodeStanfordNewsTeaserFragmentDoc = gql`
   suNewsSource {
     url
   }
+  layoutSelection {
+    id
+  }
 }
     ${FragmentMediaImageFragmentDoc}
 ${FragmentTermInterfaceFragmentDoc}
 ${FragmentDateTimeFragmentDoc}`;
+export const FragmentNodeStanfordOpportunityTeaserFragmentDoc = gql`
+    fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
+  suOppCardFooter {
+    ...FragmentText
+  }
+  suOppIcon {
+    iconName
+    style
+  }
+  suOppImage {
+    ...FragmentMediaImage
+  }
+  suOppSummary {
+    ...FragmentText
+  }
+  suOppSource {
+    url
+  }
+  suOppSponsor {
+    ...FragmentTermInterface
+  }
+  suOppType {
+    ...FragmentTermInterface
+  }
+}
+    ${FragmentTextFragmentDoc}
+${FragmentMediaImageFragmentDoc}
+${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentNodeStanfordPageTeaserFragmentDoc = gql`
     fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
   suPageDescription
@@ -1037,57 +1151,31 @@ export const FragmentNodeStanfordPublicationTeaserFragmentDoc = gql`
   }
 }
     ${FragmentTermInterfaceFragmentDoc}`;
-export const FragmentNodeStanfordOpportunityTeaserFragmentDoc = gql`
-    fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
-  suOppCardFooter {
-    ...FragmentText
-  }
-  suOppIcon {
-    iconName
-    style
-  }
-  suOppImage {
-    ...FragmentMediaImage
-  }
-  suOppSummary {
-    ...FragmentText
-  }
-  suOppSource {
-    url
-  }
-  suOppSponsor {
-    ...FragmentTermInterface
-  }
-  suOppType {
-    ...FragmentTermInterface
-  }
-}
-    ${FragmentTextFragmentDoc}
-${FragmentMediaImageFragmentDoc}
-${FragmentTermInterfaceFragmentDoc}`;
 export const FragmentNodeTeaserUnionFragmentDoc = gql`
     fragment FragmentNodeTeaserUnion on NodeUnion {
   ...FragmentNodeInterface
   ...FragmentNodeStanfordCourseTeaser
-  ...FragmentNodeStanfordEventTeaser
   ...FragmentNodeStanfordEventSeriesTeaser
+  ...FragmentNodeStanfordEventTeaser
+  ...FragmentNodeStanfordMediaTeaser
   ...FragmentNodeStanfordNewsTeaser
+  ...FragmentNodeStanfordOpportunityTeaser
   ...FragmentNodeStanfordPageTeaser
   ...FragmentNodeStanfordPersonTeaser
   ...FragmentNodeStanfordPolicyTeaser
   ...FragmentNodeStanfordPublicationTeaser
-  ...FragmentNodeStanfordOpportunityTeaser
 }
     ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentNodeStanfordCourseTeaserFragmentDoc}
-${FragmentNodeStanfordEventTeaserFragmentDoc}
 ${FragmentNodeStanfordEventSeriesTeaserFragmentDoc}
+${FragmentNodeStanfordEventTeaserFragmentDoc}
+${FragmentNodeStanfordMediaTeaserFragmentDoc}
 ${FragmentNodeStanfordNewsTeaserFragmentDoc}
+${FragmentNodeStanfordOpportunityTeaserFragmentDoc}
 ${FragmentNodeStanfordPageTeaserFragmentDoc}
 ${FragmentNodeStanfordPersonTeaserFragmentDoc}
 ${FragmentNodeStanfordPolicyTeaserFragmentDoc}
-${FragmentNodeStanfordPublicationTeaserFragmentDoc}
-${FragmentNodeStanfordOpportunityTeaserFragmentDoc}`;
+${FragmentNodeStanfordPublicationTeaserFragmentDoc}`;
 export const FragmentMenuLinkFragmentDoc = gql`
     fragment FragmentMenuLink on MenuItem {
   url
@@ -1274,9 +1362,87 @@ export const TermDocument = gql`
   }
 }
     ${FragmentTermInterfaceFragmentDoc}`;
+export const CourseFiltersTermsDocument = gql`
+    query CourseFiltersTerms {
+  termCourseFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
+export const EventFiltersTermsDocument = gql`
+    query EventFiltersTerms {
+  termEventFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
+export const MediaContentFiltersTermsDocument = gql`
+    query MediaContentFiltersTerms {
+  termMediaContentFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
 export const OpportunityFiltersTermsDocument = gql`
     query OpportunityFiltersTerms {
   termOpportunityTagFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
+export const PersonFiltersTermsDocument = gql`
+    query PersonFiltersTerms {
+  termPersonFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
+export const PublicationFiltersTermsDocument = gql`
+    query PublicationFiltersTerms {
+  termPublicationFilters(first: 1000) {
+    nodes {
+      ...FragmentTermInterface
+      ... on TermInterface {
+        id
+        weight
+      }
+    }
+  }
+}
+    ${FragmentTermInterfaceFragmentDoc}`;
+export const NewsSpotlightFiltersTermsDocument = gql`
+    query NewsSpotlightFiltersTerms {
+  termStanfordNewsSpotlightFilters(first: 1000) {
     nodes {
       ...FragmentTermInterface
       ... on TermInterface {
@@ -1301,15 +1467,13 @@ export const ConfigPagesDocument = gql`
       __typename
       uuid
       suGoogleAnalytics
+      suHideSiteSearch
       suSiteAlgolia
+      suSiteAlgoliaFed
       suSiteAlgoliaId
       suSiteAlgoliaIndex
       suSiteAlgoliaSearch
       suSiteAlgoliaUi
-      suSiteDropdowns
-      suSiteMenuLevels
-      suSiteName
-      suSiteNobots
       suSiteHeaderButton {
         title
         url
@@ -1318,6 +1482,9 @@ export const ConfigPagesDocument = gql`
         title
         url
       }
+      suSiteMenuLevels
+      suSiteName
+      suSiteNobots
     }
   }
   stanfordGlobalMessages(first: 1) {
@@ -1542,9 +1709,10 @@ export const StanfordBasicPagesDocument = gql`
 ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentNodeStanfordPageTeaserFragmentDoc}`;
 export const StanfordCoursesDocument = gql`
-    query stanfordCourses($contextualFilters: StanfordCoursesContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    query stanfordCourses($contextualFilters: StanfordCoursesContextualFilterInput, $filter: StanfordCoursesFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
   stanfordCourses(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1597,10 +1765,30 @@ export const StanfordEventsPastEventsDocument = gql`
     ${FragmentViewFragmentDoc}
 ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentNodeStanfordEventTeaserFragmentDoc}`;
+export const StanfordMediaDocument = gql`
+    query stanfordMedia($contextualFilters: StanfordMediaContextualFilterInput, $filter: StanfordMediaFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+  stanfordMedia(
+    contextualFilter: $contextualFilters
+    filter: $filter
+    pageSize: $pageSize
+    page: $page
+    offset: $offset
+  ) {
+    ...FragmentView
+    results {
+      ...FragmentNodeInterface
+      ...FragmentNodeStanfordMediaTeaser
+    }
+  }
+}
+    ${FragmentViewFragmentDoc}
+${FragmentNodeInterfaceFragmentDoc}
+${FragmentNodeStanfordMediaTeaserFragmentDoc}`;
 export const StanfordNewsDocument = gql`
-    query stanfordNews($contextualFilters: StanfordNewsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    query stanfordNews($contextualFilters: StanfordNewsContextualFilterInput, $filter: StanfordNewsFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
   stanfordNews(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1636,9 +1824,10 @@ export const StanfordOpportunitiesDocument = gql`
 ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentNodeStanfordOpportunityTeaserFragmentDoc}`;
 export const StanfordPersonDocument = gql`
-    query stanfordPerson($contextualFilters: StanfordPersonContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+    query stanfordPerson($contextualFilters: StanfordPersonContextualFilterInput, $filter: StanfordPersonFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
   stanfordPerson(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset
@@ -1746,8 +1935,26 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     Term(variables: DrupalTypes.TermQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.TermQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.TermQuery>({ document: TermDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'Term', 'query', variables);
     },
+    CourseFiltersTerms(variables?: DrupalTypes.CourseFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.CourseFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.CourseFiltersTermsQuery>({ document: CourseFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'CourseFiltersTerms', 'query', variables);
+    },
+    EventFiltersTerms(variables?: DrupalTypes.EventFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.EventFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.EventFiltersTermsQuery>({ document: EventFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'EventFiltersTerms', 'query', variables);
+    },
+    MediaContentFiltersTerms(variables?: DrupalTypes.MediaContentFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.MediaContentFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.MediaContentFiltersTermsQuery>({ document: MediaContentFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'MediaContentFiltersTerms', 'query', variables);
+    },
     OpportunityFiltersTerms(variables?: DrupalTypes.OpportunityFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.OpportunityFiltersTermsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.OpportunityFiltersTermsQuery>({ document: OpportunityFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'OpportunityFiltersTerms', 'query', variables);
+    },
+    PersonFiltersTerms(variables?: DrupalTypes.PersonFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.PersonFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.PersonFiltersTermsQuery>({ document: PersonFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'PersonFiltersTerms', 'query', variables);
+    },
+    PublicationFiltersTerms(variables?: DrupalTypes.PublicationFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.PublicationFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.PublicationFiltersTermsQuery>({ document: PublicationFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'PublicationFiltersTerms', 'query', variables);
+    },
+    NewsSpotlightFiltersTerms(variables?: DrupalTypes.NewsSpotlightFiltersTermsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.NewsSpotlightFiltersTermsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.NewsSpotlightFiltersTermsQuery>({ document: NewsSpotlightFiltersTermsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'NewsSpotlightFiltersTerms', 'query', variables);
     },
     Paragraph(variables: DrupalTypes.ParagraphQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.ParagraphQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.ParagraphQuery>({ document: ParagraphDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'Paragraph', 'query', variables);
@@ -1775,6 +1982,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     stanfordEventsPastEvents(variables?: DrupalTypes.StanfordEventsPastEventsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.StanfordEventsPastEventsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordEventsPastEventsQuery>({ document: StanfordEventsPastEventsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'stanfordEventsPastEvents', 'query', variables);
+    },
+    stanfordMedia(variables?: DrupalTypes.StanfordMediaQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.StanfordMediaQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordMediaQuery>({ document: StanfordMediaDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'stanfordMedia', 'query', variables);
     },
     stanfordNews(variables?: DrupalTypes.StanfordNewsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<DrupalTypes.StanfordNewsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<DrupalTypes.StanfordNewsQuery>({ document: StanfordNewsDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'stanfordNews', 'query', variables);

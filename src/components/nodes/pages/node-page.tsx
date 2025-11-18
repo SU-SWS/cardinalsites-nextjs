@@ -8,6 +8,7 @@ import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page"
 import StanfordOpportunityPage from "@components/nodes/pages/stanford-opportunity/stanford-opportunity-page"
 import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
+import StanfordMediaPage from "@components/nodes/pages/stanford-media/stanford-media-page"
 
 const NodePage = ({node}: {node: NodeUnion}) => {
   const itemProps: {[key: string]: string} = {}
@@ -24,6 +25,8 @@ const NodePage = ({node}: {node: NodeUnion}) => {
       return <StanfordEventPage node={node} {...itemProps} />
     case "NodeStanfordEventSeries":
       return <StanfordEventSeriesPage node={node} {...itemProps} />
+    case "NodeStanfordMedia":
+      return <StanfordMediaPage node={node} {...itemProps} />
     case "NodeStanfordNews":
       return <StanfordNewsPage node={node} {...itemProps} />
     case "NodeStanfordPage":
