@@ -29,7 +29,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * Position of the text over the image.
    */
-  overlayColor?: Maybe<"#000000" | "#175E54" | "#016895" | "#006B81" | "#2F716G" | "#544948">
+  overlayColor?: Maybe<"#000000" | "#620059" | "#016895" | "#006B81" | "#175E54" | "#544948">
 }
 
 const HeroBanner = async ({
@@ -52,14 +52,14 @@ const HeroBanner = async ({
           "aspect-auto absolute h-full": overlayPosition === "center",
         })}
       >
-        {overlayColor && (
+        {overlayPosition === "center" && (
           <div
             className={clsx("relative z-10 size-full", {
-              "bg-black-true/80": overlayColor === "#000000" || (!overlayColor && overlayPosition === "center"),
-              "bg-plum/80": overlayColor === "#175E54",
+              "bg-black-true/80": !overlayColor || overlayColor === "#000000",
+              "bg-plum/80": overlayColor === "#620059",
               "bg-sky-dark/80": overlayColor === "#016895",
               "bg-lagunita-dark/80": overlayColor === "#006B81",
-              "bg-palo-alto/80": overlayColor === "#2F716G",
+              "bg-palo-alto/80": overlayColor === "#175E54",
               "bg-stone-dark/80": overlayColor === "#544948",
             })}
           />
