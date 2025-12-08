@@ -16,9 +16,7 @@ export type LinkProps = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement
     showExtLinkIcon?: boolean
   }
 
-const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: LinkProps) => {
-  // Make sure all links have a href.
-  href = href || "#"
+export const getLinkHref = (href: string = "#") => {
   const drupalBase: string = (process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || "").replace(/\/$/, "")
 
   // Make sure links to documents or images go to the Drupal origin.
@@ -30,6 +28,11 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   if (!href.includes("/files/")) {
     href = href.replace(drupalBase, "").replace("<front>", "/")
   }
+  return href
+}
+
+const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: LinkProps) => {
+  href = getLinkHref(href)
 
   const externalLink =
     showExtLinkIcon &&
