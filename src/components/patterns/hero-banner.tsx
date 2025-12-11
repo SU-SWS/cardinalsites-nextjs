@@ -4,6 +4,7 @@ import twMerge from "@lib/utils/twMerge"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 import {clsx} from "clsx"
+import {OverlayColors} from "@lib/@types/drupal"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -29,7 +30,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * Position of the text over the image.
    */
-  overlayColor?: Maybe<"#000000" | "#620059" | "#016895" | "#006B81" | "#175E54" | "#544948">
+  overlayColor?: OverlayColors
 }
 
 const HeroBanner = async ({
