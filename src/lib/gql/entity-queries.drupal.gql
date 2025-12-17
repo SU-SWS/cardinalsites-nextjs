@@ -141,8 +141,80 @@ query Term($uuid: ID!) {
     }
 }
 
+query CourseFiltersTerms {
+    termCourseFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
+query EventFiltersTerms {
+    termEventFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
+query MediaContentFiltersTerms {
+    termMediaContentFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
 query OpportunityFiltersTerms {
     termOpportunityTagFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
+query PersonFiltersTerms {
+    termPersonFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
+query PublicationFiltersTerms {
+    termPublicationFilters(first: 1000) {
+        nodes {
+            ...FragmentTermInterface
+            ... on TermInterface {
+                id
+                weight
+            }
+        }
+    }
+}
+
+query NewsSpotlightFiltersTerms {
+    termStanfordNewsSpotlightFilters(first: 1000) {
         nodes {
             ...FragmentTermInterface
             ... on TermInterface {
@@ -165,15 +237,13 @@ query ConfigPages {
             __typename
             uuid
             suGoogleAnalytics
+            suHideSiteSearch
             suSiteAlgolia
+            suSiteAlgoliaFed
             suSiteAlgoliaId
             suSiteAlgoliaIndex
             suSiteAlgoliaSearch
             suSiteAlgoliaUi
-            suSiteDropdowns
-            suSiteMenuLevels
-            suSiteName
-            suSiteNobots
             suSiteHeaderButton {
                 title
                 url
@@ -182,6 +252,9 @@ query ConfigPages {
                 title
                 url
             }
+            suSiteMenuLevels
+            suSiteName
+            suSiteNobots
         }
     }
     stanfordGlobalMessages(first: 1) {

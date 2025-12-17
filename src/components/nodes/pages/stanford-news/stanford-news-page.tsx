@@ -9,6 +9,7 @@ import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
 import Wysiwyg from "@components/elements/wysiwyg"
+import StanfordNewsSpotlightPage from "@components/nodes/pages/stanford-news/stanford-news-spotlight-page"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -16,6 +17,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordNewsPage = ({node, ...props}: Props) => {
+  if (node.layoutSelection?.id === "news_spotlight") return <StanfordNewsSpotlightPage node={node} {...props} />
+
   if (node.suNewsSource?.url) redirect(node.suNewsSource.url)
 
   const publishDate = node.suNewsPublishingDate

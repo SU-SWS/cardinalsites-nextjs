@@ -1,4 +1,5 @@
 "use client"
+
 import {LoadMoreListProps} from "@components/elements/load-more-list"
 import {useLayoutEffect, useRef, JSX, useId, useState, ChangeEvent} from "react"
 import {useBoolean, useCounter} from "usehooks-ts"
@@ -7,15 +8,20 @@ import useServerAction from "@hooks/useServerAction"
 import twMerge from "@lib/utils/twMerge"
 import {ArrowPathIcon} from "@heroicons/react/20/solid"
 import Button from "@components/elements/button"
-import {FilterGroup} from "@components/views/stanford-opportunities/opportunities-card-view"
 import InputGroup from "@components/elements/inputs/input-group"
 import RadioButton from "@components/elements/inputs/radio-button"
 
-type Props = LoadMoreListProps & {
+export type Props = LoadMoreListProps & {
   filters: Array<FilterGroup>
+  filterKey: string
 }
 
-const OpportunitiesFilteredViewClient = ({
+export type FilterGroup = {
+  label: string
+  options: Array<{label: string; value: string}>
+}
+
+const FilteredListViewClient = ({
   buttonText,
   children,
   ulProps,
@@ -23,6 +29,7 @@ const OpportunitiesFilteredViewClient = ({
   totalItems,
   loadPage,
   filters,
+  filterKey,
   ...props
 }: Props) => {
   const {count: filteredTotalItems, setCount: setFilteredTotalItems} = useCounter(totalItems)
@@ -37,7 +44,7 @@ const OpportunitiesFilteredViewClient = ({
 
   const showMoreItems = () => {
     if (loadPage) {
-      runLoadPage(page + 1, {filters: Object.values(chosenFilters)})
+      runLoadPage(page + 1, {[filterKey]: Object.values(chosenFilters)})
         .then(results => {
           const resultChildren = results?.props.children
           setItems([...items, ...resultChildren])
@@ -59,7 +66,7 @@ const OpportunitiesFilteredViewClient = ({
     const newState = {...chosenFilters}
     newState[filterIndex] = event.target.value
 
-    runLoadPage(0, {filters: Object.values(newState).filter(Boolean)})
+    runLoadPage(0, {[filterKey]: Object.values(newState).filter(Boolean)})
       .then(results => {
         const resultChildren = results?.props.children
         setFilteredTotalItems(results?.props.totalItems)
@@ -138,4 +145,4 @@ const OpportunitiesFilteredViewClient = ({
   )
 }
 
-export default OpportunitiesFilteredViewClient
+export default FilteredListViewClient

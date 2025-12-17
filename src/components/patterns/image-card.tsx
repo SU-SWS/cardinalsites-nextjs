@@ -3,6 +3,7 @@ import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import {ElementType, HTMLAttributes} from "react"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {clsx} from "clsx"
 
 type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
   /**
@@ -21,9 +22,13 @@ type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
    * If the wrapper should be an article or a div, use an article if an appropriate heading is within the card.
    */
   isArticle?: Maybe<boolean>
+  /**
+   * If the image aspect ratio should be 1:1 instead of 16:9
+   */
+  squareImage?: Maybe<boolean>
 }
 
-const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, children, ...props}: Props) => {
+const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, squareImage, children, ...props}: Props) => {
   const CardWrapper: ElementType = isArticle ? "article" : "div"
 
   return (
@@ -35,7 +40,7 @@ const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, children, ...props}
       )}
     >
       {imageUrl && (
-        <div className="relative aspect-[16/9] w-full">
+        <div className={twMerge("relative w-full", clsx({"aspect-1": squareImage, "aspect-[16/9]": !squareImage}))}>
           <Image
             className="object-cover object-center"
             src={imageUrl}

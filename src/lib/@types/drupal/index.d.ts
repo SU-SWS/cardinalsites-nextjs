@@ -1,3 +1,5 @@
+import {Maybe} from "@lib/gql/__generated__/drupal.d"
+
 /**
  * Types that are not provided by Graphql integration.
  */
@@ -34,9 +36,12 @@ export type CardParagraphBehaviors = {
   }
 }
 
+export type OverlayColors = Maybe<"#000000" | "#620059" | "#016895" | "#006B81" | "#175E54" | "#544948">
+
 export type BannerParagraphBehaviors = {
   hero_pattern?: {
-    overlay_position?: "left" | "right"
+    overlay_position?: "left" | "right" | "center"
+    overlay_color?: OverlayColors
     heading?: "h2" | "h3" | "h4" | "div.su-splash-font"
     hide_heading?: string
   }

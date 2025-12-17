@@ -1,9 +1,10 @@
-import Link from "@components/elements/link"
 import twMerge from "@lib/utils/twMerge"
 import {HtmlHTMLAttributes, MouseEventHandler} from "react"
 import {Maybe} from "@lib/gql/__generated__/drupal.d"
 import {clsx} from "clsx"
 import {LinkProps} from "next/dist/client/link"
+import Link from "next/link"
+import {getLinkHref} from "@components/elements/link"
 
 export type ButtonProps = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> & {
   /**
@@ -76,7 +77,7 @@ export const Button = ({
   }
 
   return (
-    <Link href={href} className={twMerge(standardClasses, className)} {...props}>
+    <Link href={getLinkHref(href)} className={twMerge(standardClasses, className)} {...props}>
       {children}
     </Link>
   )

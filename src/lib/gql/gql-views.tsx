@@ -4,6 +4,7 @@ import {
   Maybe,
   NodeStanfordCourse,
   NodeStanfordEvent,
+  NodeStanfordMedia,
   NodeStanfordNews,
   NodeStanfordOpportunity,
   NodeStanfordPage,
@@ -101,8 +102,11 @@ export const getViewPagedItems = async (
 
       case "stanford_courses--default_list_viewfield_block":
       case "stanford_courses--vertical_teaser_viewfield_block":
+      case "courses_filtered--list":
+      case "courses_filtered--card_grid":
         graphqlResponse = await client.stanfordCourses({
           contextualFilters,
+          filter,
           pageSize: itemsPerPage,
           page,
         })
@@ -140,10 +144,15 @@ export const getViewPagedItems = async (
         totalItems = graphqlResponse.stanfordEventsPastEvents?.pageInfo.total || 0
         break
 
+      case "stanford_news_filtered--spotlight_cards":
       case "stanford_news--block_1":
       case "stanford_news--vertical_cards":
+      case "stanford_news--spotlight_card_grid":
+      case "stanford_news--spotlight_card_grid_no_date":
+        const filters = {...filter, layout: displayId.includes("spotlight") ? "news_spotlight" : ""}
         graphqlResponse = await client.stanfordNews({
           contextualFilters,
+          filter: filters,
           pageSize: itemsPerPage,
           page,
         })
@@ -166,8 +175,10 @@ export const getViewPagedItems = async (
         break
 
       case "stanford_person--grid_list_all":
+      case "people_filtered--grid_list_all":
         graphqlResponse = await client.stanfordPerson({
           contextualFilters,
+          filter,
           pageSize: itemsPerPage,
           page,
         })
@@ -195,6 +206,21 @@ export const getViewPagedItems = async (
         })
         items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
         totalItems = graphqlResponse.stanfordSharedTags?.pageInfo.total || 0
+        break
+
+      case "media_content--list":
+      case "media_content--card_grid":
+      case "media_filtered--default_list":
+      case "media_filtered--card_grid":
+        contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        graphqlResponse = await client.stanfordMedia({
+          contextualFilters,
+          filter,
+          pageSize: itemsPerPage,
+          page,
+        })
+        items = graphqlResponse.stanfordMedia?.results as unknown as NodeStanfordMedia[]
+        totalItems = graphqlResponse.stanfordMedia?.pageInfo.total || 0
         break
 
       default:

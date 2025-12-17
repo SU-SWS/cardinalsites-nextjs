@@ -9,7 +9,8 @@ import {getCleanDescription, getFirstText} from "@lib/utils/text-tools"
 import Link from "@components/elements/link"
 import Telephone from "@components/elements/telephone"
 import Button from "@components/elements/button"
-import {getOpportunityFilterTerms} from "@lib/gql/gql-queries"
+import {getFilterTerms} from "@lib/gql/gql-queries"
+import {FilterVocabs} from "@lib/gql/filter-vocabs"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordOpportunity
@@ -133,7 +134,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
 }
 
 const FilterTerms = async ({terms}: {terms: TermOpportunityTagFilter[]}) => {
-  const filters = await getOpportunityFilterTerms()
+  const filters = await getFilterTerms(FilterVocabs.Opportunities)
   const groups: TermOpportunityTagFilter[] = []
   terms.map(term => {
     const parent = filters.find(filter => filter.uuid === term.parent?.uuid)

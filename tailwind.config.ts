@@ -1,13 +1,14 @@
-/** @type {import("tailwindcss").Config} */
+import {type Config} from "tailwindcss"
+import decanter from "decanter"
+import tailwindContainerQueries from "@tailwindcss/container-queries"
+import {localFooterStyles} from "./src/styles/typography/local-footer"
+import {globalMessageStyles} from "./src/styles/typography/global-message"
+import {wysiwygStyles} from "./src/styles/typography/wysiwyg"
+import {centeredContainerStyles} from "./src/styles/centered-container"
 
-const decanter = require("decanter")
-
-const path = require("path")
-const dir = path.resolve(__dirname, "src/styles")
-
-let twoColumn = {},
-  threeColumn = {},
-  i
+const twoColumn: Record<string, string> = {},
+  threeColumn: Record<string, string> = {}
+let i: number
 for (i = 1; i <= 4; i++) {
   twoColumn[`1-${i}`] = `minmax(0, 1fr) minmax(0, ${i}fr)`
   twoColumn[`${i}-1`] = `minmax(0, ${i}fr) minmax(0, 1fr)`
@@ -22,14 +23,14 @@ for (i = 1; i <= 4; i++) {
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    fontFamily: decanter.theme.fontFamily,
-    decanter: decanter.theme.decanter,
-    screens: decanter.theme.screens,
+    fontFamily: decanter.theme?.fontFamily,
+    decanter: decanter.theme?.decanter,
+    screens: decanter.theme?.screens,
     extend: {
-      ...decanter.theme.extend,
+      ...decanter.theme?.extend,
       aria: {
         current: "current='true'",
-        "current-page": "current='page'"
+        "current-page": "current='page'",
       },
       data: {
         intrail: "intrail='true'",
@@ -59,15 +60,16 @@ module.exports = {
         "upper-alpha": "upper-alpha",
         "lower-roman": "lower-roman",
         "upper-roman": "upper-roman",
-      }
+      },
     },
   },
   plugins: [
+    // @ts-expect-error Just ignore it.
     ...decanter.plugins,
-    require("@tailwindcss/container-queries"),
-    require(`${dir}/typography/local-footer.tsx`)(),
-    require(`${dir}/typography/global-message.tsx`)(),
-    require(`${dir}/typography/wysiwyg.tsx`)(),
-    require(`${dir}/centered-container.tsx`)(),
+    tailwindContainerQueries,
+    localFooterStyles,
+    globalMessageStyles,
+    wysiwygStyles,
+    centeredContainerStyles,
   ],
-}
+} satisfies Config

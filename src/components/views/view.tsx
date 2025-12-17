@@ -15,6 +15,7 @@ import {
   Maybe,
   NodeStanfordCourse,
   NodeStanfordEvent,
+  NodeStanfordMedia,
   NodeStanfordNews,
   NodeStanfordOpportunity,
   NodeStanfordPage,
@@ -25,6 +26,8 @@ import {
 import OpportunitiesCardView from "@components/views/stanford-opportunities/opportunities-card-view"
 import OpportunitiesListView from "@components/views/stanford-opportunities/opportunities-list-view"
 import {ViewFilter} from "@lib/gql/gql-views"
+import MediaListView from "@components/views/stanford-media/media-list-view"
+import MediaCardView from "@components/views/stanford-media/media-card-view"
 
 export type ViewDisplayProps<T extends NodeUnion = NodeUnion> = {
   /**
@@ -43,6 +46,10 @@ export type ViewDisplayProps<T extends NodeUnion = NodeUnion> = {
    * Server action callback to fetch the next "page" contents.
    */
   loadPage?: (_page?: Maybe<number>, _filter?: ViewFilter) => Promise<JSX.Element>
+  /**
+   * If the view is a filtering with input fields.
+   */
+  filtered?: boolean
 }
 
 type Props = {
@@ -75,7 +82,7 @@ type Props = {
 const View = async ({viewId, displayId, items, totalItems, loadPage, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`
 
-  const viewProps = {totalItems, headingLevel, loadPage}
+  const viewProps = {totalItems, headingLevel, loadPage, filtered: component.includes("filtered")}
 
   switch (component) {
     case "search--search":
@@ -83,12 +90,16 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
       return <PageListView items={items as NodeStanfordPage[]} {...viewProps} />
 
     case "stanford_news--vertical_cards":
+    case "stanford_news_filtered--spotlight_cards":
+    case "stanford_news--spotlight_card_grid":
+    case "stanford_news--spotlight_card_grid_no_date":
       return <NewsCardView items={items as NodeStanfordNews[]} {...viewProps} />
 
     case "stanford_news--block_1":
       return <NewsListView items={items as NodeStanfordNews[]} {...viewProps} />
 
     case "stanford_person--grid_list_all":
+    case "people_filtered--grid_list_all":
       return <PersonCardView items={items as NodeStanfordPerson[]} {...viewProps} />
 
     case "stanford_events--cards":
@@ -106,9 +117,11 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
       return <SharedTagsCardView items={items} {...viewProps} />
 
     case "stanford_courses--default_list_viewfield_block":
+    case "courses_filtered--list":
       return <CourseListView items={items as NodeStanfordCourse[]} {...viewProps} />
 
     case "stanford_courses--vertical_teaser_viewfield_block":
+    case "courses_filtered--card_grid":
       return <CourseCardView items={items as NodeStanfordCourse[]} {...viewProps} />
 
     case "stanford_publications--apa_list":
@@ -119,23 +132,22 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
 
     case "stanford_opportunities--cards":
     case "stanford_opportunities_filtered--cards":
-      return (
-        <OpportunitiesCardView
-          items={items as NodeStanfordOpportunity[]}
-          filtered={component.includes("filtered")}
-          {...viewProps}
-        />
-      )
+      return <OpportunitiesCardView items={items as NodeStanfordOpportunity[]} {...viewProps} />
 
     case "stanford_opportunities--list":
     case "stanford_opportunities_filtered--list_page":
-      return (
-        <OpportunitiesListView
-          items={items as NodeStanfordOpportunity[]}
-          filtered={component.includes("filtered")}
-          {...viewProps}
-        />
-      )
+      return <OpportunitiesListView items={items as NodeStanfordOpportunity[]} {...viewProps} />
+
+    case "media_content--list":
+    case "media_filtered--default_list":
+      return <MediaListView items={items as NodeStanfordMedia[]} {...viewProps} />
+
+    case "media_content--card_grid":
+    case "media_filtered--card_grid":
+      return <MediaCardView items={items as NodeStanfordMedia[]} {...viewProps} />
+
+    default:
+      console.warn(`Unable to find component for view: ${viewId} display: ${displayId}`)
   }
 }
 export default View
