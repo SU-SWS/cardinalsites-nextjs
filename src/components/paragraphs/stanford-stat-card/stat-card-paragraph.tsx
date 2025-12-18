@@ -122,9 +122,6 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
                 "text-spirited": allowTextColors && paragraph.suStatStatColor?.color === "e04f39",
               })}
               decimals={decimalPlaces}
-              startOnMount={false}
-              enableScrollSpy={true}
-              scrollSpyOnce={true}
             />
           )}
         </div>
