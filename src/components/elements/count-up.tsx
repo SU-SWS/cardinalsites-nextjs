@@ -5,8 +5,7 @@ import {motion, useInView, useMotionValue, useSpring, useReducedMotion} from "mo
 import {useComponentAnimation} from "@hooks/useComponentAnimation"
 
 type CountUpProps = {
-  end: number
-  start?: number
+  end: number | string
   duration?: number
   prefix?: string
   suffix?: string
@@ -14,9 +13,34 @@ type CountUpProps = {
   className?: string
 }
 
+const parseNumber = (value: number | string): number => {
+  if (typeof value === "number") return value
+  const parsed = parseFloat(String(value).replace(/,/g, ""))
+  return isNaN(parsed) ? 0 : parsed
+}
+
+const formatNumber = (value: number, decimals: number): string => {
+  // Ensure we have a valid number
+  const num = Number(value)
+  if (isNaN(num)) return "0"
+
+  // Format with proper decimal places first
+  const fixed = decimals > 0 ? num.toFixed(decimals) : Math.floor(num).toString()
+
+  // Split into integer and decimal parts
+  const parts = fixed.split(".")
+  const integerPart = parts[0]
+  const decimalPart = parts[1]
+
+  // Add commas to integer part
+  const withCommas = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  // Combine parts
+  return decimalPart ? `${withCommas}.${decimalPart}` : withCommas
+}
+
 const CountUpNumber = ({
   end,
-  start = 0,
   duration = 2,
   prefix = "",
   suffix = "",
@@ -30,13 +54,16 @@ const CountUpNumber = ({
   const {isEnabled} = useComponentAnimation()
   const isAnimationEnabled = isEnabled("statCard")
 
+  // Parse string value that may contain commas
+  const parsedEnd = parseNumber(end)
+
   const ref = useRef<HTMLSpanElement>(null)
-  const motionValue = useMotionValue(start)
+  const motionValue = useMotionValue(0)
   const springValue = useSpring(motionValue, {
     duration: prefersReducedMotion || !isAnimationEnabled ? 0 : duration * 1000,
     bounce: 0,
   })
-  const [displayValue, setDisplayValue] = useState(start)
+  const [displayValue, setDisplayValue] = useState(0)
   const isInView = useInView(ref, {once: true})
 
   useEffect(() => {
@@ -51,11 +78,11 @@ const CountUpNumber = ({
 
   useEffect(() => {
     if (isInView) {
-      motionValue.set(end)
+      motionValue.set(parsedEnd)
     }
-  }, [motionValue, end, isInView])
+  }, [motionValue, parsedEnd, isInView])
 
-  const formattedValue = decimals > 0 ? displayValue.toFixed(decimals) : Math.floor(displayValue).toString()
+  const formattedValue = formatNumber(displayValue, decimals)
 
   return (
     <motion.span ref={ref} className={className} {...props}>
