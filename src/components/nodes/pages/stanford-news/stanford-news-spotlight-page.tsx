@@ -36,7 +36,7 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
         metatags={node.metatag}
         backupDescription={node.suNewsDek || getFirstText(node.suNewsComponents)}
       />
-      <div className="mx-auto mb-10">
+      <div className="mx-auto mb-10 xl:w-11/12">
         <div className="mb-20 flex flex-row-reverse items-start gap-20">
           <div className="w-9/12">
             <ReverseVisualOrder>
@@ -66,7 +66,7 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
           )}
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="mx-auto flex items-center gap-5 lg:max-w-1000">
           {node.suNewsPublishingDate && (
             <time dateTime={new Date(node.suNewsPublishingDate.time).toISOString().substring(0, 10)}>
               {publishDate}
@@ -76,7 +76,7 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
         </div>
       </div>
 
-      <Wysiwyg html={node.body?.processed} className="centered mb-32" />
+      <Wysiwyg html={node.body?.processed} className="mx-auto mb-32 lg:max-w-1000" />
       <Rows components={node.suNewsComponents} />
     </article>
   )

@@ -1361,6 +1361,8 @@ export type NodeStanfordEvent = EdgeNode &
     suEventGroups?: Maybe<Array<TermStanfordEventGroup>>
     /** Keywords and Tags */
     suEventKeywords?: Maybe<Array<TermStanfordEventKeyword>>
+    /** Localist ID */
+    suEventLocalistId?: Maybe<Scalars["Int"]["output"]>
     /** Where the event is taking place. */
     suEventLocation?: Maybe<Address>
     /** This is the text that will display on the site. */
@@ -1628,7 +1630,7 @@ export type NodeStanfordNews = EdgeNode &
     /** Paragraphs */
     suNewsComponents?: Maybe<Array<NodeStanfordNewsSuNewsComponentsUnion>>
     /**
-     * Maximum 180 characters. <em>A "dek" is a brief summary that appears below the
+     * Maximum 500 characters. <em>A "dek" is a brief summary that appears below the
      * headline - in smaller font - on the list page and on the article page.</em>
      */
     suNewsDek?: Maybe<Scalars["String"]["output"]>
