@@ -105,12 +105,17 @@ const options: HTMLReactParserOptions = {
           return <ol {...nodeProps}>{domToReact(children, options)}</ol>
         case "hr":
           return <hr className="border-black" />
+        case "code":
+          nodeProps.className = twMerge(
+            nodeProps.className,
+            "bg-black-10 border border-black-20 text-black text-wrap block p-10 mb-5 rounded"
+          )
+          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
         case "tfoot":
         case "b":
         case "cite":
         case "dt":
         case "pre":
-        case "code":
         case "dl":
         case "dd":
         case "i":
