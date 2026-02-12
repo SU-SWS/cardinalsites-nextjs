@@ -5,8 +5,6 @@ import {NodeStanfordPage, StanfordBasicSiteSetting} from "@lib/gql/__generated__
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 
-export const maxDuration = 60
-
 const Home = async () => {
   "use cache"
 

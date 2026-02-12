@@ -24,3 +24,13 @@ export const getCleanDescription = (description: string | undefined, numSentence
     return text?.length > 1 ? decode(text) : undefined
   }
 }
+
+export const getTimeDuration = (seconds: number): string => {
+  const hours = Math.floor(seconds / (60 * 60))
+  const mins = Math.floor((seconds - hours * 60 * 60) / 60)
+  const sec = seconds % 60
+
+  if (hours) return `${hours}:${mins < 10 ? "0" + mins : mins}:${sec < 10 ? "0" + sec : sec}`
+  if (mins) return `${mins}:${sec < 10 ? "0" + sec : sec}`
+  return `${sec}`
+}

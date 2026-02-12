@@ -1,14 +1,11 @@
+"use cache"
+
 import Image from "next/image"
 import InterceptionModal from "@components/elements/interception-modal"
 import Link from "@components/elements/link"
 import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
-
-// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-export const revalidate = false
-// https://vercel.com/docs/functions/runtimes#max-duration
-export const maxDuration = 60
 
 type Props = {
   params: Promise<{uuid: string[]}>

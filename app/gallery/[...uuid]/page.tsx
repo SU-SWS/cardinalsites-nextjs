@@ -1,14 +1,10 @@
+"use cache"
+
 import {H1} from "@components/elements/headers"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d"
 import Image from "next/image"
-
-// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-export const revalidate = false
-export const dynamic = "force-static"
-// https://vercel.com/docs/functions/runtimes#max-duration
-export const maxDuration = 60
 
 export const metadata = {
   title: "Gallery Image",
@@ -58,8 +54,8 @@ const Page = async (props: Props) => {
   )
 }
 
-export const generateStaticParams = async (): Promise<Array<Props["params"]>> => {
-  return []
+export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => {
+  return [{uuid: []}]
 }
 
 export default Page

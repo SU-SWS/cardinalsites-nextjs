@@ -1021,8 +1021,6 @@ export type MediaVideo = MediaInterface &
     suMediaDescription?: Maybe<Scalars["String"]["output"]>
     /** Total length of the video in seconds. */
     suVideoDuration?: Maybe<Scalars["Int"]["output"]>
-    /** Subtitles */
-    suVideoSubtitles?: Maybe<File>
     /** The Universally Unique IDentifier (UUID). */
     uuid: Scalars["ID"]["output"]
   }
@@ -1539,6 +1537,8 @@ export type NodeStanfordMedia = EdgeNode &
     sticky: Scalars["Boolean"]["output"]
     /** Audio/Video */
     suMediaAudioVideo: Array<NodeStanfordMediaSuMediaAudioVideoUnion>
+    /** Media Category */
+    suMediaCategory?: Maybe<Scalars["String"]["output"]>
     /** Published Date */
     suMediaDate?: Maybe<DateTime>
     /** Dek */
@@ -1547,7 +1547,7 @@ export type NodeStanfordMedia = EdgeNode &
     suMediaDuration?: Maybe<Scalars["Int"]["output"]>
     /** Episode */
     suMediaEpisode?: Maybe<Scalars["String"]["output"]>
-    /** Media Filters */
+    /** Audio/Visual Filters */
     suMediaFilters?: Maybe<Array<TermMediaContentFilter>>
     /** Featured Image */
     suMediaImage?: Maybe<MediaImage>
@@ -1559,9 +1559,11 @@ export type NodeStanfordMedia = EdgeNode &
     suMediaSeries?: Maybe<Scalars["String"]["output"]>
     /** External Source */
     suMediaSource?: Maybe<Link>
+    /** Subtitles */
+    suMediaSubtitles?: Maybe<File>
     /** Full Transcript */
     suMediaTranscript?: Maybe<Text>
-    /** Media Types */
+    /** Audio/Visual Types */
     suMediaTypes?: Maybe<Array<TermMediaContentType>>
     /** Title */
     title: Scalars["String"]["output"]
@@ -2718,7 +2720,7 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface &
     status: Scalars["Boolean"]["output"]
     /** Background Color */
     suStatBgColor?: Maybe<ColorFieldType>
-    /** Body */
+    /** This field is option and can be used to provide additional data about the statistic. */
     suStatBody?: Maybe<Text>
     /** Button */
     suStatButton?: Maybe<Link>
@@ -2726,7 +2728,11 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface &
     suStatCentered?: Maybe<Scalars["Boolean"]["output"]>
     /** Visually Hide Heading */
     suStatHeadingHide?: Maybe<Scalars["Boolean"]["output"]>
-    /** Headline */
+    /**
+     * The headline is the label that provides additional information about your
+     * statistic and let's the site visitor know what the number refers to. It
+     * displays right under the statistic number.
+     */
     suStatHeadline: Scalars["String"]["output"]
     /** Headling Level */
     suStatHeadlineLvl: Scalars["String"]["output"]
@@ -2741,11 +2747,14 @@ export type ParagraphStanfordStatCard = LayoutParagraphsInterface &
     suStatIcon?: Maybe<FontawesomeIconType>
     /** Icon Color */
     suStatIconColor?: Maybe<ColorFieldType>
-    /** Image */
+    /** This image will appear at the top of the card. */
     suStatImage?: Maybe<MediaImage>
     /** Choose how you would like the link to display.  */
     suStatLinkStyle: Scalars["String"]["output"]
-    /** Stat */
+    /**
+     * Enter a number that represents the statistic to highlight. Additional
+     * characters can be included.  Examples: 256, 20%, 1K, 72.5, $15.
+     */
     suStatStat: Scalars["String"]["output"]
     /** Stat Color */
     suStatStatColor?: Maybe<ColorFieldType>
@@ -3184,6 +3193,7 @@ export type QueryStanfordPersonArgs = {
 /** The schema's entry-point for queries. */
 export type QueryStanfordPublicationsArgs = {
   contextualFilter?: InputMaybe<StanfordPublicationsContextualFilterInput>
+  filter?: InputMaybe<StanfordPublicationsFilterInput>
   offset?: InputMaybe<Scalars["Int"]["input"]>
   page?: InputMaybe<Scalars["Int"]["input"]>
   pageSize?: InputMaybe<Scalars["Int"]["input"]>
@@ -3878,7 +3888,7 @@ export type StanfordMediaContextualFilterInput = {
 }
 
 export type StanfordMediaFilterInput = {
-  /** Media Filters  */
+  /** Audio/Visual Filters  */
   filter?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>
   /** Related Person  */
   person?: InputMaybe<Scalars["Float"]["input"]>
@@ -3918,6 +3928,8 @@ export type StanfordNewsContextualFilterInput = {
 export type StanfordNewsFilterInput = {
   /** Layout  */
   layout?: InputMaybe<Scalars["String"]["input"]>
+  /** Related Person  */
+  person?: InputMaybe<Scalars["Float"]["input"]>
   /** Spotlight Filters  */
   spotlight?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>
 }
@@ -4040,6 +4052,11 @@ export enum StanfordPersonSortKeys {
 
 export type StanfordPublicationsContextualFilterInput = {
   term_node_taxonomy_name_depth?: InputMaybe<Scalars["String"]["input"]>
+}
+
+export type StanfordPublicationsFilterInput = {
+  /** Author Reference  */
+  person?: InputMaybe<Scalars["Float"]["input"]>
 }
 
 /** Result for view stanford_publications display list_graphql. */
@@ -4360,7 +4377,7 @@ export type TermInterface = {
   weight: Scalars["Int"]["output"]
 }
 
-/** For Media Content */
+/** For Audio/Visual Content */
 export type TermMediaContentFilter = EdgeNode &
   MetaTagInterface &
   TermInterface & {
@@ -4404,7 +4421,7 @@ export type TermMediaContentFilterEdge = Edge & {
   node: TermMediaContentFilter
 }
 
-/** For Media Content */
+/** For Audio/Visual Content */
 export type TermMediaContentType = MetaTagInterface &
   TermInterface & {
     __typename?: "TermMediaContentType"
@@ -5136,6 +5153,7 @@ export type NodeQuery = {
         suCourseId?: number | null
         suCourseInstructors?: Array<string> | null
         suCourseSectionUnits?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -5262,6 +5280,7 @@ export type NodeQuery = {
         suEventSponsor?: Array<string> | null
         suEventSubheadline?: string | null
         suEventTelephone?: any | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -5352,12 +5371,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -5370,16 +5383,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -5456,12 +5469,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -5691,6 +5698,7 @@ export type NodeQuery = {
         status: boolean
         suEventSeriesDek?: string | null
         suEventSeriesSubheadline?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -5748,12 +5756,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -5766,16 +5768,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -5852,12 +5854,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -5977,11 +5973,13 @@ export type NodeQuery = {
     | {
         __typename: "NodeStanfordMedia"
         status: boolean
+        suMediaCategory?: string | null
         suMediaDek?: string | null
         suMediaDuration?: number | null
         suMediaEpisode?: string | null
         suMediaSeason?: string | null
         suMediaSeries?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -6015,12 +6013,6 @@ export type NodeQuery = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
         >
         suMediaDate?: {__typename?: "DateTime"; time: any; timezone: any} | null
@@ -6033,6 +6025,7 @@ export type NodeQuery = {
         suMediaPerson?: Array<{
           __typename: "NodeStanfordPerson"
           suPersonShortTitle?: string | null
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -6080,6 +6073,7 @@ export type NodeQuery = {
         suNewsDek?: string | null
         suNewsHideSocial?: boolean | null
         suNewsQuote?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -6112,12 +6106,6 @@ export type NodeQuery = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suNewsComponents?: Array<
@@ -6160,12 +6148,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -6178,16 +6160,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -6264,12 +6246,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -6339,6 +6315,7 @@ export type NodeQuery = {
         suOppContactName?: string | null
         suOppContactPhone?: any | null
         suOppCourseCode?: Array<string> | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -6399,12 +6376,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -6417,16 +6388,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -6503,12 +6474,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -6675,6 +6640,7 @@ export type NodeQuery = {
         __typename: "NodeStanfordPage"
         status: boolean
         suPageDescription?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -6796,12 +6762,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -6814,16 +6774,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -6915,12 +6875,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -6991,6 +6945,7 @@ export type NodeQuery = {
         suPersonResearchInterests?: Array<string> | null
         suPersonShortTitle?: string | null
         suPersonTelephone?: string | null
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -7050,12 +7005,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -7068,16 +7017,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -7154,12 +7103,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -7235,6 +7178,7 @@ export type NodeQuery = {
         suPolicyPolicyNum?: string | null
         suPolicySubchapter?: string | null
         suPolicyTitle: string
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -7311,6 +7255,7 @@ export type NodeQuery = {
     | {
         __typename: "NodeStanfordPublication"
         status: boolean
+        id: string
         uuid: string
         title: string
         path?: string | null
@@ -7380,12 +7325,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
             }
@@ -7398,16 +7337,16 @@ export type NodeQuery = {
               suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
               suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
               suEntityItem?: Array<
-                | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+                | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
               > | null
             }
           | {
@@ -7484,12 +7423,6 @@ export type NodeQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -8123,12 +8056,6 @@ export type EventSeriesQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -8141,16 +8068,16 @@ export type EventSeriesQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -8227,12 +8154,6 @@ export type EventSeriesQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -8447,12 +8368,6 @@ export type EventsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -8465,16 +8380,16 @@ export type EventsQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -8551,12 +8466,6 @@ export type EventsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -8819,12 +8728,6 @@ export type NewsQuery = {
             suVideoDuration?: number | null
             uuid: string
             name: string
-            suVideoSubtitles?: {
-              __typename?: "File"
-              description?: string | null
-              name?: string | null
-              url: string
-            } | null
           }
         | null
       suNewsComponents?: Array<
@@ -8867,12 +8770,6 @@ export type NewsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -8885,16 +8782,16 @@ export type NewsQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -8971,12 +8868,6 @@ export type NewsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -9162,12 +9053,6 @@ export type BasicPagesQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -9180,16 +9065,16 @@ export type BasicPagesQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -9281,12 +9166,6 @@ export type BasicPagesQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -9414,12 +9293,6 @@ export type PeopleQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -9432,16 +9305,16 @@ export type PeopleQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -9518,12 +9391,6 @@ export type PeopleQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -9740,12 +9607,6 @@ export type PublicationsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
           }
@@ -9758,16 +9619,16 @@ export type PublicationsQuery = {
             suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
             suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
             suEntityItem?: Array<
-              | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-              | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+              | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
             > | null
           }
         | {
@@ -9844,12 +9705,6 @@ export type PublicationsQuery = {
                   suVideoDuration?: number | null
                   uuid: string
                   name: string
-                  suVideoSubtitles?: {
-                    __typename?: "File"
-                    description?: string | null
-                    name?: string | null
-                    url: string
-                  } | null
                 }
               | null
             suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -9951,7 +9806,6 @@ export type MediaQuery = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
 }
@@ -11050,12 +10904,6 @@ export type ParagraphQuery = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -11068,16 +10916,16 @@ export type ParagraphQuery = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -11169,12 +11017,6 @@ export type ParagraphQuery = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -12208,7 +12050,6 @@ export type FragmentMediaVideoFragment = {
   suVideoDuration?: number | null
   uuid: string
   name: string
-  suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
 }
 
 type FragmentMediaUnion_MediaEmbeddable_Fragment = {
@@ -12255,7 +12096,6 @@ type FragmentMediaUnion_MediaVideo_Fragment = {
   suVideoDuration?: number | null
   uuid: string
   name: string
-  suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
 }
 
 export type FragmentMediaUnionFragment =
@@ -12318,6 +12158,7 @@ export type FragmentMetaTagFragment =
 
 type FragmentNodeInterface_NodeStanfordCourse_Fragment = {
   __typename: "NodeStanfordCourse"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12325,6 +12166,7 @@ type FragmentNodeInterface_NodeStanfordCourse_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordEvent_Fragment = {
   __typename: "NodeStanfordEvent"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12332,6 +12174,7 @@ type FragmentNodeInterface_NodeStanfordEvent_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordEventSeries_Fragment = {
   __typename: "NodeStanfordEventSeries"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12339,6 +12182,7 @@ type FragmentNodeInterface_NodeStanfordEventSeries_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordMedia_Fragment = {
   __typename: "NodeStanfordMedia"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12346,6 +12190,7 @@ type FragmentNodeInterface_NodeStanfordMedia_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordNews_Fragment = {
   __typename: "NodeStanfordNews"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12353,6 +12198,7 @@ type FragmentNodeInterface_NodeStanfordNews_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordOpportunity_Fragment = {
   __typename: "NodeStanfordOpportunity"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12360,6 +12206,7 @@ type FragmentNodeInterface_NodeStanfordOpportunity_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordPage_Fragment = {
   __typename: "NodeStanfordPage"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12367,6 +12214,7 @@ type FragmentNodeInterface_NodeStanfordPage_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordPerson_Fragment = {
   __typename: "NodeStanfordPerson"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12374,6 +12222,7 @@ type FragmentNodeInterface_NodeStanfordPerson_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordPolicy_Fragment = {
   __typename: "NodeStanfordPolicy"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12381,6 +12230,7 @@ type FragmentNodeInterface_NodeStanfordPolicy_Fragment = {
 
 type FragmentNodeInterface_NodeStanfordPublication_Fragment = {
   __typename: "NodeStanfordPublication"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12401,6 +12251,7 @@ export type FragmentNodeInterfaceFragment =
 type FragmentNodePage_NodeStanfordCourse_Fragment = {
   __typename: "NodeStanfordCourse"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12423,6 +12274,7 @@ type FragmentNodePage_NodeStanfordCourse_Fragment = {
 type FragmentNodePage_NodeStanfordEvent_Fragment = {
   __typename: "NodeStanfordEvent"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12445,6 +12297,7 @@ type FragmentNodePage_NodeStanfordEvent_Fragment = {
 type FragmentNodePage_NodeStanfordEventSeries_Fragment = {
   __typename: "NodeStanfordEventSeries"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12467,6 +12320,7 @@ type FragmentNodePage_NodeStanfordEventSeries_Fragment = {
 type FragmentNodePage_NodeStanfordMedia_Fragment = {
   __typename: "NodeStanfordMedia"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12489,6 +12343,7 @@ type FragmentNodePage_NodeStanfordMedia_Fragment = {
 type FragmentNodePage_NodeStanfordNews_Fragment = {
   __typename: "NodeStanfordNews"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12511,6 +12366,7 @@ type FragmentNodePage_NodeStanfordNews_Fragment = {
 type FragmentNodePage_NodeStanfordOpportunity_Fragment = {
   __typename: "NodeStanfordOpportunity"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12533,6 +12389,7 @@ type FragmentNodePage_NodeStanfordOpportunity_Fragment = {
 type FragmentNodePage_NodeStanfordPage_Fragment = {
   __typename: "NodeStanfordPage"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12555,6 +12412,7 @@ type FragmentNodePage_NodeStanfordPage_Fragment = {
 type FragmentNodePage_NodeStanfordPerson_Fragment = {
   __typename: "NodeStanfordPerson"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12577,6 +12435,7 @@ type FragmentNodePage_NodeStanfordPerson_Fragment = {
 type FragmentNodePage_NodeStanfordPolicy_Fragment = {
   __typename: "NodeStanfordPolicy"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12599,6 +12458,7 @@ type FragmentNodePage_NodeStanfordPolicy_Fragment = {
 type FragmentNodePage_NodeStanfordPublication_Fragment = {
   __typename: "NodeStanfordPublication"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -12737,12 +12597,6 @@ export type FragmentNodeStanfordPageFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -12755,16 +12609,16 @@ export type FragmentNodeStanfordPageFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -12856,12 +12710,6 @@ export type FragmentNodeStanfordPageFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -13104,12 +12952,6 @@ export type FragmentNodeStanfordEventFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -13122,16 +12964,16 @@ export type FragmentNodeStanfordEventFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -13208,12 +13050,6 @@ export type FragmentNodeStanfordEventFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -13483,12 +13319,6 @@ export type FragmentNodeStanfordEventSeriesFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -13501,16 +13331,16 @@ export type FragmentNodeStanfordEventSeriesFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -13587,12 +13417,6 @@ export type FragmentNodeStanfordEventSeriesFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -13712,6 +13536,7 @@ export type FragmentNodeStanfordEventSeriesFragment = {
 
 export type FragmentNodeStanfordMediaFragment = {
   __typename?: "NodeStanfordMedia"
+  suMediaCategory?: string | null
   suMediaDek?: string | null
   suMediaDuration?: number | null
   suMediaEpisode?: string | null
@@ -13733,7 +13558,6 @@ export type FragmentNodeStanfordMediaFragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
   >
   suMediaDate?: {__typename?: "DateTime"; time: any; timezone: any} | null
@@ -13746,6 +13570,7 @@ export type FragmentNodeStanfordMediaFragment = {
   suMediaPerson?: Array<{
     __typename: "NodeStanfordPerson"
     suPersonShortTitle?: string | null
+    id: string
     uuid: string
     title: string
     path?: string | null
@@ -13808,7 +13633,6 @@ export type FragmentNodeStanfordNewsFragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
   suNewsComponents?: Array<
@@ -13851,12 +13675,6 @@ export type FragmentNodeStanfordNewsFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -13869,16 +13687,16 @@ export type FragmentNodeStanfordNewsFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -13955,12 +13773,6 @@ export type FragmentNodeStanfordNewsFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -14083,12 +13895,6 @@ export type FragmentNodeStanfordPersonFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -14101,16 +13907,16 @@ export type FragmentNodeStanfordPersonFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -14187,12 +13993,6 @@ export type FragmentNodeStanfordPersonFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -14379,12 +14179,6 @@ export type FragmentNodeStanfordPublicationFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -14397,16 +14191,16 @@ export type FragmentNodeStanfordPublicationFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -14483,12 +14277,6 @@ export type FragmentNodeStanfordPublicationFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -14599,12 +14387,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -14617,16 +14399,16 @@ export type FragmentNodeStanfordOpportunityFragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -14703,12 +14485,6 @@ export type FragmentNodeStanfordOpportunityFragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -14880,6 +14656,7 @@ type FragmentNodeUnion_NodeStanfordCourse_Fragment = {
   suCourseId?: number | null
   suCourseInstructors?: Array<string> | null
   suCourseSectionUnits?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -15007,6 +14784,7 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = {
   suEventSponsor?: Array<string> | null
   suEventSubheadline?: string | null
   suEventTelephone?: any | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -15097,12 +14875,6 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -15115,16 +14887,16 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -15201,12 +14973,6 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -15437,6 +15203,7 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = {
   status: boolean
   suEventSeriesDek?: string | null
   suEventSeriesSubheadline?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -15494,12 +15261,6 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -15512,16 +15273,16 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -15598,12 +15359,6 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -15724,11 +15479,13 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = {
 type FragmentNodeUnion_NodeStanfordMedia_Fragment = {
   __typename: "NodeStanfordMedia"
   status: boolean
+  suMediaCategory?: string | null
   suMediaDek?: string | null
   suMediaDuration?: number | null
   suMediaEpisode?: string | null
   suMediaSeason?: string | null
   suMediaSeries?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -15762,7 +15519,6 @@ type FragmentNodeUnion_NodeStanfordMedia_Fragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
   >
   suMediaDate?: {__typename?: "DateTime"; time: any; timezone: any} | null
@@ -15775,6 +15531,7 @@ type FragmentNodeUnion_NodeStanfordMedia_Fragment = {
   suMediaPerson?: Array<{
     __typename: "NodeStanfordPerson"
     suPersonShortTitle?: string | null
+    id: string
     uuid: string
     title: string
     path?: string | null
@@ -15823,6 +15580,7 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
   suNewsDek?: string | null
   suNewsHideSocial?: boolean | null
   suNewsQuote?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -15855,7 +15613,6 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
   suNewsComponents?: Array<
@@ -15898,12 +15655,6 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -15916,16 +15667,16 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -16002,12 +15753,6 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -16078,6 +15823,7 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
   suOppContactName?: string | null
   suOppContactPhone?: any | null
   suOppCourseCode?: Array<string> | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -16138,12 +15884,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -16156,16 +15896,16 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -16242,12 +15982,6 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -16415,6 +16149,7 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
   __typename: "NodeStanfordPage"
   status: boolean
   suPageDescription?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -16536,12 +16271,6 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -16554,16 +16283,16 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -16655,12 +16384,6 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -16732,6 +16455,7 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = {
   suPersonResearchInterests?: Array<string> | null
   suPersonShortTitle?: string | null
   suPersonTelephone?: string | null
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -16791,12 +16515,6 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -16809,16 +16527,16 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -16895,12 +16613,6 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -16977,6 +16689,7 @@ type FragmentNodeUnion_NodeStanfordPolicy_Fragment = {
   suPolicyPolicyNum?: string | null
   suPolicySubchapter?: string | null
   suPolicyTitle: string
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17054,6 +16767,7 @@ type FragmentNodeUnion_NodeStanfordPolicy_Fragment = {
 type FragmentNodeUnion_NodeStanfordPublication_Fragment = {
   __typename: "NodeStanfordPublication"
   status: boolean
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17123,12 +16837,6 @@ type FragmentNodeUnion_NodeStanfordPublication_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
       }
@@ -17141,16 +16849,16 @@ type FragmentNodeUnion_NodeStanfordPublication_Fragment = {
         suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
         suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         suEntityItem?: Array<
-          | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-          | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+          | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
         > | null
       }
     | {
@@ -17227,12 +16935,6 @@ type FragmentNodeUnion_NodeStanfordPublication_Fragment = {
               suVideoDuration?: number | null
               uuid: string
               name: string
-              suVideoSubtitles?: {
-                __typename?: "File"
-                description?: string | null
-                name?: string | null
-                url: string
-              } | null
             }
           | null
         suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -17465,6 +17167,7 @@ export type FragmentNodeStanfordMediaTeaserFragment = {
   suMediaPerson?: Array<{
     __typename: "NodeStanfordPerson"
     suPersonShortTitle?: string | null
+    id: string
     uuid: string
     title: string
     path?: string | null
@@ -17730,6 +17433,7 @@ export type FragmentNodeStanfordOpportunityTeaserFragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordCourse_Fragment = {
   __typename: "NodeStanfordCourse"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17805,6 +17509,7 @@ type FragmentNodeTeaserUnion_NodeStanfordCourse_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordEvent_Fragment = {
   __typename: "NodeStanfordEvent"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17872,6 +17577,7 @@ type FragmentNodeTeaserUnion_NodeStanfordEvent_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordEventSeries_Fragment = {
   __typename: "NodeStanfordEventSeries"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17880,6 +17586,7 @@ type FragmentNodeTeaserUnion_NodeStanfordEventSeries_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordMedia_Fragment = {
   __typename: "NodeStanfordMedia"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17899,6 +17606,7 @@ type FragmentNodeTeaserUnion_NodeStanfordMedia_Fragment = {
   suMediaPerson?: Array<{
     __typename: "NodeStanfordPerson"
     suPersonShortTitle?: string | null
+    id: string
     uuid: string
     title: string
     path?: string | null
@@ -17940,6 +17648,7 @@ type FragmentNodeTeaserUnion_NodeStanfordMedia_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordNews_Fragment = {
   __typename: "NodeStanfordNews"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -17989,6 +17698,7 @@ type FragmentNodeTeaserUnion_NodeStanfordNews_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordOpportunity_Fragment = {
   __typename: "NodeStanfordOpportunity"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -18070,6 +17780,7 @@ type FragmentNodeTeaserUnion_NodeStanfordOpportunity_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordPage_Fragment = {
   __typename: "NodeStanfordPage"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -18110,6 +17821,7 @@ type FragmentNodeTeaserUnion_NodeStanfordPage_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordPerson_Fragment = {
   __typename: "NodeStanfordPerson"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -18126,6 +17838,7 @@ type FragmentNodeTeaserUnion_NodeStanfordPerson_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordPolicy_Fragment = {
   __typename: "NodeStanfordPolicy"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -18136,6 +17849,7 @@ type FragmentNodeTeaserUnion_NodeStanfordPolicy_Fragment = {
 
 type FragmentNodeTeaserUnion_NodeStanfordPublication_Fragment = {
   __typename: "NodeStanfordPublication"
+  id: string
   uuid: string
   title: string
   path?: string | null
@@ -18362,7 +18076,6 @@ export type FragmentParagraphStanfordCardFragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
 }
@@ -18373,16 +18086,16 @@ export type FragmentParagraphStanfordEntityFragment = {
   suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
   suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suEntityItem?: Array<
-    | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
   > | null
 }
 
@@ -18464,7 +18177,6 @@ export type FragmentParagraphStanfordMediaCaptionFragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
   suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -18622,7 +18334,6 @@ type FragmentParagraphUnion_ParagraphStanfordCard_Fragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
 }
@@ -18636,16 +18347,16 @@ type FragmentParagraphUnion_ParagraphStanfordEntity_Fragment = {
   suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
   suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
   suEntityItem?: Array<
-    | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-    | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+    | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
   > | null
 }
 
@@ -18742,7 +18453,6 @@ type FragmentParagraphUnion_ParagraphStanfordMediaCaption_Fragment = {
         suVideoDuration?: number | null
         uuid: string
         name: string
-        suVideoSubtitles?: {__typename?: "File"; description?: string | null; name?: string | null; url: string} | null
       }
     | null
   suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -18904,6 +18614,7 @@ export type RouteQuery = {
               suCourseId?: number | null
               suCourseInstructors?: Array<string> | null
               suCourseSectionUnits?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -19034,6 +18745,7 @@ export type RouteQuery = {
               suEventSponsor?: Array<string> | null
               suEventSubheadline?: string | null
               suEventTelephone?: any | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -19140,12 +18852,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -19158,16 +18864,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -19250,12 +18992,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -19485,6 +19221,7 @@ export type RouteQuery = {
               status: boolean
               suEventSeriesDek?: string | null
               suEventSeriesSubheadline?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -19558,12 +19295,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -19576,16 +19307,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -19668,12 +19435,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -19793,11 +19554,13 @@ export type RouteQuery = {
           | {
               __typename: "NodeStanfordMedia"
               status: boolean
+              suMediaCategory?: string | null
               suMediaDek?: string | null
               suMediaDuration?: number | null
               suMediaEpisode?: string | null
               suMediaSeason?: string | null
               suMediaSeries?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -19835,12 +19598,6 @@ export type RouteQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
               >
               suMediaDate?: {__typename?: "DateTime"; time: any; timezone: any} | null
@@ -19853,6 +19610,7 @@ export type RouteQuery = {
               suMediaPerson?: Array<{
                 __typename: "NodeStanfordPerson"
                 suPersonShortTitle?: string | null
+                id: string
                 uuid: string
                 title: string
                 path?: string | null
@@ -19900,6 +19658,7 @@ export type RouteQuery = {
               suNewsDek?: string | null
               suNewsHideSocial?: boolean | null
               suNewsQuote?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -19936,12 +19695,6 @@ export type RouteQuery = {
                     suVideoDuration?: number | null
                     uuid: string
                     name: string
-                    suVideoSubtitles?: {
-                      __typename?: "File"
-                      description?: string | null
-                      name?: string | null
-                      url: string
-                    } | null
                   }
                 | null
               suNewsComponents?: Array<
@@ -19996,12 +19749,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -20014,16 +19761,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -20106,12 +19889,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -20181,6 +19958,7 @@ export type RouteQuery = {
               suOppContactName?: string | null
               suOppContactPhone?: any | null
               suOppCourseCode?: Array<string> | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -20257,12 +20035,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -20275,16 +20047,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -20367,12 +20175,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -20539,6 +20341,7 @@ export type RouteQuery = {
               __typename: "NodeStanfordPage"
               status: boolean
               suPageDescription?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -20688,12 +20491,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -20706,16 +20503,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -20813,12 +20646,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -20895,6 +20722,7 @@ export type RouteQuery = {
               suPersonResearchInterests?: Array<string> | null
               suPersonShortTitle?: string | null
               suPersonTelephone?: string | null
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -20970,12 +20798,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -20988,16 +20810,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -21080,12 +20938,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -21161,6 +21013,7 @@ export type RouteQuery = {
               suPolicyPolicyNum?: string | null
               suPolicySubchapter?: string | null
               suPolicyTitle: string
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -21241,6 +21094,7 @@ export type RouteQuery = {
           | {
               __typename: "NodeStanfordPublication"
               status: boolean
+              id: string
               uuid: string
               title: string
               path?: string | null
@@ -21326,12 +21180,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                   }
@@ -21344,16 +21192,52 @@ export type RouteQuery = {
                     suEntityDescription?: {__typename?: "Text"; processed?: any | null} | null
                     suEntityButton?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
                     suEntityItem?: Array<
-                      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-                      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordCourse"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordEventSeries"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+                      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordOpportunity"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+                      | {
+                          __typename: "NodeStanfordPerson"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPolicy"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
+                      | {
+                          __typename: "NodeStanfordPublication"
+                          id: string
+                          uuid: string
+                          title: string
+                          path?: string | null
+                        }
                     > | null
                   }
                 | {
@@ -21436,12 +21320,6 @@ export type RouteQuery = {
                           suVideoDuration?: number | null
                           uuid: string
                           name: string
-                          suVideoSubtitles?: {
-                            __typename?: "File"
-                            description?: string | null
-                            name?: string | null
-                            url: string
-                          } | null
                         }
                       | null
                     suMediaCaptionLink?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
@@ -21631,14 +21509,15 @@ export type StanfordBasicPagesQuery = {
   stanfordBasicPages?: {
     __typename?: "StanfordBasicPagesResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordPage"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -21676,9 +21555,9 @@ export type StanfordBasicPagesQuery = {
               }
             | null
         }
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -21699,6 +21578,7 @@ export type StanfordCoursesQuery = {
     results: Array<
       | {
           __typename: "NodeStanfordCourse"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -21806,15 +21686,15 @@ export type StanfordCoursesQuery = {
               | null
           }> | null
         }
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -21832,9 +21712,10 @@ export type StanfordEventsQuery = {
   stanfordEvents?: {
     __typename?: "StanfordEventsResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordEvent"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -21899,14 +21780,14 @@ export type StanfordEventsQuery = {
           }> | null
           suEventSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         }
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -21924,9 +21805,10 @@ export type StanfordEventsPastEventsQuery = {
   stanfordEventsPastEvents?: {
     __typename?: "StanfordEventsPastEventsResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordEvent"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -21991,14 +21873,14 @@ export type StanfordEventsPastEventsQuery = {
           }> | null
           suEventSource?: {__typename?: "Link"; url?: string | null; title?: string | null} | null
         }
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -22017,11 +21899,12 @@ export type StanfordMediaQuery = {
   stanfordMedia?: {
     __typename?: "StanfordMediaResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordMedia"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22041,6 +21924,7 @@ export type StanfordMediaQuery = {
           suMediaPerson?: Array<{
             __typename: "NodeStanfordPerson"
             suPersonShortTitle?: string | null
+            id: string
             uuid: string
             title: string
             path?: string | null
@@ -22079,12 +21963,12 @@ export type StanfordMediaQuery = {
               | null
           }> | null
         }
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -22103,12 +21987,13 @@ export type StanfordNewsQuery = {
   stanfordNews?: {
     __typename?: "StanfordNewsResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordNews"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22155,11 +22040,11 @@ export type StanfordNewsQuery = {
           suNewsSource?: {__typename?: "Link"; url?: string | null} | null
           layoutSelection?: {__typename?: "LayoutLibrary"; id: string} | null
         }
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -22179,13 +22064,14 @@ export type StanfordOpportunitiesQuery = {
   stanfordOpportunities?: {
     __typename?: "StanfordOpportunitiesResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordOpportunity"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22264,10 +22150,10 @@ export type StanfordOpportunitiesQuery = {
               | null
           }> | null
         }
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -22286,15 +22172,16 @@ export type StanfordPersonQuery = {
   stanfordPerson?: {
     __typename?: "StanfordPersonResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordPerson"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22308,8 +22195,8 @@ export type StanfordPersonQuery = {
           } | null
           suPersonSource?: {__typename?: "Link"; url?: string | null} | null
         }
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPublication"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPublication"; id: string; uuid: string; title: string; path?: string | null}
     >
     pageInfo: {__typename?: "ViewPageInfo"; page: number; total: number}
   } | null
@@ -22317,6 +22204,7 @@ export type StanfordPersonQuery = {
 
 export type StanfordPublicationsQueryVariables = Exact<{
   contextualFilters?: InputMaybe<StanfordPublicationsContextualFilterInput>
+  filter?: InputMaybe<StanfordPublicationsFilterInput>
   pageSize?: InputMaybe<Scalars["Int"]["input"]>
   page?: InputMaybe<Scalars["Int"]["input"]>
   offset?: InputMaybe<Scalars["Int"]["input"]>
@@ -22327,17 +22215,18 @@ export type StanfordPublicationsQuery = {
   stanfordPublications?: {
     __typename?: "StanfordPublicationsResult"
     results: Array<
-      | {__typename: "NodeStanfordCourse"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEvent"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordEventSeries"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordMedia"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordNews"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordOpportunity"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPage"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPerson"; uuid: string; title: string; path?: string | null}
-      | {__typename: "NodeStanfordPolicy"; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordCourse"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEvent"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordEventSeries"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordMedia"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordNews"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordOpportunity"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPage"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPerson"; id: string; uuid: string; title: string; path?: string | null}
+      | {__typename: "NodeStanfordPolicy"; id: string; uuid: string; title: string; path?: string | null}
       | {
           __typename: "NodeStanfordPublication"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22412,6 +22301,7 @@ export type StanfordSharedTagsQuery = {
     results: Array<
       | {
           __typename: "NodeStanfordCourse"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22486,6 +22376,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordEvent"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22552,6 +22443,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordEventSeries"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22559,6 +22451,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordMedia"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22578,6 +22471,7 @@ export type StanfordSharedTagsQuery = {
           suMediaPerson?: Array<{
             __typename: "NodeStanfordPerson"
             suPersonShortTitle?: string | null
+            id: string
             uuid: string
             title: string
             path?: string | null
@@ -22618,6 +22512,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordNews"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22666,6 +22561,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordOpportunity"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22746,6 +22642,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordPage"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22785,6 +22682,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordPerson"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22800,6 +22698,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordPolicy"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22809,6 +22708,7 @@ export type StanfordSharedTagsQuery = {
         }
       | {
           __typename: "NodeStanfordPublication"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22883,6 +22783,7 @@ export type SearchQuery = {
     results: Array<
       | {
           __typename: "NodeStanfordCourse"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -22957,6 +22858,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordEvent"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23023,6 +22925,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordEventSeries"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23030,6 +22933,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordMedia"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23049,6 +22953,7 @@ export type SearchQuery = {
           suMediaPerson?: Array<{
             __typename: "NodeStanfordPerson"
             suPersonShortTitle?: string | null
+            id: string
             uuid: string
             title: string
             path?: string | null
@@ -23089,6 +22994,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordNews"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23137,6 +23043,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordOpportunity"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23217,6 +23124,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordPage"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23256,6 +23164,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordPerson"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23271,6 +23180,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordPolicy"
+          id: string
           uuid: string
           title: string
           path?: string | null
@@ -23280,6 +23190,7 @@ export type SearchQuery = {
         }
       | {
           __typename: "NodeStanfordPublication"
+          id: string
           uuid: string
           title: string
           path?: string | null

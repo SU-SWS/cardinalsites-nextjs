@@ -1,6 +1,7 @@
 
 fragment FragmentNodeInterface on NodeInterface {
     __typename
+    id
      uuid
     title
     path
@@ -137,6 +138,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
         ...FragmentMediaEmbeddable
         ...FragmentMediaVideo
     }
+    suMediaCategory
     suMediaDate {
         time
         timezone

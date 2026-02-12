@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     minimumCacheTTL: 2678400,
-    dangerouslyAllowLocalIP: !!(process.env.CI || process.env.NODE_ENV === "development"),
+    dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
         // Allow any stanford domain for images, but require https.

@@ -3,8 +3,7 @@ import {H1} from "@components/elements/headers"
 import {Metadata} from "next"
 import {headers} from "next/headers"
 import LogoutButton from "@components/elements/auth/logout-button"
-
-export const maxDuration = 60
+import {Suspense} from "react"
 
 export const metadata: Metadata = {
   title: "User",
@@ -18,14 +17,16 @@ const Page = async () => {
   const userName = headersList.get("x-user-name")
 
   return (
-    <InteriorPage>
-      <H1 className="mt-32">{userName}</H1>
-      <ul className="mb-20">
-        <li>User ID: {userId}</li>
-        <li>Email: {userEmail}</li>
-      </ul>
-      <LogoutButton className="mx-auto" />
-    </InteriorPage>
+    <Suspense fallback={<></>}>
+      <InteriorPage>
+        <H1 className="mt-32">{userName}</H1>
+        <ul className="mb-20">
+          <li>User ID: {userId}</li>
+          <li>Email: {userEmail}</li>
+        </ul>
+        <LogoutButton className="mx-auto" />
+      </InteriorPage>
+    </Suspense>
   )
 }
 

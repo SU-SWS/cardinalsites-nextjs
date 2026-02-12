@@ -2,8 +2,6 @@ import {NextRequest, NextResponse} from "next/server"
 import {revalidateTag} from "next/cache"
 import {getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 
-export const revalidate = 0
-
 export const GET = async (request: NextRequest) => {
   const secret = request.nextUrl.searchParams.get("secret")
   if (secret !== process.env.DRUPAL_REVALIDATE_SECRET)

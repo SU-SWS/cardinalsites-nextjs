@@ -86,11 +86,6 @@ fragment FragmentMediaVideo on MediaVideo {
     mediaOembedVideo
     suMediaDescription
     suVideoDuration
-    suVideoSubtitles {
-        description
-        name
-        url
-    }
 }
 
 fragment FragmentMediaUnion on MediaUnion {

@@ -1,5 +1,5 @@
 import {redirect} from "next/navigation"
-import {H1, H2} from "@components/elements/headers"
+import {H1, H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
@@ -11,6 +11,8 @@ import Oembed from "@components/elements/ombed"
 import {graphqlClient} from "@lib/gql/gql-client"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
+import Image from "next/image"
+import {getTimeDuration} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -53,10 +55,15 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
               {node.suMediaDek && <div className="mb-10">{node.suMediaDek}</div>}
               {node.suMediaPerson && (
-                <div>
+                <div className="mb-10">
                   {node.suMediaPerson.map((person, i) => (
                     <span key={person.uuid}>
-                      <Link href={person.suPersonProfileLink?.url || person.path || "#"}>{person.title}</Link>
+                      <Link
+                        href={person.suPersonProfileLink?.url || person.path || "#"}
+                        className="font-normal text-digital-red no-underline hocus:text-black hocus:underline"
+                      >
+                        {person.title}
+                      </Link>
                       &nbsp;{person.suPersonShortTitle}
                       {i + 1 !== node.suMediaPerson?.length && ","}
                     </span>
@@ -65,12 +72,12 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
               )}
 
               {(node.suMediaDate || node.suMediaDuration) && (
-                <div>
+                <div className="mb-10">
                   {node.suMediaDate && (
                     <time dateTime={new Date(node.suMediaDate.time).toISOString().substring(0, 10)}>{publishDate}</time>
                   )}
                   {node.suMediaDate && node.suMediaDuration && <span>&nbsp;|&nbsp;</span>}
-                  {node.suMediaDuration && <span>Duration: {node.suMediaDuration}</span>}
+                  {node.suMediaDuration && <span>Duration: {getTimeDuration(node.suMediaDuration)}</span>}
                 </div>
               )}
 
@@ -81,12 +88,12 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
               )}
             </div>
             {(node.suMediaSeries || node.suMediaSeason || node.suMediaEpisode) && (
-              <div>
+              <div className="w-3/12 space-y-5 border-t border-black-30 pt-5">
                 <strong>Part of Series</strong>
                 {node.suMediaSeries && <div>{node.suMediaSeries}</div>}
 
-                {node.suMediaSeason && <div>{node.suMediaSeason}</div>}
-                {node.suMediaEpisode && <div>{node.suMediaEpisode}</div>}
+                {node.suMediaSeason && <div>Season {node.suMediaSeason.replace(/^season /i, "")}</div>}
+                {node.suMediaEpisode && <div>Episode {node.suMediaEpisode.replace(/^epidsode /i, "")}</div>}
               </div>
             )}
           </div>
@@ -105,7 +112,16 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
             <ul className="list-unstyled">
               {node.suMediaAudioVideo.slice(1).map(clip => (
                 <li key={clip.uuid} className="mt-10 border-t border-black-20 pt-10">
-                  <Link href="#">{clip.name}</Link>
+                  <Link
+                    href={`/av-media/${node.uuid}/${clip.uuid}`}
+                    className="text-digital-red no-underline hocus:text-black hocus:underline"
+                  >
+                    {clip.name}
+                  </Link>
+                  {clip.__typename === "MediaVideo" && clip.suVideoDuration && (
+                    <div>{getTimeDuration(clip.suVideoDuration)}</div>
+                  )}
+                  {clip.__typename === "MediaVideo" && clip.suMediaDescription && <div>{clip.suMediaDescription}</div>}
                 </li>
               ))}
             </ul>
@@ -118,17 +134,37 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
           <ul className="list-unstyled">
             {upNextMedia.map(media => (
               <li key={media.uuid}>
-                <Link href={media.suMediaSource?.url || media.path || "#"}>{media.title}</Link>
-                {media.suMediaDate && (
-                  <div>
-                    {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                      timeZone: media.suMediaDate.timezone,
-                    })}
-                  </div>
-                )}
+                <article aria-labelledby={media.uuid}>
+                  <ReverseVisualOrder>
+                    <Link
+                      href={media.suMediaSource?.url || media.path || "#"}
+                      className="text-black no-underline hocus:text-digital-red hocus:underline"
+                    >
+                      <H3 id={media.uuid}>{media.title}</H3>
+                    </Link>
+                    {media.suMediaImage?.mediaImage.url && (
+                      <div className="relative aspect-[3/2]">
+                        <Image
+                          src={media.suMediaImage.mediaImage.url}
+                          alt={media.suMediaImage.mediaImage.alt || ""}
+                          fill
+                          className="object-fill"
+                        />
+                      </div>
+                    )}
+                  </ReverseVisualOrder>
+                  {media.suMediaDate && (
+                    <div className="text-black-80">
+                      {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                        timeZone: media.suMediaDate.timezone,
+                      })}
+                    </div>
+                  )}
+                  {media.suMediaDek && <p>{media.suMediaDek}</p>}
+                </article>
               </li>
             ))}
           </ul>

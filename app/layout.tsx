@@ -8,6 +8,7 @@ import UserAnalytics from "@components/elements/user-analytics"
 import {twJoin} from "tailwind-merge"
 import GlobalPage from "@components/layouts/global-page"
 import {getHomePagePath} from "@lib/gql/gql-queries"
+import {Suspense} from "react"
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({
   url: `https://www-media.stanford.edu/assets/favicon/apple-touch-icon-${size}x${size}.png`,

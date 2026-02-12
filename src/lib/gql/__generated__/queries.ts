@@ -33,6 +33,7 @@ ${AllNodeInterfaceFragmentDoc}`;
 export const FragmentNodeInterfaceFragmentDoc = gql`
     fragment FragmentNodeInterface on NodeInterface {
   __typename
+  id
   uuid
   title
   path
@@ -223,11 +224,6 @@ export const FragmentMediaVideoFragmentDoc = gql`
   mediaOembedVideo
   suMediaDescription
   suVideoDuration
-  suVideoSubtitles {
-    description
-    name
-    url
-  }
 }
     ${FragmentMediaInterfaceFragmentDoc}`;
 export const FragmentMediaUnionFragmentDoc = gql`
@@ -600,6 +596,7 @@ export const FragmentNodeStanfordMediaFragmentDoc = gql`
     ...FragmentMediaEmbeddable
     ...FragmentMediaVideo
   }
+  suMediaCategory
   suMediaDate {
     time
     timezone
@@ -1843,9 +1840,10 @@ export const StanfordPersonDocument = gql`
 ${FragmentNodeInterfaceFragmentDoc}
 ${FragmentNodeStanfordPersonTeaserFragmentDoc}`;
 export const StanfordPublicationsDocument = gql`
-    query stanfordPublications($contextualFilters: StanfordPublicationsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    query stanfordPublications($contextualFilters: StanfordPublicationsContextualFilterInput, $filter: StanfordPublicationsFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
   stanfordPublications(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset

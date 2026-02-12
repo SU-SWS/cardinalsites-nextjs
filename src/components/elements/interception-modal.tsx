@@ -22,12 +22,9 @@ const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogEl
     [onDismiss, overlay, wrapper]
   )
 
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") onDismiss()
-    },
-    [onDismiss]
-  )
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") onDismiss()
+  }
 
   useEventListener("keydown", onKeyDown)
 

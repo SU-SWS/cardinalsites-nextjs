@@ -3,8 +3,6 @@ import InteriorPage from "@components/layouts/interior-page"
 import {H1} from "@components/elements/headers"
 import {Metadata} from "next"
 
-export const maxDuration = 60
-
 export const metadata: Metadata = {
   title: "Login",
   robots: {index: false, follow: false, noarchive: false},

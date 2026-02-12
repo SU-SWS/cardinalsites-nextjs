@@ -91,8 +91,8 @@ query stanfordPerson($contextualFilters: StanfordPersonContextualFilterInput, $f
     }
 }
 
-query stanfordPublications($contextualFilters: StanfordPublicationsContextualFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-    stanfordPublications(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset) {
+query stanfordPublications($contextualFilters: StanfordPublicationsContextualFilterInput, $filter: StanfordPublicationsFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
+    stanfordPublications(contextualFilter: $contextualFilters, filter: $filter, pageSize: $pageSize, page: $page, offset: $offset) {
         ...FragmentView
         results {
             ...FragmentNodeInterface

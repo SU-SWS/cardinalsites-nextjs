@@ -21,12 +21,6 @@ const SearchForm = ({inputValue, ...props}: Props) => {
   const inputId = useId()
   return (
     <form aria-label="Site Search" action="/search" {...props}>
-      <div className="sr-only">
-        <label>
-          Email (Leave this field empty)
-          <input name="search" />
-        </label>
-      </div>
       <div className="relative mt-10">
         <label htmlFor={inputId} className="sr-only">
           Search this site

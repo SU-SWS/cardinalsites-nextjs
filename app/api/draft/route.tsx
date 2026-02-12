@@ -2,8 +2,6 @@ import {NextRequest, NextResponse} from "next/server"
 import {redirect} from "next/navigation"
 import {cookies} from "next/headers"
 
-export const revalidate = 0
-
 export const GET = async (request: NextRequest) => {
   const secret = request.nextUrl.searchParams.get("secret")
   const slug = request.nextUrl.searchParams.get("slug")
