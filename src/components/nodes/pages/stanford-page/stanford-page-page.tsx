@@ -8,6 +8,7 @@ import PageTitleBannerParagraph from "@components/paragraphs/stanford-page-title
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
 import Wysiwyg from "@components/elements/wysiwyg"
+import AnchorNav from "@components/elements/anchor-nav"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPage
@@ -15,7 +16,15 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPagePage = ({node, ...props}: Props) => {
-  const fullWidth = node.layoutSelection?.id === "stanford_basic_page_full"
+  const layout = node.layoutSelection?.id
+  const anchorPosition =
+    layout === "left_anchor_nav" || layout === "left_anchor_no_nav"
+      ? "left"
+      : layout === "top_anchor_nav" || layout === "top_anchor_nav_full_width"
+        ? "top"
+        : false
+  const hideSecondaryNav = layout === "left_anchor_no_nav"
+  const fullWidth = layout === "stanford_basic_page_full" || layout === "top_anchor_nav_full_width"
 
   return (
     <article {...props}>
@@ -40,13 +49,24 @@ const StanfordPagePage = ({node, ...props}: Props) => {
       )}
 
       {!fullWidth && (
-        <InteriorPage currentPath={node.path || "#"}>
+        <InteriorPage
+          currentPath={node.path || "#"}
+          leftSideBar={anchorPosition === "left" && <AnchorNav />}
+          hideSecondaryNav={hideSecondaryNav}
+        >
+          {anchorPosition === "top" && <AnchorNav horizontal />}
           <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
           <Rows components={node.suPageComponents} />
         </InteriorPage>
       )}
 
-      {fullWidth && <Rows components={node.suPageComponents} />}
+      {fullWidth && (
+        <>
+          {anchorPosition === "top" && <AnchorNav horizontal />}
+          <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
+          <Rows components={node.suPageComponents} />
+        </>
+      )}
     </article>
   )
 }

@@ -14,8 +14,15 @@ export const H1 = ({children, className, ...props}: Props) => {
 }
 
 export const H2 = ({children, className, ...props}: Props) => {
+  const id =
+    typeof children === "string"
+      ? children
+          .replace(/[^a-z0-9]+/gi, "-")
+          .toLowerCase()
+          .substring(0, 20)
+      : undefined
   return (
-    <h2 className={twMerge(headingLinkClasses, "type-2", className)} {...props}>
+    <h2 id={id} className={twMerge(headingLinkClasses, "type-2", className)} {...props}>
       {children}
     </h2>
   )
