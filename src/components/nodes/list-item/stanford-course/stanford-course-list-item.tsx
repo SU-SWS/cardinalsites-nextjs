@@ -1,7 +1,7 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordCourse} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

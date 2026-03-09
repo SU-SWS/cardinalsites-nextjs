@@ -1,7 +1,7 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/graphql"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy

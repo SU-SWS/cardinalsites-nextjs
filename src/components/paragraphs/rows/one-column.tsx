@@ -1,5 +1,5 @@
 import Paragraph from "@components/paragraphs/paragraph"
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {LayoutParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
 import twMerge from "@lib/utils/twMerge"

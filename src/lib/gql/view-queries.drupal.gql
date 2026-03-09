@@ -62,7 +62,7 @@ query stanfordMedia($contextualFilters: StanfordMediaContextualFilterInput, $fil
 }
 
 query stanfordNews($contextualFilters: StanfordNewsContextualFilterInput, $filter: StanfordNewsFilterInput, $pageSize: Int = -1, $page: Int, $offset: Int) {
-    stanfordNews(contextualFilter: $contextualFilters, filter: $filter pageSize: $pageSize, page: $page, offset: $offset) {
+    stanfordNews(contextualFilter: $contextualFilters, filter: $filter, pageSize: $pageSize, page: $page, offset: $offset) {
         ...FragmentView
         results {
             ...FragmentNodeInterface
@@ -71,7 +71,7 @@ query stanfordNews($contextualFilters: StanfordNewsContextualFilterInput, $filte
     }
 }
 
-query stanfordOpportunities($contextualFilters: StanfordOpportunitiesContextualFilterInput, $filter: StanfordOpportunitiesFilterInput, $sortKey: StanfordOpportunitiesSortKeys, $pageSize: Int = 3, $page: Int $offset: Int) {
+query stanfordOpportunities($contextualFilters: StanfordOpportunitiesContextualFilterInput, $filter: StanfordOpportunitiesFilterInput, $sortKey: StanfordOpportunitiesSortKeys, $pageSize: Int = 3, $page: Int, $offset: Int) {
     stanfordOpportunities(contextualFilter: $contextualFilters, filter: $filter, pageSize: $pageSize, page: $page, offset: $offset, sortKey: $sortKey) {
         ...FragmentView
         results {
@@ -101,7 +101,7 @@ query stanfordPublications($contextualFilters: StanfordPublicationsContextualFil
     }
 }
 
-query stanfordSharedTags($contextualFilters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int $offset: Int) {
+query stanfordSharedTags($contextualFilters: StanfordSharedTagsContextualFilterInput, $pageSize: Int = 3, $page: Int, $offset: Int) {
     stanfordSharedTags(contextualFilter: $contextualFilters, pageSize: $pageSize, page: $page, offset: $offset) {
         ...FragmentView
         results {
@@ -111,7 +111,7 @@ query stanfordSharedTags($contextualFilters: StanfordSharedTagsContextualFilterI
     }
 }
 
-query search($filter: SearchFilterInput = {key: ""}, $pageSize: Int = 3, $page: Int $offset: Int) {
+query search($filter: SearchFilterInput = {key: ""}, $pageSize: Int = 3, $page: Int, $offset: Int) {
     search(filter: $filter, pageSize: $pageSize, page: $page, offset: $offset) {
         ...FragmentView
         results {

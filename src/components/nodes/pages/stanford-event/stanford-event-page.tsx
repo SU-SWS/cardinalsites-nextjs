@@ -8,7 +8,7 @@ import Rows from "@components/paragraphs/rows/rows"
 import {H1, H2, H3} from "@components/elements/headers"
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import Email from "@components/elements/email"
 import Telephone from "@components/elements/telephone"
 import Link from "@components/elements/link"
@@ -18,7 +18,6 @@ import {getCleanDescription} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventPage = ({node, ...props}: Props) => {

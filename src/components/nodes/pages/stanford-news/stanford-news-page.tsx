@@ -4,7 +4,7 @@ import Rows from "@components/paragraphs/rows/rows"
 import SocialIcons from "@components/nodes/pages/stanford-news/social-icons"
 import {H1} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordNews} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
@@ -13,7 +13,6 @@ import StanfordNewsSpotlightPage from "@components/nodes/pages/stanford-news/sta
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordNewsPage = ({node, ...props}: Props) => {

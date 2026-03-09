@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation"
 import {H1, H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordMedia, StanfordMediaDocument, StanfordMediaQuery} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import Wysiwyg from "@components/elements/wysiwyg"
@@ -16,7 +16,6 @@ import {getTimeDuration} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordMediaPage = async ({node, ...props}: Props) => {
@@ -33,7 +32,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
   const topics = node.suMediaTypes?.slice(0, 3)
   const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient().stanfordMedia({filter: {series: node.suMediaSeries}})
+    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
     : undefined
   const upNextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
     item => item.uuid !== node.uuid

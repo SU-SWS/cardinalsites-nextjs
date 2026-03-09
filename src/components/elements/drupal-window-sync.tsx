@@ -2,7 +2,7 @@
 
 import {usePathname} from "next/navigation"
 import {useIsClient} from "usehooks-ts"
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 
 const DrupalWindowSync = ({homePath}: {homePath?: Maybe<string>}) => {
   const pathname = usePathname()

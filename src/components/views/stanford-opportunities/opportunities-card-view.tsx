@@ -1,5 +1,5 @@
 import {ViewDisplayProps} from "@components/views/view"
-import {NodeStanfordOpportunity} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
 import CardViewGrid from "@components/views/card-view-grid"
 

@@ -5,7 +5,7 @@ import {
   MetaTagProperty as MetaTagPropertyType,
   StanfordBasicSiteSetting,
   Maybe,
-} from "@lib/gql/__generated__/drupal.d"
+} from "@lib/gql/__generated__/graphql"
 import {JSX} from "react"
 
 type Props = {

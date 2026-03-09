@@ -3,7 +3,7 @@ import Citation from "@components/nodes/pages/stanford-publication/citation"
 import Button from "@components/elements/button"
 import {H1} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPublication} from "@lib/gql/__generated__/graphql"
 import {redirect} from "next/navigation"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
@@ -11,7 +11,6 @@ import {getFirstText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPublicationPage = ({node, ...props}: Props) => {

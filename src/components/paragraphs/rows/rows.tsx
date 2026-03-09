@@ -1,7 +1,7 @@
 import OneColumn from "@components/paragraphs/rows/one-column"
 import TwoColumn, {TwoColumnConfig} from "@components/paragraphs/rows/two-column"
 import ThreeColumn from "@components/paragraphs/rows/three-column"
-import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {Maybe, ParagraphStanfordLayout, ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {LayoutParagraphBehaviors} from "drupal"
 import {HTMLAttributes} from "react"

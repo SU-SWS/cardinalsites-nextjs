@@ -1,7 +1,7 @@
 import Rows from "@components/paragraphs/rows/rows"
 import {H1, H2} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordOpportunity, TermOpportunityTagFilter} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordOpportunity, TermOpportunityTagFilter} from "@lib/gql/__generated__/graphql"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Image from "next/image"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
@@ -14,7 +14,6 @@ import {FilterVocabs} from "@lib/gql/filter-vocabs"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordOpportunity
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordOpportunityPage = async ({node, ...props}: Props) => {

@@ -1,6 +1,6 @@
 import Link from "@components/elements/link"
 import {clsx} from "clsx"
-import {BookLink, MenuItem as MenuItemType} from "@lib/gql/__generated__/drupal.d"
+import {BookLink, MenuItem as MenuItemType} from "@lib/gql/__generated__/graphql"
 import {HTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
 

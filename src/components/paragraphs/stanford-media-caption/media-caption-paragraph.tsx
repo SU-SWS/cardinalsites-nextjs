@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordMediaCaption} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordMediaCaption} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import Link from "@components/elements/link"

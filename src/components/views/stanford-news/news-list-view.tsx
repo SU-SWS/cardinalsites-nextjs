@@ -1,5 +1,5 @@
 import StanfordNewsListItem from "@components/nodes/list-item/stanford-news/stanford-news-list-item"
-import {NodeStanfordNews} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordNews} from "@lib/gql/__generated__/graphql"
 import PagedList from "@components/elements/paged-list"
 import {ViewDisplayProps} from "@components/views/view"
 

@@ -1,5 +1,5 @@
 import OneColumn from "@components/paragraphs/rows/one-column"
-import {ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"

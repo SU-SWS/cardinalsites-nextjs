@@ -1,4 +1,4 @@
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 
 /**
  * Types that are not provided by Graphql integration.

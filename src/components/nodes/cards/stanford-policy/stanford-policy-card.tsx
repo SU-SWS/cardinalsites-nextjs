@@ -2,7 +2,7 @@ import Link from "@components/elements/link"
 import Wysiwyg from "@components/elements/wysiwyg"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

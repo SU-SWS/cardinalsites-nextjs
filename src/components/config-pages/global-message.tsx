@@ -3,7 +3,7 @@ import {H2} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Link from "@components/elements/link"
 import {clsx} from "clsx"
-import {StanfordGlobalMessage} from "@lib/gql/__generated__/drupal.d"
+import {StanfordGlobalMessage} from "@lib/gql/__generated__/graphql"
 import {getConfigPage} from "@lib/gql/gql-queries"
 import twMerge from "@lib/utils/twMerge"
 

@@ -1,4 +1,4 @@
-import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordMedia} from "@lib/gql/__generated__/graphql"
 import PagedList from "@components/elements/paged-list"
 import {ViewDisplayProps} from "@components/views/view"
 import StanfordMediaListItem from "@components/nodes/list-item/stanford-media/stanford-media-list-item"

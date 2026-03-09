@@ -1,6 +1,6 @@
 import Wysiwyg from "@components/elements/wysiwyg"
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordWysiwyg} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordWysiwyg} from "@lib/gql/__generated__/graphql"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordWysiwyg

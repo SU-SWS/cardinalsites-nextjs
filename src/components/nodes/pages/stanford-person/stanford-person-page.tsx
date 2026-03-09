@@ -8,7 +8,16 @@ import Email from "@components/elements/email"
 import Link from "@components/elements/link"
 import {H1, H2} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPerson, NodeUnion} from "@lib/gql/__generated__/drupal.d"
+import {
+  NodeStanfordPerson,
+  NodeUnion,
+  StanfordNewsDocument,
+  StanfordNewsQuery,
+  StanfordMediaDocument,
+  StanfordMediaQuery,
+  StanfordPublicationsDocument,
+  StanfordPublicationsQuery,
+} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getCleanDescription} from "@lib/utils/text-tools"
@@ -18,7 +27,6 @@ import NodeCard from "@components/nodes/cards/node-card"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPersonPage = ({node, ...props}: Props) => {
@@ -179,7 +187,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 }
 
 const RelatedNews = async ({personId}: {personId: number}) => {
-  const newsItems = await graphqlClient().stanfordNews({filter: {person: personId}})
+  const newsItems = await graphqlClient().request<StanfordNewsQuery>(StanfordNewsDocument, {filter: {person: personId}})
   if (!newsItems.stanfordNews?.results.length) return null
   return (
     <div className="centered mb-20 @container">
@@ -193,7 +201,9 @@ const RelatedNews = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedMedia = async ({personId}: {personId: number}) => {
-  const mediaItems = await graphqlClient().stanfordMedia({filter: {person: personId}})
+  const mediaItems = await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {
+    filter: {person: personId},
+  })
   if (!mediaItems.stanfordMedia?.results.length) return null
   return (
     <div className="centered mb-20 @container">
@@ -207,7 +217,9 @@ export const RelatedMedia = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedPublications = async ({personId}: {personId: number}) => {
-  const pubItems = await graphqlClient().stanfordPublications({filter: {person: personId}})
+  const pubItems = await graphqlClient().request<StanfordPublicationsQuery>(StanfordPublicationsDocument, {
+    filter: {person: personId},
+  })
   if (!pubItems.stanfordPublications?.results.length) return null
   return (
     <div className="centered mb-20 @container">

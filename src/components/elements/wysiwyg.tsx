@@ -6,7 +6,7 @@ import Oembed from "@components/elements/ombed"
 import React, {HtmlHTMLAttributes} from "react"
 import {H2, H3, H4, H5, H6} from "@components/elements/headers"
 import twMerge from "@lib/utils/twMerge"
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 import Mathjax from "@components/tools/mathjax"
 import clsx from "clsx"
 

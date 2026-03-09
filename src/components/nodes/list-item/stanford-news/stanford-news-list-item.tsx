@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 

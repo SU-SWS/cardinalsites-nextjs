@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPublication} from "@lib/gql/__generated__/graphql"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Link from "@components/elements/link"
 

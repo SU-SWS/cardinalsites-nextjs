@@ -1,4 +1,4 @@
-import {Maybe, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {Maybe, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {decode} from "html-entities"
 
 export const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
@@ -10,7 +10,10 @@ export const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
   }
 }
 
-export const getCleanDescription = (description: string | undefined, numSentences?: number): string | undefined => {
+export const getCleanDescription = (
+  description: Maybe<string> | undefined,
+  numSentences?: number
+): string | undefined => {
   if (description) {
     const text: string =
       decode(description)

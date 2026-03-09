@@ -3,7 +3,7 @@ import Address from "@components/elements/address"
 import {H3} from "@components/elements/headers"
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

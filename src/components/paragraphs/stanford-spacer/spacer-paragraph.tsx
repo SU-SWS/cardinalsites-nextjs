@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordSpacer} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordSpacer} from "@lib/gql/__generated__/graphql"
 import {clsx} from "clsx"
 import twMerge from "@lib/utils/twMerge"
 

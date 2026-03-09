@@ -1,5 +1,5 @@
 import React, {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordPageTitleBanner} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordPageTitleBanner} from "@lib/gql/__generated__/graphql"
 import {H1} from "@components/elements/headers"
 import HeroBanner from "@components/patterns/hero-banner"
 

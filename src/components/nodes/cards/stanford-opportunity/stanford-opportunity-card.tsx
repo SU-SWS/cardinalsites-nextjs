@@ -1,7 +1,7 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordOpportunity} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import Wysiwyg from "@components/elements/wysiwyg"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"

@@ -1,7 +1,7 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordEventSeries} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEventSeries} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

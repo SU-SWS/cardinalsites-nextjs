@@ -1,4 +1,4 @@
-import {CitationUnion} from "@lib/gql/__generated__/drupal.d"
+import {CitationUnion} from "@lib/gql/__generated__/graphql"
 
 const Citation = ({citation}: {citation: CitationUnion}) => {
   return (
