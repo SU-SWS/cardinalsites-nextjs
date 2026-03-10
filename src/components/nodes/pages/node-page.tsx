@@ -7,10 +7,10 @@ import StanfordPublicationPage from "@components/nodes/pages/stanford-publicatio
 import StanfordCoursePage from "@components/nodes/pages/stanford-course/stanford-course-page"
 import StanfordEventSeriesPage from "@components/nodes/pages/stanford-event-series/stanford-event-series-page"
 import StanfordOpportunityPage from "@components/nodes/pages/stanford-opportunity/stanford-opportunity-page"
-import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
+import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import StanfordMediaPage from "@components/nodes/pages/stanford-media/stanford-media-page"
 
-const NodePage = ({node}: {node: NodeUnion}) => {
+const NodePage = ({node, isHome}: {node: NodeUnion; isHome?: boolean}) => {
   const itemProps: {[key: string]: string} = {}
 
   if (process.env.NODE_ENV === "development") {
@@ -30,7 +30,7 @@ const NodePage = ({node}: {node: NodeUnion}) => {
     case "NodeStanfordNews":
       return <StanfordNewsPage node={node} {...itemProps} />
     case "NodeStanfordPage":
-      return <StanfordPagePage node={node} {...itemProps} />
+      return <StanfordPagePage node={node} isHome={isHome} {...itemProps} />
     case "NodeStanfordPerson":
       return <StanfordPersonPage node={node} {...itemProps} />
     case "NodeStanfordPolicy":

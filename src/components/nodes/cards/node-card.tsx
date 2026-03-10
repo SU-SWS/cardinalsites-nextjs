@@ -6,7 +6,7 @@ import StanfordPageCard from "@components/nodes/cards/stanford-page/stanford-pag
 import StanfordPersonCard from "@components/nodes/cards/stanford-person/stanford-person-card"
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card"
 import StanfordPublicationCard from "@components/nodes/cards/stanford-publication/stanford-publication-card"
-import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
+import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import StanfordOpportunityCard from "@components/nodes/cards/stanford-opportunity/stanford-opportunity-card"
 import StanfordMediaCard from "@components/nodes/cards/stanford-media/stanford-media-card"
 

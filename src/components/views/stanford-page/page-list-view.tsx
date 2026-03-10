@@ -1,6 +1,6 @@
 import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stanford-page-list-item"
 import LoadMoreList from "@components/elements/load-more-list"
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPage} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 
 const PageListView = async ({items, headingLevel, totalItems, loadPage}: ViewDisplayProps<NodeStanfordPage>) => {

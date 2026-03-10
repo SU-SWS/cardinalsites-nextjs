@@ -1,7 +1,8 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPolicy} from "@lib/gql/__generated__/graphql"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
@@ -10,9 +11,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordPolicyListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
+  const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={node.uuid}>
-      <Heading id={node.uuid}>
+    <article {...props} aria-labelledby={id}>
+      <Heading id={id}>
         <Link href={node.suPolicySource?.url || node.path || "#"}>{node.title}</Link>
       </Heading>
       {node.suPolicyUpdated && (

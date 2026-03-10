@@ -1,7 +1,7 @@
 import NodePage from "@components/nodes/pages/node-page"
 import EditorAlert from "@components/elements/editor-alert"
-import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
-import {getEntityFromPath} from "@lib/gql/gql-queries"
+import {NodeUnion} from "@lib/gql/__generated__/graphql"
+import {getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 import {notFound} from "next/navigation"
 import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 import {isPreviewMode} from "@lib/utils/is-preview-mode"
@@ -9,13 +9,16 @@ import {isPreviewMode} from "@lib/utils/is-preview-mode"
 const PreviewPage = async (props: PageProps) => {
   const params = await props.params
   if (!(await isPreviewMode())) notFound()
-  const {entity} = await getEntityFromPath<NodeUnion>(getPathFromContext(params.slug), true)
+
+  const path = getPathFromContext(params.slug || "/")
+  const {entity} = await getEntityFromPath<NodeUnion>(path, true)
 
   if (!entity) notFound()
+  const homePath = await getHomePagePath()
 
   return (
     <EditorAlert status={entity.status} message="Unpublished Page">
-      <NodePage node={entity} />
+      <NodePage node={entity} isHome={path === homePath} />
     </EditorAlert>
   )
 }

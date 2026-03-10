@@ -88,8 +88,3 @@ const nextConfig: NextConfig = {
 }
 
 module.exports = nextConfig
-
-if (process.env.ANALYZE === "true") {
-  const withBundleAnalyzer = require("@next/bundle-analyzer")({enabled: true})
-  module.exports = withBundleAnalyzer(nextConfig)
-}

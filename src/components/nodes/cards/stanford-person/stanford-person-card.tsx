@@ -2,8 +2,9 @@ import Image from "next/image"
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -14,10 +15,11 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
   const imageUrl = node.suPersonPhoto?.mediaImage.url
 
   const Heading = headingLevel === "h3" ? H3 : H2
+  const id = getIdFromText(node.title)
   return (
     <article
       {...props}
-      aria-labelledby={node.uuid}
+      aria-labelledby={id}
       className={twMerge("mx-auto overflow-hidden text-center", props.className)}
     >
       {imageUrl && (
@@ -32,7 +34,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       )}
 
-      <Heading id={node.uuid}>
+      <Heading id={id}>
         <Link href={node.suPersonSource?.url || node.path || "#"}>{node.title}</Link>
       </Heading>
 

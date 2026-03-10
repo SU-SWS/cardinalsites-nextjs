@@ -1,6 +1,6 @@
 import StanfordCourseListItem from "@components/nodes/list-item/stanford-course/stanford-course-list-item"
 import LoadMoreList from "@components/elements/load-more-list"
-import {NodeStanfordCourse} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordCourse} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 import {getTermFilterGroups} from "@lib/gql/gql-queries"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"

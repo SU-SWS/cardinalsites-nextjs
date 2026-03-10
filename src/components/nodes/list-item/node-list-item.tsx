@@ -6,7 +6,7 @@ import StanfordPageListItem from "@components/nodes/list-item/stanford-page/stan
 import StanfordPersonListItem from "@components/nodes/list-item/stanford-person/stanford-person-list-item"
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item"
 import StanfordPublicationListItem from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item"
-import {NodeUnion} from "@lib/gql/__generated__/drupal.d"
+import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import StanfordOpportunityListItem from "@components/nodes/list-item/stanford-opportunity/stanford-opportunity-list-item"
 import StanfordMediaListItem from "@components/nodes/list-item/stanford-media/stanford-media-list-item"
 

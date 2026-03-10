@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordCard} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordCard} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {H2, H3, H4} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
@@ -8,6 +8,7 @@ import Button from "@components/elements/button"
 import ImageCard from "@components/patterns/image-card"
 import {CardParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordCard
@@ -27,10 +28,12 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
     {"sr-only": behaviors.su_card_styles?.hide_heading}
   )
 
+  const id = headerTag !== "div" ? getIdFromText(paragraph.suCardHeader) : undefined
+
   return (
     <ImageCard
       {...props}
-      aria-labelledby={paragraph.suCardHeader ? paragraph.uuid : undefined}
+      aria-labelledby={id}
       imageUrl={image?.url}
       imageAlt={image?.alt}
       videoUrl={videoUrl}
@@ -39,17 +42,17 @@ const CardParagraph = ({paragraph, ...props}: Props) => {
       {paragraph.suCardHeader && (
         <>
           {headerTag === "h2" && (
-            <H2 id={paragraph.uuid} className={headerClasses}>
+            <H2 id={id} className={headerClasses}>
               {paragraph.suCardHeader}
             </H2>
           )}
           {headerTag === "h3" && (
-            <H3 id={paragraph.uuid} className={headerClasses}>
+            <H3 id={id} className={headerClasses}>
               {paragraph.suCardHeader}
             </H3>
           )}
           {headerTag === "h4" && (
-            <H4 id={paragraph.uuid} className={headerClasses}>
+            <H4 id={id} className={headerClasses}>
               {paragraph.suCardHeader}
             </H4>
           )}

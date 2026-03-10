@@ -3,7 +3,7 @@ import Address from "@components/elements/address"
 import {H3} from "@components/elements/headers"
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   let start
   if (paragraph.suScheduleDateTime?.value) {
-    start = new Date(paragraph.suScheduleDateTime.value * 1000).toLocaleDateString("en-us", {
+    start = new Date(parseInt(paragraph.suScheduleDateTime.value) * 1000).toLocaleDateString("en-us", {
       weekday: "long",
       month: "long",
       day: "numeric",

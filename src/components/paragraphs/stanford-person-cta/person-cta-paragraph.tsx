@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "@components/elements/link"
 import {HtmlHTMLAttributes} from "react"
-import {ParagraphStanfordPersonCtum} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphStanfordPersonCtum} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

@@ -1,7 +1,7 @@
 import {HTMLAttributes, useId} from "react"
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid"
 import {getConfigPageField} from "@lib/gql/gql-queries"
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 
 type Props = HTMLAttributes<HTMLFormElement> & {
   inputValue?: string

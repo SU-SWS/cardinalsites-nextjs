@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation"
 import {H1, H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordMedia, StanfordMediaDocument, StanfordMediaQuery} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import Wysiwyg from "@components/elements/wysiwyg"
@@ -12,11 +12,10 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 import Image from "next/image"
-import {getTimeDuration} from "@lib/utils/text-tools"
+import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordMediaPage = async ({node, ...props}: Props) => {
@@ -33,7 +32,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
   const topics = node.suMediaTypes?.slice(0, 3)
   const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient().stanfordMedia({filter: {series: node.suMediaSeries}})
+    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
     : undefined
   const upNextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
     item => item.uuid !== node.uuid
@@ -113,7 +112,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
               {node.suMediaAudioVideo.slice(1).map(clip => (
                 <li key={clip.uuid} className="mt-10 border-t border-black-20 pt-10">
                   <Link
-                    href={`/av-media/${node.uuid}/${clip.uuid}`}
+                    href={`/av-media${node.path}/${clip.uuid}`}
                     className="text-digital-red no-underline hocus:text-black hocus:underline"
                   >
                     {clip.name}
@@ -134,42 +133,49 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
           <ul className="list-unstyled">
             {upNextMedia.map(media => (
               <li key={media.uuid}>
-                <article aria-labelledby={media.uuid}>
-                  <ReverseVisualOrder>
-                    <Link
-                      href={media.suMediaSource?.url || media.path || "#"}
-                      className="text-black no-underline hocus:text-digital-red hocus:underline"
-                    >
-                      <H3 id={media.uuid}>{media.title}</H3>
-                    </Link>
-                    {media.suMediaImage?.mediaImage.url && (
-                      <div className="relative aspect-[3/2]">
-                        <Image
-                          src={media.suMediaImage.mediaImage.url}
-                          alt={media.suMediaImage.mediaImage.alt || ""}
-                          fill
-                          className="object-fill"
-                        />
-                      </div>
-                    )}
-                  </ReverseVisualOrder>
-                  {media.suMediaDate && (
-                    <div className="text-black-80">
-                      {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        timeZone: media.suMediaDate.timezone,
-                      })}
-                    </div>
-                  )}
-                  {media.suMediaDek && <p>{media.suMediaDek}</p>}
-                </article>
+                <UpNextMedia media={media} />
               </li>
             ))}
           </ul>
         </div>
       )}
+    </article>
+  )
+}
+
+const UpNextMedia = ({media}: {media: NodeStanfordMedia}) => {
+  const id = getIdFromText(media.title)
+  return (
+    <article aria-labelledby={id}>
+      <ReverseVisualOrder>
+        <Link
+          href={media.suMediaSource?.url || media.path || "#"}
+          className="text-black no-underline hocus:text-digital-red hocus:underline"
+        >
+          <H3 id={id}>{media.title}</H3>
+        </Link>
+        {media.suMediaImage?.mediaImage.url && (
+          <div className="relative aspect-[3/2]">
+            <Image
+              src={media.suMediaImage.mediaImage.url}
+              alt={media.suMediaImage.mediaImage.alt || ""}
+              fill
+              className="object-fill"
+            />
+          </div>
+        )}
+      </ReverseVisualOrder>
+      {media.suMediaDate && (
+        <div className="text-black-80">
+          {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            timeZone: media.suMediaDate.timezone,
+          })}
+        </div>
+      )}
+      {media.suMediaDek && <p>{media.suMediaDek}</p>}
     </article>
   )
 }

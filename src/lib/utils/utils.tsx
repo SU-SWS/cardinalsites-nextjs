@@ -1,5 +1,5 @@
 import {stringify} from "qs"
-import {TermUnion, MenuItem, BookLink} from "@lib/gql/__generated__/drupal.d"
+import {TermUnion, MenuItem, BookLink} from "@lib/gql/__generated__/graphql"
 
 export const buildUrl = (path: string, params?: string | Record<string, string> | URLSearchParams): URL => {
   const url = new URL(path.charAt(0) === "/" ? `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${path}` : path)

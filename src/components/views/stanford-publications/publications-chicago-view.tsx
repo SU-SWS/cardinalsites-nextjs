@@ -1,6 +1,6 @@
 import LoadMoreList from "@components/elements/load-more-list"
 import StanfordPublicationListItem from "@components/nodes/list-item/stanford-publication/stanford-publication-list-item"
-import {NodeStanfordPublication} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPublication} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 
 const PublicationsChicagoView = async ({items, totalItems, loadPage}: ViewDisplayProps<NodeStanfordPublication>) => {

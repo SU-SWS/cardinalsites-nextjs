@@ -2,7 +2,7 @@
 
 import {HTMLAttributes, JSX} from "react"
 import LoadMoreList from "@components/elements/load-more-list"
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 import {ViewFilter} from "@lib/gql/gql-views"
 

@@ -1,5 +1,5 @@
 import {getConfigPageField, getMenu} from "@lib/gql/gql-queries"
-import {MenuAvailable, MenuItem as MenuItemType, StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {MenuAvailable, MenuItem as MenuItemType, StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 import SiteSearchForm from "@components/search/site-search-form"

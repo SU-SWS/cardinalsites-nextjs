@@ -2,9 +2,10 @@ import Image from "next/image"
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordNews, TermStanfordNewsTopic} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordNews
@@ -25,13 +26,13 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
         timeZone: node.suNewsPublishingDate.timezone,
       })
     : undefined
-
+  const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={node.uuid} className={twMerge("@container", props.className)}>
+    <article {...props} aria-labelledby={id} className={twMerge("@container", props.className)}>
       <div className="flex w-full flex-col justify-between @3xl:flex-row">
         <div className="order-2 @3xl:order-1">
           <ReverseVisualOrder className="gap-10">
-            <Heading className="font-bold" id={node.uuid}>
+            <Heading className="font-bold" id={id}>
               <Link
                 href={node.suNewsSource?.url || node.path || "#"}
                 className="order-2 text-digital-red no-underline hocus:text-black hocus:underline"

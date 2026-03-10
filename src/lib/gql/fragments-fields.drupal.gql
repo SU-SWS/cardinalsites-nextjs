@@ -111,22 +111,22 @@ fragment FragmentSmartDateType on SmartDateType {
 }
 
 fragment FragmentAddressType on Address {
-    langcode
+    additionalName
+    addressLine1
+    addressLine2
+    administrativeArea
     country {
         name
         code
     }
-    givenName
-    additionalName
+    dependentLocality
     familyName
+    givenName
+    langcode
+    locality
     organization
-    addressLine1
-    addressLine2
     postalCode
     sortingCode
-    dependentLocality
-    locality
-    administrativeArea
 }
 
 fragment FragmentMetaTag on MetaTagUnion {

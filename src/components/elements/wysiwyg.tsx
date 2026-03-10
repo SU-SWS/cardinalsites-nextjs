@@ -3,10 +3,10 @@ import Link from "@components/elements/link"
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
 import Image from "next/image"
 import Oembed from "@components/elements/ombed"
-import React, {HtmlHTMLAttributes} from "react"
+import React, {HtmlHTMLAttributes, ReactElement} from "react"
 import {H2, H3, H4, H5, H6} from "@components/elements/headers"
 import twMerge from "@lib/utils/twMerge"
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 import Mathjax from "@components/tools/mathjax"
 import clsx from "clsx"
 
@@ -17,7 +17,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   html?: Maybe<string>
 }
 
-const Wysiwyg = ({html, className, ...props}: Props) => {
+const Wysiwyg = ({html, className, ...props}: Props): ReactElement | undefined => {
   if (!html) return
   // Remove comments and empty lines.
   html = html.replaceAll(/<!--[\s\S]*?-->/g, "").replaceAll(/(^(\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$/gm, "")

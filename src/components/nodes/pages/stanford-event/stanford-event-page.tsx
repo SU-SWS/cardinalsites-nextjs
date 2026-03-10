@@ -8,7 +8,7 @@ import Rows from "@components/paragraphs/rows/rows"
 import {H1, H2, H3} from "@components/elements/headers"
 import ScheduleParagraph from "@components/paragraphs/stanford-schedule/schedule-paragraph"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import Email from "@components/elements/email"
 import Telephone from "@components/elements/telephone"
 import Link from "@components/elements/link"
@@ -18,14 +18,13 @@ import {getCleanDescription} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordEventPage = ({node, ...props}: Props) => {
   if (node.suEventSource?.url) redirect(node.suEventSource.url)
 
-  const startTime = new Date(node.suEventDateTime.value * 1000)
-  const endTime = new Date(node.suEventDateTime.end_value * 1000)
+  const startTime = new Date(parseInt(node.suEventDateTime.value) * 1000)
+  const endTime = new Date(parseInt(node.suEventDateTime.end_value) * 1000)
   const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles"
 
   return (

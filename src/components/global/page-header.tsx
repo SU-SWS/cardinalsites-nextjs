@@ -6,7 +6,7 @@ import {HTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
 import UtilityNav from "@components/menu/utility-nav"
 import {getConfigPageField} from "@lib/gql/gql-queries"
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import Link from "@components/elements/link"
 
 type Props = HTMLAttributes<HTMLElement>

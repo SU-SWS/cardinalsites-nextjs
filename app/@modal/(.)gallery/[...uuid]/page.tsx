@@ -3,7 +3,7 @@
 import Image from "next/image"
 import InterceptionModal from "@components/elements/interception-modal"
 import Link from "@components/elements/link"
-import {ParagraphStanfordGallery} from "@lib/gql/__generated__/drupal.d"
+import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 
@@ -15,7 +15,7 @@ const Page = async (props: Props) => {
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 
-  const paragraphQuery = await graphqlClient().Paragraph({uuid: paragraphId})
+  const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
   if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()
 
   const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery

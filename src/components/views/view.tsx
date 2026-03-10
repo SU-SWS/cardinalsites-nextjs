@@ -22,7 +22,7 @@ import {
   NodeStanfordPerson,
   NodeStanfordPublication,
   NodeUnion,
-} from "@lib/gql/__generated__/drupal.d"
+} from "@lib/gql/__generated__/graphql"
 import OpportunitiesCardView from "@components/views/stanford-opportunities/opportunities-card-view"
 import OpportunitiesListView from "@components/views/stanford-opportunities/opportunities-list-view"
 import {ViewFilter} from "@lib/gql/gql-views"

@@ -3,7 +3,7 @@ import NodeCard from "@components/nodes/cards/node-card"
 import Button from "@components/elements/button"
 import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
-import {NodeInterface, NodeUnion, ParagraphStanfordEntity} from "@lib/gql/__generated__/drupal.d"
+import {NodeInterface, NodeUnion, ParagraphStanfordEntity} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
@@ -11,6 +11,7 @@ import {ImageCardSkeleton} from "@components/patterns/image-card"
 import {TeaserParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -23,15 +24,17 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const EntityWrapper: ElementType =
     paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" ? "section" : "div"
 
+  const id = getIdFromText(paragraph.suEntityHeadline)
+
   return (
     <EntityWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10 xl:max-w-[980px]", props.className)}
-      aria-labelledby={EntityWrapper === "section" ? paragraph.uuid : undefined}
+      className={twMerge("centered mb-20 flex flex-col gap-10", props.className)}
+      aria-labelledby={EntityWrapper === "section" ? id : undefined}
     >
       {paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" && (
         <H2
-          id={paragraph.uuid}
+          id={id}
           className={twMerge(
             "mb-0 text-center",
             clsx({"sr-only": behaviors.stanford_teaser?.heading_behavior === "hide"})

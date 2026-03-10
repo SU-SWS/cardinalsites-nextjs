@@ -1,9 +1,10 @@
 import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordMedia} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordMedia} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -24,11 +25,11 @@ const StanfordMediaCard = ({node, headingLevel, ...props}: Props) => {
         timeZone: node.suMediaDate.timezone,
       })
     : undefined
-
+  const id = getIdFromText(node.title)
   return (
-    <ImageCard {...props} aria-labelledby={node.uuid} imageUrl={image?.url} isArticle>
+    <ImageCard {...props} aria-labelledby={id} imageUrl={image?.url} isArticle>
       <ReverseVisualOrder>
-        <Heading className="[&_a]:text-black" id={node.uuid}>
+        <Heading className="[&_a]:text-black" id={id}>
           <Link href={node.suMediaSource?.url || node.path || "#"}>{node.title}</Link>
         </Heading>
 

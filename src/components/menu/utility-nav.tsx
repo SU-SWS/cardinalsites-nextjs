@@ -1,5 +1,5 @@
 import {getConfigPageField} from "@lib/gql/gql-queries"
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/drupal.d"
+import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import Button from "@components/elements/button"
 import Link from "@components/elements/link"
 

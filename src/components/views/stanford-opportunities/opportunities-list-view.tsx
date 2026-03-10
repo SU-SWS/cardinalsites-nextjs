@@ -1,4 +1,4 @@
-import {NodeStanfordOpportunity} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 import StanfordOpportunityListItem from "@components/nodes/list-item/stanford-opportunity/stanford-opportunity-list-item"
 import PagedList from "@components/elements/paged-list"

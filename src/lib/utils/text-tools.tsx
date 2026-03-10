@@ -1,4 +1,4 @@
-import {Maybe, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/drupal.d"
+import {Maybe, ParagraphStanfordWysiwyg, ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {decode} from "html-entities"
 
 export const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
@@ -10,7 +10,10 @@ export const getFirstText = (components?: Maybe<ParagraphUnion[]>) => {
   }
 }
 
-export const getCleanDescription = (description: string | undefined, numSentences?: number): string | undefined => {
+export const getCleanDescription = (
+  description: Maybe<string> | undefined,
+  numSentences?: number
+): string | undefined => {
   if (description) {
     const text: string =
       decode(description)
@@ -33,4 +36,17 @@ export const getTimeDuration = (seconds: number): string => {
   if (hours) return `${hours}:${mins < 10 ? "0" + mins : mins}:${sec < 10 ? "0" + sec : sec}`
   if (mins) return `${mins}:${sec < 10 ? "0" + sec : sec}`
   return `${sec}`
+}
+
+export const getIdFromText = (text?: Maybe<string> | undefined): string | undefined => {
+  return text
+    ?.toLowerCase()
+    .trim()
+    .replaceAll(/\s+/g, "-")
+    .replaceAll(/[^\w-]/g, "")
+    .replaceAll(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .split("-")
+    .slice(0, 3)
+    .join("-")
 }

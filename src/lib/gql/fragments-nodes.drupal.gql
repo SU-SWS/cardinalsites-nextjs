@@ -541,6 +541,7 @@ fragment FragmentNodeStanfordPublicationTeaser on NodeStanfordPublication {
     }
     suPublicationCitation {
         ... on CitationInterface {
+            __typename
             uuid
             title
             ... on CitationSuArticleNewspaper {

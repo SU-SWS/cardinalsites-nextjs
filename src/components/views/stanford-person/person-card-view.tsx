@@ -1,5 +1,5 @@
 import CardViewGrid from "@components/views/card-view-grid"
-import {NodeStanfordPerson} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
 

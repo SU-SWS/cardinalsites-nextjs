@@ -19,7 +19,7 @@ import {H2} from "@components/elements/headers"
 import TwitterIcon from "@components/elements/icons/TwitterIcon"
 import YoutubeIcon from "@components/elements/icons/YoutubeIcon"
 import FacebookIcon from "@components/elements/icons/FacebookIcon"
-import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/drupal.d"
+import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/graphql"
 import {buildUrl} from "@lib/utils/utils"
 import {getConfigPage} from "@lib/gql/gql-queries"
 import twMerge from "@lib/utils/twMerge"
@@ -189,7 +189,7 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
     case "none":
       return (
         <div className="py-10">
-          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
+          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row" aria-label="Home">
             <LockupLogo {...lockupProps} />
           </Link>
         </div>

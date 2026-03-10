@@ -3,7 +3,7 @@ import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford
 import StringWithLines from "@components/elements/string-with-lines"
 import {HtmlHTMLAttributes, Suspense} from "react"
 import {H1, H2, H3} from "@components/elements/headers"
-import {BookLink, NodeInterface, NodeStanfordPolicy} from "@lib/gql/__generated__/drupal.d"
+import {BookLink, NodeInterface, NodeStanfordPolicy} from "@lib/gql/__generated__/graphql"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {ImageCardSkeleton} from "@components/patterns/image-card"
 import InteriorPage from "@components/layouts/interior-page"
@@ -17,7 +17,6 @@ import {redirect} from "next/navigation"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
-  headingLevel?: "h2" | "h3"
 }
 
 const StanfordPolicyPage = async ({node, ...props}: Props) => {

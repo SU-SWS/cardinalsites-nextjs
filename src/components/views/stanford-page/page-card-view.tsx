@@ -1,5 +1,5 @@
 import CardViewGrid from "@components/views/card-view-grid"
-import {NodeStanfordPage} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordPage} from "@lib/gql/__generated__/graphql"
 import {ViewDisplayProps} from "@components/views/view"
 
 const PageCardView = async (props: ViewDisplayProps<NodeStanfordPage>) => {

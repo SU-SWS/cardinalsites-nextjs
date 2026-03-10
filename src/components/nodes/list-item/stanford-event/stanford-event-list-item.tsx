@@ -3,10 +3,11 @@ import {CalendarDaysIcon, MapPinIcon} from "@heroicons/react/20/solid"
 import Address from "@components/elements/address"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
-import {NodeStanfordEvent} from "@lib/gql/__generated__/drupal.d"
+import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card"
 import twMerge from "@lib/utils/twMerge"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -15,8 +16,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles"
-  const start = new Date(node.suEventDateTime.value * 1000)
-  const end = new Date(node.suEventDateTime.end_value * 1000)
+  const start = new Date(parseInt(node.suEventDateTime.value) * 1000)
+  const end = new Date(parseInt(node.suEventDateTime.end_value) * 1000)
 
   const startMonth = start.toLocaleDateString("en-US", {month: "short", timeZone})
   const startDay = parseInt(start.toLocaleDateString("en-US", {day: "numeric", timeZone}))
@@ -27,9 +28,10 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ")
   const Heading = headingLevel === "h3" ? H3 : H2
+  const id = getIdFromText(node.title)
 
   return (
-    <article {...props} aria-labelledby={node.uuid} className={twMerge("mx-auto flex w-full gap-10", props.className)}>
+    <article {...props} aria-labelledby={id} className={twMerge("mx-auto flex w-full gap-10", props.className)}>
       <div aria-hidden="true" className="flex w-fit flex-col items-start">
         <div className="type-0 mb-2 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
         <div className="type-4 w-full text-center font-bold">{startDay}</div>
@@ -44,7 +46,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
       </div>
       <div>
         <ReverseVisualOrder>
-          <Heading id={node.uuid}>
+          <Heading id={id}>
             <Link
               href={node.suEventSource?.url || node.path || "#"}
               className="text-digital-red no-underline hocus:text-black hocus:underline"

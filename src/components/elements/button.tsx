@@ -1,6 +1,6 @@
 import twMerge from "@lib/utils/twMerge"
 import {HtmlHTMLAttributes, MouseEventHandler} from "react"
-import {Maybe} from "@lib/gql/__generated__/drupal.d"
+import {Maybe} from "@lib/gql/__generated__/graphql"
 import {clsx} from "clsx"
 import {LinkProps} from "next/dist/client/link"
 import Link from "next/link"
