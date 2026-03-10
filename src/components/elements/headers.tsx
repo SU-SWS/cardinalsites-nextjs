@@ -1,5 +1,6 @@
 import {HtmlHTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLHeadingElement>
 
@@ -14,13 +15,7 @@ export const H1 = ({children, className, ...props}: Props) => {
 }
 
 export const H2 = ({children, className, ...props}: Props) => {
-  const id =
-    typeof children === "string"
-      ? children
-          .replace(/[^a-z0-9]+/gi, "-")
-          .toLowerCase()
-          .substring(0, 20)
-      : undefined
+  const id = typeof children === "string" ? getIdFromText(children) : undefined
   return (
     <h2 id={id} className={twMerge(headingLinkClasses, "type-2", className)} {...props}>
       {children}

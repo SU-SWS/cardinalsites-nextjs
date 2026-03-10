@@ -7,6 +7,7 @@ import twMerge from "@lib/utils/twMerge"
 import ExpandCollapseAll from "@components/paragraphs/stanford-faq/expand-collapse-all"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {FAQParagraphBehaviors} from "drupal"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordFaq
@@ -29,11 +30,13 @@ const FaqParagraph = ({paragraph, ...props}: Props) => {
     if (headerTag === "h4") accordionHeadingLevel = "h5"
   }
 
+  const id = getIdFromText(paragraph.suFaqHeadline)
+
   return (
     <div {...props} className={twMerge("space-y-20", props.className)}>
       <div className="flex flex-col items-center justify-between gap-20 @3xl:flex-row">
         {heading && (
-          <Header id={paragraph.uuid} className="mb-0">
+          <Header id={id} className="mb-0">
             {heading}
           </Header>
         )}

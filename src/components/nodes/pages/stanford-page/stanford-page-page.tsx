@@ -32,7 +32,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
   return (
     <article {...props}>
       <NodePageMetadata
-        pageTitle={node.title}
+        pageTitle={!isHome ? node.title : undefined}
         metatags={node.metatag}
         backupDescription={getFirstText(node.suPageComponents)}
       />

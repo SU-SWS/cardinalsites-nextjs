@@ -37,3 +37,16 @@ export const getTimeDuration = (seconds: number): string => {
   if (mins) return `${mins}:${sec < 10 ? "0" + sec : sec}`
   return `${sec}`
 }
+
+export const getIdFromText = (text?: Maybe<string> | undefined): string | undefined => {
+  return text
+    ?.toLowerCase()
+    .trim()
+    .replaceAll(/\s+/g, "-")
+    .replaceAll(/[^\w-]/g, "")
+    .replaceAll(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .split("-")
+    .slice(0, 3)
+    .join("-")
+}

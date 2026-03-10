@@ -3,6 +3,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordEventSeries} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEventSeries
@@ -11,13 +12,14 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordEventSeriesListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
+  const id = getIdFromText(node.title)
   return (
     <article
       {...props}
-      aria-labelledby={node.uuid}
+      aria-labelledby={id}
       className={twMerge("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
     >
-      <Heading id={node.uuid}>
+      <Heading id={id}>
         <Link href={node.path || "#"}>{node.title}</Link>
       </Heading>
     </article>

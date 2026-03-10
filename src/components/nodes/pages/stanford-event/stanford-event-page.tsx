@@ -23,8 +23,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordEventPage = ({node, ...props}: Props) => {
   if (node.suEventSource?.url) redirect(node.suEventSource.url)
 
-  const startTime = new Date(node.suEventDateTime.value * 1000)
-  const endTime = new Date(node.suEventDateTime.end_value * 1000)
+  const startTime = new Date(parseInt(node.suEventDateTime.value) * 1000)
+  const endTime = new Date(parseInt(node.suEventDateTime.end_value) * 1000)
   const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles"
 
   return (

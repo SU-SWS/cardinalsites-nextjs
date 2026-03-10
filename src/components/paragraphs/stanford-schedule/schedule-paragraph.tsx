@@ -13,7 +13,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   let start
   if (paragraph.suScheduleDateTime?.value) {
-    start = new Date(paragraph.suScheduleDateTime.value * 1000).toLocaleDateString("en-us", {
+    start = new Date(parseInt(paragraph.suScheduleDateTime.value) * 1000).toLocaleDateString("en-us", {
       weekday: "long",
       month: "long",
       day: "numeric",

@@ -45,7 +45,7 @@ const Address = ({
           {locality}, {administrativeArea} {postalCode}
         </div>
       )}
-      {country?.code && <div>{country?.code}</div>}
+      {country?.name && <div>{country?.name}</div>}
     </address>
   )
 }

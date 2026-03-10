@@ -92,6 +92,7 @@ export const Lockup = async () => {
         <div className="py-10">
           <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
             <LockupLogo {...lockupProps} />
+            <span className="sr-only">{siteName}</span>
           </Link>
         </div>
       )

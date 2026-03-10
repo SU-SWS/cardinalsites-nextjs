@@ -6,16 +6,17 @@ import {clsx} from "clsx"
 import {StanfordGlobalMessage} from "@lib/gql/__generated__/graphql"
 import {getConfigPage} from "@lib/gql/gql-queries"
 import twMerge from "@lib/utils/twMerge"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 const GlobalMessage = async () => {
   const globalMessageConfig = await getConfigPage<StanfordGlobalMessage>("StanfordGlobalMessage")
   if (!globalMessageConfig?.suGlobalMsgEnabled) return
 
   const WrapperElement = globalMessageConfig.suGlobalMsgHeader ? "article" : "div"
-
+  const id = getIdFromText(globalMessageConfig.suGlobalMsgHeader)
   return (
     <WrapperElement
-      aria-labelledby={globalMessageConfig.suGlobalMsgHeader ? globalMessageConfig.uuid : undefined}
+      aria-labelledby={id}
       className={twMerge(
         "py-10",
         clsx({
@@ -33,9 +34,7 @@ const GlobalMessage = async () => {
           {globalMessageConfig.suGlobalMsgLabel}:
         </div>
         <div>
-          {globalMessageConfig.suGlobalMsgHeader && (
-            <H2 id={globalMessageConfig.uuid}>{globalMessageConfig.suGlobalMsgHeader}</H2>
-          )}
+          {globalMessageConfig.suGlobalMsgHeader && <H2 id={id}>{globalMessageConfig.suGlobalMsgHeader}</H2>}
 
           <Wysiwyg
             html={globalMessageConfig.suGlobalMsgMessage?.processed}

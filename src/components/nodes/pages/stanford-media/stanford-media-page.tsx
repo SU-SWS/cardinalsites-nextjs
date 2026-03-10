@@ -12,7 +12,7 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 import Image from "next/image"
-import {getTimeDuration} from "@lib/utils/text-tools"
+import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -133,42 +133,49 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
           <ul className="list-unstyled">
             {upNextMedia.map(media => (
               <li key={media.uuid}>
-                <article aria-labelledby={media.uuid}>
-                  <ReverseVisualOrder>
-                    <Link
-                      href={media.suMediaSource?.url || media.path || "#"}
-                      className="text-black no-underline hocus:text-digital-red hocus:underline"
-                    >
-                      <H3 id={media.uuid}>{media.title}</H3>
-                    </Link>
-                    {media.suMediaImage?.mediaImage.url && (
-                      <div className="relative aspect-[3/2]">
-                        <Image
-                          src={media.suMediaImage.mediaImage.url}
-                          alt={media.suMediaImage.mediaImage.alt || ""}
-                          fill
-                          className="object-fill"
-                        />
-                      </div>
-                    )}
-                  </ReverseVisualOrder>
-                  {media.suMediaDate && (
-                    <div className="text-black-80">
-                      {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        timeZone: media.suMediaDate.timezone,
-                      })}
-                    </div>
-                  )}
-                  {media.suMediaDek && <p>{media.suMediaDek}</p>}
-                </article>
+                <UpNextMedia media={media} />
               </li>
             ))}
           </ul>
         </div>
       )}
+    </article>
+  )
+}
+
+const UpNextMedia = ({media}: {media: NodeStanfordMedia}) => {
+  const id = getIdFromText(media.title)
+  return (
+    <article aria-labelledby={id}>
+      <ReverseVisualOrder>
+        <Link
+          href={media.suMediaSource?.url || media.path || "#"}
+          className="text-black no-underline hocus:text-digital-red hocus:underline"
+        >
+          <H3 id={id}>{media.title}</H3>
+        </Link>
+        {media.suMediaImage?.mediaImage.url && (
+          <div className="relative aspect-[3/2]">
+            <Image
+              src={media.suMediaImage.mediaImage.url}
+              alt={media.suMediaImage.mediaImage.alt || ""}
+              fill
+              className="object-fill"
+            />
+          </div>
+        )}
+      </ReverseVisualOrder>
+      {media.suMediaDate && (
+        <div className="text-black-80">
+          {new Date(media.suMediaDate.time).toLocaleDateString("en-us", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            timeZone: media.suMediaDate.timezone,
+          })}
+        </div>
+      )}
+      {media.suMediaDek && <p>{media.suMediaDek}</p>}
     </article>
   )
 }

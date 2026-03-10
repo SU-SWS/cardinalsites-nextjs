@@ -189,7 +189,7 @@ const FooterLockup = ({useDefault = true, siteName, lockupOption, ...props}: Foo
     case "none":
       return (
         <div className="py-10">
-          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
+          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row" aria-label="Home">
             <LockupLogo {...lockupProps} />
           </Link>
         </div>

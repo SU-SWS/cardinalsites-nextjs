@@ -30,7 +30,7 @@ const config: CodegenConfig = {
         enumsAsConst: true,
         // Map Drupal custom scalars to appropriate TypeScript types
         scalars: {
-          Bibliography: "unknown",
+          Bibliography: "string",
           Cursor: "string",
           Email: "string",
           Html: "string",

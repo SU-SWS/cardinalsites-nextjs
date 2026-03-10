@@ -7,6 +7,7 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import twMerge from "@lib/utils/twMerge"
 import HeroBanner from "@components/patterns/hero-banner"
 import {BannerParagraphBehaviors} from "drupal"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordBanner
@@ -24,10 +25,12 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
   let headerClasses = headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-3 font-bold") || ""
   if (behaviors.hero_pattern?.hide_heading) headerClasses += " sr-only"
 
+  const id = headerTag !== "div" ? getIdFromText(paragraph.suBannerHeader) : undefined
+
   return (
     <HeroBanner
       {...props}
-      aria-labelledby={paragraph.suBannerHeader ? paragraph.uuid : undefined}
+      aria-labelledby={id}
       imageUrl={paragraph.suBannerImage?.mediaImage.url}
       imageAlt={paragraph.suBannerImage?.mediaImage.alt}
       isSection={!!paragraph.suBannerHeader && headerTag !== "div"}
@@ -40,17 +43,17 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
           {paragraph.suBannerHeader && (
             <>
               {headerTag === "h2" && (
-                <H2 id={paragraph.uuid} className={twMerge(headerClasses, "type-2 mb-0")}>
+                <H2 id={id} className={twMerge(headerClasses, "type-2 mb-0")}>
                   {paragraph.suBannerHeader}
                 </H2>
               )}
               {headerTag === "h3" && (
-                <H3 id={paragraph.uuid} className={headerClasses}>
+                <H3 id={id} className={headerClasses}>
                   {paragraph.suBannerHeader}
                 </H3>
               )}
               {headerTag === "h4" && (
-                <H4 id={paragraph.uuid} className={headerClasses}>
+                <H4 id={id} className={headerClasses}>
                   {paragraph.suBannerHeader}
                 </H4>
               )}

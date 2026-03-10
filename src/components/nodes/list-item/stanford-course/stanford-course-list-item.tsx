@@ -3,6 +3,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordCourse} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordCourse
@@ -12,15 +13,15 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordCourseListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
   const body = node.body?.processed
-    .replace(/<\/?[^>]+(>|$)/g, " ")
+    ?.replace(/<\/?[^>]+(>|$)/g, " ")
     .replace(/ +/, " ")
     .replace("&nbsp;", " ")
     .split(" ")
-
+  const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={node.uuid}>
+    <article {...props} aria-labelledby={id}>
       <ReverseVisualOrder>
-        <Heading id={node.uuid}>
+        <Heading id={id}>
           <Link href={node.path || "#"}>{node.title}</Link>
         </Heading>
 

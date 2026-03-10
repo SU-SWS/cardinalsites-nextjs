@@ -20,7 +20,7 @@ const ThreeColumn = ({items, config}: Props) => {
     <div
       className={twMerge(
         clsx("mb-32", {
-          "px-5 pb-20 pt-20": !!config?.bg_color,
+          "px-10 py-20": !!config?.bg_color,
           "pt-0": config?.top_padding === "none",
           "pt-40": config?.top_padding === "more",
           "mb-0": config?.bottom_margin === "none",
