@@ -1,10 +1,10 @@
 import {CheckIcon} from "@heroicons/react/16/solid"
-import {ChangeEvent, HTMLAttributes} from "react"
+import {ChangeEvent, HTMLAttributes, InputHTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
 
 type Props = HTMLAttributes<HTMLLabelElement> & {
-  value: string | number
-  inputProps?: HTMLAttributes<HTMLInputElement>
+  value?: string | number
+  inputProps?: InputHTMLAttributes<HTMLInputElement>
   onChange?: (_e: ChangeEvent<HTMLInputElement>) => void
 }
 const CheckboxButton = ({value, onChange, inputProps, children, ...props}: Props) => {

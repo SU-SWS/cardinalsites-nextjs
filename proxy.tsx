@@ -3,6 +3,17 @@ import {verifyJWT, getJWTCookieName} from "./src/lib/auth/jwt-auth"
 
 export const proxy = async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname
+
+  // Check for cache-clear specific route
+  if (pathname.startsWith("/system")) {
+    if (isAuthenticated(request)) return
+
+    return new NextResponse("Authentication required", {
+      status: 401,
+      headers: {"WWW-Authenticate": "Basic"},
+    })
+  }
+
   const loginUrl = new URL("/api/auth/login", request.url)
   loginUrl.searchParams.set("destination", pathname)
 
@@ -23,9 +34,34 @@ export const proxy = async (request: NextRequest) => {
   return response
 }
 
+const isAuthenticated = (req: NextRequest) => {
+  const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
+
+  if (!authHeader) return false
+
+  const [user, pass] = Buffer.from(authHeader.split(" ")[1], "base64").toString().split(":")
+
+  // Check for cache-clear specific route
+  if (req.nextUrl.pathname.startsWith("/system/cache-clear")) {
+    return checkCacheClearAuth(user, pass)
+  }
+}
+
+const checkCacheClearAuth = (username: string, password: string): boolean => {
+  const validUsername = process.env.CACHE_CLEAR_USERNAME
+  const validPassword = process.env.CACHE_CLEAR_PASSWORD
+
+  if (!validUsername || !validPassword) {
+    console.error("CACHE_CLEAR_USERNAME or CACHE_CLEAR_PASSWORD not set")
+    return false
+  }
+
+  return username === validUsername && password === validPassword
+}
+
 // Change the matcher to desired url patterns.
 // If this is changed, the directory /app/internal may need to be renamed,
 // or removed if the whole site is behind authentication.
 export const config = {
-  matcher: ["/internal/:path*", "/user"],
+  matcher: ["/internal/:path*", "/user", "/system/:path*"],
 }
