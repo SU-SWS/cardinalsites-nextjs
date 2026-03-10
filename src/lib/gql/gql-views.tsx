@@ -2,14 +2,6 @@ import {JSX} from "react"
 import View from "@components/views/view"
 import {
   Maybe,
-  NodeStanfordCourse,
-  NodeStanfordEvent,
-  NodeStanfordMedia,
-  NodeStanfordNews,
-  NodeStanfordOpportunity,
-  NodeStanfordPage,
-  NodeStanfordPerson,
-  NodeStanfordPublication,
   NodeUnion,
   SearchDocument,
   SearchFilterInput,
@@ -35,14 +27,27 @@ import {
   StanfordPublicationsQuery,
   StanfordSharedTagsDocument,
   StanfordSharedTagsQuery,
+  ViewPageInfo,
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 
+/** Default number of items per page requested from Drupal views. */
 export const VIEW_PAGE_SIZE = 21
 
+/**
+ * Filter input for view queries — a map of exposed field keys to scalar or array values.
+ * Distinct from the GraphQL schema's `ViewFilter` type, which describes filter configuration.
+ */
 export type ViewFilter = Maybe<Record<string, string | number | Array<string | number>>>
 
+/**
+ * Server action that fetches one page of view items and returns a rendered `<View>` element.
+ *
+ * Designed to be bound as a Next.js server action so client components (e.g. a
+ * filtered-list paragraph) can trigger server-side page transitions:
+ * `loadViewPage.bind(null, viewId, displayId, hasHeadline, pageSize)`.
+ */
 export const loadViewPage = async (
   viewId: string,
   displayId: string,
@@ -66,6 +71,15 @@ export const loadViewPage = async (
   )
 }
 
+/**
+ * Fetches one page of items from a Drupal Views endpoint.
+ *
+ * Dispatches to the correct GraphQL query based on `viewId` and `displayId`, rounds the
+ * requested page size up to the nearest multiple of 3 (a Drupal Views constraint), and
+ * applies cache tags for fine-grained on-demand revalidation per content type.
+ *
+ * @returns Flat list of `NodeUnion` items and the total un-paged item count.
+ */
 export const getViewPagedItems = async (
   viewId: string,
   displayId: string,
@@ -76,12 +90,12 @@ export const getViewPagedItems = async (
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
   "use cache"
 
-  let items: NodeUnion[] = []
-  let totalItems = 0
-  // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
+  // Drupal view page sizes must be multiples of 3; round up and cap at 99.
   const itemsPerPage = pageSize ? Math.min(Math.ceil(pageSize / 3) * 3, 99) : undefined
 
-  const viewTags: Record<string, string> = {
+  // Map view IDs to targeted cache tags so only the affected listing is revalidated
+  // when content of that type changes, rather than blowing the entire views cache.
+  const viewCacheTag: Record<string, string> = {
     search: "views:all",
     stanford_shared_tags: "views:all",
     stanford_basic_pages: "views:stanford_page",
@@ -91,58 +105,53 @@ export const getViewPagedItems = async (
     stanford_person: "views:stanford_person",
     stanford_publications: "views:stanford_publication",
   }
-  cacheTag("views", viewTags[viewId] || "views:all")
+  cacheTag("views", viewCacheTag[viewId] ?? "views:all")
 
   const client = graphqlClient()
-  let contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
-  let graphqlResponse
-  let sortKey
 
   try {
     switch (`${viewId}--${displayId}`) {
-      case "search--search":
-        graphqlResponse = await client.request<SearchQuery>(SearchDocument, {
+      case "search--search": {
+        const {search} = await client.request<SearchQuery>(SearchDocument, {
           filter: filter as SearchFilterInput,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.search?.results as unknown as NodeUnion[]
-        totalItems = graphqlResponse.search?.pageInfo.total || 0
-        break
+        return pluckViewResult(search)
+      }
 
       case "stanford_basic_pages--card_grid_alpha":
-        sortKey = StanfordBasicPagesSortKeys["Title"]
-
       case "stanford_basic_pages--basic_page_type_list":
-      case "stanford_basic_pages--viewfield_block_1":
-        contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
-        graphqlResponse = await client.request<StanfordBasicPagesQuery>(StanfordBasicPagesDocument, {
-          contextualFilters,
+      case "stanford_basic_pages--viewfield_block_1": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordBasicPages} = await client.request<StanfordBasicPagesQuery>(StanfordBasicPagesDocument, {
+          contextualFilters: cf,
           pageSize: itemsPerPage,
-          sortKey,
+          // card_grid_alpha shows pages in alphabetical title order.
+          sortKey: displayId === "card_grid_alpha" ? StanfordBasicPagesSortKeys.Title : undefined,
           page,
         })
-        items = graphqlResponse.stanfordBasicPages?.results as unknown as NodeStanfordPage[]
-        totalItems = graphqlResponse.stanfordBasicPages?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordBasicPages)
+      }
 
       case "stanford_courses--default_list_viewfield_block":
       case "stanford_courses--vertical_teaser_viewfield_block":
       case "courses_filtered--list":
-      case "courses_filtered--card_grid":
-        graphqlResponse = await client.request<StanfordCoursesQuery>(StanfordCoursesDocument, {
-          contextualFilters,
+      case "courses_filtered--card_grid": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordCourses} = await client.request<StanfordCoursesQuery>(StanfordCoursesDocument, {
+          contextualFilters: cf,
           filter,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordCourses?.results as unknown as NodeStanfordCourse[]
-        totalItems = graphqlResponse.stanfordCourses?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordCourses)
+      }
 
       case "stanford_events--cards":
-      case "stanford_events--list_page":
-        contextualFilters = getContextualFilters(
+      case "stanford_events--list_page": {
+        // Events support up to four cascading taxonomy depth levels as contextual filters.
+        const cf = buildContextualFilters(
           [
             "term_node_taxonomy_name_depth",
             "term_node_taxonomy_name_depth_1",
@@ -151,129 +160,143 @@ export const getViewPagedItems = async (
           ],
           contextualFilter
         )
-        graphqlResponse = await client.request<StanfordEventsQuery>(StanfordEventsDocument, {
-          contextualFilters,
+        const {stanfordEvents} = await client.request<StanfordEventsQuery>(StanfordEventsDocument, {
+          contextualFilters: cf,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordEvents?.results as unknown as NodeStanfordEvent[]
-        totalItems = graphqlResponse.stanfordEvents?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordEvents)
+      }
 
-      case "stanford_events--past_events_list_block":
-        graphqlResponse = await client.request<StanfordEventsPastEventsQuery>(StanfordEventsPastEventsDocument, {
-          contextualFilters,
-          pageSize: itemsPerPage,
-          page,
-        })
-        items = graphqlResponse.stanfordEventsPastEvents?.results as unknown as NodeStanfordEvent[]
-        totalItems = graphqlResponse.stanfordEventsPastEvents?.pageInfo.total || 0
-        break
+      case "stanford_events--past_events_list_block": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordEventsPastEvents} = await client.request<StanfordEventsPastEventsQuery>(
+          StanfordEventsPastEventsDocument,
+          {contextualFilters: cf, pageSize: itemsPerPage, page}
+        )
+        return pluckViewResult(stanfordEventsPastEvents)
+      }
 
       case "stanford_news_filtered--spotlight_cards":
       case "stanford_news--block_1":
       case "stanford_news--vertical_cards":
       case "stanford_news--spotlight_card_grid":
-      case "stanford_news--spotlight_card_grid_no_date":
-        const filters = {...filter, layout: displayId.includes("spotlight") ? "news_spotlight" : ""}
-        graphqlResponse = await client.request<StanfordNewsQuery>(StanfordNewsDocument, {
-          contextualFilters,
-          filter: filters,
+      case "stanford_news--spotlight_card_grid_no_date": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        // Spotlight display variants pass a "layout" discriminator so Drupal can apply
+        // spotlight-specific query alterations server-side.
+        const newsFilter = {...filter, layout: displayId.includes("spotlight") ? "news_spotlight" : ""}
+        const {stanfordNews} = await client.request<StanfordNewsQuery>(StanfordNewsDocument, {
+          contextualFilters: cf,
+          filter: newsFilter,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordNews?.results as unknown as NodeStanfordNews[]
-        totalItems = graphqlResponse.stanfordNews?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordNews)
+      }
 
       case "stanford_opportunities--cards":
       case "stanford_opportunities--list":
       case "stanford_opportunities_filtered--list_page":
-      case "stanford_opportunities_filtered--cards":
-        graphqlResponse = await client.request<StanfordOpportunitiesQuery>(StanfordOpportunitiesDocument, {
-          contextualFilters,
-          filter,
-          pageSize: itemsPerPage,
-          page,
-        })
-        items = graphqlResponse.stanfordOpportunities?.results as unknown as NodeStanfordOpportunity[]
-        totalItems = graphqlResponse.stanfordOpportunities?.pageInfo.total || 0
-        break
+      case "stanford_opportunities_filtered--cards": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordOpportunities} = await client.request<StanfordOpportunitiesQuery>(
+          StanfordOpportunitiesDocument,
+          {contextualFilters: cf, filter, pageSize: itemsPerPage, page}
+        )
+        return pluckViewResult(stanfordOpportunities)
+      }
 
       case "stanford_person--grid_list_all":
-      case "people_filtered--grid_list_all":
-        graphqlResponse = await client.request<StanfordPersonQuery>(StanfordPersonDocument, {
-          contextualFilters,
+      case "people_filtered--grid_list_all": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordPerson} = await client.request<StanfordPersonQuery>(StanfordPersonDocument, {
+          contextualFilters: cf,
           filter,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordPerson?.results as unknown as NodeStanfordPerson[]
-        totalItems = graphqlResponse.stanfordPerson?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordPerson)
+      }
 
       case "stanford_publications--apa_list":
-      case "stanford_publications--chicago_list":
-        graphqlResponse = await client.request<StanfordPublicationsQuery>(StanfordPublicationsDocument, {
-          contextualFilters,
+      case "stanford_publications--chicago_list": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordPublications} = await client.request<StanfordPublicationsQuery>(StanfordPublicationsDocument, {
+          contextualFilters: cf,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordPublications?.results as unknown as NodeStanfordPublication[]
-        totalItems = graphqlResponse.stanfordPublications?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordPublications)
+      }
 
-      case "stanford_shared_tags--card_grid":
-        contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth", "type"], contextualFilter)
-        graphqlResponse = await client.request<StanfordSharedTagsQuery>(StanfordSharedTagsDocument, {
-          contextualFilters,
+      case "stanford_shared_tags--card_grid": {
+        // Shared-tags views filter by both taxonomy depth and content type.
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth", "type"], contextualFilter)
+        const {stanfordSharedTags} = await client.request<StanfordSharedTagsQuery>(StanfordSharedTagsDocument, {
+          contextualFilters: cf,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordSharedTags?.results as unknown as NodeUnion[]
-        totalItems = graphqlResponse.stanfordSharedTags?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordSharedTags)
+      }
 
       case "media_content--list":
       case "media_content--card_grid":
       case "media_filtered--default_list":
-      case "media_filtered--card_grid":
-        contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
-        graphqlResponse = await client.request<StanfordMediaQuery>(StanfordMediaDocument, {
-          contextualFilters,
+      case "media_filtered--card_grid": {
+        const cf = buildContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
+        const {stanfordMedia} = await client.request<StanfordMediaQuery>(StanfordMediaDocument, {
+          contextualFilters: cf,
           filter,
           pageSize: itemsPerPage,
           page,
         })
-        items = graphqlResponse.stanfordMedia?.results as unknown as NodeStanfordMedia[]
-        totalItems = graphqlResponse.stanfordMedia?.pageInfo.total || 0
-        break
+        return pluckViewResult(stanfordMedia)
+      }
 
       default:
         console.warn(`Unable to find query for view: ${viewId} display: ${displayId}`)
-        break
+        return {items: [], totalItems: 0}
     }
   } catch (e) {
     if (e instanceof Error) console.warn(e.message)
     return {items: [], totalItems: 0}
   }
-
-  return {items, totalItems}
 }
 
-const getContextualFilters = (
+/**
+ * Extracts `items` and `totalItems` from a Drupal view result field.
+ *
+ * Every view query response shares the same `results` / `pageInfo` shape, so this helper
+ * centralises the extraction and the cast to `NodeUnion[]` instead of repeating it in
+ * every switch case.
+ */
+const pluckViewResult = <T,>(view: {results: T[]; pageInfo: Pick<ViewPageInfo, "total">} | null | undefined) => ({
+  items: (view?.results ?? []) as NodeUnion[],
+  totalItems: view?.pageInfo.total ?? 0,
+})
+
+/**
+ * Zips positional `values` with `keys` into a Drupal contextual filter object, omitting
+ * any positions where the value is absent or blank. An optional `defaults` map is merged
+ * in last so callers can supply baseline values.
+ *
+ * Returns `undefined` when no values are provided, which tells Drupal to apply no
+ * contextual filtering for this request.
+ */
+const buildContextualFilters = (
   keys: string[],
   values?: Maybe<string[]>,
   defaults: Record<string, string | undefined> = {}
-) => {
-  if (!keys || !values) return
-  const filters: Record<string, string | undefined> = keys.reduce(
-    (obj, key, index) => ({
-      ...obj,
-      [key]: values[index]?.trim(),
-    }),
-    {}
-  )
-  Object.keys(filters).forEach(key => filters[key] === undefined && delete filters[key])
+): Record<string, string | undefined> | undefined => {
+  if (!values?.length) return undefined
+
+  const filters: Record<string, string | undefined> = {}
+  keys.forEach((key, i) => {
+    const val = values[i]?.trim()
+    if (val) filters[key] = val
+  })
+
   return {...defaults, ...filters}
 }

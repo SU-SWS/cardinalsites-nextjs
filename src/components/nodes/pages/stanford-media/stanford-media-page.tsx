@@ -112,7 +112,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
               {node.suMediaAudioVideo.slice(1).map(clip => (
                 <li key={clip.uuid} className="mt-10 border-t border-black-20 pt-10">
                   <Link
-                    href={`/av-media/${node.uuid}/${clip.uuid}`}
+                    href={`/av-media${node.path}/${clip.uuid}`}
                     className="text-digital-red no-underline hocus:text-black hocus:underline"
                   >
                     {clip.name}
