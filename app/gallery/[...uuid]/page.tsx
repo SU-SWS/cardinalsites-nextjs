@@ -1,5 +1,3 @@
-"use cache"
-
 import {H1} from "@components/elements/headers"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
@@ -17,7 +15,12 @@ type Props = {
   params: Promise<{uuid: string[]}>
 }
 
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
 const Page = async (props: Props) => {
+  "use cache"
+
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 

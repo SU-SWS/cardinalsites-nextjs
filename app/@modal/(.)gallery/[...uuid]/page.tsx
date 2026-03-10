@@ -1,5 +1,3 @@
-"use cache"
-
 import Image from "next/image"
 import InterceptionModal from "@components/elements/interception-modal"
 import Link from "@components/elements/link"
@@ -11,7 +9,12 @@ type Props = {
   params: Promise<{uuid: string[]}>
 }
 
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
 const Page = async (props: Props) => {
+  "use cache"
+
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 

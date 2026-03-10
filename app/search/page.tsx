@@ -3,8 +3,12 @@ import {getAlgoliaCredential} from "@lib/gql/gql-queries"
 import AlgoliaSearch from "@components/algolia/algolia-search"
 import SiteSearch from "@components/search/site-search"
 import {Suspense} from "react"
+import {Metadata} from "next"
 
-export const metadata = {
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
+export const metadata: Metadata = {
   title: "Search",
   description: "Search the site",
   robots: {

@@ -10,7 +10,12 @@ export const metadata: Metadata = {
   robots: {index: false},
 }
 
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
 const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
+  "use cache"
+
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
   const nodePath = getPathFromContext(slug)

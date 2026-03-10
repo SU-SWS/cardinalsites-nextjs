@@ -4,6 +4,9 @@ import {getAllNodes, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-quer
 import {notFound, redirect} from "next/navigation"
 import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
 const Page = async (props: PageProps) => {
   "use cache"
 

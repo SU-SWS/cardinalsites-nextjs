@@ -6,6 +6,9 @@ import {notFound} from "next/navigation"
 import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 import {isPreviewMode} from "@lib/utils/is-preview-mode"
 
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
+
 const PreviewPage = async (props: PageProps) => {
   const params = await props.params
   if (!(await isPreviewMode())) notFound()

@@ -1,5 +1,3 @@
-"use cache"
-
 import "../src/styles/index.css"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3, stanford} from "../src/styles/typography/fonts"
@@ -8,6 +6,9 @@ import UserAnalytics from "@components/elements/user-analytics"
 import {twJoin} from "tailwind-merge"
 import GlobalPage from "@components/layouts/global-page"
 import {getHomePagePath} from "@lib/gql/gql-queries"
+
+// Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
+export const maxDuration = 30
 
 const appleIcons: Icon[] = [60, 72, 76, 114, 120, 144, 152, 180].map(size => ({
   url: `https://www-media.stanford.edu/assets/favicon/apple-touch-icon-${size}x${size}.png`,
@@ -34,6 +35,8 @@ export const metadata = {
 }
 
 const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
+  "use cache"
+
   const homePath = await getHomePagePath()
   return (
     <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
