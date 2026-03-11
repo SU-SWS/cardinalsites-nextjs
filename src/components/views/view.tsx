@@ -25,10 +25,17 @@ import {
 } from "@lib/gql/__generated__/graphql"
 import OpportunitiesCardView from "@components/views/stanford-opportunities/opportunities-card-view"
 import OpportunitiesListView from "@components/views/stanford-opportunities/opportunities-list-view"
-import {ViewFilter} from "@lib/gql/gql-views"
+import {getViewPagedItems, VIEW_PAGE_SIZE, ViewFilter} from "@lib/gql/gql-views"
 import MediaListView from "@components/views/stanford-media/media-list-view"
 import MediaCardView from "@components/views/stanford-media/media-card-view"
 
+/**
+ * Shared props passed down to every concrete view-display component.
+ *
+ * The generic parameter `T` narrows the `items` array to a specific node type
+ * (e.g. `NodeStanfordPage`) while defaulting to the `NodeUnion` discriminated
+ * union so the type is usable without an explicit type argument.
+ */
 export type ViewDisplayProps<T extends NodeUnion = NodeUnion> = {
   /**
    * List of node entities.
@@ -52,6 +59,7 @@ export type ViewDisplayProps<T extends NodeUnion = NodeUnion> = {
   filtered?: boolean
 }
 
+/** Props accepted by the top-level {@link View} dispatcher component. */
 type Props = {
   /**
    * View Machine Name.
@@ -79,9 +87,25 @@ type Props = {
   loadPage?: ViewDisplayProps["loadPage"]
 }
 
+/**
+ * Resolves a Drupal view + display combination to the appropriate React
+ * display component and renders it.
+ *
+ * The `viewId` and `displayId` are the Drupal machine names of the view and
+ * its active display (e.g. `"stanford_news"` / `"vertical_cards"`). They are
+ * joined into a single `"viewId--displayId"` key and matched against a
+ * `switch` statement so each combination renders the correct layout component
+ * with properly-typed `items`.
+ *
+ * When no matching case is found a warning is logged and the component renders
+ * nothing — this is intentional so that unknown views degrade gracefully
+ * instead of throwing.
+ */
 const View = async ({viewId, displayId, items, totalItems, loadPage, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`
 
+  // Build the props shared by every display component. `filtered` is derived
+  // from the display id so filter-specific layouts can render input controls.
   const viewProps = {totalItems, headingLevel, loadPage, filtered: component.includes("filtered")}
 
   switch (component) {
@@ -150,4 +174,50 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
       console.warn(`Unable to find component for view: ${viewId} display: ${displayId}`)
   }
 }
+
+/**
+ * Server action that fetches a single page of view items and returns a
+ * rendered {@link View} element.
+ *
+ * This function is designed to be partially applied with `.bind()` so it can
+ * be passed as the `loadPage` prop to a display component. The display
+ * component then calls the bound version with only `page` and `filter`,
+ * keeping the view identity and configuration stable across pager interactions.
+ *
+ * @param viewId - Drupal machine name of the view (e.g. `"stanford_news"`).
+ * @param displayId - Drupal machine name of the display (e.g. `"vertical_cards"`).
+ * @param hasHeadline - When `true` the rendered view sits beneath a headline,
+ *   so node titles are demoted to `<h3>`; otherwise they render as `<h2>`.
+ * @param pageSize - Number of items to request per page. Defaults to
+ *   {@link VIEW_PAGE_SIZE}. The actual fetch rounds up to the nearest multiple
+ *   of 3 as required by the Drupal view configuration.
+ * @param contextualFilter - Optional list of contextual filter values passed
+ *   directly to the Drupal view query.
+ * @param page - Zero-based page index to fetch.
+ * @param filter - Optional key/value filter map forwarded to the GraphQL query.
+ * @returns A rendered `<View>` element for the requested page.
+ */
+export const loadViewPage = async (
+  viewId: string,
+  displayId: string,
+  hasHeadline: boolean,
+  pageSize: number = VIEW_PAGE_SIZE,
+  contextualFilter?: Maybe<string[]>,
+  page?: Maybe<number>,
+  filter?: ViewFilter
+): Promise<JSX.Element> => {
+  "use server"
+
+  const {items, totalItems} = await getViewPagedItems(viewId, displayId, pageSize, contextualFilter, page, filter)
+  return (
+    <View
+      viewId={viewId}
+      displayId={displayId}
+      items={items}
+      headingLevel={hasHeadline ? "h3" : "h2"}
+      totalItems={totalItems}
+    />
+  )
+}
+
 export default View

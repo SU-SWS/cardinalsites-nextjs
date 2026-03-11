@@ -11,13 +11,14 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noEmitOnError": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true,
+    "incremental": false,
     "plugins": [
       {
         "name": "next"
@@ -44,7 +45,7 @@
     "src/**/*.tsx",
     "src/**/*.ts",
     "app/**/*.tsx",
-    ".storybook/stories/**/*.tsx",
+    "app/**/*.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

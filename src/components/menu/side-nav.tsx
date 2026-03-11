@@ -34,7 +34,7 @@ type MenuItemProps = (MenuItemType | BookLink) & {
 
 const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: MenuItemProps) => {
   const linkClasses = twMerge(
-    "w-full inline-block relative no-underline hocus:underline pl-10 py-5",
+    "w-full inline-block relative no-underline hocus:underline pl-10 py-5 font-normal",
     clsx({
       // Non-active state.
       "text-digital-red hocus:text-black hocus:before:content-[''] hocus:before:block hocus:before:w-[6px] hocus:before:h-full hocus:before:bg-black hocus:before:absolute hocus:before:left-0 hocus:before:top-0 before:scale-y-[1] before:transition":

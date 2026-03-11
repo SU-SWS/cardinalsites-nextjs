@@ -5,10 +5,15 @@ import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 import {LayoutParagraphBehaviors} from "drupal"
 
-export type TwoColumnConfig = LayoutParagraphBehaviors["config"] & {column_widths: "33-67" | "67-33"}
+export type TwoColumnConfig = LayoutParagraphBehaviors["layout_paragraphs"]["config"] & {
+  column_widths: "33-67" | "67-33"
+}
 type Props = {
   items: ParagraphUnion[]
-  config?: LayoutParagraphBehaviors["config"] & {column_widths: "33-67" | "67-33"; vertical_dividers?: boolean}
+  config?: LayoutParagraphBehaviors["layout_paragraphs"]["config"] & {
+    column_widths: "33-67" | "67-33"
+    vertical_dividers?: boolean
+  }
 }
 const TwoColumn = ({items, config}: Props) => {
   const leftItems = items.filter(item => getParagraphBehaviors(item).layout_paragraphs?.region === "left")

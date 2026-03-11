@@ -6,12 +6,13 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import {LayoutParagraphBehaviors} from "drupal"
 import {HTMLAttributes} from "react"
 import twMerge from "@lib/utils/twMerge"
+import {ParagraphBehaviors} from "@lib/@types/drupal"
 
 type Layout = Record<
   string,
   {
     item: ParagraphStanfordLayout
-    layout: LayoutParagraphBehaviors["layout"]
+    layout: LayoutParagraphBehaviors["layout_paragraphs"]["layout"]
     config?: Record<string, unknown>
     children: ParagraphUnion[]
   }
@@ -28,7 +29,7 @@ const Rows = async ({components, className, ...props}: Props) => {
   // Set the layouts first.
   components.map(item => {
     if (item.__typename === "ParagraphStanfordLayout") {
-      const behaviors = getParagraphBehaviors(item)
+      const behaviors = getParagraphBehaviors<LayoutParagraphBehaviors>(item)
 
       layouts[item.uuid] = {
         item,
@@ -41,7 +42,7 @@ const Rows = async ({components, className, ...props}: Props) => {
 
   // Add the components to each of the layouts.
   components.map(item => {
-    const behaviors = getParagraphBehaviors(item)
+    const behaviors = getParagraphBehaviors<ParagraphBehaviors>(item)
     const parentUUID = behaviors?.layout_paragraphs?.parent_uuid
     if (parentUUID && layouts[parentUUID]) {
       layouts[parentUUID].children.push(item)
@@ -67,7 +68,7 @@ const Row = ({
   layoutSettings,
   items,
 }: {
-  layout: LayoutParagraphBehaviors["layout"]
+  layout: LayoutParagraphBehaviors["layout_paragraphs"]["layout"]
   layoutSettings?: Record<string, unknown>
   items: ParagraphUnion[]
 }) => {

@@ -1,13 +1,13 @@
 import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
-import View from "@components/views/view"
+import View, {loadViewPage} from "@components/views/view"
 import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
 import {ParagraphStanfordList} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
 import {ListParagraphBehaviors} from "drupal"
-import {getViewPagedItems, loadViewPage, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
+import {getViewPagedItems, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {

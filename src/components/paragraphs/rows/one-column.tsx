@@ -7,7 +7,7 @@ import {HTMLAttributes} from "react"
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   items: ParagraphUnion[]
-  config?: LayoutParagraphBehaviors["config"]
+  config?: LayoutParagraphBehaviors["layout_paragraphs"]["config"]
 }
 
 const OneColumn = ({items, config, className, ...props}: Props) => {

@@ -55,7 +55,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
             </Link>
           </Heading>
 
-          {node.suEventType && <div className="su-digital-red">{node.suEventType[0].name}</div>}
+          {node.suEventType && <div className="su-digital-red font-semibold">{node.suEventType[0].name}</div>}
         </ReverseVisualOrder>
 
         {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}

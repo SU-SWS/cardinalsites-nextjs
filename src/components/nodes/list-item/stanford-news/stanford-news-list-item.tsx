@@ -46,7 +46,7 @@ const StanfordNewsListItem = ({node, headingLevel, ...props}: Props) => {
 
           {node.suNewsDek && <p>{node.suNewsDek}</p>}
 
-          {topics && <div className="font-bold">{topics.map(topic => topic.name).join(", ")}</div>}
+          {topics && <div className="font-semibold">{topics.map(topic => topic.name).join(", ")}</div>}
         </div>
 
         {image?.url && (

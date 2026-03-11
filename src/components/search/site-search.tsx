@@ -1,8 +1,9 @@
-import {getViewPagedItems, loadViewPage, ViewFilter} from "@lib/gql/gql-views"
+import {getViewPagedItems, ViewFilter} from "@lib/gql/gql-views"
 import SiteSearchClient from "@components/search/site-search.client"
 import NodeListItem from "@components/nodes/list-item/node-list-item"
 import SiteSearchForm from "@components/search/site-search-form"
 import {Maybe} from "@lib/gql/__generated__/graphql"
+import {loadViewPage} from "@components/views/view"
 
 type Props = {
   search: string | Promise<string>

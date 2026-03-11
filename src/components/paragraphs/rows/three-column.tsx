@@ -7,7 +7,7 @@ import twMerge from "@lib/utils/twMerge"
 
 type Props = {
   items: ParagraphUnion[]
-  config?: LayoutParagraphBehaviors["config"] & {vertical_dividers?: boolean}
+  config?: LayoutParagraphBehaviors["layout_paragraphs"]["config"] & {vertical_dividers?: boolean}
 }
 
 const ThreeColumn = ({items, config}: Props) => {

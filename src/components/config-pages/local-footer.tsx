@@ -141,7 +141,7 @@ const LocalFooter = async ({...props}: Props) => {
             <Wysiwyg html={localFooterConfig.suLocalFootTr2Co?.processed} />
           </div>
 
-          <Wysiwyg html={localFooterConfig.suLocalFootTrCo?.processed} />
+          <Wysiwyg html={localFooterConfig.suLocalFootTrCo?.processed} className="[&_.btn--secondary]:bg-white" />
         </div>
       </div>
     </div>
