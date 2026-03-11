@@ -16,7 +16,8 @@ export const fetchFromVault = async <T extends VaultData = VaultSecrets>(
     const vault = nodeVault({endpoint: process.env.VAULT_ENDPOINT})
     await vault.approleLogin({role_id: process.env.VAULT_APPROLE, secret_id: process.env.VAULT_SECRET})
     const response = await vault.read(secretPath)
-    const secrets = new Map<string, string>(response?.data?.data)
+
+    const secrets = new Map<string, string>(Object.entries(response?.data?.data || {}))
     if (!secretKey) return secrets as T
 
     if (!secrets.get(secretKey)) {
