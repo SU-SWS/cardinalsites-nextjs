@@ -1,152 +1,136 @@
 "use client"
 
-import {TabsProvider, useTabs} from "@mui/base/useTabs"
-import {useTab} from "@mui/base/useTab"
-import {useTabPanel} from "@mui/base/useTabPanel"
-import {TabsListProvider, useTabsList} from "@mui/base/useTabsList"
-import {HTMLAttributes, ReactNode, SyntheticEvent, useRef} from "react"
-import {UseTabParameters} from "@mui/base/useTab/useTab.types"
-import {clsx} from "clsx"
-import twMerge from "@lib/utils/twMerge"
-import {UseTabsParameters} from "@mui/base/useTabs/useTabs.types"
-import {UseTabsListParameters} from "@mui/base/useTabsList/useTabsList.types"
-import {UseTabPanelParameters} from "@mui/base/useTabPanel/useTabPanel.types"
+import {Suspense, useCallback, useState} from "react"
 import {useRouter, useSearchParams} from "next/navigation"
+import {
+  Tabs as BaseTabs,
+  type TabsRootProps,
+  type TabsListProps,
+  type TabsTabProps,
+  type TabsPanelProps,
+  type TabsRoot,
+  type TabsTab,
+} from "@base-ui/react/tabs"
 import {useScreen} from "usehooks-ts"
+import twMerge from "@lib/utils/twMerge"
+import {clsx} from "clsx"
 
-// View the API for all the tab components here: https://mui.com/base-ui/react-tabs/hooks-api/.
-type TabsProps = HTMLAttributes<HTMLDivElement> & {
-  /**
-   * The query parameter in the URL for sharing or reloading.
-   */
-  paramId?: string
-  /**
-   * Default tab for initial rendering.
-   */
-  defaultTab?: UseTabsParameters["defaultValue"]
-  /**
-   * Which direction the tabs are displayed.
-   */
-  orientation?: UseTabsParameters["orientation"]
+type TabsProps = TabsRootProps & {
+  className?: string
+  queryKey?: string
 }
 
-export const Tabs = ({paramId = "tab", orientation, defaultTab, children, ...props}: TabsProps) => {
+const TabsInner = ({
+  orientation,
+  queryKey,
+  onValueChange,
+  defaultValue,
+  value,
+  className,
+  children,
+  ...props
+}: TabsProps) => {
   const screen = useScreen({initializeWithValue: false})
   const isVertical = (screen && screen.width < 768) || orientation === "vertical"
-  const searchParams = useSearchParams()
   const router = useRouter()
-  const onChange = (_e: SyntheticEvent | null, value: number | string | null) => {
-    const params = new URLSearchParams(searchParams)
-    params.delete(paramId)
-    if (value) params.set(paramId, `${value}`)
-    router.replace(`?${params.toString()}`, {scroll: false})
-  }
-  const paramValue = searchParams.get(paramId)
-  const initialTab = defaultTab || (paramValue && parseInt(paramValue))
+  const searchParams = useSearchParams()
 
-  const {contextValue} = useTabs({
-    orientation: isVertical ? "vertical" : "horizontal",
-    defaultValue: initialTab || 0,
-    onChange,
-    selectionFollowsFocus: true,
-  })
+  const queryValue = queryKey ? (searchParams.get(queryKey) ?? undefined) : undefined
 
-  return (
-    <TabsProvider value={contextValue}>
-      <div {...props}>{children}</div>
-    </TabsProvider>
+  // When queryKey is set, manage controlled state initialized from the URL (or defaultValue).
+  // This avoids "changing defaultValue of an uncontrolled component" since queryValue changes
+  // on every tab click as the URL updates.
+  const [activeTab, setActiveTab] = useState<TabsTab.Value | undefined>(() => queryValue ?? defaultValue)
+
+  const handleValueChange = useCallback(
+    (newValue: TabsTab.Value, eventDetails: TabsRoot.ChangeEventDetails) => {
+      if (queryKey && newValue) {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set(queryKey, String(newValue))
+        router.replace(`?${params.toString()}`, {scroll: false})
+        setActiveTab(newValue)
+      }
+      onValueChange?.(newValue, eventDetails)
+    },
+    [queryKey, onValueChange, router, searchParams]
   )
-}
 
-type TabsListProps = Omit<UseTabsListParameters, "rootRef"> & {
-  /**
-   * <Tab> components.
-   */
-  children: ReactNode
-  /**
-   * Classes for the tab list.
-   */
-  className?: HTMLAttributes<HTMLDivElement>["className"]
-  /**
-   * Attributes for the tab list.
-   */
-  containerProps?: Omit<HTMLAttributes<HTMLDivElement>, "className">
-}
-
-export const TabsList = ({containerProps, className, children, ...props}: TabsListProps) => {
-  const screen = useScreen({initializeWithValue: false})
-  const rootRef = useRef<HTMLDivElement>(null)
-  const {contextValue, orientation, getRootProps} = useTabsList({...props, rootRef})
-  const isVertical = (screen && screen.width < 768) || orientation === "vertical"
-  return (
-    <TabsListProvider value={contextValue}>
-      <div
-        {...getRootProps()}
-        {...containerProps}
-        className={twMerge("flex", clsx({"flex-col": isVertical}), className)}
+  if (queryKey) {
+    return (
+      <BaseTabs.Root
+        {...props}
+        className={twMerge("centered flex gap-5", clsx({"flex-col": !isVertical}), className)}
+        value={value ?? activeTab}
+        orientation={isVertical ? "vertical" : "horizontal"}
+        onValueChange={handleValueChange}
       >
         {children}
-      </div>
-    </TabsListProvider>
+      </BaseTabs.Root>
+    )
+  }
+
+  return (
+    <BaseTabs.Root
+      {...props}
+      value={value}
+      defaultValue={defaultValue}
+      orientation={isVertical ? "vertical" : "horizontal"}
+      onValueChange={onValueChange}
+    >
+      {children}
+    </BaseTabs.Root>
   )
 }
 
-type TabProps = UseTabParameters & {
-  /**
-   * React node or string for the tab.
-   */
-  children: ReactNode
-  /**
-   * Classes for the button element.
-   */
-  className?: HTMLAttributes<HTMLDivElement>["className"]
-  /**
-   * Extra attributes for the button element.
-   */
-  buttonProps?: HTMLAttributes<HTMLButtonElement>
+export const Tabs = (props: TabsProps) => {
+  return (
+    <Suspense fallback={null}>
+      <TabsInner {...props} />
+    </Suspense>
+  )
 }
 
-export const Tab = ({buttonProps, className, children, ...props}: TabProps) => {
-  const rootRef = useRef<HTMLButtonElement>(null)
-  const {selected, getRootProps} = useTab({...props, rootRef})
+type ListProps = TabsListProps & {
+  className?: string
+}
 
+export const TabsList = ({className, children, ...props}: ListProps) => {
   return (
-    <button
-      {...getRootProps()}
-      {...buttonProps}
+    <BaseTabs.List {...props} className={twMerge("flex data-[orientation=vertical]:flex-col", className)}>
+      {children}
+    </BaseTabs.List>
+  )
+}
+
+type TabProps = TabsTabProps & {
+  className?: string
+}
+
+export const Tab = ({className, children, ...props}: TabProps) => {
+  return (
+    <BaseTabs.Tab
+      {...props}
       className={twMerge(
-        "border-b-3 border-transparent p-3 text-left",
-        // Make sure the visual indicator color is a 3:1 contrast ratio.
-        clsx({"border-cardinal-red": selected}),
+        "w-fit border-transparent p-5 aria-selected:border-lagunita-dark data-[orientation=horizontal]:border-b-3 data-[orientation=vertical]:border-l-3 hocus:underline",
+        clsx({
+          "bg-black-10": props.disabled,
+        }),
         className
       )}
     >
       {children}
-    </button>
+    </BaseTabs.Tab>
   )
 }
 
-type TabPanelProps = UseTabPanelParameters & {
-  /**
-   * Panel contents.
-   */
-  children: ReactNode
-  /**
-   * Classes for the panel.
-   */
-  className?: HTMLAttributes<HTMLDivElement>["className"]
-  /**
-   * Extra attributes for the panel.
-   */
-  panelProps?: HTMLAttributes<HTMLElement>
+type TabPanelProps = TabsPanelProps & {
+  className?: string
 }
 
-export const TabPanel = ({panelProps, className, children}: TabPanelProps) => {
-  const rootRef = useRef<HTMLDivElement>(null)
-  const {getRootProps} = useTabPanel({rootRef})
+export const TabPanel = ({className, children, ...props}: TabPanelProps) => {
   return (
-    <section {...getRootProps()} {...panelProps} role="tabpanel" className={className}>
+    <BaseTabs.Panel {...props} className={twMerge("border border-black-20 p-10 shadow-lg", className)}>
       {children}
-    </section>
+    </BaseTabs.Panel>
   )
 }
