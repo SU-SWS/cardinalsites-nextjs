@@ -1,206 +1,75 @@
 "use client"
 
-import {useSelect, SelectOptionDefinition, SelectProvider, SelectValue} from "@mui/base/useSelect"
-import {useOption} from "@mui/base/useOption"
-import {
-  FocusEvent,
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode,
-  RefObject,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react"
-import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import {Maybe} from "@lib/gql/__generated__/graphql"
+import {Select} from "@base-ui/react/select"
+import {ReactNode} from "react"
+import {ChevronDownIcon, CheckIcon} from "@heroicons/react/20/solid"
+import twMerge from "@lib/utils/twMerge"
+import {SelectRootProps} from "@base-ui/react/select"
 
-interface OptionProps {
-  rootRef: RefObject<HTMLUListElement | null>
-  children?: ReactNode
+export type SelectOption = {
   value: string
-  disabled?: boolean
+  label: string | ReactNode
 }
 
-const renderSelectedValue = (
-  value: SelectValue<string, boolean>,
-  options: SelectOptionDefinition<string>[]
-): ReactNode | string | null => {
-  if (Array.isArray(value)) {
-    return value.map(item => (
-      <span
-        key={item}
-        className="mb-2 block max-w-full overflow-hidden text-ellipsis whitespace-nowrap rounded bg-archway p-5 text-white"
-      >
-        {renderSelectedValue(item, options)}
-      </span>
-    ))
-  }
-  const selectedOption = options.find(option => option.value === value)
-  return selectedOption ? selectedOption.label : null
-}
-
-const CustomOption = (props: OptionProps) => {
-  const {children, value, rootRef, disabled = false} = props
-  const {getRootProps, highlighted, selected} = useOption({
-    rootRef: rootRef,
-    value,
-    disabled,
-    label: children,
-  })
-
-  const {id, ...otherProps}: {id: string} = getRootProps()
-  const selectedStyles = "bg-archway text-white " + (highlighted ? "underline" : "")
-  const highlightedStyles = "bg-black-10 text-black underline"
-
-  useEffect(() => {
-    if (highlighted && id && rootRef?.current?.parentElement) {
-      const item = document.getElementById(id)
-      if (item) {
-        const itemTop = item?.offsetTop
-        const itemHeight = item?.offsetHeight
-        const parentScrollTop = rootRef.current.parentElement.scrollTop
-        const parentHeight = rootRef.current.parentElement.offsetHeight
-
-        if (itemTop < parentScrollTop) {
-          rootRef.current.parentElement.scrollTop = itemTop
-        }
-
-        if (itemTop + itemHeight > parentScrollTop + parentHeight) {
-          rootRef.current.parentElement.scrollTop = itemTop - parentHeight + itemHeight
-        }
-      }
-    }
-  }, [rootRef, id, highlighted])
-
-  return (
-    <li
-      {...otherProps}
-      id={id}
-      className={
-        "m-0 mb-2 cursor-pointer overflow-hidden px-10 py-2 hocus:underline " +
-        (selected ? selectedStyles : highlighted ? highlightedStyles : "hocus:bg-black-10 hocus:text-black")
-      }
-    >
-      {children}
-    </li>
-  )
-}
-
-interface Props {
-  options: SelectOptionDefinition<string>[]
-  label?: Maybe<string>
-  ariaLabelledby?: Maybe<string>
-  defaultValue?: SelectValue<string, boolean>
-  onChange?: (_event: MouseEvent | KeyboardEvent | FocusEvent | null, _value: SelectValue<string, boolean>) => void
-  multiple?: boolean
-  disabled?: boolean
-  value?: SelectValue<string, boolean>
-  required?: boolean
-  emptyValue?: Maybe<string>
-  emptyLabel?: Maybe<string>
-  name?: Maybe<string>
+interface Props<Value, Multiple extends boolean | undefined = false> extends Omit<
+  SelectRootProps<Value, Multiple>,
+  "items"
+> {
+  items?: SelectOption[]
+  label?: string
+  emptyValue?: string
+  emptyLabel?: string
+  className?: string
 }
 
 const SelectList = ({
-  options = [],
+  items = [],
   label,
-  multiple,
-  ariaLabelledby,
-  required,
-  defaultValue,
-  name,
   emptyValue,
+  className,
   emptyLabel = "- None -",
+  required,
   ...props
-}: Props) => {
-  const labelId = useId()
-  const labeledBy = ariaLabelledby || labelId
-
-  const inputRef = useRef<HTMLInputElement>(null)
-  const listboxRef = useRef<HTMLUListElement>(null)
-  const [listboxVisible, setListboxVisible] = useState<boolean>(false)
-
-  const {getButtonProps, getListboxProps, contextValue, value} = useSelect<string, boolean>({
-    listboxRef,
-    onOpenChange: setListboxVisible,
-    open: listboxVisible,
-    defaultValue,
-    multiple,
-    ...props,
-  })
-
-  useEffect(() => listboxRef.current?.focus(), [listboxVisible])
-
-  useLayoutEffect(() => {
-    const parentContainer = listboxRef.current?.parentElement?.getBoundingClientRect()
-    if (parentContainer && (parentContainer.bottom > window.innerHeight || parentContainer.top < 0)) {
-      listboxRef.current?.parentElement?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      })
-    }
-  }, [listboxVisible, value])
-
-  const optionChosen = multiple && value ? value.length > 0 : !!value
-
+}: Props<string, true>) => {
+  const options = !required && emptyLabel ? [{value: emptyValue || "", label: emptyLabel}, ...items] : [...items]
   return (
-    <div className="relative h-fit">
-      <button
-        {...getButtonProps()}
-        className="w-full rounded border border-black-40 p-5 text-left"
-        aria-labelledby={labeledBy}
-      >
-        <div className="flex flex-wrap justify-between">
-          {label && (
-            <div className={"relative " + (optionChosen ? "type-0 top-[-15px] w-full" : "type-2")}>
-              <div id={labelId} className="w-fit bg-white px-5">
-                {label}
-              </div>
-            </div>
-          )}
-          {optionChosen && (
-            <div className="max-w-[calc(100%-30px)] overflow-hidden">{renderSelectedValue(value, options)}</div>
-          )}
+    <div className={twMerge("m-2 w-full max-w-[350px]", className)}>
+      <Select.Root items={options} required={required} {...props}>
+        <Select.Label className="text-4xl font-semibold">{label}</Select.Label>
+        <Select.Trigger className="flex w-full items-center rounded border border-black-50 p-4 text-4xl shadow-lg">
+          <Select.Value className="" placeholder={emptyLabel} />
+          <Select.Icon className="ml-auto">
+            <ChevronDownIcon width={20} />
+          </Select.Icon>
+        </Select.Trigger>
 
-          <ChevronDownIcon width={20} className="flex-shrink-0" />
-        </div>
-      </button>
-
-      <div
-        className={
-          "absolute left-0 top-full z-[10] max-h-[300px] w-full overflow-y-scroll border border-black-20 bg-white pb-5 shadow-lg " +
-          (listboxVisible ? "" : "hidden")
-        }
-      >
-        <ul
-          {...getListboxProps()}
-          className={"list-unstyled " + (listboxVisible ? "" : "hidden")}
-          aria-hidden={!listboxVisible}
-          aria-labelledby={labeledBy}
-        >
-          <SelectProvider value={contextValue}>
-            {!required && !multiple && (
-              <CustomOption value={emptyValue || ""} rootRef={listboxRef}>
-                {emptyLabel}
-              </CustomOption>
-            )}
-
-            {options.map(option => {
-              return (
-                <CustomOption key={option.value} value={option.value} rootRef={listboxRef}>
-                  {option.label}
-                </CustomOption>
-              )
-            })}
-          </SelectProvider>
-        </ul>
-      </div>
-      {name && <input ref={inputRef} name={name} type="hidden" value={value || ""} />}
+        <Select.Portal>
+          <Select.Positioner className="z-10" align="start">
+            <Select.Popup className="">
+              <Select.List className="max-h-[300px] min-w-[200px] overflow-y-auto border border-black-20 bg-white p-5 shadow-lg">
+                {options.map(item => (
+                  <Option key={item.value} value={item.value} label={item.label} />
+                ))}
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
     </div>
+  )
+}
+
+const Option = ({value, label}: {value: string | number; label: string | ReactNode}) => {
+  return (
+    <Select.Item
+      value={value}
+      className="group mb-3 flex cursor-pointer items-center gap-3 border-b border-black-20 p-2 last:mb-0 last:border-0 hocus:underline"
+    >
+      <Select.ItemIndicator keepMounted className="flex h-7 w-7 items-center rounded border border-black">
+        <CheckIcon width={20} className="mx-auto hidden w-5 group-aria-selected:block" />
+      </Select.ItemIndicator>
+      <Select.ItemText className="">{label}</Select.ItemText>
+    </Select.Item>
   )
 }
 

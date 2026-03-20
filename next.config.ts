@@ -85,6 +85,14 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: "/files/:site(\\w+)/:slug(.*[txt|rtf|doc|docx|ppt|pptx|xls|xlsx|pdf]$)",
+        destination: `${drupalUrl.protocol}//${drupalUrl.hostname}/sites/:site/files/:slug`,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
