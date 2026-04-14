@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Restore Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             node_modules
@@ -53,7 +53,7 @@ jobs:
         with:
           path: frontend
       - name: Restore Cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             vendor

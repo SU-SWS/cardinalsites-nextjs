@@ -35,7 +35,6 @@ import {
 import {ClientError, graphqlClient} from "@lib/gql/gql-client"
 import {FilterGroup} from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
-import {cacheTag} from "next/cache"
 
 /** Resolved result of a route lookup: an entity, a redirect, or neither when the lookup failed. */
 type RouteResult<T extends NodeUnion> = {
@@ -66,9 +65,6 @@ const getCachedEntityFromPath = async <T extends NodeUnion>(
   path: string,
   teaser?: boolean
 ): Promise<RouteResult<T>> => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "paths", `paths:${path}`)
   return requestEntityFromPath<T>(path, false, teaser)
 }
 
@@ -114,9 +110,6 @@ const requestEntityFromPath = async <T extends NodeUnion>(
  * the response. Callers select the bundle they want from the shared result instead.
  */
 const getAllConfigPages = async (): Promise<ConfigPagesQuery | undefined> => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "config-pages")
   try {
     return await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
   } catch (e) {
@@ -174,10 +167,6 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
  * share one cache entry rather than each fetching the full tree from Drupal.
  */
 const fetchMenu = async (name?: MenuAvailable): Promise<MenuItem[]> => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "menus", `menu:${name?.toLowerCase() ?? "main"}`)
-
   try {
     const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
     return (menu.menu?.items ?? []) as MenuItem[]
@@ -229,9 +218,6 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "nodes")
   const nodes: NodeUnion[] = []
   let fetchMore = true
   const cursors: Omit<AllNodesQueryVariables, "first"> = {}
@@ -256,10 +242,6 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "redirects")
-
   const paths: Array<string> = []
   let fetchMore = true
   let after = undefined
@@ -332,9 +314,6 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
   switch (vocab) {
     case FilterVocabs.Courses:
       return (await graphqlClient().request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument)).termCourseFilters
@@ -380,9 +359,6 @@ export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInt
  * @returns An array of `FilterGroup` objects, each with a `label` and its child `options`.
  */
 export const getTermFilterGroups = async (vocab: FilterVocabs): Promise<Array<FilterGroup>> => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
   const filterTerms = await getFilterTerms(vocab)
 
   // Root-level terms are those whose parent UUID does not match any term in the flat list.

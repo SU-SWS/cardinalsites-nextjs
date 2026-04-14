@@ -9,7 +9,6 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {TeaserParagraphBehaviors} from "drupal"
 import {getIdFromText} from "@lib/utils/text-tools"
-import {cacheTag} from "next/cache"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordEntity
@@ -65,9 +64,6 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 }
 
 const EntityTeaser = async ({entityPath, headingLevel = "h2"}: {entityPath: string; headingLevel?: "h2" | "h3"}) => {
-  "use cache: remote"
-
-  cacheTag(`paths:${entityPath}`)
   // NodeCard only reads teaser fields, so ask Drupal for the reduced field set rather than the
   // full node with its body and every nested paragraph.
   const {entity} = await getEntityFromPath(entityPath, false, true)

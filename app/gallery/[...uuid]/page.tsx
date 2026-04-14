@@ -4,7 +4,6 @@ import {notFound} from "next/navigation"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
 import {Suspense} from "react"
-import {cacheTag} from "next/cache"
 
 export const metadata = {
   title: "Gallery Image",
@@ -27,11 +26,8 @@ const Page = (props: Props) => (
 )
 
 const GalleryContent = async (props: Props) => {
-  "use cache: remote"
-
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
-  cacheTag("all-cache", "paragraphs", `paragraph:${paragraphId}`)
 
   const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
   if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()

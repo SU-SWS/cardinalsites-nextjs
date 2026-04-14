@@ -32,7 +32,7 @@ export const metadata = {
   },
 }
 
-const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => (
+const RootLayout = async ({children}: {children: React.ReactNode}) => (
   <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
     <UserAnalytics />
     <body>
@@ -42,7 +42,6 @@ const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: 
         </a>
       </nav>
       <GlobalPage>{children}</GlobalPage>
-      <div>{modal}</div>
     </body>
   </html>
 )

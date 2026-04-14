@@ -13,7 +13,6 @@ import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
 import {notFound} from "next/navigation"
 import {Suspense} from "react"
-import {cacheTag} from "next/cache"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -31,11 +30,9 @@ const Page = ({params}: {params: Promise<Param>}) => (
 )
 
 const MediaContent = async ({params}: {params: Promise<Param>}) => {
-  "use cache: remote"
-
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
-  cacheTag("all-cache", "media", `media:${uuid}`)
+
   const nodePath = getPathFromContext(slug)
 
   const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
@@ -74,10 +71,7 @@ const MediaSkeleton = () => (
 export const generateStaticParams = async () => {
   let fetchMore = true
   let after: AudioVisualQueryVariables["after"] = undefined
-  const slugs: Array<Param> = [{slug: ["none"]}]
-
-  // Only build pages if we should build everything by using -1 for BUILD_PAGES.
-  if (!process.env.BUILD_PAGES || Number(process.env.BUILD_PAGES) > -1) return slugs
+  const slugs: Array<Param> = []
 
   while (fetchMore) {
     const query: AudioVisualQuery = await graphqlClient().request<AudioVisualQuery, AudioVisualQueryVariables>(
@@ -100,7 +94,7 @@ export const generateStaticParams = async () => {
     fetchMore = query.nodeStanfordMediaItems.pageInfo.hasNextPage
   }
 
-  return slugs
+  return slugs.length ? slugs : [{slug: ["none"]}]
 }
 
 export default Page
