@@ -46,7 +46,6 @@ import {
   SearchFilterInput,
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {cacheLife, cacheTag} from "next/cache"
 import {cacheFailure} from "@lib/gql/gql-queries"
 
 export const VIEW_PAGE_SIZE = 21
@@ -97,7 +96,7 @@ const MAX_TERMS = 50
 const TERM_ID = /^[\w-]{1,64}$/
 
 /** Whether a request carries visitor-chosen filters, whose combinations are too many to cache forever. */
-const hasVisitorFilter = (filter?: ViewFilter) =>
+const _hasVisitorFilter = (filter?: ViewFilter) =>
   !!filter &&
   ((typeof filter[TEXT_FILTER] === "string" && filter[TEXT_FILTER].length > 0) ||
     TERM_FILTERS.some(key => Array.isArray(filter[key]) && (filter[key] as unknown[]).length > 0))
@@ -169,14 +168,12 @@ export const getViewPagedItems = async (
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
-  "use cache: remote"
-
   let items: NodeUnion[] = []
   let totalItems = 0
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
   const itemsPerPage = pageSize ? Math.min(Math.ceil(pageSize / 3) * 3, 99) : undefined
 
-  const viewTags: Record<string, string> = {
+  const _viewTags: Record<string, string> = {
     search: "views:all",
     stanford_shared_tags: "views:all",
     stanford_basic_pages: "views:stanford_page",
@@ -186,8 +183,6 @@ export const getViewPagedItems = async (
     stanford_person: "views:stanford_person",
     stanford_publications: "views:stanford_publication",
   }
-  cacheTag("all-cache", "views", viewTags[viewId] || "views:all")
-
   const client = graphqlClient()
   let contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
   let graphqlResponse
@@ -377,8 +372,6 @@ export const getViewPagedItems = async (
     return {items: [], totalItems: 0}
   }
 
-  // A visitor's keyword or filter choices have too many combinations to keep forever: cache them for hours.
-  if (hasVisitorFilter(filter)) cacheLife("hours")
   return {items, totalItems}
 }
 

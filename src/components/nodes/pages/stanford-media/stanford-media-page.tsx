@@ -10,7 +10,6 @@ import Oembed from "@components/elements/oembed"
 import {graphqlClient} from "@lib/gql/gql-client"
 import Image from "next/image"
 import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
-import {cacheTag} from "next/cache"
 import {cacheFailure} from "@lib/gql/gql-queries"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -133,9 +132,6 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 }
 
 const NextMedia = async ({node}: {node: NodeStanfordMedia}) => {
-  "use cache: remote"
-
-  cacheTag("all-cache", "paths", `paths:${node.path}`)
   let upNextMediaQuery: StanfordMediaQuery | undefined
   try {
     upNextMediaQuery = node.suMediaSeries

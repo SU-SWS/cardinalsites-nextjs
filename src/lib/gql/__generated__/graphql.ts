@@ -1448,7 +1448,7 @@ export type NodeStanfordEventSuEventComponentsUnion = ParagraphStanfordBanner | 
 /** Entity type node. */
 export type NodeStanfordMedia = EdgeNode & MetaTagInterface & NodeInterface & {
   __typename?: 'NodeStanfordMedia';
-  /** Body */
+  /** Additional details, show notes, or context about this item. The optional summary is used on cards and lists when no Dek is provided. This field is optional. */
   body?: Maybe<TextSummary>;
   /** The time that the node was last edited. */
   changed: DateTime;
@@ -1468,37 +1468,37 @@ export type NodeStanfordMedia = EdgeNode & MetaTagInterface & NodeInterface & {
   status: Scalars['Boolean']['output'];
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
-  /** Audio/Video */
+  /** The main audio or video for this page. Select or add a video (e.g., YouTube or Vimeo), an embed, or an item from the Stanford Digital Repository. */
   suMediaAudioVideo: NodeStanfordMediaSuMediaAudioVideoUnion;
-  /** Media Category */
+  /** The label shown on cards and lists to indicate what kind of item this is: Video, Podcast, Audio, or Media. This field is optional. */
   suMediaCategory?: Maybe<Scalars['String']['output']>;
-  /** Additional Videos/Clips */
+  /** Other Audio/Visual items to show after the main audio or video, such as clips or related segments. Each clip's own page links back to this one. This field is optional. */
   suMediaClips?: Maybe<Array<NodeStanfordMedia>>;
-  /** Published Date */
+  /** The date this audio or video was originally released. This field is optional. */
   suMediaDate?: Maybe<DateTime>;
-  /** Dek */
+  /** A one- or two-sentence summary displayed below the title. Also used as the description when the page is shared on social media or shown in search results. This field is optional. */
   suMediaDek?: Maybe<Scalars['String']['output']>;
-  /** Total length of the primary Audio/Video in seconds. */
+  /** The total length of the main audio or video. Enter hours, minutes, and seconds. This field is optional. */
   suMediaDuration?: Maybe<Scalars['Int']['output']>;
-  /** Episode */
+  /** The episode number or name within the season, if applicable. This field is optional. */
   suMediaEpisode?: Maybe<Scalars['String']['output']>;
-  /** Audio/Visual Filters */
+  /** Categories used as filters in the Filtered Lists Paragraph for Audio/Visual content. Not displayed on this page. This field is optional. */
   suMediaFilters?: Maybe<Array<TermMediaContentFilter>>;
-  /** Featured Image */
+  /** The image shown on cards and lists, and when the page is shared on social media. Use an image at least 1192 × 596 pixels. This field is optional. */
   suMediaImage?: Maybe<MediaImage>;
-  /** Related Person */
+  /** People featured in or who contributed to this item. They are listed as contributors on this page, and this item appears on their Person page. This field is optional. */
   suMediaPerson?: Maybe<Array<NodeStanfordPerson>>;
-  /** Season */
+  /** The season number or name within the series, if applicable. This field is optional. */
   suMediaSeason?: Maybe<Scalars['String']['output']>;
-  /** Series */
+  /** The name of the series this item belongs to (e.g., a podcast or video series). Items with exactly the same Series name are shown together as Related Series. This field is optional. */
   suMediaSeries?: Maybe<Scalars['String']['output']>;
-  /** External Source */
+  /** A link to where this item is hosted (e.g., Apple Podcasts or YouTube). If this field is filled in, this item in Lists, Teaser, and Filtered Lists will link out to this URL, instead of to the item on this site. This field is optional. */
   suMediaSource?: Maybe<Link>;
-  /** Subtitles */
+  /** Upload an .srt caption file (5 MB max). A text transcript is created from it automatically and displayed on the page. Removing the file removes the transcript. This field is optional. */
   suMediaSubtitles?: Maybe<File>;
   /** Full Transcript */
   suMediaTranscript?: Maybe<Text>;
-  /** Audio/Visual Types */
+  /** Broad categories that classify this item. Used to filter Lists Paragraphs. This field is optional. */
   suMediaTypes?: Maybe<Array<TermMediaContentType>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1521,7 +1521,7 @@ export type NodeStanfordMediaEdge = Edge & {
   node: NodeStanfordMedia;
 };
 
-/** Audio/Video */
+/** The main audio or video for this page. Select or add a video (e.g., YouTube or Vimeo), an embed, or an item from the Stanford Digital Repository. */
 export type NodeStanfordMediaSuMediaAudioVideoUnion = MediaEmbeddable | MediaSdr | MediaVideo;
 
 /** Entity type node. */
@@ -3825,7 +3825,7 @@ export type Subscription = {
   _: Scalars['Boolean']['output'];
 };
 
-/** Broad categories that specify a type of Basic Page. (i.e. Research Projects) */
+/** Broad categories that classify Basic Pages (e.g., Research Project). Use these terms to filter Lists Paragraphs. */
 export type TermBasicPageType = MetaTagInterface & TermInterface & {
   __typename?: 'TermBasicPageType';
   /** The time that the term was last edited. */
@@ -3852,7 +3852,7 @@ export type TermBasicPageType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Courses. Use these terms with the Filtered Lists Paragraph for Courses. */
 export type TermCourseFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermCourseFilter';
   /** The time that the term was last edited. */
@@ -3894,7 +3894,7 @@ export type TermCourseFilterEdge = Edge & {
   node: TermCourseFilter;
 };
 
-/** A curated list of groups that an Event is open to. */
+/** Groups of people an Event is open to. Imported from Stanford Events (Localist). */
 export type TermEventAudience = MetaTagInterface & TermInterface & {
   __typename?: 'TermEventAudience';
   /** The time that the term was last edited. */
@@ -3921,7 +3921,7 @@ export type TermEventAudience = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Events. Not displayed on the Event page or teaser. Use these terms with the Filtered Lists Paragraph for Events. */
 export type TermEventFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermEventFilter';
   /** The time that the term was last edited. */
@@ -3989,7 +3989,7 @@ export type TermInterface = {
   weight: Scalars['Int']['output'];
 };
 
-/** For Audio/Visual Content */
+/** Site-defined categories applied to Audio/Visual content. Use these terms with the Filtered Lists Paragraph for Audio/Visual content. */
 export type TermMediaContentFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermMediaContentFilter';
   /** The time that the term was last edited. */
@@ -4031,7 +4031,7 @@ export type TermMediaContentFilterEdge = Edge & {
   node: TermMediaContentFilter;
 };
 
-/** For Audio/Visual Content */
+/** Broad categories that classify Audio/Visual content. Use these terms to filter Lists Paragraphs. */
 export type TermMediaContentType = MetaTagInterface & TermInterface & {
   __typename?: 'TermMediaContentType';
   /** The time that the term was last edited. */
@@ -4058,7 +4058,7 @@ export type TermMediaContentType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Organizations or groups that sponsor an Opportunity. */
 export type TermOpportunitySponsor = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunitySponsor';
   /** The time that the term was last edited. */
@@ -4085,7 +4085,7 @@ export type TermOpportunitySponsor = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Opportunities. Displayed in the Opportunity sidebar. Use these terms with the Filtered Lists Paragraph for Opportunities. */
 export type TermOpportunityTagFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityTagFilter';
   /** The time that the term was last edited. */
@@ -4127,7 +4127,7 @@ export type TermOpportunityTagFilterEdge = Edge & {
   node: TermOpportunityTagFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Broad categories that classify Opportunities (e.g., Job, Grant, Fellowship). Displayed on Opportunity cards and pages. Use these terms to filter Lists Paragraphs. */
 export type TermOpportunityType = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityType';
   /** The time that the term was last edited. */
@@ -4154,7 +4154,7 @@ export type TermOpportunityType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Academic credit units an Opportunity provides. Displayed in the Opportunity sidebar; use Opportunity Filters for filtering. */
 export type TermOpportunityUnit = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityUnit';
   /** The time that the term was last edited. */
@@ -4181,7 +4181,7 @@ export type TermOpportunityUnit = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to People. Use these terms with the Filtered Lists Paragraph for People. */
 export type TermPersonFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermPersonFilter';
   /** The time that the term was last edited. */
@@ -4223,7 +4223,7 @@ export type TermPersonFilterEdge = Edge & {
   node: TermPersonFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Publications. Reserved for a future Filtered Lists Paragraph for Publications. */
 export type TermPublicationFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermPublicationFilter';
   /** The time that the term was last edited. */
@@ -4265,7 +4265,7 @@ export type TermPublicationFilterEdge = Edge & {
   node: TermPublicationFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Departments and groups that host Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventGroup = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventGroup';
   /** The time that the term was last edited. */
@@ -4292,7 +4292,7 @@ export type TermStanfordEventGroup = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Keywords and tags that describe Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventKeyword = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventKeyword';
   /** The time that the term was last edited. */
@@ -4319,7 +4319,7 @@ export type TermStanfordEventKeyword = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Subject areas of Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventSubject = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventSubject';
   /** The time that the term was last edited. */
@@ -4346,7 +4346,7 @@ export type TermStanfordEventSubject = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Broad categories that specify a type of Event. (i.e. Lecture) */
+/** Broad categories that classify Events and Event Series (e.g., Lecture). Imported from Stanford Events (Localist). Use these terms to drive the pre-built Events list pages and to filter Lists Paragraphs. */
 export type TermStanfordEventType = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventType';
   /** The time that the term was last edited. */
@@ -4373,7 +4373,7 @@ export type TermStanfordEventType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to News Spotlights. Displayed on the Spotlight page. Use these terms with the Filtered Lists Paragraph for News. */
 export type TermStanfordNewsSpotlightFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordNewsSpotlightFilter';
   /** The time that the term was last edited. */
@@ -4415,7 +4415,7 @@ export type TermStanfordNewsSpotlightFilterEdge = Edge & {
   node: TermStanfordNewsSpotlightFilter;
 };
 
-/** Broad categories that specify a type of News article. (i.e. Blog) */
+/** Broad categories that classify News articles (e.g., Blog). Use these terms to drive the pre-built News list pages and to filter Lists Paragraphs. */
 export type TermStanfordNewsTopic = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordNewsTopic';
   /** The time that the term was last edited. */
@@ -4442,7 +4442,7 @@ export type TermStanfordNewsTopic = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Terms to support grouping of People. */
+/** Types and groups used to organize People. Use these terms to drive the pre-built People list pages and to filter Lists Paragraphs. */
 export type TermStanfordPersonType = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordPersonType';
   /** The time that the term was last edited. */
@@ -4469,7 +4469,7 @@ export type TermStanfordPersonType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Broad categories that specify a type of Publication. (i.e. white-paper) */
+/** Broad categories that classify Publications (e.g., White Paper). Use these terms to drive the pre-built Publications list pages and to filter Lists Paragraphs. */
 export type TermStanfordPublicationTopic = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordPublicationTopic';
   /** The time that the term was last edited. */
@@ -4496,7 +4496,7 @@ export type TermStanfordPublicationTopic = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Quarters offered for courses, via ExploreCourses */
+/** Academic quarters in which Courses are offered. Imported from ExploreCourses. */
 export type TermSuCourseQuarter = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseQuarter';
   /** The time that the term was last edited. */
@@ -4523,7 +4523,7 @@ export type TermSuCourseQuarter = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Course subjects from ExploreCourses */
+/** Subjects that Courses belong to. Imported from ExploreCourses. */
 export type TermSuCourseSubject = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseSubject';
   /** The time that the term was last edited. */
@@ -4552,7 +4552,7 @@ export type TermSuCourseSubject = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Tags from ExploreCourses */
+/** Tags assigned to Courses in ExploreCourses. Imported from ExploreCourses. */
 export type TermSuCourseTag = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseTag';
   /** The time that the term was last edited. */
@@ -5021,7 +5021,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
         | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
         | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
         | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-      , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -8199,7 +8199,7 @@ export type FragmentNodeStanfordMediaFragment = { __typename?: 'NodeStanfordMedi
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8850,7 +8850,7 @@ type FragmentNodeUnion_NodeStanfordMedia_Fragment = { __typename: 'NodeStanfordM
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -10241,7 +10241,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
             | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
             | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
             | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-          , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+          , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -13496,6 +13496,7 @@ export const FragmentNodeStanfordMediaFragmentDoc = new TypedDocumentString(`
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -15670,6 +15671,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -17154,6 +17156,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -21219,6 +21222,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {

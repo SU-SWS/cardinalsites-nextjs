@@ -1,6 +1,6 @@
 import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
-import View, {loadViewPage} from "@components/views/view"
+import View, {loadViewPage as _loadPage} from "@components/views/view"
 import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordList} from "@lib/gql/__generated__/graphql"
@@ -38,7 +38,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   const id = getIdFromText(paragraph.suListHeadline)
 
   // Signed so the public "load more" action can't be called with arbitrary views or filters.
-  const signedConfig =
+  const _signedConfig =
     addLoadMore && viewId && displayId
       ? signViewConfig({
           viewId,
@@ -70,7 +70,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
           displayId={displayId}
           items={viewItems}
           headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-          loadPage={signedConfig ? loadViewPage.bind(null, signedConfig) : undefined}
+          // loadPage={signedConfig ? loadViewPage.bind(null, signedConfig) : undefined}
           totalItems={totalItems}
         />
       )}

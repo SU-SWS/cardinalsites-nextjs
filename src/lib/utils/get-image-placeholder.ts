@@ -1,5 +1,4 @@
 import {ImageProps} from "next/image"
-import {cacheTag} from "next/cache"
 
 type ReturnProps = {
   placeholder?: ImageProps["placeholder"]
@@ -25,9 +24,6 @@ const MAX_IMAGE_BYTES = 20 * 1024
  * without a tag the entry would sit in the cache untouched for the life of the deployment.
  */
 export const getImagePlaceholder = async (blurSrc?: string): Promise<ReturnProps> => {
-  "use cache: remote"
-  cacheTag("all-cache", "images")
-
   // Only derive placeholders for our own media. This function fetches whatever url it is handed,
   // so it must not be pointed at arbitrary hosts.
   if (!blurSrc?.startsWith(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)) return {}

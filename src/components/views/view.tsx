@@ -194,8 +194,6 @@ export const loadViewPage = async (
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<JSX.Element> => {
-  "use server"
-
   // Server actions are public POST endpoints: any caller can send any arguments.
   const config = verifyViewConfig(signedConfig)
   const request =

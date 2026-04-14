@@ -3,7 +3,6 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
-import {cacheTag} from "next/cache"
 import {isUuid} from "@lib/utils/security"
 import {cacheFailure} from "@lib/gql/gql-queries"
 
@@ -20,8 +19,6 @@ type Props = {
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
-
-export const instant = false
 
 /**
  * Resolved outside of a Suspense boundary so `notFound()` runs before streaming starts and an unknown gallery returns
@@ -41,9 +38,6 @@ const Page = async (props: Props) => {
 }
 
 const getGallery = async (paragraphId: string): Promise<ParagraphStanfordGallery | undefined> => {
-  "use cache: remote"
-  cacheTag("all-cache", "paragraphs", `paragraph:${paragraphId}`)
-
   try {
     const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
     if (paragraphQuery.paragraph?.__typename === "ParagraphStanfordGallery")

@@ -1,6 +1,6 @@
 import NodePage, {NodePageSkeleton} from "@components/nodes/pages/node-page"
 import {NodeUnion} from "@lib/gql/__generated__/graphql"
-import {getAllNodes, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
+import {getAllNodes, getAllRedirectPaths, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 import {notFound, permanentRedirect, redirect} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
 import type {Slug, PageProps} from "@lib/@types/types"
@@ -9,8 +9,6 @@ import {Suspense} from "react"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
-// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/ensureStatic
-export const ensureStatic = "navigation"
 
 const Page = (props: PageProps) => (
   <Suspense fallback={<NodePageSkeleton />}>
@@ -64,16 +62,14 @@ const isInternalPath = (path?: string | null) => {
 }
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {
-  const pagesToBuild = parseInt(process.env.BUILD_PAGES || "0")
-  if (pagesToBuild === 0) return [{slug: ["home"]}]
+  const homePagePath = await getHomePagePath()
+  const redirectPaths = await getAllRedirectPaths()
 
-  const paths = (await getAllNodes())
-    .map(node => node.path)
-    .filter(path => !path?.startsWith("/internal")) as Array<string>
-
+  const paths = (await getAllNodes()).map(node => (node.path === homePagePath ? "/" : node.path)) as Array<string>
+  redirectPaths.forEach(p => paths.push(p))
   const nodePaths = paths.map(path => ({slug: path.split("/").filter(part => !!part)}))
   nodePaths.push({slug: ["home"]})
-  return pagesToBuild < 0 ? nodePaths : nodePaths.slice(0, pagesToBuild)
+  return nodePaths
 }
 
 export default Page

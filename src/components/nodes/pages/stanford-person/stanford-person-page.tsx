@@ -22,7 +22,6 @@ import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import {redirect} from "next/navigation"
 import {graphqlClient} from "@lib/gql/gql-client"
 import NodeCard from "@components/nodes/cards/node-card"
-import {cacheLife} from "next/cache"
 import {cacheFailure} from "@lib/gql/gql-queries"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -182,7 +181,6 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 }
 
 const RelatedNews = async ({personId}: {personId: number}) => {
-  "use cache: remote"
   let newsItems: StanfordNewsQuery
   try {
     newsItems = await graphqlClient().request<StanfordNewsQuery>(StanfordNewsDocument, {filter: {person: personId}})
@@ -190,7 +188,6 @@ const RelatedNews = async ({personId}: {personId: number}) => {
     cacheFailure(`Unable to fetch news related to person ${personId}`, e)
     return null
   }
-  cacheLife("weeks")
   if (!newsItems.stanfordNews?.results.length) return null
   return (
     <div className="@container centered mb-40">
@@ -204,7 +201,6 @@ const RelatedNews = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedMedia = async ({personId}: {personId: number}) => {
-  "use cache: remote"
   let mediaItems: StanfordMediaQuery
   try {
     mediaItems = await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {
@@ -214,7 +210,6 @@ export const RelatedMedia = async ({personId}: {personId: number}) => {
     cacheFailure(`Unable to fetch media related to person ${personId}`, e)
     return null
   }
-  cacheLife("weeks")
   if (!mediaItems.stanfordMedia?.results.length) return null
   return (
     <div className="@container centered mb-40">
@@ -228,7 +223,6 @@ export const RelatedMedia = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedPublications = async ({personId}: {personId: number}) => {
-  "use cache: remote"
   let pubItems: StanfordPublicationsQuery
   try {
     pubItems = await graphqlClient().request<StanfordPublicationsQuery>(StanfordPublicationsDocument, {
@@ -238,7 +232,6 @@ export const RelatedPublications = async ({personId}: {personId: number}) => {
     cacheFailure(`Unable to fetch publications related to person ${personId}`, e)
     return null
   }
-  cacheLife("weeks")
   if (!pubItems.stanfordPublications?.results?.length) return null
   return (
     <div className="@container centered mb-40">
