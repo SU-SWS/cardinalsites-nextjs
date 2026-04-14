@@ -101,12 +101,12 @@ type Props = {
  * nothing — this is intentional so that unknown views degrade gracefully
  * instead of throwing.
  */
-const View = async ({viewId, displayId, items, totalItems, loadPage, headingLevel = "h3"}: Props) => {
+const View = async ({viewId, displayId, items, totalItems, headingLevel = "h3"}: Props) => {
   const component = `${viewId}--${displayId}`
 
   // Build the props shared by every display component. `filtered` is derived
   // from the display id so filter-specific layouts can render input controls.
-  const viewProps = {totalItems, headingLevel, loadPage, filtered: component.includes("filtered")}
+  const viewProps = {totalItems, headingLevel, filtered: component.includes("filtered")}
 
   switch (component) {
     case "search--search":
@@ -206,8 +206,6 @@ export const loadViewPage = async (
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<JSX.Element> => {
-  "use server"
-
   const {items, totalItems} = await getViewPagedItems(viewId, displayId, pageSize, contextualFilter, page, filter)
   return (
     <View

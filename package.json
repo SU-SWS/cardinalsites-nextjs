@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "DEV=true NODE_OPTIONS=\"--max-http-header-size=131072\" next dev",
     "build": "next build",
-    "preview": "next build && next start",
-    "start": "next start",
+    "preview": "next build && npx serve@latest out",
+    "start": "npx serve@latest out",
     "lint": "eslint ./src ./app && tsc",
     "graphql": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.ts -r dotenv/config",
     "postinstall": "git config --local core.hooksPath .githooks/; exit 0"

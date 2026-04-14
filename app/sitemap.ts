@@ -1,19 +1,18 @@
 import type {MetadataRoute} from "next"
 import {buildHeaders} from "@lib/gql/gql-client"
 import {buildUrl} from "@lib/utils/utils"
-import {cacheLife} from "next/cache"
+
+// Required so the sitemap is emitted as a file during the static export.
+export const dynamic = "force-static"
 
 const CHANGE_FREQUENCIES = ["always", "hourly", "daily", "weekly", "monthly", "yearly", "never"] as const
 
 /**
  * Fetch Drupal's sitemap.xml. The sitemap is normally publicly available, so try it anonymously
  * first and only fall back to the authenticated request when the anonymous one is rejected. The
- * error is thrown rather than swallowed here so a failure is never written to the cache.
+ * error is thrown rather than swallowed here so the caller decides how to handle a failure.
  */
 const getSitemapDocument = async (): Promise<string> => {
-  "use cache: remote"
-  cacheLife("weeks")
-
   const headers = buildHeaders({Accept: "application/xml"})
   // Keep any infrastructure headers (WAF bypass) but drop the credentials for the first attempt.
   const anonymousHeaders = new Headers(headers)

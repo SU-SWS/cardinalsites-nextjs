@@ -1,5 +1,3 @@
-"use cache: remote"
-
 import {
   AllNodesQuery,
   AllNodesQueryVariables,
@@ -39,7 +37,7 @@ import {ClientError} from "graphql-request"
 import {GraphQLError} from "graphql/error"
 import {FilterGroup} from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
-import {cacheTag} from "next/cache"
+import {getNextCache} from "@lib/utils/get-next-cache"
 
 /** Drupal GraphQL errors include a `debugMessage` field in addition to the standard `message`. */
 type DrupalGraphqlError = GraphQLError & {debugMessage: string}
@@ -61,13 +59,15 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   entity?: T
   redirect?: {url: RouteRedirect["url"]; permanent: boolean}
 }> => {
-  cacheTag("all-cache", "paths", `paths:${path}`)
   let query: RouteQuery
   try {
-    query = await graphqlClient(undefined, previewMode).request<RouteQuery>(RouteDocument, {
-      path,
-      teaser: !!teaser,
-    })
+    query = await graphqlClient(getNextCache("all-cache", "paths", `paths:${path}`), previewMode).request<RouteQuery>(
+      RouteDocument,
+      {
+        path,
+        teaser: !!teaser,
+      }
+    )
   } catch (e) {
     if (e instanceof ClientError) {
       // The Drupal GraphQL module attaches a human-readable `debugMessage` alongside the
@@ -104,10 +104,11 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  cacheTag("all-cache", "config-pages")
   let query: ConfigPagesQuery
   try {
-    query = await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
+    query = await graphqlClient(getNextCache("all-cache", "config-pages")).request<ConfigPagesQuery>(
+      ConfigPagesDocument
+    )
   } catch (e) {
     console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
     return
@@ -135,7 +136,6 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
   configPageType: ConfigPagesUnion["__typename"],
   fieldName: keyof T
 ): Promise<F | undefined> => {
-  cacheTag("all-cache", "config-pages")
   const configPage = await getConfigPage<T>(configPageType)
   return configPage?.[fieldName] as F
 }
@@ -153,11 +153,12 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   const homePath = await getHomePagePath()
   const menuName = name?.toLowerCase() ?? "main"
-  cacheTag("all-cache", "menus", `menu:${menuName}`)
-
   let menuItems: MenuItem[] = []
   try {
-    const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
+    const menu = await graphqlClient(getNextCache("all-cache", "menus", `menu:${menuName}`)).request<MenuQuery>(
+      MenuDocument,
+      {name}
+    )
     menuItems = (menu.menu?.items ?? []) as MenuItem[]
   } catch (_e) {
     console.error("Unable to fetch menu")
@@ -190,13 +191,15 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
-  cacheTag("all-cache", "nodes")
   const nodes: NodeUnion[] = []
   let fetchMore = true
   const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
   while (fetchMore) {
-    const nodeQuery = await graphqlClient().request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
+    const nodeQuery = await graphqlClient(getNextCache("all-cache", "nodes")).request<AllNodesQuery>(AllNodesDocument, {
+      first: 1000,
+      ...cursors,
+    })
     const queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
     fetchMore = false
 
@@ -215,21 +218,19 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
-  cacheTag("all-cache", "redirects")
-
   const paths: Array<string> = []
   let fetchMore = true
   let after = undefined
 
   while (fetchMore) {
     // Need to act like it's in preview mode to bypass access restriction.
-    const redirectsQuery: AllRedirectsQuery = await graphqlClient(undefined, true).request<AllRedirectsQuery>(
-      AllRedirectsDocument,
-      {
-        first: 1000,
-        after,
-      }
-    )
+    const redirectsQuery: AllRedirectsQuery = await graphqlClient(
+      getNextCache("all-cache", "redirects"),
+      true
+    ).request<AllRedirectsQuery>(AllRedirectsDocument, {
+      first: 1000,
+      after,
+    })
 
     redirectsQuery.redirects.nodes.forEach(redirect => paths.push(redirect.redirectSource.url))
 
@@ -253,7 +254,6 @@ export const getAllRedirectPaths = async () => {
  * - `ALGOLIA_KEY`   — Search-only API key
  */
 export const getAlgoliaCredential = async () => {
-  cacheTag("all-cache", "config-pages")
   if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
     return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
   }
@@ -276,8 +276,6 @@ export const getAlgoliaCredential = async () => {
  * of `/`.
  */
 export const getHomePagePath = async () => {
-  cacheTag("all-cache", "paths:/")
-
   const {entity} = await getEntityFromPath("/")
   return entity?.path
 }
@@ -292,34 +290,37 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
-  cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
+  const requestConfig = getNextCache("all-cache", "taxonomy", `taxonomy:${vocab}`)
+
   switch (vocab) {
     case FilterVocabs.Courses:
-      return (await graphqlClient().request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument)).termCourseFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument))
+        .termCourseFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Events:
-      return (await graphqlClient().request<EventFiltersTermsQuery>(EventFiltersTermsDocument)).termEventFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<EventFiltersTermsQuery>(EventFiltersTermsDocument))
+        .termEventFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Media:
-      return (await graphqlClient().request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument))
-        .termMediaContentFilters.nodes as unknown as TermInterface[]
+      return (
+        await graphqlClient(requestConfig).request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument)
+      ).termMediaContentFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.News:
-      return (await graphqlClient().request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument))
-        .termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
+      return (
+        await graphqlClient(requestConfig).request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument)
+      ).termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Opportunities:
-      return (await graphqlClient().request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
+      return (await graphqlClient(requestConfig).request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
         .termOpportunityTagFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.People:
-      return (await graphqlClient().request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument)).termPersonFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument))
+        .termPersonFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Publications:
-      return (await graphqlClient().request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
+      return (await graphqlClient(requestConfig).request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
         .termPublicationFilters.nodes as unknown as TermInterface[]
   }
   return []
@@ -338,7 +339,6 @@ export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInt
  * @returns An array of `FilterGroup` objects, each with a `label` and its child `options`.
  */
 export const getTermFilterGroups = async (vocab: FilterVocabs): Promise<Array<FilterGroup>> => {
-  cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
   const filterTerms = await getFilterTerms(vocab)
 
   // Root-level terms are those whose parent UUID does not match any term in the flat list.

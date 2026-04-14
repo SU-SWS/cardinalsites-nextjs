@@ -5,7 +5,7 @@ import Lockup from "@components/elements/lockup/lockup"
 import {HTMLAttributes} from "react"
 import cn from "@lib/utils/className"
 import UtilityNav from "@components/menu/utility-nav"
-import {getConfigPageField} from "@lib/gql/gql-queries"
+import {getAlgoliaCredential, getConfigPageField} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import Link from "@components/elements/link"
 
@@ -16,11 +16,13 @@ const PageHeader = async ({...props}: Props) => {
     StanfordBasicSiteSetting,
     StanfordBasicSiteSetting["suSiteHeaderButton"]
   >("StanfordBasicSiteSetting", "suSiteHeaderButton")
+
+  const algoliaCreds = await getAlgoliaCredential()
   const hideSearch =
     (await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suHideSiteSearch"]>(
       "StanfordBasicSiteSetting",
       "suHideSiteSearch"
-    )) === true
+    )) === true || algoliaCreds.length !== 3
 
   return (
     <header {...props} className={cn("shadow-lg", props.className)}>

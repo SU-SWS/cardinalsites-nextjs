@@ -10,7 +10,7 @@ import Oembed from "@components/elements/ombed"
 import {graphqlClient} from "@lib/gql/gql-client"
 import Image from "next/image"
 import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
-import {cacheTag} from "next/cache"
+import {getNextCache} from "@lib/utils/get-next-cache"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -138,10 +138,11 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 }
 
 const NextMedia = async ({node}: {node: NodeStanfordMedia}) => {
-  "use cache: remote"
-  cacheTag("paths", `paths:${node.path}`)
   const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
+    ? await graphqlClient(getNextCache("paths", `paths:${node.path}`)).request<StanfordMediaQuery>(
+        StanfordMediaDocument,
+        {filter: {series: node.suMediaSeries}}
+      )
     : undefined
   const nextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
     item => item.uuid !== node.uuid

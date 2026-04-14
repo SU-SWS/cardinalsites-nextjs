@@ -22,7 +22,6 @@ import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import {redirect} from "next/navigation"
 import {graphqlClient} from "@lib/gql/gql-client"
 import NodeCard from "@components/nodes/cards/node-card"
-import {cacheLife} from "next/cache"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -181,8 +180,6 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 }
 
 const RelatedNews = async ({personId}: {personId: number}) => {
-  "use cache: remote"
-  cacheLife("weeks")
   const newsItems = await graphqlClient().request<StanfordNewsQuery>(StanfordNewsDocument, {filter: {person: personId}})
   if (!newsItems.stanfordNews?.results.length) return null
   return (
@@ -197,8 +194,6 @@ const RelatedNews = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedMedia = async ({personId}: {personId: number}) => {
-  "use cache: remote"
-  cacheLife("weeks")
   const mediaItems = await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {
     filter: {person: personId},
   })
@@ -215,8 +210,6 @@ export const RelatedMedia = async ({personId}: {personId: number}) => {
   )
 }
 export const RelatedPublications = async ({personId}: {personId: number}) => {
-  "use cache: remote"
-  cacheLife("weeks")
   const pubItems = await graphqlClient().request<StanfordPublicationsQuery>(StanfordPublicationsDocument, {
     filter: {person: personId},
   })

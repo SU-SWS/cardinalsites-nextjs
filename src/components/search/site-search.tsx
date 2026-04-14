@@ -14,7 +14,6 @@ const SiteSearch = async ({search}: Props) => {
     key,
   })
   const loadMore = async (page?: Maybe<number>, _filter?: ViewFilter) => {
-    "use server"
     return loadViewPage("search", "search", false, 12, [], page, {
       key,
     })

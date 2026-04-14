@@ -26,8 +26,6 @@ const Page = (props: Props) => (
 )
 
 const GalleryContent = async (props: Props) => {
-  "use cache: remote"
-
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 

@@ -1,0 +1,65 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - static
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container:
+      image: node:24
+      env:
+        NEXT_PUBLIC_DRUPAL_BASE_URL: ${{ vars.NEXT_PUBLIC_DRUPAL_BASE_URL }}
+        DRUPAL_BASIC_AUTH: ${{ secrets.DRUPAL_BASIC_AUTH }}
+        DRUPAL_BASIC_AUTH_ADMIN: ${{ secrets.DRUPAL_BASIC_AUTH_ADMIN }}
+        DRUPAL_REQUEST_HEADERS: ${{ secrets.DRUPAL_REQUEST_HEADERS }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Restore Cache
+        uses: actions/cache@v6
+        with:
+          path: |
+            node_modules
+            .next
+          key: pages-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            pages-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
+            pages-${{ hashFiles('package.json') }}-
+      - name: Install dependencies
+        run: yarn --immutable
+      - name: Build static site
+        run: |
+          yarn next telemetry disable
+          yarn build
+      - name: Localize assets
+        run: yarn localize-assets
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -57,6 +57,6 @@ const esLintConfig = defineConfig([
       ],
     },
   },
-  globalIgnores(["**/__generated__/**/*", "src/styles/**/*"]),
+  globalIgnores(["**/__generated__/**/*", "src/styles/**/*", "scripts/**/*"]),
 ])
 export default esLintConfig

@@ -7,11 +7,11 @@ type ReturnProps = {
 }
 
 export const getImagePlaceholder = async (src: string): Promise<ReturnProps> => {
-  "use cache: remote"
   if (!src.includes(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)) return {}
 
   try {
-    const buffer = await fetch(src).then(async res => Buffer.from(await res.arrayBuffer()))
+    // Cache the download so an image reused across pages is only fetched once per build.
+    const buffer = await fetch(src, {cache: "force-cache"}).then(async res => Buffer.from(await res.arrayBuffer()))
     const {base64: blurDataURL} = await getPlaiceholder(buffer, {size: 10})
     return {placeholder: "blur", blurDataURL}
   } catch (err) {
