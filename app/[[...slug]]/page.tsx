@@ -25,7 +25,8 @@ const Page = async (props: PageProps) => {
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {
   const pagesToBuild = parseInt(process.env.BUILD_PAGES || "0")
-  if (pagesToBuild === 0) return []
+  if (pagesToBuild === 0) return [{slug: [""]}]
+
   const paths = (await getAllNodes())
     .map(node => node.path)
     .filter(path => !path?.startsWith("/internal")) as Array<string>

@@ -45,12 +45,12 @@ const Page = async ({params}: {params: Promise<Param>}) => {
 }
 
 export const generateStaticParams = async () => {
-  // Only build pages if we should build everything by using -1 for BUILD_PAGES.
-  if (parseInt(process.env.BUILD_PAGES ?? "") >= 0) return []
-
   let fetchMore = true
   let after: AudioVisualQueryVariables["after"] = undefined
-  const slugs: Array<Param> = [{slug: []}]
+  const slugs: Array<Param> = [{slug: [""]}]
+
+  // Only build pages if we should build everything by using -1 for BUILD_PAGES.
+  if (!process.env.BUILD_PAGES || Number(process.env.BUILD_PAGES) >= -1) return slugs
 
   while (fetchMore) {
     const query: AudioVisualQuery = await graphqlClient().request<AudioVisualQuery, AudioVisualQueryVariables>(
