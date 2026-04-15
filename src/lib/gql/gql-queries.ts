@@ -31,6 +31,8 @@ import {
   AllNodesDocument,
   ConfigPagesDocument,
   RouteDocument,
+  AllRedirectsQuery,
+  AllRedirectsDocument,
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {ClientError} from "graphql-request"
@@ -192,6 +194,7 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  */
 export const getAllNodes = async () => {
   cacheTag("all-entities")
+  cacheTag("nodes")
 
   const nodes: NodeUnion[] = []
   let fetchMore = true
@@ -214,6 +217,33 @@ export const getAllNodes = async () => {
   }
 
   return nodes
+}
+
+export const getAllRedirectPaths = async () => {
+  cacheTag("all-entities")
+  cacheTag("redirects")
+
+  const paths: Array<string> = []
+  let fetchMore = true
+  let after = undefined
+
+  while (fetchMore) {
+    // Need to act like it's in preview mode to bypass access restriction.
+    const redirectsQuery: AllRedirectsQuery = await graphqlClient(undefined, true).request<AllRedirectsQuery>(
+      AllRedirectsDocument,
+      {
+        first: 1000,
+        after,
+      }
+    )
+
+    redirectsQuery.redirects.nodes.forEach(redirect => paths.push(redirect.redirectSource.url))
+
+    after = redirectsQuery.redirects.pageInfo.endCursor
+    fetchMore = redirectsQuery.redirects.pageInfo.hasNextPage
+  }
+
+  return paths
 }
 
 /**

@@ -40,7 +40,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
   return (
     <article
-      className={twMerge("centered mt-32 gap-20", clsx({"grid grid-cols-3-1": upNextMedia.length > 0}))}
+      className={twMerge("centered mt-32 gap-20", clsx({"grid grid-cols-3-1": !!upNextMedia?.length}))}
       {...props}
     >
       <NodePageMetadata pageTitle={node.title} metatags={node.metatag} backupDescription={node.suMediaDek} />
@@ -127,7 +127,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
           </div>
         )}
       </div>
-      {upNextMedia.length > 0 && (
+      {!!upNextMedia?.length && (
         <div>
           <H2>Next</H2>
           <ul className="list-unstyled">

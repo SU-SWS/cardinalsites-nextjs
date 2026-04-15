@@ -438,16 +438,16 @@ Copy `.env.example` to `.env.local` and fill in the values. The only **required*
 
 ### Drupal connection
 
-| Variable | Required | Description |
-|----------|----------|-------------|
+| Variable                      | Required | Description |
+|-------------------------------|----------|-------------|
 | `NEXT_PUBLIC_DRUPAL_BASE_URL` | ✅ | Base URL of the Drupal site (e.g. `https://example.stanford.edu`) |
-| `DRUPAL_BASIC_AUTH` | ✅ | `user:password` for standard read-only API requests |
-| `DRUPAL_BASIC_AUTH_ADMIN` | ✅ | `user:password` for preview/draft authenticated requests |
-| `DRUPAL_REVALIDATE_SECRET` | Recommended | Shared secret for cache revalidation webhook |
-| `DRUPAL_PREVIEW_SECRET` | Recommended | Shared secret for Draft Mode activation |
-| `DRUPAL_DRAFT_CLIENT` | Optional | OAuth client ID for draft mode token requests |
-| `DRUPAL_DRAFT_SECRET` | Optional | OAuth client secret for draft mode token requests |
-| `DRUPAL_REQUEST_HEADER` | Optional | JSON string of extra headers sent to Drupal (e.g. WAF bypass token) |
+| `DRUPAL_BASIC_AUTH`           | ✅ | `user:password` for standard read-only API requests |
+| `DRUPAL_BASIC_AUTH_ADMIN`     | ✅ | `user:password` for preview/draft authenticated requests |
+| `DRUPAL_REVALIDATE_SECRET`    | Recommended | Shared secret for cache revalidation webhook |
+| `DRUPAL_PREVIEW_SECRET`       | Recommended | Shared secret for Draft Mode activation |
+| `DRUPAL_DRAFT_CLIENT`         | Optional | OAuth client ID for draft mode token requests |
+| `DRUPAL_DRAFT_SECRET`         | Optional | OAuth client secret for draft mode token requests |
+| `DRUPAL_REQUEST_HEADERS`      | Optional | JSON string of extra headers sent to Drupal (e.g. WAF bypass token) |
 
 ### Build & deployment
 

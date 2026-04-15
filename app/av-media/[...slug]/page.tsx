@@ -1,7 +1,13 @@
 import type {Metadata} from "next"
 import {getPathFromContext} from "@lib/utils/utils"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {MediaDocument, MediaQuery} from "@lib/gql/__generated__/graphql"
+import {
+  AudioVisualDocument,
+  AudioVisualQuery,
+  AudioVisualQueryVariables,
+  MediaDocument,
+  MediaQuery,
+} from "@lib/gql/__generated__/graphql"
 import Oembed from "@components/elements/ombed"
 import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
@@ -13,7 +19,9 @@ export const metadata: Metadata = {
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
-const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
+type Param = {slug: Array<string>}
+
+const Page = async ({params}: {params: Promise<Param>}) => {
   "use cache"
 
   const slug = (await params).slug.slice(0, -1)
@@ -35,4 +43,40 @@ const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
     </div>
   )
 }
+
+export const generateStaticParams = async () => {
+  // Only build pages if we should build everything by using -1 for BUILD_PAGES.
+  if (parseInt(process.env.BUILD_PAGES ?? "") >= 0) return []
+
+  let fetchMore = true
+  let after: AudioVisualQueryVariables["after"] = undefined
+  const slugs: Array<Param> = [{slug: []}]
+
+  while (fetchMore) {
+    const query: AudioVisualQuery = await graphqlClient().request<AudioVisualQuery, AudioVisualQueryVariables>(
+      AudioVisualDocument,
+      {
+        first: 1000,
+        after,
+      }
+    )
+    fetchMore = false
+
+    query.nodeStanfordMediaItems?.nodes.forEach(node => {
+      node.suMediaAudioVideo.slice(1).forEach(video => {
+        if (!node.path) return
+        const slug = node.path.replace(/^\//, "").split("/")
+        slug.push(video.uuid)
+
+        slugs.push({slug})
+      })
+    })
+
+    after = query.nodeStanfordMediaItems.pageInfo.endCursor
+    fetchMore = query.nodeStanfordMediaItems.pageInfo.hasNextPage
+  }
+
+  return slugs
+}
+
 export default Page

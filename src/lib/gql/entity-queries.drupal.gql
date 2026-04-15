@@ -29,7 +29,7 @@ fragment FragmentNodePageInfo on Connection {
 
 
 
-query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
+query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordMediaItems: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
     nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
         ...FragmentNodePageInfo
     }
@@ -40,6 +40,9 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
         ...FragmentNodePageInfo
     }
     nodeStanfordEvents(first: $first, after: $nodeStanfordEvents, sortKey: CREATED_AT) {
+        ...FragmentNodePageInfo
+    }
+    nodeStanfordMediaItems(first: $first, after: $nodeStanfordMediaItems, sortKey: CREATED_AT) {
         ...FragmentNodePageInfo
     }
     nodeStanfordNewsItems(first: $first, after: $nodeStanfordNewsItems, sortKey: CREATED_AT) {
@@ -53,6 +56,21 @@ query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEv
     }
     nodeStanfordPublications(first: $first, after: $nodeStanfordPublications, sortKey: CREATED_AT) {
         ...FragmentNodePageInfo
+    }
+}
+
+query AudioVisual($first: Int = 1000, $after: Cursor) {
+    nodeStanfordMediaItems(first: $first, after: $after, sortKey: CREATED_AT) {
+        ...FragmentNodePageInfo
+        nodes {
+            ... on NodeStanfordMedia {
+                suMediaAudioVideo {
+                    ... on MediaInterface {
+                        uuid
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -394,6 +412,18 @@ query ConfigPages {
                 width
             }
             suUseThemeLogo
+        }
+    }
+}
+
+
+query AllRedirects($after: Cursor) {
+    redirects(first: 1000, after: $after, ) {
+        ...FragmentNodePageInfo
+        nodes {
+            redirectSource {
+                url
+            }
         }
     }
 }
