@@ -1,11 +1,12 @@
 import {SignJWT, jwtVerify} from "jose"
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production"
 const JWT_COOKIE_NAME = "auth_token"
 const JWT_EXPIRES_IN = "1d"
 
-// Convert secret string to Uint8Array for jose
-const jwtSecretKey = new TextEncoder().encode(JWT_SECRET)
+// Read lazily so the value injected by Vault at startup (instrumentation.ts)
+// is always picked up rather than a stale module-load-time snapshot.
+const getJwtSecretKey = () =>
+  new TextEncoder().encode(process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production")
 
 export type UserProfile = {
   uid?: string
@@ -31,7 +32,7 @@ export const generateJWT = async (profile: UserProfile): Promise<string> => {
     .setIssuer("cardinal-sites-saml")
     .setExpirationTime(JWT_EXPIRES_IN)
 
-  return await jwt.sign(jwtSecretKey)
+  return await jwt.sign(getJwtSecretKey())
 }
 
 /**
@@ -39,7 +40,7 @@ export const generateJWT = async (profile: UserProfile): Promise<string> => {
  */
 export const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
   try {
-    const {payload} = await jwtVerify(token, jwtSecretKey, {
+    const {payload} = await jwtVerify(token, getJwtSecretKey(), {
       issuer: "cardinal-sites-saml",
     })
     return payload as JWTPayload
