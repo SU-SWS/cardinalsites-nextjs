@@ -23,6 +23,7 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
         indexName={searchIndex}
         searchClient={searchClient}
         future={{preserveSharedStateOnUnmount: true}}
+        insights={true}
         routing={{
           router: {cleanUrlOnDispose: false},
           stateMapping: {
@@ -49,7 +50,7 @@ const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
 }
 
 const HitList = () => {
-  const {items} = useHits<DefaultAlgoliaHit>()
+  const {items, sendEvent} = useHits<DefaultAlgoliaHit>()
 
   if (items.length === 0) {
     return <p>No results for your search. Please try another search.</p>
@@ -58,7 +59,12 @@ const HitList = () => {
   return (
     <ul className="list-unstyled">
       {items.map(hit => (
-        <li key={hit.objectID} className="border-b border-gray-300 last:border-0">
+        <li
+          key={hit.objectID}
+          onClick={() => sendEvent("click", hit, "Hit Clicked")}
+          onAuxClick={() => sendEvent("click", hit, "Hit Clicked")}
+          className="border-b border-gray-300 last:border-0"
+        >
           <DefaultHit hit={hit} />
         </li>
       ))}
