@@ -61,7 +61,7 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   entity?: T
   redirect?: RouteRedirect["url"]
 }> => {
-  cacheTag(`paths:${path}`, "all-entities")
+  cacheTag("all-entities", "paths", `paths:${path}`)
 
   let query: RouteQuery
 
@@ -105,7 +105,7 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  cacheTag("config-pages")
+  cacheTag("all-entities", "config-pages")
 
   let query: ConfigPagesQuery
   try {
@@ -137,7 +137,7 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
   configPageType: ConfigPagesUnion["__typename"],
   fieldName: keyof T
 ): Promise<F | undefined> => {
-  cacheTag("config-pages")
+  cacheTag("all-entities", "config-pages")
 
   const configPage = await getConfigPage<T>(configPageType)
   return configPage?.[fieldName] as F
@@ -156,7 +156,7 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   const homePath = await getHomePagePath()
   const menuName = name?.toLowerCase() ?? "main"
-  cacheTag("menus", `menu:${menuName}`)
+  cacheTag("all-entities", "menus", `menu:${menuName}`)
 
   let menuItems: MenuItem[] = []
   try {
@@ -193,8 +193,7 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
-  cacheTag("all-entities")
-  cacheTag("nodes")
+  cacheTag("all-entities", "nodes")
 
   const nodes: NodeUnion[] = []
   let fetchMore = true
@@ -220,8 +219,7 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
-  cacheTag("all-entities")
-  cacheTag("redirects")
+  cacheTag("all-entities", "redirects")
 
   const paths: Array<string> = []
   let fetchMore = true
@@ -259,7 +257,7 @@ export const getAllRedirectPaths = async () => {
  * - `ALGOLIA_KEY`   — Search-only API key
  */
 export const getAlgoliaCredential = async () => {
-  cacheTag("algolia", "config-pages")
+  cacheTag("all-entities", "algolia", "config-pages")
 
   if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
     return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
@@ -283,7 +281,7 @@ export const getAlgoliaCredential = async () => {
  * of `/`.
  */
 export const getHomePagePath = async () => {
-  cacheTag("paths:/")
+  cacheTag("all-entities", "paths:/")
 
   const {entity} = await getEntityFromPath("/")
   return entity?.path
@@ -299,7 +297,7 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
-  cacheTag(`taxonomy:${vocab}`)
+  cacheTag("all-entities", "taxonomy", `taxonomy:${vocab}`)
 
   switch (vocab) {
     case FilterVocabs.Courses:

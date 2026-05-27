@@ -74,7 +74,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 const EntityCard = async ({path, headingLevel}: {path: NodeInterface["path"]; headingLevel: "h3" | "h2"}) => {
   "use cache"
   if (!path) return
-  cacheTag("all-entities", `paths:${path}`)
+  cacheTag("all-entities", "paths", `paths:${path}`)
 
   const queryResponse = await getEntityFromPath<NodeUnion>(path, false, true)
   if (!queryResponse.entity) return
