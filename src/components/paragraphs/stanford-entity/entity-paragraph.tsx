@@ -2,15 +2,13 @@ import Wysiwyg from "@components/elements/wysiwyg"
 import NodeCard from "@components/nodes/cards/node-card"
 import Button from "@components/elements/button"
 import {H2} from "@components/elements/headers"
-import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
-import {NodeInterface, NodeUnion, ParagraphStanfordEntity} from "@lib/gql/__generated__/graphql"
+import {ElementType, HtmlHTMLAttributes} from "react"
+import {NodeUnion, ParagraphStanfordEntity} from "@lib/gql/__generated__/graphql"
 import twMerge from "@lib/utils/twMerge"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
-import {ImageCardSkeleton} from "@components/patterns/image-card"
 import {TeaserParagraphBehaviors} from "drupal"
 import {clsx} from "clsx"
-import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -19,8 +17,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const EntityParagraph = async ({paragraph, ...props}: Props) => {
   const behaviors = getParagraphBehaviors<TeaserParagraphBehaviors>(paragraph)
-  const entities = paragraph.suEntityItem || []
-
+  const entityRequests = (paragraph.suEntityItem || []).map(item =>
+    getEntityFromPath<NodeUnion>(item.path || "", false, true)
+  )
+  const entities = (await Promise.all(entityRequests)).filter(e => !!e.entity).map(e => e.entity)
   const EntityWrapper: ElementType =
     paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" ? "section" : "div"
 
@@ -55,10 +55,12 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
           })
         )}
       >
-        {entities.map(entity => (
-          <Suspense key={`${paragraph.uuid}-${entity.uuid}`} fallback={<ImageCardSkeleton />}>
-            <EntityCard path={entity.path} headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"} />
-          </Suspense>
+        {entities.map((entity, i) => (
+          <NodeCard
+            key={`${paragraph.id}-${i}`}
+            node={entity as NodeUnion}
+            headingLevel={paragraph.suEntityHeadline ? "h3" : "h2"}
+          />
         ))}
       </div>
 
@@ -69,16 +71,6 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
       )}
     </EntityWrapper>
   )
-}
-
-const EntityCard = async ({path, headingLevel}: {path: NodeInterface["path"]; headingLevel: "h3" | "h2"}) => {
-  "use cache"
-  if (!path) return
-  cacheTag("all-entities", "paths", `paths:${path}`)
-
-  const queryResponse = await getEntityFromPath<NodeUnion>(path, false, true)
-  if (!queryResponse.entity) return
-  return <NodeCard node={queryResponse.entity} headingLevel={headingLevel} />
 }
 
 export default EntityParagraph

@@ -60,7 +60,7 @@ export const getViewPagedItems = async (
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
-  "use cache"
+  "use cache: remote"
 
   let items: NodeUnion[] = []
   let totalItems = 0

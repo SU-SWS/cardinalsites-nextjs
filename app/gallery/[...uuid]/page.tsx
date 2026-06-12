@@ -19,7 +19,7 @@ type Props = {
 export const maxDuration = 30
 
 const Page = async (props: Props) => {
-  "use cache"
+  "use cache: remote"
 
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
@@ -46,7 +46,7 @@ const Page = async (props: Props) => {
               src={galleryImage.suGalleryImage.url}
               width={galleryImage.suGalleryImage.width}
               height={galleryImage.suGalleryImage.height}
-              alt={""}
+              alt=""
             />
 
             {galleryImage.suGalleryCaption && <figcaption>{galleryImage.suGalleryCaption}</figcaption>}
@@ -58,7 +58,7 @@ const Page = async (props: Props) => {
 }
 
 export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => {
-  return [{uuid: []}]
+  return [{uuid: ["none"]}]
 }
 
 export default Page

@@ -7,7 +7,6 @@ import WysiwygParagraph from "@components/paragraphs/stanford-wysiwyg/wysiwyg-pa
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import ListParagraph from "@components/paragraphs/stanford-lists/list-paragraph"
 import {ParagraphUnion} from "@lib/gql/__generated__/graphql"
-import {Suspense} from "react"
 import EditorAlert from "@components/elements/editor-alert"
 import FaqParagraph from "@components/paragraphs/stanford-faq/faq-paragraph"
 import FilteredListParagraph from "@components/paragraphs/stanford-filtered-lists/filtered-list-paragraph"
@@ -55,17 +54,9 @@ const ParagraphComponent = async ({paragraph}: Props) => {
     case "ParagraphStanfordStatCard":
       return <StatCardParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordList":
-      return (
-        <Suspense>
-          <ListParagraph paragraph={paragraph} {...itemProps} />
-        </Suspense>
-      )
+      return <ListParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordFilteredList":
-      return (
-        <Suspense>
-          <FilteredListParagraph paragraph={paragraph} {...itemProps} />
-        </Suspense>
-      )
+      return <FilteredListParagraph paragraph={paragraph} {...itemProps} />
   }
   console.warn(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.uuid}.`)
 }

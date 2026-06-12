@@ -5,6 +5,7 @@ import PagedList from "@components/elements/paged-list"
 import {getTermFilterGroups} from "@lib/gql/gql-queries"
 import FilteredListViewClient from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
+import {Suspense} from "react"
 
 type Props = ViewDisplayProps<NodeStanfordOpportunity>
 
@@ -31,19 +32,21 @@ const OpportunitiesListView = async ({items, headingLevel, totalItems, loadPage,
   }
 
   return (
-    <PagedList
-      ulProps={{className: "list-unstyled mb-20"}}
-      liProps={{
-        className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
-      }}
-      pageKey="news="
-      totalPages={Math.ceil(totalItems / 30)}
-      loadPage={loadPage}
-    >
-      {items.map(item => (
-        <StanfordOpportunityListItem key={item.id} node={item} headingLevel={headingLevel} />
-      ))}
-    </PagedList>
+    <Suspense>
+      <PagedList
+        ulProps={{className: "list-unstyled mb-20"}}
+        liProps={{
+          className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+        }}
+        pageKey="news="
+        totalPages={Math.ceil(totalItems / 30)}
+        loadPage={loadPage}
+      >
+        {items.map(item => (
+          <StanfordOpportunityListItem key={item.id} node={item} headingLevel={headingLevel} />
+        ))}
+      </PagedList>
+    </Suspense>
   )
 }
 

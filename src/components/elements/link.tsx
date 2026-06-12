@@ -55,7 +55,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
 
   if (className?.includes("link--action")) {
     return (
-      <ActionLink href={href} className={className?.replaceAll("link--action", "")} {...props}>
+      <ActionLink prefetch={false} href={href} className={className?.replaceAll("link--action", "")} {...props}>
         {children}
       </ActionLink>
     )
@@ -64,6 +64,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   if (className?.includes("button")) {
     return (
       <Button
+        prefetch={false}
         href={href}
         big={className.includes("--big")}
         secondary={className.includes("--secondary")}
@@ -83,7 +84,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   }
 
   return (
-    <Link href={href} className={twMerge("group", className)} {...props}>
+    <Link prefetch={false} href={href} className={twMerge("group", className)} {...props}>
       {children}
       {href.startsWith("mailto") && <EnvelopeIcon width={20} className="ml-4 inline-block" />}
 

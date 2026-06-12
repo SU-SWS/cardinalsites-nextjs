@@ -2,7 +2,7 @@ import {SamlConfig} from "passport-saml"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 
 export const getSamlConfig = async (origin: string): Promise<SamlConfig> => {
-  "use cache"
+  "use cache: remote"
   cacheTag("saml")
   try {
     return {

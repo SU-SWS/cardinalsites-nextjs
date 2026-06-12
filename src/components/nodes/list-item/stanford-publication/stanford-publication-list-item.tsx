@@ -21,11 +21,7 @@ const StanfordPublicationListItem = ({node, apa, chicago, ...props}: Props) => {
         />
       )}
       {!citation && (
-        <Link
-          className="text-digital-red no-underline hocus:text-black hocus:underline"
-          href={node.path || "#"}
-          prefetch={false}
-        >
+        <Link className="text-digital-red no-underline hocus:text-black hocus:underline" href={node.path || "#"}>
           {node.title}
         </Link>
       )}

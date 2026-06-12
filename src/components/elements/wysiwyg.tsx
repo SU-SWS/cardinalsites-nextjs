@@ -47,7 +47,7 @@ const options: HTMLReactParserOptions = {
           delete nodeProps["data-entity-uuid"]
 
           return (
-            <Link href={nodeProps.href as string} prefetch={false} {...nodeProps}>
+            <Link href={nodeProps.href as string} {...nodeProps}>
               {domToReact(children, options)}
             </Link>
           )

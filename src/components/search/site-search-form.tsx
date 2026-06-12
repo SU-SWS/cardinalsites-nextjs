@@ -1,23 +1,11 @@
 import {HTMLAttributes, useId} from "react"
 import {MagnifyingGlassIcon} from "@heroicons/react/20/solid"
-import {getConfigPageField} from "@lib/gql/gql-queries"
-import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 
 type Props = HTMLAttributes<HTMLFormElement> & {
   inputValue?: string
 }
 
-const SiteSearchForm = async ({inputValue, ...props}: Props) => {
-  const hideSearch = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suHideSiteSearch"]>(
-    "StanfordBasicSiteSetting",
-    "suHideSiteSearch"
-  )
-  if (hideSearch) return
-  return <SearchForm inputValue={inputValue} {...props} />
-}
-
-// Need a non-async function to be able to use useId() hook.
-const SearchForm = ({inputValue, ...props}: Props) => {
+const SiteSearchForm = ({inputValue, ...props}: Props) => {
   const inputId = useId()
   return (
     <form aria-label="Site Search" action="/search" {...props}>

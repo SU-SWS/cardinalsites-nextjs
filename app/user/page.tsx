@@ -11,22 +11,28 @@ export const metadata: Metadata = {
 }
 
 const Page = async () => {
+  return (
+    <Suspense>
+      <UserPage />
+    </Suspense>
+  )
+}
+
+const UserPage = async () => {
   const headersList = await headers()
   const userId = headersList.get("x-user-id")
   const userEmail = headersList.get("x-user-email")
   const userName = headersList.get("x-user-name")
 
   return (
-    <Suspense fallback={<></>}>
-      <InteriorPage>
-        <H1 className="mt-32">{userName}</H1>
-        <ul className="mb-20">
-          <li>User ID: {userId}</li>
-          <li>Email: {userEmail}</li>
-        </ul>
-        <LogoutButton className="mx-auto" />
-      </InteriorPage>
-    </Suspense>
+    <InteriorPage>
+      <H1 className="mt-32">{userName}</H1>
+      <ul className="mb-20">
+        <li>User ID: {userId}</li>
+        <li>Email: {userEmail}</li>
+      </ul>
+      <LogoutButton className="mx-auto" />
+    </InteriorPage>
   )
 }
 

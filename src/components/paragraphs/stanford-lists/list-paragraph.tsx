@@ -2,7 +2,7 @@ import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
 import View, {loadViewPage} from "@components/views/view"
 import {H2} from "@components/elements/headers"
-import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
+import {ElementType, HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordList} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import twMerge from "@lib/utils/twMerge"
@@ -55,27 +55,25 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
       <Wysiwyg html={paragraph.suListDescription?.processed} />
 
       {viewId && displayId && viewItems && (
-        <Suspense>
-          <View
-            viewId={viewId}
-            displayId={displayId}
-            items={viewItems}
-            headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-            loadPage={
-              addLoadMore
-                ? loadViewPage.bind(
-                    null,
-                    viewId,
-                    displayId,
-                    !!paragraph.suListHeadline,
-                    VIEW_PAGE_SIZE,
-                    paragraph.suListView?.contextualFilter || []
-                  )
-                : undefined
-            }
-            totalItems={totalItems}
-          />
-        </Suspense>
+        <View
+          viewId={viewId}
+          displayId={displayId}
+          items={viewItems}
+          headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
+          loadPage={
+            addLoadMore
+              ? loadViewPage.bind(
+                  null,
+                  viewId,
+                  displayId,
+                  !!paragraph.suListHeadline,
+                  VIEW_PAGE_SIZE,
+                  paragraph.suListView?.contextualFilter || []
+                )
+              : undefined
+          }
+          totalItems={totalItems}
+        />
       )}
 
       {viewItems.length === 0 && behaviors.list_paragraph?.empty_message && (

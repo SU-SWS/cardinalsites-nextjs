@@ -84,7 +84,7 @@ const TabsInner = ({
 
 export const Tabs = (props: TabsProps) => {
   return (
-    <Suspense fallback={null}>
+    <Suspense>
       <TabsInner {...props} />
     </Suspense>
   )

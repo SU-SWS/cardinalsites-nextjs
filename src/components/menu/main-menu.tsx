@@ -10,16 +10,20 @@ import {
 } from "@components/menu/main-menu.client"
 import Link from "@components/elements/link"
 
-const MainMenu = async () => {
+type Props = {
+  hideSearch?: boolean
+}
+
+const MainMenu = async ({hideSearch}: Props) => {
   const menuItems = await getMenu(MenuAvailable.Main, 3)
   const headerLinks = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteHeaderLinks"]>(
     "StanfordBasicSiteSetting",
     "suSiteHeaderLinks"
   )
-
+  if (!menuItems.length && !headerLinks?.length && hideSearch) return null
   return (
     <MainMenuClientWrapper aria-label="Main Navigation" className="lg:centered">
-      <SiteSearchForm className="px-10 lg:hidden" />
+      {!hideSearch && <SiteSearchForm className="px-10 lg:hidden" />}
       {headerLinks?.[0].url && (
         <ul className="list-unstyled mx-auto flex w-fit flex-wrap gap-10 pl-16 pt-5 lg:hidden">
           {headerLinks.map((link, i) => (
@@ -56,6 +60,7 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
       link={
         <>
           <MainMenuItemClientLink
+            prefetch={level === 0}
             id={id}
             href={url || "#"}
             className={twMerge(

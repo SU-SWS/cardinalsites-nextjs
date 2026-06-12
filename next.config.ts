@@ -4,13 +4,10 @@ import {vaultEnvVars} from "./vault-envars"
 
 const drupalUrl = new URL(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)
 
-module.exports = async (_phase: string, {defaultConfig}: {defaultConfig: NextConfig}) => {
+module.exports = async (_phase: string) => {
   const nextConfig: NextConfig = {
-    ...defaultConfig,
     env: {...(await vaultEnvVars())},
-    experimental: {
-      useCache: true,
-    },
+    cacheComponents: true,
     cacheLife: {
       default: {
         stale: undefined,

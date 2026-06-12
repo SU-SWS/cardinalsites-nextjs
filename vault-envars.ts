@@ -1,15 +1,15 @@
 const VAULT_ENDPOINT = "https://vault.stanford.edu"
 
+const vaultSecrets = new Map()
+
 export const vaultEnvVars = async (): Promise<Record<string, string>> => {
-  "use cache"
-  // @ts-expect-error Process is a global variable.
+  "use cache: remote"
+  if (vaultSecrets.size) return Object.fromEntries(vaultSecrets)
+
   const {VAULT_ROLE_ID, VAULT_SECRET_ID, VAULT_PATH} = process.env
   if (!VAULT_ROLE_ID || !VAULT_SECRET_ID || !VAULT_PATH) {
-    console.warn("[Vault] No credentials found")
     return {}
   }
-
-  const vaultSecrets: Record<string, string> = {}
 
   try {
     // Authenticate with AppRole to obtain a client token. Can't use node-vault due when this is executed.
@@ -50,15 +50,14 @@ export const vaultEnvVars = async (): Promise<Record<string, string>> => {
 
     // Fetch each secret and add it to the environment, skipping local overrides.
     for (const key of Object.keys(secrets)) {
-      // @ts-expect-error Process is a global variable.
       if (process.env[key]) continue
-      vaultSecrets[key] = String(secrets[key])
+      vaultSecrets.set(key, String(secrets[key]))
     }
 
     // eslint-disable-next-line
-    console.log("[Vault] Secrets loaded successfully: ", Object.keys(vaultSecrets))
+    console.log("[Vault] Secrets loaded successfully: ", vaultSecrets.keys())
   } catch (error) {
     console.error("[Vault] Failed to load secrets during boot:", error)
   }
-  return vaultSecrets
+  return Object.fromEntries(vaultSecrets)
 }

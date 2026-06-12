@@ -66,7 +66,6 @@ const GalleryImage = ({
           className="relative block h-full w-full"
           rel="nofollow"
           scroll={false}
-          prefetch={false}
         >
           <Image
             className="object-cover"

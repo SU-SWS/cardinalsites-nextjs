@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 }
 
 const Page = async () => {
-  "use cache"
   return (
     <InteriorPage>
       <H1 className="mt-32">Site Log In</H1>

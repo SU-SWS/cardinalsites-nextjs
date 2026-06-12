@@ -1,11 +1,10 @@
 import Wysiwyg from "@components/elements/wysiwyg"
 import StanfordPolicyCard from "@components/nodes/cards/stanford-policy/stanford-policy-card"
 import StringWithLines from "@components/elements/string-with-lines"
-import {HtmlHTMLAttributes, Suspense} from "react"
+import {HtmlHTMLAttributes} from "react"
 import {H1, H2, H3} from "@components/elements/headers"
 import {BookLink, NodeInterface, NodeStanfordPolicy} from "@lib/gql/__generated__/graphql"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
-import {ImageCardSkeleton} from "@components/patterns/image-card"
 import InteriorPage from "@components/layouts/interior-page"
 import Button from "@components/elements/button"
 import {ChevronLeftIcon} from "@heroicons/react/16/solid"
@@ -136,9 +135,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
           <ul className="list-unstyled grid gap-20 lg:grid-cols-3">
             {node.suPolicyRelated.map(policy => (
               <li key={policy.uuid}>
-                <Suspense fallback={<ImageCardSkeleton />}>
-                  <RelatedPolicy path={policy.path} />
-                </Suspense>
+                <RelatedPolicy path={policy.path} />
               </li>
             ))}
           </ul>

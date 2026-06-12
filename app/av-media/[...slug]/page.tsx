@@ -22,7 +22,7 @@ export const maxDuration = 30
 type Param = {slug: Array<string>}
 
 const Page = async ({params}: {params: Promise<Param>}) => {
-  "use cache"
+  "use cache: remote"
 
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
@@ -47,7 +47,7 @@ const Page = async ({params}: {params: Promise<Param>}) => {
 export const generateStaticParams = async () => {
   let fetchMore = true
   let after: AudioVisualQueryVariables["after"] = undefined
-  const slugs: Array<Param> = [{slug: [""]}]
+  const slugs: Array<Param> = [{slug: ["none"]}]
 
   // Only build pages if we should build everything by using -1 for BUILD_PAGES.
   if (!process.env.BUILD_PAGES || Number(process.env.BUILD_PAGES) > -1) return slugs

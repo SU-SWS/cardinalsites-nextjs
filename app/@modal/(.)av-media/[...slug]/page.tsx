@@ -3,12 +3,13 @@ import {MediaDocument, MediaQuery} from "@lib/gql/__generated__/graphql"
 import InterceptionModal from "@components/elements/interception-modal"
 import Oembed from "@components/elements/ombed"
 import {notFound} from "next/navigation"
+import {Slug} from "@lib/utils/utils"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
 const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
-  "use cache"
+  "use cache: remote"
 
   const uuid = (await params).slug.at(-1)
   if (!uuid) notFound()
@@ -22,4 +23,9 @@ const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
     </InterceptionModal>
   )
 }
+
+export const generateStaticParams = async (): Promise<Array<Slug>> => {
+  return [{slug: ["none"]}]
+}
+
 export default Page

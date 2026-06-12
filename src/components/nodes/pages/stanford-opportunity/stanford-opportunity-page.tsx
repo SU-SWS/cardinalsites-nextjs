@@ -113,11 +113,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
               {node.suOppContactEmail && <div>{node.suOppContactEmail}</div>}
               {node.suOppContactName && <div>{node.suOppContactName}</div>}
               {node.suOppContactPhone && <Telephone tel={node.suOppContactPhone}>{node.suOppContactPhone}</Telephone>}
-              {node.suOppContactUrl && (
-                <Link href={node.suOppContactUrl.url || "#"} prefetch={false}>
-                  {node.suOppContactUrl.title}
-                </Link>
-              )}
+              {node.suOppContactUrl && <Link href={node.suOppContactUrl.url || "#"}>{node.suOppContactUrl.title}</Link>}
             </div>
           )}
           {node.suOppCtaUrl?.url && (

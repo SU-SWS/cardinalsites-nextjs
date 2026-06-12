@@ -13,7 +13,7 @@ type Props = {
 export const maxDuration = 30
 
 const Page = async (props: Props) => {
-  "use cache"
+  "use cache: remote"
 
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
@@ -91,6 +91,10 @@ const Page = async (props: Props) => {
       })}
     </InterceptionModal>
   )
+}
+
+export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => {
+  return [{uuid: ["none"]}]
 }
 
 export default Page

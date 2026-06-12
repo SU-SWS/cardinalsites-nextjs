@@ -16,13 +16,17 @@ const PageHeader = async ({...props}: Props) => {
     StanfordBasicSiteSetting,
     StanfordBasicSiteSetting["suSiteHeaderButton"]
   >("StanfordBasicSiteSetting", "suSiteHeaderButton")
+  const hideSearch =
+    (await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suHideSiteSearch"]>(
+      "StanfordBasicSiteSetting",
+      "suHideSiteSearch"
+    )) === true
 
   return (
     <header {...props} className={twMerge("shadow-lg", props.className)}>
       <div className="bg-cardinal-red">
         <div className="centered flex items-center justify-between py-3">
           <Link
-            prefetch={false}
             className="font-stanford text-20 font-regular leading-none text-white no-underline hocus:text-white hocus:underline"
             href="https://www.stanford.edu"
           >
@@ -46,12 +50,12 @@ const PageHeader = async ({...props}: Props) => {
             <Lockup />
             <div>
               <UtilityNav />
-              <SiteSearchForm className="hidden lg:block" />
+              {!hideSearch && <SiteSearchForm className="hidden lg:block" />}
             </div>
           </div>
         </div>
 
-        <MainMenu />
+        <MainMenu hideSearch={hideSearch} />
       </div>
     </header>
   )
