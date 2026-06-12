@@ -42,7 +42,11 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
           </Suspense>
         )}
 
-        {!appId && <SiteSearch search={searchQuery || ""} />}
+        {!appId && (
+          <Suspense>
+            <SiteSearch search={searchQuery || ""} />
+          </Suspense>
+        )}
         <noscript>Please enable javascript to view search results</noscript>
       </div>
     </div>
