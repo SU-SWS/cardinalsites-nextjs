@@ -1,3 +1,5 @@
+import {INFINITE_CACHE} from "next/dist/lib/constants"
+
 const VAULT_ENDPOINT = "https://vault.stanford.edu"
 
 const vaultSecrets = new Map()
@@ -15,6 +17,7 @@ export const vaultEnvVars = async (): Promise<Record<string, string>> => {
     // Authenticate with AppRole to obtain a client token. Can't use node-vault due when this is executed.
     const loginRes = await fetch(`${VAULT_ENDPOINT}/v1/auth/approle/login`, {
       method: "POST",
+      next: {revalidate: 3599, tags: ["vault"]},
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({role_id: VAULT_ROLE_ID, secret_id: VAULT_SECRET_ID}),
     })
@@ -32,6 +35,7 @@ export const vaultEnvVars = async (): Promise<Record<string, string>> => {
 
     // List all secret keys available at the vault path.
     const listRes = await fetch(`${VAULT_ENDPOINT}/v1/${VAULT_PATH}`, {
+      next: {revalidate: INFINITE_CACHE, tags: ["vault"]},
       headers: {"X-Vault-Token": token},
     })
 

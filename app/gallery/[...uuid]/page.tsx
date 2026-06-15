@@ -3,6 +3,7 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
+import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 export const metadata = {
   title: "Gallery Image",
@@ -24,7 +25,10 @@ const Page = async (props: Props) => {
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 
-  const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
+  const paragraphQuery = await graphqlClient({next: {revalidate: INFINITE_CACHE}}).request<ParagraphQuery>(
+    ParagraphDocument,
+    {uuid: paragraphId}
+  )
   if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()
 
   const paragraph = paragraphQuery.paragraph as ParagraphStanfordGallery

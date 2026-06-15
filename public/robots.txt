@@ -2,4 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /search
+Dissallow: /sites/
 crawl-delay: 30

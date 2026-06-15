@@ -47,6 +47,7 @@ import {
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {cacheTag} from "next/dist/server/use-cache/cache-tag"
+import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 export const VIEW_PAGE_SIZE = 21
 
@@ -77,9 +78,10 @@ export const getViewPagedItems = async (
     stanford_person: "views:stanford_person",
     stanford_publications: "views:stanford_publication",
   }
-  cacheTag("all-entities", "views", viewTags[viewId] || "views:all")
+  const tags = ["all-entities", "views", viewTags[viewId] || "views:all"]
+  cacheTag(...tags)
 
-  const client = graphqlClient()
+  const client = graphqlClient({next: {revalidate: INFINITE_CACHE, tags}})
   let contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
   let graphqlResponse
   let sortKey

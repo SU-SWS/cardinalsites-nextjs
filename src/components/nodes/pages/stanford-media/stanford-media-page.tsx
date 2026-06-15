@@ -13,6 +13,7 @@ import twMerge from "@lib/utils/twMerge"
 import {clsx} from "clsx"
 import Image from "next/image"
 import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
+import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -32,7 +33,9 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
   const topics = node.suMediaTypes?.slice(0, 3)
   const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
+    ? await graphqlClient({
+        next: {revalidate: INFINITE_CACHE, tags: ["paths", `paths:${node.path}`]},
+      }).request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
     : undefined
   const upNextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
     item => item.uuid !== node.uuid

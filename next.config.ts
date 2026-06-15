@@ -87,6 +87,7 @@ module.exports = async (_phase: string) => {
       ]
     },
     async rewrites() {
+      // Rewrite document urls so the user doesn't change domains. They will stay on the FE.
       return [
         {
           source: "/files/:site(\\w+)/:slug(.*[txt|rtf|doc|docx|ppt|pptx|xls|xlsx|pdf]$)",

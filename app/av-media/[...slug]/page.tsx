@@ -11,6 +11,7 @@ import {
 import Oembed from "@components/elements/ombed"
 import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
+import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -28,7 +29,7 @@ const Page = async ({params}: {params: Promise<Param>}) => {
   const uuid = (await params).slug.at(-1)
   const nodePath = getPathFromContext(slug)
 
-  const media = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
+  const media = await graphqlClient({next: {revalidate: INFINITE_CACHE}}).request<MediaQuery>(MediaDocument, {uuid})
   if (media.media?.__typename !== "MediaVideo") return null
 
   return (
@@ -53,13 +54,13 @@ export const generateStaticParams = async () => {
   if (!process.env.BUILD_PAGES || Number(process.env.BUILD_PAGES) > -1) return slugs
 
   while (fetchMore) {
-    const query: AudioVisualQuery = await graphqlClient().request<AudioVisualQuery, AudioVisualQueryVariables>(
-      AudioVisualDocument,
-      {
-        first: 1000,
-        after,
-      }
-    )
+    const query: AudioVisualQuery = await graphqlClient({next: {revalidate: INFINITE_CACHE}}).request<
+      AudioVisualQuery,
+      AudioVisualQueryVariables
+    >(AudioVisualDocument, {
+      first: 1000,
+      after,
+    })
     fetchMore = false
 
     query.nodeStanfordMediaItems?.nodes.forEach(node => {

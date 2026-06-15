@@ -1,5 +1,6 @@
 "use cache: remote"
 
+import {INFINITE_CACHE} from "next/dist/lib/constants"
 import {
   AllNodesQuery,
   AllNodesQueryVariables,
@@ -61,15 +62,19 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   entity?: T
   redirect?: RouteRedirect["url"]
 }> => {
-  cacheTag("all-entities", "paths", `paths:${path}`)
+  const tags = ["all-entities", "paths", `paths:${path}`]
+  cacheTag(...tags)
 
   let query: RouteQuery
 
   try {
-    query = await graphqlClient(undefined, previewMode).request<RouteQuery>(RouteDocument, {
-      path,
-      teaser: !!teaser,
-    })
+    query = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}, previewMode).request<RouteQuery>(
+      RouteDocument,
+      {
+        path,
+        teaser: !!teaser,
+      }
+    )
   } catch (e) {
     if (e instanceof ClientError) {
       // The Drupal GraphQL module attaches a human-readable `debugMessage` alongside the
@@ -105,11 +110,14 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  cacheTag("all-entities", "config-pages")
+  const tags = ["all-entities", "config-pages"]
+  cacheTag(...tags)
 
   let query: ConfigPagesQuery
   try {
-    query = await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
+    query = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}).request<ConfigPagesQuery>(
+      ConfigPagesDocument
+    )
   } catch (e) {
     console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
     return
@@ -156,11 +164,14 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   const homePath = await getHomePagePath()
   const menuName = name?.toLowerCase() ?? "main"
-  cacheTag("all-entities", "menus", `menu:${menuName}`)
+  const tags = ["all-entities", "menus", `menu:${menuName}`]
+  cacheTag(...tags)
 
   let menuItems: MenuItem[] = []
   try {
-    const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
+    const menu = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}).request<MenuQuery>(MenuDocument, {
+      name,
+    })
     menuItems = (menu.menu?.items ?? []) as MenuItem[]
   } catch (_e) {
     console.error("Unable to fetch menu")
@@ -193,14 +204,17 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
-  cacheTag("all-entities", "nodes")
+  const tags = ["all-entities", "nodes"]
+  cacheTag(...tags)
 
   const nodes: NodeUnion[] = []
   let fetchMore = true
   const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
   while (fetchMore) {
-    const nodeQuery = await graphqlClient().request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
+    const nodeQuery = await graphqlClient({
+      next: {revalidate: INFINITE_CACHE, tags},
+    }).request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
     const queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
     fetchMore = false
 
@@ -219,7 +233,8 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
-  cacheTag("all-entities", "redirects")
+  const tags = ["all-entities", "redirects"]
+  cacheTag(...tags)
 
   const paths: Array<string> = []
   let fetchMore = true
@@ -227,13 +242,13 @@ export const getAllRedirectPaths = async () => {
 
   while (fetchMore) {
     // Need to act like it's in preview mode to bypass access restriction.
-    const redirectsQuery: AllRedirectsQuery = await graphqlClient(undefined, true).request<AllRedirectsQuery>(
-      AllRedirectsDocument,
-      {
-        first: 1000,
-        after,
-      }
-    )
+    const redirectsQuery: AllRedirectsQuery = await graphqlClient(
+      {next: {revalidate: INFINITE_CACHE, tags}},
+      true
+    ).request<AllRedirectsQuery>(AllRedirectsDocument, {
+      first: 1000,
+      after,
+    })
 
     redirectsQuery.redirects.nodes.forEach(redirect => paths.push(redirect.redirectSource.url))
 
@@ -297,35 +312,39 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
-  cacheTag("all-entities", "taxonomy", `taxonomy:${vocab}`)
+  const tags = ["all-entities", "taxonomy", `taxonomy:${vocab}`]
+  cacheTag(...tags)
+  const requestConfig = {next: {revalidate: INFINITE_CACHE, tags}}
 
   switch (vocab) {
     case FilterVocabs.Courses:
-      return (await graphqlClient().request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument)).termCourseFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<CourseFiltersTermsQuery>(CourseFiltersTermsDocument))
+        .termCourseFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Events:
-      return (await graphqlClient().request<EventFiltersTermsQuery>(EventFiltersTermsDocument)).termEventFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<EventFiltersTermsQuery>(EventFiltersTermsDocument))
+        .termEventFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Media:
-      return (await graphqlClient().request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument))
-        .termMediaContentFilters.nodes as unknown as TermInterface[]
+      return (
+        await graphqlClient(requestConfig).request<MediaContentFiltersTermsQuery>(MediaContentFiltersTermsDocument)
+      ).termMediaContentFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.News:
-      return (await graphqlClient().request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument))
-        .termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
+      return (
+        await graphqlClient(requestConfig).request<NewsSpotlightFiltersTermsQuery>(NewsSpotlightFiltersTermsDocument)
+      ).termStanfordNewsSpotlightFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Opportunities:
-      return (await graphqlClient().request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
+      return (await graphqlClient(requestConfig).request<OpportunityFiltersTermsQuery>(OpportunityFiltersTermsDocument))
         .termOpportunityTagFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.People:
-      return (await graphqlClient().request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument)).termPersonFilters
-        .nodes as unknown as TermInterface[]
+      return (await graphqlClient(requestConfig).request<PersonFiltersTermsQuery>(PersonFiltersTermsDocument))
+        .termPersonFilters.nodes as unknown as TermInterface[]
 
     case FilterVocabs.Publications:
-      return (await graphqlClient().request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
+      return (await graphqlClient(requestConfig).request<PublicationFiltersTermsQuery>(PublicationFiltersTermsDocument))
         .termPublicationFilters.nodes as unknown as TermInterface[]
   }
   return []
