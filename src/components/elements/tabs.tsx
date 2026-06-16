@@ -1,6 +1,6 @@
 "use client"
 
-import {Suspense, useCallback, useState} from "react"
+import {useCallback, useState} from "react"
 import {useRouter, useSearchParams} from "next/navigation"
 import {
   Tabs as BaseTabs,
@@ -40,42 +40,31 @@ const TabsInner = ({
   // When queryKey is set, manage controlled state initialized from the URL (or defaultValue).
   // This avoids "changing defaultValue of an uncontrolled component" since queryValue changes
   // on every tab click as the URL updates.
-  const [activeTab, setActiveTab] = useState<TabsTab.Value | undefined>(() => queryValue ?? defaultValue)
+  const [activeTab, setActiveTab] = useState<TabsTab.Value | undefined>(
+    queryKey ? queryValue || defaultValue : defaultValue
+  )
 
   const handleValueChange = useCallback(
     (newValue: TabsTab.Value, eventDetails: TabsRoot.ChangeEventDetails) => {
       if (queryKey && newValue) {
         const params = new URLSearchParams(searchParams.toString())
-        params.set(queryKey, String(newValue))
+        params.delete(queryKey)
+        if (newValue !== defaultValue) params.set(queryKey, String(newValue))
         router.replace(`?${params.toString()}`, {scroll: false})
         setActiveTab(newValue)
       }
       onValueChange?.(newValue, eventDetails)
     },
-    [queryKey, onValueChange, router, searchParams]
+    [queryKey, onValueChange, router, searchParams, defaultValue]
   )
-
-  if (queryKey) {
-    return (
-      <BaseTabs.Root
-        {...props}
-        className={twMerge("centered flex gap-5", clsx({"flex-col": !isVertical}), className)}
-        value={value ?? activeTab}
-        orientation={isVertical ? "vertical" : "horizontal"}
-        onValueChange={handleValueChange}
-      >
-        {children}
-      </BaseTabs.Root>
-    )
-  }
 
   return (
     <BaseTabs.Root
       {...props}
-      value={value}
-      defaultValue={defaultValue}
+      className={twMerge("centered flex gap-5", clsx({"flex-col": !isVertical}), className)}
+      value={activeTab}
       orientation={isVertical ? "vertical" : "horizontal"}
-      onValueChange={onValueChange}
+      onValueChange={handleValueChange}
     >
       {children}
     </BaseTabs.Root>
@@ -83,11 +72,7 @@ const TabsInner = ({
 }
 
 export const Tabs = (props: TabsProps) => {
-  return (
-    <Suspense>
-      <TabsInner {...props} />
-    </Suspense>
-  )
+  return <TabsInner {...props} />
 }
 
 type ListProps = TabsListProps & {
@@ -128,9 +113,5 @@ type TabPanelProps = TabsPanelProps & {
 }
 
 export const TabPanel = ({className, children, ...props}: TabPanelProps) => {
-  return (
-    <BaseTabs.Panel {...props} className={twMerge("border border-black-20 p-10 shadow-lg", className)}>
-      {children}
-    </BaseTabs.Panel>
-  )
+  return <BaseTabs.Panel {...props}>{children}</BaseTabs.Panel>
 }

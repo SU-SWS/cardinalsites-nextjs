@@ -36,18 +36,20 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
           Search
         </H1>
 
-        {appId && indexName && apiKey && (
-          <Suspense>
-            <AlgoliaSearch appId={appId} searchIndex={indexName} searchApiKey={apiKey} />
-          </Suspense>
-        )}
+        <div>
+          {appId && indexName && apiKey && (
+            <Suspense>
+              <AlgoliaSearch appId={appId} searchIndex={indexName} searchApiKey={apiKey} />
+            </Suspense>
+          )}
 
-        {!appId && (
-          <Suspense>
-            <SiteSearch search={searchQuery || ""} />
-          </Suspense>
-        )}
-        <noscript>Please enable javascript to view search results</noscript>
+          {!appId && (
+            <Suspense>
+              <SiteSearch search={searchQuery || ""} />
+            </Suspense>
+          )}
+          <noscript>Please enable javascript to view search results</noscript>
+        </div>
       </div>
     </div>
   )

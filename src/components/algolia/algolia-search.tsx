@@ -7,6 +7,7 @@ import {useRef} from "react"
 import Button from "@components/elements/button"
 import {UseSearchBoxProps} from "react-instantsearch"
 import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default"
+import {usePathname} from "next/navigation"
 
 type Props = {
   appId: string
@@ -15,37 +16,37 @@ type Props = {
 }
 
 const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
+  const pathname = usePathname()
   const searchClient = liteClient(appId, searchApiKey)
 
   return (
-    <div>
-      <InstantSearchNext
-        indexName={searchIndex}
-        searchClient={searchClient}
-        future={{preserveSharedStateOnUnmount: true}}
-        insights={true}
-        routing={{
-          router: {cleanUrlOnDispose: false},
-          stateMapping: {
-            stateToRoute(uiState): Record<string, string> {
-              const indexUiState = uiState[searchIndex]
-              if (indexUiState.query) return {q: indexUiState.query}
-              return {}
-            },
-            routeToState(routeState: Record<string, string>) {
-              return {
-                [searchIndex]: {query: routeState.q},
-              }
-            },
+    <InstantSearchNext
+      key={pathname}
+      indexName={searchIndex}
+      searchClient={searchClient}
+      future={{preserveSharedStateOnUnmount: true}}
+      insights={true}
+      routing={{
+        router: {cleanUrlOnDispose: false},
+        stateMapping: {
+          stateToRoute(uiState): Record<string, string> {
+            const indexUiState = uiState[searchIndex]
+            if (indexUiState.query) return {q: indexUiState.query}
+            return {}
           },
-        }}
-      >
-        <div className="space-y-10">
-          <SearchBox />
-          <HitList />
-        </div>
-      </InstantSearchNext>
-    </div>
+          routeToState(routeState: Record<string, string>) {
+            return {
+              [searchIndex]: {query: routeState.q},
+            }
+          },
+        },
+      }}
+    >
+      <div className="space-y-10">
+        <SearchBox />
+        <HitList />
+      </div>
+    </InstantSearchNext>
   )
 }
 
