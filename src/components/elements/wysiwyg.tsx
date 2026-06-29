@@ -9,6 +9,7 @@ import twMerge from "@lib/utils/twMerge"
 import {Maybe} from "@lib/gql/__generated__/graphql"
 import Mathjax from "@components/tools/mathjax"
 import clsx from "clsx"
+import Script from "next/script"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -53,6 +54,7 @@ const options: HTMLReactParserOptions = {
           )
 
         case "div":
+        case "article":
           delete nodeProps.role
           if (nodeProps.className?.includes("media-entity-wrapper")) {
             return cleanMediaMarkup(domNode)
@@ -67,7 +69,7 @@ const options: HTMLReactParserOptions = {
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
 
         case "script":
-          return <></>
+          return <Script {...nodeProps}>{domToReact(children, options)}</Script>
 
         case "h2":
           return <H2 {...nodeProps}>{domToReact(children, options)}</H2>
