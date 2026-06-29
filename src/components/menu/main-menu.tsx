@@ -21,6 +21,7 @@ const MainMenu = async ({hideSearch}: Props) => {
     "suSiteHeaderLinks"
   )
   if (!menuItems.length && !headerLinks?.length && hideSearch) return null
+
   return (
     <MainMenuClientWrapper aria-label="Main Navigation" className="lg:centered">
       {!hideSearch && <SiteSearchForm className="px-10 lg:hidden" />}
@@ -77,11 +78,13 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
           >
             {title}
           </MainMenuItemClientLink>
-          {level === 0 && <span className="mb-[6px] ml-5 hidden h-[25px] w-[1px] bg-archway-light lg:block" />}
+          {level === 0 && !!children.length && (
+            <span className="mb-[6px] ml-5 hidden h-[25px] w-[1px] bg-archway-light lg:block" />
+          )}
         </>
       }
     >
-      {children.length > 0 && (
+      {!!children.length && (
         <ul
           className={twMerge(
             "list-unstyled col-span-10 w-full min-w-[300px] px-0 lg:bg-white",
