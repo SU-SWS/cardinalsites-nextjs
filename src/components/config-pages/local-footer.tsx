@@ -102,8 +102,10 @@ const LocalFooter = async ({...props}: Props) => {
           </div>
 
           <div>
-            {localFooterConfig.suLocalFootPrimeH && <H2 className="type-0">{localFooterConfig.suLocalFootPrimeH}</H2>}
-            {localFooterConfig.suLocalFootPrimary && (
+            {localFooterConfig.suLocalFootPrimeH && !!localFooterConfig.suLocalFootPrimary?.length && (
+              <H2 className="type-0">{localFooterConfig.suLocalFootPrimeH}</H2>
+            )}
+            {!!localFooterConfig.suLocalFootPrimary?.length && (
               <ul className="list-unstyled">
                 {localFooterConfig.suLocalFootPrimary.map((link, index) => {
                   if (!link.url) return
@@ -121,9 +123,10 @@ const LocalFooter = async ({...props}: Props) => {
           </div>
 
           <div>
-            {localFooterConfig.suLocalFootSecondH && <H2 className="type-0">{localFooterConfig.suLocalFootSecondH}</H2>}
-
-            {localFooterConfig.suLocalFootSecond && (
+            {localFooterConfig.suLocalFootSecondH && !!localFooterConfig.suLocalFootSecond?.length && (
+              <H2 className="type-0">{localFooterConfig.suLocalFootSecondH}</H2>
+            )}
+            {!!localFooterConfig.suLocalFootSecond?.length && (
               <ul className="list-unstyled">
                 {localFooterConfig.suLocalFootSecond.map((link, index) => {
                   if (!link.url) return
