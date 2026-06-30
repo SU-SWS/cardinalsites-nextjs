@@ -1,0 +1,37 @@
+
+name: Update Dev & Test Branches
+on:
+  push:
+    branches:
+      - '1.x'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  update-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: 1.x
+      - name: Set git settings
+        run: |
+          git config --global user.email "sws-developers@lists.stanford.edu"
+          git config --global user.name "Github Actions"
+      - name: Update Dev Branch
+        run: |
+          git checkout 1.x
+          git pull
+          git checkout dev
+          git pull
+          git rebase 1.x
+          git push -f
+      - name: Update Test Branch
+        run: |
+          git checkout 1.x
+          git pull
+          git checkout test
+          git pull
+          git rebase 1.x
+          git push -f
