@@ -1,11 +1,9 @@
 import "../src/styles/index.css"
 import {Icon} from "next/dist/lib/metadata/types/metadata-types"
 import {sourceSans3, stanford} from "../src/styles/typography/fonts"
-import DrupalWindowSync from "@components/elements/drupal-window-sync"
 import UserAnalytics from "@components/elements/user-analytics"
 import {twJoin} from "tailwind-merge"
 import GlobalPage from "@components/layouts/global-page"
-import {getHomePagePath} from "@lib/gql/gql-queries"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -36,12 +34,9 @@ export const metadata = {
 
 const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
   "use cache: remote"
-
-  const homePath = await getHomePagePath()
   return (
     <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
       <UserAnalytics />
-      <DrupalWindowSync homePath={homePath} />
       <body>
         <nav aria-label="Skip Links">
           <a href="#main-content" className="skiplink">

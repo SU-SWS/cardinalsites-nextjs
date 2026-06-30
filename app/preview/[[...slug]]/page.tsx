@@ -6,6 +6,8 @@ import {notFound} from "next/navigation"
 import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 import {isPreviewMode} from "@lib/utils/is-preview-mode"
 import {Suspense} from "react"
+import DrupalWindowSync from "@components/elements/drupal-window-sync"
+import Editorially from "@components/tools/editorially"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -14,7 +16,7 @@ const PreviewPage = async (props: PageProps) => {
   const params = await props.params
   return (
     <Suspense>
-      <Preview slug={params.slug || ["/"]} />
+      <Preview slug={params.slug || []} />
     </Suspense>
   )
 }
@@ -30,6 +32,8 @@ const Preview = async ({slug}: Slug) => {
 
   return (
     <EditorAlert status={false} message="Preview Mode">
+      <DrupalWindowSync />
+      <Editorially />
       <EditorAlert status={entity.status} message="Unpublished Page">
         <NodePage node={entity} isHome={path === homePath} />
       </EditorAlert>
