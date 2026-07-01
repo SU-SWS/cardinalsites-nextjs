@@ -1,11 +1,7 @@
 import {MetadataRoute} from "next"
 import {getAllNodes} from "@lib/gql/gql-queries"
-import {cacheLife} from "next/dist/server/use-cache/cache-life"
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  "use cache: remote"
-  cacheLife("weeks")
-
   const nodes = await getAllNodes()
   const sitemap: MetadataRoute.Sitemap = []
 

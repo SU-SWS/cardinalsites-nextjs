@@ -118,7 +118,7 @@ Authentication precedence:
 
 ## Query Helpers (`gql-queries.tsx`)
 
-All functions are annotated `"use cache: remote"` and use Next.js [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) + `cacheLife("max")` for fine-grained on-demand revalidation.
+All functions are annotated `` and use Next.js [`cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) + `cacheLife("max")` for fine-grained on-demand revalidation.
 
 ### `getEntityFromPath(path, previewMode?, teaser?)`
 Resolves a URL path to a typed entity or redirect. Used by every `[...slug]` route.
@@ -184,7 +184,7 @@ Builds a `FilterGroup[]` hierarchy from the flat `getFilterTerms` result — par
 ### `getViewPagedItems(viewId, displayId, pageSize?, contextualFilter?, page?, filter?)`
 Dispatches to the correct Drupal Views query based on `viewId--displayId`. Returns `{ items: NodeUnion[], totalItems: number }`.
 
-This is a `"use cache: remote"` function. Cache tags are set per view type (e.g. `views:stanford_event`).
+This is a `` function. Cache tags are set per view type (e.g. `views:stanford_event`).
 
 Supported `viewId--displayId` combinations:
 
@@ -258,10 +258,10 @@ FilterVocabs.Publications // "publication_filters"
 
    > After `yarn graphql` regenerates the types, `MyNewContentDocument` becomes a `TypedDocumentNode<MyNewContentQuery, MyNewContentQueryVariables>` and the explicit `<MyNewContentQuery>` generic can be dropped — the return type will be inferred automatically.
 
-4. **Add cache tags** if wrapping in a `"use cache: remote"` function:
+4. **Add cache tags** if wrapping in a `` function:
 
    ```ts
-   "use cache: remote"
+   
    import { cacheTag } from "next/dist/server/use-cache/cache-tag"
    import { cacheLife } from "next/dist/server/use-cache/cache-life"
 

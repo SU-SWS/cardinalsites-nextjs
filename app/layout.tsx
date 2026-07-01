@@ -32,8 +32,10 @@ export const metadata = {
   },
 }
 
+export const revalidate = false
+export const dynamic = "force-static"
+
 const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
-  "use cache: remote"
   return (
     <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
       <UserAnalytics />

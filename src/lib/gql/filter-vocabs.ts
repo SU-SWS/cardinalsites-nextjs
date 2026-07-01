@@ -1,4 +1,4 @@
-// Can't put this in @types/drupal because it throws an error. Can't put this in gql-queries because "use cache: remote"
+// Can't put this in @types/drupal because it throws an error. Can't put this in gql-queries because
 // directive throws an error with non-async variables.
 export enum FilterVocabs {
   Courses = "course_filters",

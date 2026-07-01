@@ -1,6 +1,3 @@
-"use cache: remote"
-
-import {INFINITE_CACHE} from "next/dist/lib/constants"
 import {
   AllNodesQuery,
   AllNodesQueryVariables,
@@ -38,7 +35,6 @@ import {
 import {graphqlClient} from "@lib/gql/gql-client"
 import {ClientError} from "graphql-request"
 import {GraphQLError} from "graphql/error"
-import {cacheTag} from "next/dist/server/use-cache/cache-tag"
 import {FilterGroup} from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
 
@@ -62,19 +58,16 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   entity?: T
   redirect?: RouteRedirect["url"]
 }> => {
-  const tags = ["all-entities", "paths", `paths:${path}`]
-  cacheTag(...tags)
-
   let query: RouteQuery
 
   try {
-    query = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}, previewMode).request<RouteQuery>(
-      RouteDocument,
-      {
-        path,
-        teaser: !!teaser,
-      }
-    )
+    query = await graphqlClient(
+      {next: {tags: ["all-entities", "paths", `paths:${path}`]}},
+      previewMode
+    ).request<RouteQuery>(RouteDocument, {
+      path,
+      teaser: !!teaser,
+    })
   } catch (e) {
     if (e instanceof ClientError) {
       // The Drupal GraphQL module attaches a human-readable `debugMessage` alongside the
@@ -110,12 +103,9 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  const tags = ["all-entities", "config-pages"]
-  cacheTag(...tags)
-
   let query: ConfigPagesQuery
   try {
-    query = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}).request<ConfigPagesQuery>(
+    query = await graphqlClient({next: {tags: ["all-entities", "config-pages"]}}).request<ConfigPagesQuery>(
       ConfigPagesDocument
     )
   } catch (e) {
@@ -145,8 +135,6 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
   configPageType: ConfigPagesUnion["__typename"],
   fieldName: keyof T
 ): Promise<F | undefined> => {
-  cacheTag("all-entities", "config-pages")
-
   const configPage = await getConfigPage<T>(configPageType)
   return configPage?.[fieldName] as F
 }
@@ -164,14 +152,13 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
   const homePath = await getHomePagePath()
   const menuName = name?.toLowerCase() ?? "main"
-  const tags = ["all-entities", "menus", `menu:${menuName}`]
-  cacheTag(...tags)
 
   let menuItems: MenuItem[] = []
   try {
-    const menu = await graphqlClient({next: {revalidate: INFINITE_CACHE, tags}}).request<MenuQuery>(MenuDocument, {
-      name,
-    })
+    const menu = await graphqlClient({next: {tags: ["all-entities", "menus", `menu:${menuName}`]}}).request<MenuQuery>(
+      MenuDocument,
+      {name}
+    )
     menuItems = (menu.menu?.items ?? []) as MenuItem[]
   } catch (_e) {
     console.error("Unable to fetch menu")
@@ -204,16 +191,13 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
-  const tags = ["all-entities", "nodes"]
-  cacheTag(...tags)
-
   const nodes: NodeUnion[] = []
   let fetchMore = true
   const cursors: Omit<AllNodesQueryVariables, "first"> = {}
 
   while (fetchMore) {
     const nodeQuery = await graphqlClient({
-      next: {revalidate: INFINITE_CACHE, tags},
+      next: {tags: ["all-entities", "nodes"]},
     }).request<AllNodesQuery>(AllNodesDocument, {first: 1000, ...cursors})
     const queryKeys = Object.keys(nodeQuery) as (keyof AllNodesQuery)[]
     fetchMore = false
@@ -233,9 +217,6 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
-  const tags = ["all-entities", "redirects"]
-  cacheTag(...tags)
-
   const paths: Array<string> = []
   let fetchMore = true
   let after = undefined
@@ -243,7 +224,7 @@ export const getAllRedirectPaths = async () => {
   while (fetchMore) {
     // Need to act like it's in preview mode to bypass access restriction.
     const redirectsQuery: AllRedirectsQuery = await graphqlClient(
-      {next: {revalidate: INFINITE_CACHE, tags}},
+      {next: {tags: ["all-entities", "redirects"]}},
       true
     ).request<AllRedirectsQuery>(AllRedirectsDocument, {
       first: 1000,
@@ -272,8 +253,6 @@ export const getAllRedirectPaths = async () => {
  * - `ALGOLIA_KEY`   — Search-only API key
  */
 export const getAlgoliaCredential = async () => {
-  cacheTag("all-entities", "algolia", "config-pages")
-
   if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
     return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
   }
@@ -296,8 +275,6 @@ export const getAlgoliaCredential = async () => {
  * of `/`.
  */
 export const getHomePagePath = async () => {
-  cacheTag("all-entities", "paths:/")
-
   const {entity} = await getEntityFromPath("/")
   return entity?.path
 }
@@ -312,9 +289,7 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
-  const tags = ["all-entities", "taxonomy", `taxonomy:${vocab}`]
-  cacheTag(...tags)
-  const requestConfig = {next: {revalidate: INFINITE_CACHE, tags}}
+  const requestConfig = {next: {tags: ["all-entities", "taxonomy", `taxonomy:${vocab}`]}}
 
   switch (vocab) {
     case FilterVocabs.Courses:

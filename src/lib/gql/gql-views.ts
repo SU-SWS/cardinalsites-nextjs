@@ -46,8 +46,6 @@ import {
   SearchFilterInput,
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {cacheTag} from "next/dist/server/use-cache/cache-tag"
-import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 export const VIEW_PAGE_SIZE = 21
 
@@ -61,8 +59,6 @@ export const getViewPagedItems = async (
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<{items: NodeUnion[]; totalItems: number}> => {
-  "use cache: remote"
-
   let items: NodeUnion[] = []
   let totalItems = 0
   // View filters allow multiples of 3 for page sizes. If the user wants 4, we'll fetch 6 and then slice it at the end.
@@ -79,9 +75,8 @@ export const getViewPagedItems = async (
     stanford_publications: "views:stanford_publication",
   }
   const tags = ["all-entities", "views", viewTags[viewId] || "views:all"]
-  cacheTag(...tags)
 
-  const client = graphqlClient({next: {revalidate: INFINITE_CACHE, tags}})
+  const client = graphqlClient({next: {tags}})
   let contextualFilters = getContextualFilters(["term_node_taxonomy_name_depth"], contextualFilter)
   let graphqlResponse
   let sortKey

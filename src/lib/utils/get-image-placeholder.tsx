@@ -7,7 +7,6 @@ type ReturnProps = {
 }
 
 export const getImagePlaceholder = async (src: string): Promise<ReturnProps> => {
-  "use cache: remote"
   if (!src.includes(process.env.NEXT_PUBLIC_DRUPAL_BASE_URL as string)) return {}
 
   try {

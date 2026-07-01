@@ -8,8 +8,6 @@ import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 export const maxDuration = 30
 
 const Page = async (props: PageProps) => {
-  "use cache: remote"
-
   const params = await props.params
   const path = getPathFromContext(params.slug || "/")
   const homePath = await getHomePagePath()

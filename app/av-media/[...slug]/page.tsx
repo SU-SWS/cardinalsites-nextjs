@@ -23,8 +23,6 @@ export const maxDuration = 30
 type Param = {slug: Array<string>}
 
 const Page = async ({params}: {params: Promise<Param>}) => {
-  "use cache: remote"
-
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
   const nodePath = getPathFromContext(slug)

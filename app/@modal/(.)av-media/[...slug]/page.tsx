@@ -10,8 +10,6 @@ import {INFINITE_CACHE} from "next/dist/lib/constants"
 export const maxDuration = 30
 
 const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
-  "use cache: remote"
-
   const uuid = (await params).slug.at(-1)
   if (!uuid) notFound()
 

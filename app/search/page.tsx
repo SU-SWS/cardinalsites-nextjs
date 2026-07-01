@@ -9,6 +9,8 @@ import {notFound} from "next/navigation"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
+export const revalidate = false
+export const dynamic = "force-static"
 
 export const metadata: Metadata = {
   title: "Search",
