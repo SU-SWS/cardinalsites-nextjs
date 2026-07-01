@@ -3,10 +3,17 @@
 import {usePathname} from "next/navigation"
 import {useIsClient} from "usehooks-ts"
 import {Maybe} from "@lib/gql/__generated__/graphql"
+import {useEffect} from "react"
 
 const DrupalWindowSync = ({homePath}: {homePath?: Maybe<string>}) => {
   const pathname = usePathname()
-  if (!useIsClient()) return
+  const isClient = useIsClient()
+
+  useEffect(() => {
+    if (isClient) fetch("/api/draft/disable").catch(_e => console.warn("Disabling preview mode failed"))
+  }, [isClient])
+
+  if (!isClient) return
 
   if (
     pathname &&

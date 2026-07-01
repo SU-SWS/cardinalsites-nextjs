@@ -6,6 +6,7 @@ import {getPathFromContext, PageProps, Slug} from "@lib/utils/utils"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
+export const dynamic = "force-static"
 
 const Page = async (props: PageProps) => {
   const params = await props.params

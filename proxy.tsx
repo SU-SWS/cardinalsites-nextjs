@@ -4,6 +4,13 @@ import {verifyJWT, getJWTCookieName} from "./src/lib/auth/jwt-auth"
 export const proxy = async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname
 
+  if (pathname.startsWith("/preview")) {
+    if (request.cookies.get("preview")?.value !== process.env.DRUPAL_PREVIEW_SECRET) {
+      return NextResponse.rewrite(new URL("/404", request.url))
+    }
+    return NextResponse.next()
+  }
+
   // Check for cache-clear specific route
   if (pathname.startsWith("/system")) {
     if (isAuthenticated(request)) return
@@ -63,5 +70,5 @@ const checkCacheClearAuth = (username: string, password: string): boolean => {
 // If this is changed, the directory /app/internal may need to be renamed,
 // or removed if the whole site is behind authentication.
 export const config = {
-  matcher: ["/internal/:path*", "/user", "/system/:path*"],
+  matcher: ["/preview/:path*", "/internal/:path*", "/user", "/system/:path*"],
 }
