@@ -35,9 +35,6 @@ module.exports = async (_phase: string) => {
           protocol: "https",
           hostname: "localist-images.azureedge.net",
         },
-        {
-          hostname: "**.gitpod.io",
-        },
       ],
     },
     logging: {

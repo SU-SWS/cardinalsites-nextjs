@@ -20,7 +20,14 @@ const esLintConfig = defineConfig([
       "@typescript-eslint/require-await": "off",
       "no-console": ["error", {allow: ["warn", "error"]}],
       "no-fallthrough": "off",
-      "no-restricted-syntax": ["error", "Literal[value=/text-m[\\d]/i]"],
+      "no-restricted-syntax": [
+        "error",
+        {selector: "Literal[value=/text-m[\\d]/i]", message: "text-m# is outdated and not supported."},
+      ],
+      "no-restricted-imports": [
+        "error",
+        {name: "tailwind-merge", importNames: ["twMerge"], message: "Use custom tailwind merge plugin."},
+      ],
       "prettier/prettier": ["error"],
       "@typescript-eslint/no-unused-vars": [
         "error",
