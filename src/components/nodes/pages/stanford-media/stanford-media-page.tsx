@@ -1,6 +1,6 @@
 import {redirect} from "next/navigation"
 import {H1, H2, H3} from "@components/elements/headers"
-import {HtmlHTMLAttributes} from "react"
+import {HtmlHTMLAttributes, Suspense} from "react"
 import {NodeStanfordMedia, StanfordMediaDocument, StanfordMediaQuery} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
@@ -9,10 +9,9 @@ import Button from "@components/elements/button"
 import Link from "@components/elements/link"
 import Oembed from "@components/elements/ombed"
 import {graphqlClient} from "@lib/gql/gql-client"
-import twMerge from "@lib/utils/twMerge"
-import {clsx} from "clsx"
 import Image from "next/image"
 import {getIdFromText, getTimeDuration} from "@lib/utils/text-tools"
+import {cacheTag} from "next/cache"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -31,22 +30,11 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
     : undefined
 
   const topics = node.suMediaTypes?.slice(0, 3)
-  const upNextMediaQuery = node.suMediaSeries
-    ? await graphqlClient({
-        next: {tags: ["paths", `paths:${node.path}`]},
-      }).request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
-    : undefined
-  const upNextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
-    item => item.uuid !== node.uuid
-  ) as Array<NodeStanfordMedia>
 
   return (
-    <article
-      className={twMerge("centered mt-32 gap-20", clsx({"grid grid-cols-3-1": !!upNextMedia?.length}))}
-      {...props}
-    >
+    <article className="centered mt-32 flex gap-20" {...props}>
       <NodePageMetadata pageTitle={node.title} metatags={node.metatag} backupDescription={node.suMediaDek} />
-      <div>
+      <div className="flex-grow">
         <ReverseVisualOrder className="mb-20 gap-20 border-b border-black-20 pb-20">
           <div className="flex">
             <div className="flex-grow">
@@ -129,19 +117,36 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
           </div>
         )}
       </div>
-      {!!upNextMedia?.length && (
-        <div>
-          <H2>Next</H2>
-          <ul className="list-unstyled">
-            {upNextMedia.map(media => (
-              <li key={media.uuid}>
-                <UpNextMedia media={media} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <Suspense>
+        <NextMedia node={node} />
+      </Suspense>
     </article>
+  )
+}
+
+const NextMedia = async ({node}: {node: NodeStanfordMedia}) => {
+  "use cache: remote"
+  cacheTag("paths", `paths:${node.path}`)
+  const upNextMediaQuery = node.suMediaSeries
+    ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
+    : undefined
+  const nextMedia = upNextMediaQuery?.stanfordMedia?.results.filter(
+    item => item.uuid !== node.uuid
+  ) as Array<NodeStanfordMedia>
+
+  if (!nextMedia?.length) return null
+
+  return (
+    <aside className="w-1/4">
+      <H2>Next</H2>
+      <ul className="list-unstyled">
+        {nextMedia.map(media => (
+          <li key={media.uuid}>
+            <UpNextMedia media={media} />
+          </li>
+        ))}
+      </ul>
+    </aside>
   )
 }
 

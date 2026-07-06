@@ -32,23 +32,19 @@ export const metadata = {
   },
 }
 
-export const revalidate = false
-export const dynamic = "force-static"
+const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => (
+  <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
+    <UserAnalytics />
+    <body>
+      <nav aria-label="Skip Links">
+        <a href="#main-content" className="skiplink">
+          Skip to main content
+        </a>
+      </nav>
+      <GlobalPage>{children}</GlobalPage>
+      <div>{modal}</div>
+    </body>
+  </html>
+)
 
-const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => {
-  return (
-    <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
-      <UserAnalytics />
-      <body>
-        <nav aria-label="Skip Links">
-          <a href="#main-content" className="skiplink">
-            Skip to main content
-          </a>
-        </nav>
-        <GlobalPage>{children}</GlobalPage>
-        <div>{modal}</div>
-      </body>
-    </html>
-  )
-}
 export default RootLayout

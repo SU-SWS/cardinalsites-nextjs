@@ -32,21 +32,26 @@ const Wysiwyg = ({html, className, ...props}: Props): ReactElement | undefined =
   )
 }
 
+const fixProps = (props: Record<PropertyKey, string | boolean>) => {
+  if (!props.className) delete props.className
+
+  delete props["data-entity-substitution"]
+  delete props["data-entity-type"]
+  delete props["data-entity-uuid"]
+}
+
 const options: HTMLReactParserOptions = {
   replace: domNode => {
     if (domNode instanceof Element) {
       const nodeProps = attributesToProps(domNode.attribs)
       nodeProps.className = fixClasses(nodeProps.className)
+      fixProps(nodeProps)
 
       const NodeName = domNode.name as React.ElementType
       const children: DOMNode[] = domNode.children as DOMNode[]
 
       switch (domNode.name) {
         case "a":
-          delete nodeProps["data-entity-substitution"]
-          delete nodeProps["data-entity-type"]
-          delete nodeProps["data-entity-uuid"]
-
           return (
             <Link href={nodeProps.href as string} {...nodeProps}>
               {domToReact(children, options)}
@@ -93,6 +98,17 @@ const options: HTMLReactParserOptions = {
           return <Td {...nodeProps}>{domToReact(children, options)}</Td>
         case "tr":
           return <Tr {...nodeProps}>{domToReact(children, options)}</Tr>
+        case "ul":
+          // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
+          nodeProps.className = twMerge(
+            nodeProps.className,
+            clsx({
+              "list-circle": nodeProps?.type === "circle",
+              "list-square": nodeProps?.type === "square",
+            })
+          )
+          fixProps(nodeProps)
+          return <ul {...nodeProps}>{domToReact(children, options)}</ul>
         case "ol":
           // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
           nodeProps.className = twMerge(
@@ -104,20 +120,21 @@ const options: HTMLReactParserOptions = {
               "list-upper-roman": nodeProps?.type === "I",
             })
           )
+          fixProps(nodeProps)
           return <ol {...nodeProps}>{domToReact(children, options)}</ol>
         case "hr":
           return <hr className="border-black" />
-        case "code":
+        case "pre":
           nodeProps.className = twMerge(
             nodeProps.className,
-            "bg-black-10 border border-black-20 text-black text-wrap block p-10 mb-5 rounded"
+            "[&_code]:bg-black-10 [&_code]:border [&_code]:border-black-20 [&_code]:text-black [&_code]:text-wrap [&_code]:block [&_code]:p-10 [&_code]:mb-5 [&_code]:rounded"
           )
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
+        case "code":
         case "tfoot":
         case "b":
         case "cite":
         case "dt":
-        case "pre":
         case "dl":
         case "dd":
         case "i":
@@ -125,7 +142,6 @@ const options: HTMLReactParserOptions = {
         case "abbr":
         case "span":
         case "blockquote":
-        case "ul":
         case "li":
         case "strong":
         case "em":

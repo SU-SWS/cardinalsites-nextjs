@@ -4,9 +4,9 @@ import PagedList from "@components/elements/paged-list"
 import {ViewDisplayProps} from "@components/views/view"
 import {Suspense} from "react"
 
-const NewsListView = async ({items, headingLevel, totalItems, loadPage}: ViewDisplayProps<NodeStanfordNews>) => {
+const NewsListView = ({items, headingLevel, totalItems, loadPage}: ViewDisplayProps<NodeStanfordNews>) => {
   return (
-    <Suspense>
+    <Suspense fallback={<NewsListSkeleton />}>
       <PagedList
         ulProps={{className: "list-unstyled mb-20"}}
         liProps={{

@@ -1,214 +1,283 @@
 "use client"
 
-import {useIsClient, useWindowSize} from "usehooks-ts"
-import {HTMLAttributes, useEffect, useLayoutEffect, useRef, useState} from "react"
-import useAccordion from "@hooks/useAccordion"
+import {HTMLAttributes, useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import {clsx} from "clsx"
 import twMerge from "@lib/utils/twMerge"
+import {clsx} from "clsx"
 import useOutsideClick from "@hooks/useOutsideClick"
+import OnThisPageIcon from "@components/elements/icons/OnThisPageIcon"
+import {useBoolean, useEventListener, useWindowSize} from "usehooks-ts"
 
-type Props = {
+type HeadingItem = {
+  id: string
+  text: string
+}
+
+type Props = HTMLAttributes<HTMLDivElement> & {
+  /**
+   * Display links horizontally with overflow into a "More" dropdown.
+   */
   horizontal?: boolean
 }
 
-const AnchorNav = ({horizontal}: Props) => {
-  const isClient = useIsClient()
-  if (!isClient) return null
+const AnchorNav = ({horizontal = false, ...props}: Props) => {
+  const [headings, setHeadings] = useState<HeadingItem[]>([])
+  const [visibleCount, setVisibleCount] = useState<number | null>(null)
+  const {value: overflowOpen, toggle: toggleOverflowOpen, setFalse: closeOverflow} = useBoolean(false)
+  const {value: mobileMenuOpen, toggle: toggleMobileMenu, setFalse: closeMobileMenu} = useBoolean(false)
 
-  const headings = Array.from(document.querySelectorAll("main h2[id]"))
-  const links = headings
-    .filter(heading => heading.getAttribute("id"))
-    .map(heading => ({
-      id: heading.getAttribute("id") ?? "",
-      label: heading.textContent?.trim() ?? "",
-    }))
+  const mobileButtonRef = useRef<HTMLButtonElement>(null)
+  const navRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const overflowContainerRef = useRef<HTMLLIElement>(null)
+  const overflowBtnRef = useRef<HTMLButtonElement>(null)
+  const itemWidthsRef = useRef<number[]>([])
+  const measuredRef = useRef(false)
 
-  if (!links.length) return null
-  if (horizontal) return <HorizontalNav links={links} />
-  return <VerticalNav links={links} />
-}
+  const menuButtonId = useId()
+  const menuPanelId = useId()
+  const mobilePanelId = useId()
 
-type NavProps = {links: Array<{id: string; label: string}>}
-const HorizontalNav = ({links}: NavProps) => {
-  const [visibleLinks, setVisibleLinks] = useState<NavProps["links"]>([...links])
+  const {width} = useWindowSize({initializeWithValue: false})
 
-  const {width = 0} = useWindowSize({initializeWithValue: false, debounceDelay: 100})
-  const {buttonProps, panelProps, collapseAccordion, expanded} = useAccordion()
-  const ref = useRef<HTMLDivElement>(null)
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  useOutsideClick(ref, collapseAccordion)
+  useOutsideClick(navRef, () => closeMobileMenu())
+  useOutsideClick(overflowContainerRef, () => closeOverflow())
 
-  const checkOverflow = () => {
-    if (!ref.current || !sentinelRef.current) return
-
-    const containerWidth = ref.current.offsetWidth
-    const sentinelOffsetLeft = sentinelRef.current.offsetLeft
-
-    // If the sentinel (last element) is outside the container's right edge, we have overflow
-    if (sentinelOffsetLeft > containerWidth) {
-      // Remove the last item and re-check on the next render
-      setVisibleLinks(prevItems => prevItems.slice(0, -1))
+  useEventListener("keydown", e => {
+    if (e.key !== "Escape") return
+    if (overflowOpen) {
+      closeOverflow()
+      overflowBtnRef.current?.focus()
     }
-  }
+    if (mobileMenuOpen) {
+      closeMobileMenu()
+      mobileButtonRef.current?.focus()
+    }
+  })
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => checkOverflow(), [width])
-  useLayoutEffect(() => {
-    setTimeout(checkOverflow, 1000)
+  // Scan #page-content for h2 elements that have an id attribute
+  const scanHeadings = useCallback(() => {
+    const pageContent = document.querySelector<HTMLElement>("#page-content")
+    if (!pageContent) return
+    const elements = pageContent.querySelectorAll<HTMLHeadingElement>("h2[id]:not(\\'.no-anchor\\')")
+    const items: HeadingItem[] = Array.from(elements).map(el => ({
+      id: el.id,
+      text: el.textContent?.trim() ?? "",
+    }))
+    setHeadings(items)
   }, [])
 
-  const overflowLinks =
-    visibleLinks.length !== links.length ? [...links].slice(0 - (links.length - visibleLinks.length)) : []
+  useEffect(() => {
+    scanHeadings() // eslint-disable-line react-hooks/set-state-in-effect
+  }, [scanHeadings])
+
+  // Calculate how many items fit in the container width using stored widths
+  const calculateOverflow = useCallback(() => {
+    if (!horizontal || !navRef.current) return
+
+    const containerWidth = navRef.current.clientWidth
+    const widths = itemWidthsRef.current
+
+    if (widths.length === 0) return
+
+    const headingWidth = headingRef.current?.offsetWidth || 0
+    const totalItemsWidth = widths.reduce((a, b) => a + b, 0)
+
+    if (headingWidth + totalItemsWidth <= containerWidth) {
+      setVisibleCount(null)
+      return
+    }
+
+    const overflowBtnWidth = overflowBtnRef.current?.offsetWidth ?? 80
+    const available = containerWidth - overflowBtnWidth - headingWidth
+
+    let sum = 0
+    let count = 0
+    for (const width of widths) {
+      if (sum + width <= available) {
+        sum += width
+        count++
+      } else {
+        break
+      }
+    }
+
+    setVisibleCount(Math.max(0, count))
+  }, [horizontal])
+
+  // Reset measurements when headings change so all items render for re-measurement
+  const resetMeasurements = useCallback(() => {
+    measuredRef.current = false
+    itemWidthsRef.current = []
+    setVisibleCount(null)
+  }, [])
+
+  useEffect(() => {
+    resetMeasurements() // eslint-disable-line react-hooks/set-state-in-effect
+  }, [headings, resetMeasurements])
+
+  // Measure all item widths before paint, then calculate overflow.
+  // Wrapped in useCallback so the direct call site in useLayoutEffect isn't a bare setState.
+  const measureAndCalculate = useCallback(() => {
+    if (!listRef.current || measuredRef.current) return
+    const items = Array.from(listRef.current.querySelectorAll<HTMLLIElement>("[data-nav-item]"))
+    if (items.length === 0 || items.length !== headings.length) return
+    itemWidthsRef.current = items.map(item => item.offsetWidth)
+    measuredRef.current = true
+    calculateOverflow()
+  }, [headings.length, calculateOverflow])
+
+  useLayoutEffect(() => {
+    if (!horizontal) return
+    measureAndCalculate() // eslint-disable-line react-hooks/set-state-in-effect
+  })
+
+  // Recalculate on container resize using stored widths (no DOM re-measurement needed)
+  useEffect(() => {
+    if (!horizontal || !navRef.current) return
+
+    const observer = new ResizeObserver(() => {
+      if (itemWidthsRef.current.length > 0) calculateOverflow()
+    })
+
+    observer.observe(navRef.current)
+    return () => observer.disconnect()
+  }, [horizontal, calculateOverflow])
+
+  if (headings.length === 0) return null
+
+  const visibleHeadings = visibleCount !== null ? headings.slice(0, visibleCount) : headings
+  const overflowHeadings = visibleCount !== null ? headings.slice(visibleCount) : []
+  const hasOverflow = overflowHeadings.length > 0
 
   return (
-    <div className="centered" ref={ref}>
-      <nav className="relative mb-20 w-full border-black-40 lg:mx-auto lg:flex lg:w-fit lg:items-center lg:gap-10 lg:rounded-xl lg:border lg:bg-black-10 lg:p-10">
-        {width >= 992 && (
-          <h2 className="m-0 flex items-center gap-4 whitespace-nowrap p-0 text-4xl font-normal">
-            <OnThisPageIcon className="w-10" />
-            On This Page
-          </h2>
-        )}
-        {width < 992 && (
-          <button
-            className="w-full rounded-full border border-black-40 bg-black-10 p-5 hocus:underline"
-            {...buttonProps}
-          >
-            <h2 className="m-0 mx-auto flex w-fit items-center gap-4 text-4xl font-normal">
-              <OnThisPageIcon className="w-10" />
-              On This Page
-              <ChevronDownIcon
-                width={40}
-                className={clsx("text-cardinal-red transition-all", {"rotate-180": expanded})}
-              />
-            </h2>
-          </button>
-        )}
-
-        <div
-          {...panelProps}
-          className={twMerge(
-            "absolute left-0 top-full mt-10 w-full rounded-xl border border-black-40 bg-black-10 p-10 lg:relative lg:mt-0 lg:border-0 lg:bg-transparent lg:p-0",
-            clsx({
-              hidden: !expanded && width < 992,
-              block: expanded,
-            })
-          )}
-        >
-          <ul className="list-unstyled lg:flex lg:items-center lg:gap-10">
-            {(width < 992 ? links : visibleLinks).map(link => (
-              <li key={link.id} className="m-0 p-0">
-                <a
-                  className="text-digital-red no-underline hocus:text-digital-red-light hocus:underline lg:whitespace-nowrap"
-                  href={`#${link.id}`}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {width >= 992 && <OverflowLinks links={overflowLinks} />}
-        <div ref={sentinelRef} />
-      </nav>
-    </div>
-  )
-}
-const OverflowLinks = ({links}: NavProps) => {
-  const {buttonProps, panelProps, collapseAccordion} = useAccordion()
-  const ref = useRef<HTMLDivElement>(null)
-  useOutsideClick(ref, collapseAccordion)
-  if (links.length === 0) return null
-  return (
-    <div className="relative" ref={ref}>
-      <button {...buttonProps} className="whitespace-nowrap hocus:underline">
-        See More
-      </button>
-      <ul
-        {...panelProps}
+    <div ref={navRef} {...props} className={twMerge("mb-20 text-16", props.className)}>
+      <nav
+        aria-labelledby="anchor-nav"
         className={twMerge(
-          "list-unstyled absolute right-0 top-full mt-10 rounded-xl border border-black-50 bg-white p-10",
-          panelProps.className
-        )}
-      >
-        {links.map(link => (
-          <li key={link.id}>
-            <a
-              href={`#${link.id}`}
-              className="text-digital-red no-underline hocus:text-digital-red-light hocus:underline"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-const VerticalNav = ({links}: NavProps) => {
-  const {width = 0} = useWindowSize({initializeWithValue: false})
-  const {buttonProps, panelProps, collapseAccordion, expanded} = useAccordion()
-  const ref = useRef<HTMLElement>(null)
-  useOutsideClick(ref, collapseAccordion)
-  return (
-    <nav className="relative border-black-40 lg:rounded-xl lg:border lg:bg-black-10 lg:p-10" ref={ref}>
-      {width >= 992 && (
-        <h2 className="gap-4text-4xl flex items-center font-normal">
-          <OnThisPageIcon className="w-10" />
-          On This Page
-        </h2>
-      )}
-      {width < 992 && (
-        <button className="w-full rounded-full border border-black-40 bg-black-10 p-5 hocus:underline" {...buttonProps}>
-          <h2 className="m-0 mx-auto flex w-fit items-center gap-4 text-4xl font-normal">
-            <OnThisPageIcon className="w-10" />
-            On This Page
-            <ChevronDownIcon
-              width={40}
-              className={clsx("text-cardinal-red transition-all", {"rotate-180": expanded})}
-            />
-          </h2>
-        </button>
-      )}
-
-      <div
-        {...panelProps}
-        className={twMerge(
-          "absolute left-0 top-full mt-10 w-full rounded-xl border border-black-40 bg-black-10 p-10 lg:relative lg:mt-0 lg:border-0 lg:bg-transparent lg:p-0",
+          "relative mx-auto w-fit items-center rounded border border-black-40 bg-black-10",
           clsx({
-            hidden: !expanded && width < 992,
-            block: expanded,
+            "flex rounded-full": horizontal,
           })
         )}
       >
-        <ul className="list-unstyled">
-          {links.map(link => (
-            <li key={link.id}>
+        {width && width < 768 && (
+          <button
+            ref={mobileButtonRef}
+            id="anchor-nav"
+            className="no-anchor m-0 flex items-center gap-4 whitespace-nowrap p-5 pr-4 text-16 font-normal hocus:underline"
+            aria-expanded={mobileMenuOpen}
+            aria-controls={mobilePanelId}
+            onClick={toggleMobileMenu}
+          >
+            <OnThisPageIcon className="w-10 text-black-40" />
+            On This Page
+            <ChevronDownIcon
+              width={24}
+              aria-hidden
+              className={twMerge(
+                "text-cardinal-red transition-transform duration-150",
+                clsx({"rotate-180": mobileMenuOpen})
+              )}
+            />
+          </button>
+        )}
+        {(!width || width >= 768) && (
+          <div
+            ref={headingRef}
+            id="anchor-nav"
+            className="m-0 flex items-center gap-4 whitespace-nowrap p-5 pr-4 text-16 font-normal"
+          >
+            <OnThisPageIcon className="w-10 text-black-40" />
+            On This Page
+          </div>
+        )}
+        <ul
+          ref={listRef}
+          id={mobilePanelId}
+          className={twMerge(
+            "list-unstyled",
+            clsx({
+              "flex flex-row flex-nowrap items-center": horizontal,
+              "ml-14": !horizontal,
+              hidden: width && width < 768 && !mobileMenuOpen,
+              "absolute left-0 top-full z-10 block w-fit min-w-[300px] border-black-10 bg-white p-5 shadow-xl":
+                width && width < 768 && mobileMenuOpen,
+            })
+          )}
+        >
+          {(width && width < 768 ? headings : visibleHeadings).map(({id, text}) => (
+            <li key={id} data-nav-item className="m-0">
               <a
-                className="text-digital-red no-underline hocus:text-digital-red-light hocus:underline"
-                href={`#${link.id}`}
+                href={`#${id}`}
+                onClick={closeMobileMenu}
+                className={twMerge(
+                  "nowrap block p-5 font-normal text-cardinal-red no-underline hocus:underline",
+                  clsx({
+                    "whitespace-nowrap": horizontal && width && width >= 768,
+                  })
+                )}
               >
-                {link.label}
+                {text}
               </a>
             </li>
           ))}
-        </ul>
-      </div>
-    </nav>
-  )
-}
 
-const OnThisPageIcon = ({...props}: HTMLAttributes<HTMLOrSVGElement>) => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
-      <path
-        fillRule="evenodd"
-        d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
-        clipRule="evenodd"
-      />
-    </svg>
+          {/* Overflow button — always rendered when horizontal so its width can be measured */}
+          {horizontal && width && width >= 768 && (
+            <li
+              ref={overflowContainerRef}
+              className={twMerge(
+                "relative my-0 ml-auto mr-0 shrink-0 p-5",
+                clsx({"pointer-events-none invisible": !hasOverflow})
+              )}
+            >
+              <button
+                ref={overflowBtnRef}
+                id={menuButtonId}
+                aria-expanded={hasOverflow ? overflowOpen : undefined}
+                aria-controls={hasOverflow ? menuPanelId : undefined}
+                onClick={toggleOverflowOpen}
+                className="flex items-center gap-2 whitespace-nowrap hocus:underline"
+              >
+                See More
+                <ChevronDownIcon
+                  width={24}
+                  aria-hidden
+                  className={twMerge(
+                    "text-cardinal-red transition-transform duration-150",
+                    clsx({"rotate-180": overflowOpen})
+                  )}
+                />
+              </button>
+
+              {width && width >= 768 && hasOverflow && overflowOpen && (
+                <ul
+                  id={menuPanelId}
+                  aria-labelledby={menuButtonId}
+                  className="absolute right-0 top-full z-10 m-0 min-w-48 list-none bg-white py-2 shadow-lg"
+                >
+                  {overflowHeadings.map(({id, text}) => (
+                    <li key={id}>
+                      <a
+                        href={`#${id}`}
+                        onClick={closeOverflow}
+                        className={twMerge(
+                          "block px-6 py-3 font-normal text-cardinal-red no-underline hocus:underline"
+                        )}
+                      >
+                        {text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          )}
+        </ul>
+      </nav>
+    </div>
   )
 }
 

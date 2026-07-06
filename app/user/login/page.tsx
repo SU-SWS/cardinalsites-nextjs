@@ -8,13 +8,11 @@ export const metadata: Metadata = {
   robots: {index: false, follow: false, noarchive: false},
 }
 
-const Page = async () => {
-  return (
-    <InteriorPage>
-      <H1 className="mt-32">Site Log In</H1>
-      <LoginButton className="mx-auto" />
-    </InteriorPage>
-  )
-}
+const Page = async () => (
+  <InteriorPage>
+    <H1 className="mt-32">Site Log In</H1>
+    <LoginButton className="mx-auto" />
+  </InteriorPage>
+)
 
 export default Page

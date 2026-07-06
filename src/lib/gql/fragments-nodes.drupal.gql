@@ -339,6 +339,89 @@ fragment FragmentNodeStanfordPublication on NodeStanfordPublication {
     suPublicationTopics {
         ...FragmentTermInterface
     }
+    suPublicationCitation {
+        ... on CitationInterface {
+            __typename
+            uuid
+            title
+            ... on CitationSuArticleNewspaper {
+                suAuthor {
+                    ...NameField
+                }
+                suDay
+                suMonth
+                suPublisher
+                suUrl {
+                    url
+                    title
+                }
+                suYear
+            }
+            ... on CitationSuBook {
+                suAuthor {
+                    ...NameField
+                }
+                suDoi
+                suEdition
+                suPage
+                suPublisher
+                suPublisherPlace
+                suSubtitle
+                suUrl {
+                    url
+                    title
+                }
+                suYear
+            }
+            ... on CitationSuArticleJournal {
+                suAuthor {
+                    ...NameField
+                }
+                suDay
+                suDoi
+                suIssue
+                suJournalPublisher
+                suMonth
+                suPage
+                suPublisher
+                suUrl {
+                    url
+                    title
+                }
+                suVolume
+                suYear
+            }
+            ... on CitationSuOther {
+                suAuthor {
+                    ...NameField
+                }
+                suDay
+                suMonth
+                suPublisher
+                suSubtitle
+                suUrl {
+                    url
+                    title
+                }
+                suYear
+            }
+            ... on CitationSuThesi {
+                suAuthor {
+                    ...NameField
+                }
+                suDay
+                suDoi
+                suGenre
+                suMonth
+                suPublisher
+                suUrl {
+                    url
+                    title
+                }
+                suYear
+            }
+        }
+    }
 }
 
 fragment FragmentNodeStanfordOpportunity on NodeStanfordOpportunity {

@@ -147,3 +147,12 @@ fragment FragmentMetaTag on MetaTagUnion {
         }
     }
 }
+
+fragment NameField on NameType {
+    credentials
+    family
+    generational
+    given
+    middle
+    title
+}

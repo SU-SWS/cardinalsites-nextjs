@@ -15,9 +15,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordPublicationPage = ({node, ...props}: Props) => {
   const citationUrl = node.suPublicationCitation?.suUrl?.url
+
   if (citationUrl) redirect(citationUrl)
   return (
-    <article className="centered pt-32" {...props}>
+    <article className="centered mb-20 pt-32" {...props}>
       <NodePageMetadata
         pageTitle={node.title}
         metatags={node.metatag}
@@ -25,19 +26,32 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
       />
       <ReverseVisualOrder className="gap-10">
         <H1>{node.title}</H1>
-
-        {node.suPublicationTopics && <div>{node.suPublicationTopics[0].name}</div>}
+        <div>
+          {node.suPublicationCitation?.__typename === "CitationSuArticleNewspaper" && "Article Newspaper/Magazine "}
+          {node.suPublicationCitation?.__typename === "CitationSuArticleJournal" && "Journal Article "}
+          {node.suPublicationCitation?.__typename === "CitationSuBook" && "Book"}
+          {node.suPublicationCitation?.__typename === "CitationSuThesi" && "Thesis"}
+          {node.suPublicationCitation?.__typename === "CitationSuOther" && "Publication"}
+        </div>
       </ReverseVisualOrder>
 
-      <div className="flex flex-col gap-20 lg:flex-row">
+      <div className="mb-20 flex flex-col gap-20 lg:flex-row">
         <Rows components={node.suPublicationComponents} className="order-2 flex-grow lg:order-1" />
 
-        <aside className="order-1 flex shrink-0 flex-col gap-10 lg:order-2 lg:w-1/4">
+        <aside className="order-1 ml-auto flex h-fit shrink-0 flex-col gap-10 border-l border-black-20 pl-20 lg:order-2 lg:w-1/4">
           {node.suPublicationCitation && <Citation citation={node.suPublicationCitation} />}
 
           {node.suPublicationCta && <Button href={node.suPublicationCta.url}>{node.suPublicationCta.title}</Button>}
         </aside>
       </div>
+
+      {node.suPublicationTopics && (
+        <div className="border-t border-black-20 pt-10">
+          <strong>Related Topics</strong>
+          <br />
+          {node.suPublicationTopics.map(topic => topic.name).join(", ")}
+        </div>
+      )}
     </article>
   )
 }

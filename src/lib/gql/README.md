@@ -129,7 +129,7 @@ if (redirect) { /* handle redirect */ }
 if (entity) { /* render entity */ }
 ```
 
-Cache tags: `paths:<path>`, `all-entities`
+Cache tags: `paths:<path>`, `all-cache`
 
 ### `getConfigPage<T>(configPageType)`
 Returns the first config-page node of the given `__typename`. Cast `T` to the expected config type.
@@ -162,7 +162,7 @@ Cache tags: `menus`, `menu:<name>`
 ### `getAllNodes()`
 Paginates through all node types using cursor-based pagination and returns a flat `NodeUnion[]`. Used by `generateStaticParams` during static site generation.
 
-Cache tag: `all-entities`
+Cache tag: `all-cache`
 
 ### `getAlgoliaCredential()`
 Returns `[appId, indexName, apiKey]`. Prefers environment variables; falls back to `StanfordBasicSiteSetting` config page values.

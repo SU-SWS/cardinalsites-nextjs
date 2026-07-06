@@ -39,7 +39,7 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <ListWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10 xl:max-w-[980px]", props.className)}
+      className={twMerge("centered mb-20 flex flex-col gap-10 xl:max-w-[1200px]", props.className)}
       aria-labelledby={ListWrapper === "section" ? id : undefined}
       data-nosnippet
     >

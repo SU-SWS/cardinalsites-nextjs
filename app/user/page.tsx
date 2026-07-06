@@ -10,13 +10,11 @@ export const metadata: Metadata = {
   robots: {index: false, follow: false, noarchive: false},
 }
 
-const Page = async () => {
-  return (
-    <Suspense>
-      <UserPage />
-    </Suspense>
-  )
-}
+const Page = async () => (
+  <Suspense>
+    <UserPage />
+  </Suspense>
+)
 
 const UserPage = async () => {
   const headersList = await headers()

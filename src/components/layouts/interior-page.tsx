@@ -39,7 +39,7 @@ const InteriorPage = async ({children, leftSideBar, hideSecondaryNav, currentPat
         </aside>
       )}
 
-      <div id="page-content" className="flex-grow">
+      <div id="page-content" className="min-w-0 flex-grow">
         {children}
       </div>
     </div>

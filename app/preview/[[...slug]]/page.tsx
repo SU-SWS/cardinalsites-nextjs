@@ -11,6 +11,7 @@ import Editorially from "@components/tools/editorially"
 export const maxDuration = 30
 
 const PreviewPage = async (props: PageProps) => {
+  "use cache: remote"
   const params = await props.params
 
   const path = getPathFromContext(params.slug || [])
@@ -30,8 +31,6 @@ const PreviewPage = async (props: PageProps) => {
   )
 }
 
-export const generateStaticParams = async (): Promise<Array<Slug>> => {
-  return [{slug: ["home"]}]
-}
+export const generateStaticParams = async (): Promise<Array<Slug>> => [{slug: ["home"]}]
 
 export default PreviewPage

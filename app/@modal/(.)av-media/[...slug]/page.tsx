@@ -4,16 +4,16 @@ import InterceptionModal from "@components/elements/interception-modal"
 import Oembed from "@components/elements/ombed"
 import {notFound} from "next/navigation"
 import {Slug} from "@lib/utils/utils"
-import {INFINITE_CACHE} from "next/dist/lib/constants"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
 const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
+  "use cache: remote"
   const uuid = (await params).slug.at(-1)
   if (!uuid) notFound()
 
-  const media = await graphqlClient({next: {revalidate: INFINITE_CACHE}}).request<MediaQuery>(MediaDocument, {uuid})
+  const media = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
   if (media.media?.__typename !== "MediaVideo") return null
 
   return (
@@ -23,8 +23,6 @@ const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
   )
 }
 
-export const generateStaticParams = async (): Promise<Array<Slug>> => {
-  return [{slug: ["none"]}]
-}
+export const generateStaticParams = async (): Promise<Array<Slug>> => [{slug: ["none"]}]
 
 export default Page

@@ -60,6 +60,8 @@ module.exports = {
         "upper-alpha": "upper-alpha",
         "lower-roman": "lower-roman",
         "upper-roman": "upper-roman",
+        circle: "circle",
+        square: "square",
       },
     },
   },
