@@ -204,6 +204,12 @@ yarn lint
   - stanford font for wordmark
 - Spacing:
   - Responsive spacing provided by decanter library
+- Tailwind merge:
+  - Whenever merging styles, make sure to use the custom twMerge configuration at `src/lib/utils/twMerge`
+- Conditional classes:
+  - When a tailwind class is conditional based on a prop or variable, use `clsx`
+- Combining Tailwind merge and conditional classes
+  - Example: `className={twMerge("text-black", {"text-blue": blueText}, props.className)}`
 
 **Component Styling Pattern**: Utility-first
 
