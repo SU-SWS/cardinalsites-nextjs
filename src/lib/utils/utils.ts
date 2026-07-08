@@ -1,5 +1,6 @@
 import {stringify} from "qs"
 import {TermUnion, MenuItem, BookLink} from "@lib/gql/__generated__/graphql"
+import {TermTree} from "@lib/@types/drupal"
 
 export const buildUrl = (path: string, params?: string | Record<string, string> | URLSearchParams): URL => {
   const url = new URL(path.charAt(0) === "/" ? `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${path}` : path)
@@ -9,21 +10,10 @@ export const buildUrl = (path: string, params?: string | Record<string, string> 
   return url
 }
 
-export type Slug = {slug: string[]}
-
-export type PageProps = {
-  params: Promise<Slug>
-  searchParams?: Promise<Record<string, string | string[] | undefined>>
-}
-
 export const getPathFromContext = (slug: string | string[], prefix = ""): string => {
   let slugString = Array.isArray(slug) ? slug.map(s => encodeURIComponent(s)).join("/") : slug
   slugString = slugString.replace(/^\//, "")
   return prefix ? `${prefix}/${slugString}` : `/${slugString}`
-}
-
-export type TermTree<T extends TermUnion> = T & {
-  below?: TermTree<T>[]
 }
 
 export const getTaxonomyTree = <T extends TermUnion>(terms: T[]): TermTree<T>[] => {

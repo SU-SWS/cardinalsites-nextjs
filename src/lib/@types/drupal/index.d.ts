@@ -1,11 +1,4 @@
-import {Maybe} from "@lib/gql/__generated__/graphql"
-
-/**
- * Types that are not provided by Graphql integration.
- */
-declare global {
-  const Ed11y: object
-}
+import {Maybe, TermUnion} from "@lib/gql/__generated__/graphql"
 
 export type LayoutParagraphBehaviors = {
   layout_paragraphs: {
@@ -66,3 +59,7 @@ export type ParagraphBehaviors =
   | CardParagraphBehaviors
   | ListParagraphBehaviors
   | FAQParagraphBehaviors
+
+export type TermTree<T extends TermUnion> = T & {
+  below?: TermTree<T>[]
+}
