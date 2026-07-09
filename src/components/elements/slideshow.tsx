@@ -3,15 +3,14 @@
 import {HTMLAttributes, JSX, useEffect, useRef} from "react"
 import Slider, {CustomArrowProps, Settings} from "react-slick"
 import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/16/solid"
-import twMerge from "@lib/utils/twMerge"
-import {clsx} from "clsx"
+import cn from "@lib/utils/className"
 
 export const NextArrow = ({className, onClick}: CustomArrowProps) => {
   const slickDisabled = className?.includes("slick-disabled")
   return (
     <button className="absolute right-1 top-1/3 z-50" onClick={onClick} aria-label="Next" disabled={slickDisabled}>
       <ArrowRightIcon
-        className={twMerge("w-50 bg-teal rounded-full p-10 text-black-true", clsx({"text-black-50": slickDisabled}))}
+        className={cn("w-50 bg-teal rounded-full p-10 text-black-true", {"text-black-50": slickDisabled})}
       />
     </button>
   )
@@ -22,7 +21,7 @@ export const PrevArrow = ({className, onClick}: CustomArrowProps) => {
   return (
     <button className="absolute left-1 top-1/3 z-50" onClick={onClick} aria-label="Previous" disabled={slickDisabled}>
       <ArrowLeftIcon
-        className={twMerge("w-50 bg-teal rounded-full p-10 text-black-true", clsx({"text-black-50": slickDisabled}))}
+        className={cn("w-50 bg-teal rounded-full p-10 text-black-true", {"text-black-50": slickDisabled})}
       />
     </button>
   )
@@ -84,7 +83,7 @@ export const Slideshow = ({children, slideshowProps, ...props}: SlideshowProps) 
       ref={slideShowRef}
       {...props}
       aria-roledescription="carousel"
-      className={twMerge("relative w-full", props.className)}
+      className={cn("relative w-full", props.className)}
     >
       <Slider {...settings}>{children}</Slider>
     </section>

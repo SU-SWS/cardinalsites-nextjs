@@ -2,8 +2,7 @@
 
 import {HTMLAttributes, useCallback, useEffect, useId, useLayoutEffect, useRef, useState} from "react"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import twMerge from "@lib/utils/twMerge"
-import {clsx} from "clsx"
+import cn from "@lib/utils/className"
 import useOutsideClick from "@hooks/useOutsideClick"
 import OnThisPageIcon from "@components/elements/icons/OnThisPageIcon"
 import {useBoolean, useEventListener, useWindowSize} from "usehooks-ts"
@@ -152,15 +151,12 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
   const hasOverflow = overflowHeadings.length > 0
 
   return (
-    <div ref={navRef} {...props} className={twMerge("mb-20 text-16", props.className)}>
+    <div ref={navRef} {...props} className={cn("mb-20 text-16", props.className)}>
       <nav
         aria-labelledby="anchor-nav"
-        className={twMerge(
-          "relative mx-auto w-fit items-center rounded border border-black-40 bg-black-10",
-          clsx({
-            "flex rounded-full": horizontal,
-          })
-        )}
+        className={cn("relative mx-auto w-fit items-center rounded border border-black-40 bg-black-10", {
+          "flex rounded-full": horizontal,
+        })}
       >
         {width && width < 768 && (
           <button
@@ -176,10 +172,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
             <ChevronDownIcon
               width={24}
               aria-hidden
-              className={twMerge(
-                "text-cardinal-red transition-transform duration-150",
-                clsx({"rotate-180": mobileMenuOpen})
-              )}
+              className={cn("text-cardinal-red transition-transform duration-150", {"rotate-180": mobileMenuOpen})}
             />
           </button>
         )}
@@ -196,28 +189,22 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
         <ul
           ref={listRef}
           id={mobilePanelId}
-          className={twMerge(
-            "list-unstyled",
-            clsx({
-              "flex flex-row flex-nowrap items-center": horizontal,
-              "ml-14": !horizontal,
-              hidden: width && width < 768 && !mobileMenuOpen,
-              "absolute left-0 top-full z-10 block w-fit min-w-[300px] border-black-10 bg-white p-5 shadow-xl":
-                width && width < 768 && mobileMenuOpen,
-            })
-          )}
+          className={cn("list-unstyled", {
+            "flex flex-row flex-nowrap items-center": horizontal,
+            "ml-14": !horizontal,
+            hidden: width && width < 768 && !mobileMenuOpen,
+            "absolute left-0 top-full z-10 block w-fit min-w-[300px] border-black-10 bg-white p-5 shadow-xl":
+              width && width < 768 && mobileMenuOpen,
+          })}
         >
           {(width && width < 768 ? headings : visibleHeadings).map(({id, text}) => (
             <li key={id} data-nav-item className="m-0">
               <a
                 href={`#${id}`}
                 onClick={closeMobileMenu}
-                className={twMerge(
-                  "nowrap block p-5 font-normal text-cardinal-red no-underline hocus:underline",
-                  clsx({
-                    "whitespace-nowrap": horizontal && width && width >= 768,
-                  })
-                )}
+                className={cn("nowrap block p-5 font-normal text-cardinal-red no-underline hocus:underline", {
+                  "whitespace-nowrap": horizontal && width && width >= 768,
+                })}
               >
                 {text}
               </a>
@@ -228,10 +215,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           {horizontal && width && width >= 768 && (
             <li
               ref={overflowContainerRef}
-              className={twMerge(
-                "relative my-0 ml-auto mr-0 shrink-0 p-5",
-                clsx({"pointer-events-none invisible": !hasOverflow})
-              )}
+              className={cn("relative my-0 ml-auto mr-0 shrink-0 p-5", {"pointer-events-none invisible": !hasOverflow})}
             >
               <button
                 ref={overflowBtnRef}
@@ -245,10 +229,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
                 <ChevronDownIcon
                   width={24}
                   aria-hidden
-                  className={twMerge(
-                    "text-cardinal-red transition-transform duration-150",
-                    clsx({"rotate-180": overflowOpen})
-                  )}
+                  className={cn("text-cardinal-red transition-transform duration-150", {"rotate-180": overflowOpen})}
                 />
               </button>
 
@@ -263,9 +244,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
                       <a
                         href={`#${id}`}
                         onClick={closeOverflow}
-                        className={twMerge(
-                          "block px-6 py-3 font-normal text-cardinal-red no-underline hocus:underline"
-                        )}
+                        className={cn("block px-6 py-3 font-normal text-cardinal-red no-underline hocus:underline")}
                       >
                         {text}
                       </a>

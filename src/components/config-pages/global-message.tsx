@@ -2,10 +2,9 @@ import {BellIcon, CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIco
 import {H2} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Link from "@components/elements/link"
-import {clsx} from "clsx"
 import {StanfordGlobalMessage} from "@lib/gql/__generated__/graphql"
 import {getConfigPage} from "@lib/gql/gql-queries"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 const GlobalMessage = async () => {
@@ -17,16 +16,13 @@ const GlobalMessage = async () => {
   return (
     <WrapperElement
       aria-labelledby={id}
-      className={twMerge(
-        "py-10",
-        clsx({
-          "bg-digital-blue-dark text-white": globalMessageConfig.suGlobalMsgType === "info",
-          "bg-illuminating-dark": globalMessageConfig.suGlobalMsgType === "warning",
-          "bg-digital-green text-white": globalMessageConfig.suGlobalMsgType === "success",
-          "bg-foggy-light": globalMessageConfig.suGlobalMsgType === "plain",
-          "bg-digital-red text-white": globalMessageConfig.suGlobalMsgType === "error",
-        })
-      )}
+      className={cn("py-10", {
+        "bg-digital-blue-dark text-white": globalMessageConfig.suGlobalMsgType === "info",
+        "bg-illuminating-dark": globalMessageConfig.suGlobalMsgType === "warning",
+        "bg-digital-green text-white": globalMessageConfig.suGlobalMsgType === "success",
+        "bg-foggy-light": globalMessageConfig.suGlobalMsgType === "plain",
+        "bg-digital-red text-white": globalMessageConfig.suGlobalMsgType === "error",
+      })}
     >
       <div className="centered flex flex-col gap-10 lg:flex-row">
         <div className="flex shrink-0 items-center leading-none">
@@ -38,30 +34,24 @@ const GlobalMessage = async () => {
 
           <Wysiwyg
             html={globalMessageConfig.suGlobalMsgMessage?.processed}
-            className={twMerge(
-              "[&_a.btn]:border-2 [&_a]:no-underline [&_a]:hocus:underline",
-              clsx({
-                "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(
-                  globalMessageConfig.suGlobalMsgType
-                ),
-                "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": [
-                  "warning",
-                  "plain",
-                ].includes(globalMessageConfig.suGlobalMsgType),
-              })
-            )}
+            className={cn("[&_a.btn]:border-2 [&_a]:no-underline [&_a]:hocus:underline", {
+              "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(
+                globalMessageConfig.suGlobalMsgType
+              ),
+              "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": [
+                "warning",
+                "plain",
+              ].includes(globalMessageConfig.suGlobalMsgType),
+            })}
           />
 
           {globalMessageConfig.suGlobalMsgLink?.url && (
             <Link
               href={globalMessageConfig.suGlobalMsgLink.url}
-              className={twMerge(
-                "no-underline hocus:underline",
-                clsx({
-                  "text-white hocus:text-white": !["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
-                  "text-black hocus:text-black": ["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
-                })
-              )}
+              className={cn("no-underline hocus:underline", {
+                "text-white hocus:text-white": !["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+                "text-black hocus:text-black": ["warning", "plain"].includes(globalMessageConfig.suGlobalMsgType),
+              })}
             >
               {globalMessageConfig.suGlobalMsgLink.title}
             </Link>

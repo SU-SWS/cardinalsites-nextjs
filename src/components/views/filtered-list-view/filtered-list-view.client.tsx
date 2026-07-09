@@ -5,7 +5,7 @@ import {useLayoutEffect, useRef, JSX, useId, useState, ChangeEvent} from "react"
 import {useBoolean, useCounter} from "usehooks-ts"
 import useFocusOnRender from "@hooks/useFocusOnRender"
 import useServerAction from "@hooks/useServerAction"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {ArrowPathIcon} from "@heroicons/react/20/solid"
 import Button from "@components/elements/button"
 import InputGroup from "@components/elements/inputs/input-group"
@@ -79,7 +79,7 @@ const FilteredListViewClient = ({
   }
 
   return (
-    <div {...props} className={twMerge("relative", props.className)}>
+    <div {...props} className={cn("relative", props.className)}>
       {isPending && (
         <div className="absolute left-0 top-0 z-20 h-full w-full bg-black-30 bg-opacity-80">
           <div className="absolute bottom-20 left-1/2 -translate-x-[25px]">

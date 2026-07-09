@@ -1,9 +1,8 @@
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import {ElementType, HTMLAttributes} from "react"
 import {Maybe} from "@lib/gql/__generated__/graphql"
-import {clsx} from "clsx"
 
 type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
   /**
@@ -34,13 +33,13 @@ const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, squareImage, childr
   return (
     <CardWrapper
       {...props}
-      className={twMerge(
+      className={cn(
         "centered relative w-full border border-black-10 bg-white shadow-lg xl:max-w-[980px]",
         props.className
       )}
     >
       {imageUrl && (
-        <div className={twMerge("relative w-full", clsx({"aspect-1": squareImage, "aspect-[16/9]": !squareImage}))}>
+        <div className={cn("relative w-full", {"aspect-1": squareImage, "aspect-[16/9]": !squareImage})}>
           <Image
             className="object-cover object-center"
             src={imageUrl}

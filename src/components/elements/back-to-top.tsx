@@ -4,8 +4,7 @@ import Button from "@components/elements/button"
 import {ChevronUpIcon} from "@heroicons/react/20/solid"
 import {useBoolean, useDebounceCallback, useEventListener} from "usehooks-ts"
 import {useCallback} from "react"
-import {clsx} from "clsx"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 const BackToTop = () => {
   const {value, setFalse, setTrue} = useBoolean(false)
@@ -29,13 +28,10 @@ const BackToTop = () => {
   return (
     <Button
       buttonElem
-      className={twMerge(
-        "fixed bottom-10 right-10 z-[100] transition-all duration-300",
-        clsx({
-          "visible opacity-100": value,
-          "invisible opacity-0": !value,
-        })
-      )}
+      className={cn("fixed bottom-10 right-10 z-[100] transition-all duration-300", {
+        "visible opacity-100": value,
+        "invisible opacity-0": !value,
+      })}
       onClick={onButtonClick}
     >
       <span className="flex items-center gap-2">

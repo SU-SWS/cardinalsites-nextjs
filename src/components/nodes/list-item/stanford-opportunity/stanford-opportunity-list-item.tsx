@@ -3,7 +3,7 @@ import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import Wysiwyg from "@components/elements/wysiwyg"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import {getIdFromText} from "@lib/utils/text-tools"
@@ -18,7 +18,7 @@ const StanfordOpportunityListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
   const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={id} className={twMerge("@container", props.className)}>
+    <article {...props} aria-labelledby={id} className={cn("@container", props.className)}>
       <div className="flex w-full flex-col justify-between @3xl:flex-row">
         <div className="order-2 @3xl:order-1">
           <ReverseVisualOrder>

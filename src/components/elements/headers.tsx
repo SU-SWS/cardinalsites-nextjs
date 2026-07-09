@@ -1,5 +1,5 @@
 import {HtmlHTMLAttributes} from "react"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLHeadingElement>
@@ -8,7 +8,7 @@ const headingLinkClasses = "[&_a]:text-digital-red [&_a]:hocus:text-black [&_a]:
 
 export const H1 = ({children, className, ...props}: Props) => {
   return (
-    <h1 className={twMerge(className, "type-4")} {...props}>
+    <h1 className={cn(className, "type-4")} {...props}>
       {children}
     </h1>
   )
@@ -17,7 +17,7 @@ export const H1 = ({children, className, ...props}: Props) => {
 export const H2 = ({children, className, ...props}: Props) => {
   const id = typeof children === "string" ? getIdFromText(children) : undefined
   return (
-    <h2 id={id} className={twMerge(headingLinkClasses, "type-2", className)} {...props}>
+    <h2 id={id} className={cn(headingLinkClasses, "type-2", className)} {...props}>
       {children}
     </h2>
   )
@@ -25,7 +25,7 @@ export const H2 = ({children, className, ...props}: Props) => {
 
 export const H3 = ({children, className, ...props}: Props) => {
   return (
-    <h3 className={twMerge(headingLinkClasses, "type-1", className)} {...props}>
+    <h3 className={cn(headingLinkClasses, "type-1", className)} {...props}>
       {children}
     </h3>
   )
@@ -33,7 +33,7 @@ export const H3 = ({children, className, ...props}: Props) => {
 
 export const H4 = ({children, className, ...props}: Props) => {
   return (
-    <h4 className={twMerge(headingLinkClasses, "type-1", className)} {...props}>
+    <h4 className={cn(headingLinkClasses, "type-1", className)} {...props}>
       {children}
     </h4>
   )
@@ -41,7 +41,7 @@ export const H4 = ({children, className, ...props}: Props) => {
 
 export const H5 = ({children, className, ...props}: Props) => {
   return (
-    <h5 className={twMerge(headingLinkClasses, className)} {...props}>
+    <h5 className={cn(headingLinkClasses, className)} {...props}>
       {children}
     </h5>
   )
@@ -49,7 +49,7 @@ export const H5 = ({children, className, ...props}: Props) => {
 
 export const H6 = ({children, className, ...props}: Props) => {
   return (
-    <h6 className={twMerge(headingLinkClasses, className)} {...props}>
+    <h6 className={cn(headingLinkClasses, className)} {...props}>
       {children}
     </h6>
   )

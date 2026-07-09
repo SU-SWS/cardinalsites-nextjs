@@ -4,11 +4,10 @@ import Button from "@components/elements/button"
 import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes, Suspense} from "react"
 import {ParagraphStanfordEntity} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {getEntityFromPath} from "@lib/gql/gql-queries"
 import {TeaserParagraphBehaviors} from "drupal"
-import {clsx} from "clsx"
 import {getIdFromText} from "@lib/utils/text-tools"
 import {cacheTag} from "next/cache"
 
@@ -27,16 +26,13 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <EntityWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10", props.className)}
+      className={cn("centered mb-20 flex flex-col gap-10", props.className)}
       aria-labelledby={EntityWrapper === "section" ? id : undefined}
     >
       {paragraph.suEntityHeadline && behaviors.stanford_teaser?.heading_behavior !== "remove" && (
         <H2
           id={id}
-          className={twMerge(
-            "mb-0 text-center",
-            clsx({"sr-only": behaviors.stanford_teaser?.heading_behavior === "hide"})
-          )}
+          className={cn("mb-0 text-center", {"sr-only": behaviors.stanford_teaser?.heading_behavior === "hide"})}
         >
           {paragraph.suEntityHeadline}
         </H2>
@@ -46,13 +42,10 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       {!!paragraph.suEntityItem?.length && (
         <div
-          className={twMerge(
-            "mb-20 grid gap-20 [&>*]:w-full",
-            clsx({
-              "@5xl:grid-cols-2": paragraph.suEntityItem.length === 2,
-              "@8xl:grid-cols-3": paragraph.suEntityItem.length >= 3,
-            })
-          )}
+          className={cn("mb-20 grid gap-20 [&>*]:w-full", {
+            "@5xl:grid-cols-2": paragraph.suEntityItem.length === 2,
+            "@8xl:grid-cols-3": paragraph.suEntityItem.length >= 3,
+          })}
         >
           {paragraph.suEntityItem.map((entity, i) => (
             <Suspense key={`${paragraph.id}-${i}`}>

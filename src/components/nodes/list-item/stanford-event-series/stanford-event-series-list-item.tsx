@@ -2,7 +2,7 @@ import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordEventSeries} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -17,7 +17,7 @@ const StanfordEventSeriesListItem = ({node, headingLevel, ...props}: Props) => {
     <article
       {...props}
       aria-labelledby={id}
-      className={twMerge("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
+      className={cn("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
     >
       <Heading id={id}>
         <Link href={node.path || "#"}>{node.title}</Link>

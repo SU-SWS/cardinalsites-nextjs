@@ -1,7 +1,6 @@
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {HtmlHTMLAttributes, MouseEventHandler} from "react"
 import {Maybe} from "@lib/gql/__generated__/graphql"
-import {clsx} from "clsx"
 import {LinkProps} from "next/dist/client/link"
 import Link from "next/link"
 import {getLinkHref} from "@components/elements/link"
@@ -55,29 +54,29 @@ export const Button = ({
   className,
   ...props
 }: ButtonProps) => {
-  const standardClasses = clsx({
-    "flex items-center w-fit mx-auto": centered,
-    "inline-block text-center w-fit": !centered,
-    "btn btn--big transition text-5xl text-white hocus:text-white bg-digital-red hocus:bg-black no-underline hocus:underline py-6 px-12 font-normal":
+  const standardClasses = cn({
+    "mx-auto flex w-fit items-center": centered,
+    "inline-block w-fit text-center": !centered,
+    "btn btn--big bg-digital-red px-12 py-6 text-5xl font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
       big && !secondary,
-    "btn btn--secondary transition text-digital-red border-2 border-digital-red hocus:border-black no-underline hocus:underline py-4 px-8 font-normal":
+    "btn btn--secondary border-2 border-digital-red px-8 py-4 font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
       !big && secondary,
-    "btn  btn--big btn--secondary transition text-5xl text-digital-red border-2 border-digital-red hocus:border-black no-underline hocus:underline py-6 px-12 font-normal":
+    "btn btn--big btn--secondary border-2 border-digital-red px-12 py-6 text-5xl font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
       big && secondary,
-    "btn bg-digital-red font-normal text-white hocus:bg-black hocus:text-white py-4 px-8 no-underline hocus:underline transition":
+    "btn bg-digital-red px-8 py-4 font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
       !big && !secondary,
   })
 
   if (!href || buttonElem) {
     return (
-      <button className={twMerge(standardClasses, className)} type="button" {...props}>
+      <button className={cn(standardClasses, className)} type="button" {...props}>
         {children}
       </button>
     )
   }
 
   return (
-    <Link href={getLinkHref(href)} className={twMerge(standardClasses, className)} {...props}>
+    <Link href={getLinkHref(href)} className={cn(standardClasses, className)} {...props}>
       {children}
     </Link>
   )

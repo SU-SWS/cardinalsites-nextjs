@@ -12,8 +12,7 @@ import {
   type TabsTab,
 } from "@base-ui/react/tabs"
 import {useScreen} from "usehooks-ts"
-import twMerge from "@lib/utils/twMerge"
-import {clsx} from "clsx"
+import cn from "@lib/utils/className"
 
 type TabsProps = TabsRootProps & {
   className?: string
@@ -61,7 +60,7 @@ const TabsInner = ({
   return (
     <BaseTabs.Root
       {...props}
-      className={twMerge("centered flex gap-5", clsx({"flex-col": !isVertical}), className)}
+      className={cn("centered flex gap-5", {"flex-col": !isVertical}, className)}
       value={activeTab}
       orientation={isVertical ? "vertical" : "horizontal"}
       onValueChange={handleValueChange}
@@ -81,7 +80,7 @@ type ListProps = TabsListProps & {
 
 export const TabsList = ({className, children, ...props}: ListProps) => {
   return (
-    <BaseTabs.List {...props} className={twMerge("flex data-[orientation=vertical]:flex-col", className)}>
+    <BaseTabs.List {...props} className={cn("flex data-[orientation=vertical]:flex-col", className)}>
       {children}
     </BaseTabs.List>
   )
@@ -95,11 +94,11 @@ export const Tab = ({className, children, ...props}: TabProps) => {
   return (
     <BaseTabs.Tab
       {...props}
-      className={twMerge(
+      className={cn(
         "w-fit border-transparent p-5 aria-selected:border-lagunita-dark data-[orientation=horizontal]:border-b-3 data-[orientation=vertical]:border-l-3 hocus:underline",
-        clsx({
+        {
           "bg-black-10": props.disabled,
-        }),
+        },
         className
       )}
     >

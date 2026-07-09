@@ -1,9 +1,9 @@
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {HTMLAttributes} from "react"
 
 const ReverseVisualOrder = ({children, ...props}: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div {...props} className={twMerge("flex flex-col-reverse", props.className)}>
+    <div {...props} className={cn("flex flex-col-reverse", props.className)}>
       {children}
     </div>
   )

@@ -4,10 +4,9 @@ import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordFilteredList} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {ListParagraphBehaviors} from "drupal"
 import {getViewPagedItems, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
-import {clsx} from "clsx"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -43,15 +42,12 @@ const FilteredListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <ListWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-20", props.className)}
+      className={cn("centered mb-20 flex flex-col gap-20", props.className)}
       aria-labelledby={ListWrapper === "section" ? id : undefined}
       data-nosnippet
     >
       {paragraph.suListHeadline && behaviors.list_paragraph?.heading_behavior !== "remove" && (
-        <H2
-          id={id}
-          className={twMerge("mb-0", clsx({"sr-only": behaviors.list_paragraph?.heading_behavior === "hide"}))}
-        >
+        <H2 id={id} className={cn("mb-0", {"sr-only": behaviors.list_paragraph?.heading_behavior === "hide"})}>
           {paragraph.suListHeadline}
         </H2>
       )}

@@ -9,8 +9,7 @@ import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import {getFirstText} from "@lib/utils/text-tools"
 import Wysiwyg from "@components/elements/wysiwyg"
 import AnchorNav from "@components/elements/anchor-nav"
-import twMerge from "@lib/utils/twMerge"
-import {clsx} from "clsx"
+import cn from "@lib/utils/className"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -39,7 +38,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
 
       <ReverseVisualOrder>
         {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && (
-          <H1 className={twMerge("centered mt-32", clsx({"sr-only": isHome}))}>{node.title}</H1>
+          <H1 className={cn("centered mt-32", {"sr-only": isHome})}>{node.title}</H1>
         )}
 
         {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (

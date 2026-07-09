@@ -5,7 +5,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import {getIdFromText} from "@lib/utils/text-tools"
 
@@ -31,7 +31,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   const id = getIdFromText(node.title)
 
   return (
-    <article {...props} aria-labelledby={id} className={twMerge("mx-auto flex w-full gap-10", props.className)}>
+    <article {...props} aria-labelledby={id} className={cn("mx-auto flex w-full gap-10", props.className)}>
       <div aria-hidden="true" className="flex w-fit flex-col items-start">
         <div className="type-0 mb-2 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
         <div className="type-4 w-full text-center font-bold">{startDay}</div>

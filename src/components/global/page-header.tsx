@@ -3,7 +3,7 @@ import MainMenu from "@components/menu/main-menu"
 import GlobalMessage from "@components/config-pages/global-message"
 import Lockup from "@components/elements/lockup/lockup"
 import {HTMLAttributes} from "react"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import UtilityNav from "@components/menu/utility-nav"
 import {getConfigPageField} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
@@ -23,7 +23,7 @@ const PageHeader = async ({...props}: Props) => {
     )) === true
 
   return (
-    <header {...props} className={twMerge("shadow-lg", props.className)}>
+    <header {...props} className={cn("shadow-lg", props.className)}>
       <div className="bg-cardinal-red">
         <div className="centered flex items-center justify-between py-3">
           <Link

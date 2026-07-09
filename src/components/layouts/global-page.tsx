@@ -2,12 +2,12 @@ import PageHeader from "@components/global/page-header"
 import BackToTop from "@components/elements/back-to-top"
 import PageFooter from "@components/global/page-footer"
 import {HTMLAttributes} from "react"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HTMLAttributes<HTMLDivElement>
 const GlobalPage = ({children, ...props}: Props) => {
   return (
-    <div {...props} className={twMerge("flex min-h-screen flex-col", props.className)}>
+    <div {...props} className={cn("flex min-h-screen flex-col", props.className)}>
       <PageHeader data-nosnippet="true" />
 
       <main id="main-content" className="flex-grow" tabIndex={-1}>

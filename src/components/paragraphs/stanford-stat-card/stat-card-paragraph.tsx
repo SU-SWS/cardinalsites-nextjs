@@ -6,8 +6,7 @@ import Link from "@components/elements/link"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
 import ImageCard from "@components/patterns/image-card"
 import CountUpNumber from "@components/elements/count-up"
-import {clsx} from "clsx"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {ChevronRightIcon} from "@heroicons/react/20/solid"
 import {getIdFromText} from "@lib/utils/text-tools"
 
@@ -17,7 +16,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StatCardParagraph = ({paragraph, ...props}: Props) => {
   const headerTagChoice = (paragraph.suStatHeadlineLvl || "h2").split(".", 2)
   const headerTag = headerTagChoice[0]
-  const headerClasses = clsx(
+  const headerClasses = cn(
     headerTagChoice[1]?.replace(".", " ").replace("su-font-splash", "type-2 font-bold") || undefined,
     {"sr-only": paragraph.suStatHeadingHide}
   )
@@ -51,7 +50,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
   return (
     <ImageCard
       {...props}
-      className={clsx({
+      className={cn({
         "text-center": paragraph.suStatCentered,
         "text-white [&_a]:text-white": whiteText,
         "bg-black": paragraph.suStatBgColor?.color === "2e2d29",
@@ -74,21 +73,21 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
         {paragraph.suStatHeadline && (
           <>
             {headerTag === "h2" && (
-              <H2 id={id} className={twMerge("mb-0", headerClasses)}>
+              <H2 id={id} className={cn("mb-0", headerClasses)}>
                 {paragraph.suStatHeadline}
               </H2>
             )}
             {headerTag === "h3" && (
-              <H3 id={id} className={twMerge("mb-0", headerClasses)}>
+              <H3 id={id} className={cn("mb-0", headerClasses)}>
                 {paragraph.suStatHeadline}
               </H3>
             )}
             {headerTag === "h4" && (
-              <H4 id={id} className={twMerge("mb-0", headerClasses)}>
+              <H4 id={id} className={cn("mb-0", headerClasses)}>
                 {paragraph.suStatHeadline}
               </H4>
             )}
-            {headerTag === "div" && <div className={twMerge("mb-0", headerClasses)}>{paragraph.suStatHeadline}</div>}
+            {headerTag === "div" && <div className={cn("mb-0", headerClasses)}>{paragraph.suStatHeadline}</div>}
           </>
         )}
 
@@ -98,7 +97,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
             <div className="block">
               <span
                 aria-hidden="true"
-                className={clsx(`fa-${paragraph.suStatIcon.iconName} ${paragraph.suStatIcon.style} text-[60px]`, {
+                className={cn(`fa-${paragraph.suStatIcon.iconName} ${paragraph.suStatIcon.style} text-[60px]`, {
                   "text-cardinal-red": allowTextColors && paragraph.suStatIconColor?.color === "8c1515",
                   "text-plum": allowTextColors && paragraph.suStatIconColor?.color === "620059",
                   "text-lagunita": allowTextColors && paragraph.suStatIconColor?.color === "007c92",
@@ -115,7 +114,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
               end={parseFloat(statMatches[1])}
               prefix={prefix}
               suffix={(statMatches && statMatches[2]) || undefined}
-              className={clsx("text-[40px] font-bold @xl:text-[50px] @2xl:text-[60px]", {
+              className={cn("text-[40px] font-bold @xl:text-[50px] @2xl:text-[60px]", {
                 "text-cardinal-red": allowTextColors && paragraph.suStatStatColor?.color === "8c1515",
                 "text-plum": allowTextColors && paragraph.suStatStatColor?.color === "620059",
                 "text-lagunita": allowTextColors && paragraph.suStatStatColor?.color === "007c92",
@@ -134,13 +133,11 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
       <Wysiwyg html={paragraph.suStatBody?.processed} />
       {paragraph.suStatButton?.url && (
         <Link
-          className={twMerge(
-            clsx("group flex w-fit items-center gap-3 text-black no-underline hocus:underline", {
-              "border border-black px-7 py-5": paragraph.suStatLinkStyle === "button",
-              "border-white text-white hocus:text-white": whiteText,
-              "mx-auto": paragraph.suStatCentered,
-            })
-          )}
+          className={cn("group flex w-fit items-center gap-3 text-black no-underline hocus:underline", {
+            "border border-black px-7 py-5": paragraph.suStatLinkStyle === "button",
+            "border-white text-white hocus:text-white": whiteText,
+            "mx-auto": paragraph.suStatCentered,
+          })}
           href={paragraph.suStatButton.url}
         >
           {paragraph.suStatButton.title}

@@ -1,8 +1,7 @@
 import Paragraph from "@components/paragraphs/paragraph"
 import {ParagraphUnion} from "@lib/gql/__generated__/graphql"
 import {LayoutParagraphBehaviors} from "drupal"
-import {clsx} from "clsx"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {HTMLAttributes} from "react"
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -14,9 +13,9 @@ const OneColumn = ({items, config, className, ...props}: Props) => {
   return (
     <div
       {...props}
-      className={twMerge(
-        className,
-        clsx("mb-32 space-y-16 @container", {
+      className={cn(
+        "mb-32 space-y-16 @container",
+        {
           "px-10 py-20": !!config?.bg_color,
           "pt-0": config?.top_padding === "none",
           "pt-40": config?.top_padding === "more",
@@ -28,7 +27,8 @@ const OneColumn = ({items, config, className, ...props}: Props) => {
           "bg-[#dcefec]": config?.bg_color === "dcefec",
           "bg-[#f2e8f1]": config?.bg_color === "f2e8f1",
           "bg-[#f7ecde]": config?.bg_color === "f7ecde",
-        })
+        },
+        className
       )}
       data-columns="1"
     >

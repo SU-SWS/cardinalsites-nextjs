@@ -5,7 +5,7 @@ import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordList} from "@lib/gql/__generated__/graphql"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {ListParagraphBehaviors} from "drupal"
 import {getViewPagedItems, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
 import {getIdFromText} from "@lib/utils/text-tools"
@@ -39,15 +39,12 @@ const ListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <ListWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10 xl:max-w-[1200px]", props.className)}
+      className={cn("centered mb-20 flex flex-col gap-10 xl:max-w-[1200px]", props.className)}
       aria-labelledby={ListWrapper === "section" ? id : undefined}
       data-nosnippet
     >
       {paragraph.suListHeadline && behaviors.list_paragraph?.heading_behavior !== "remove" && (
-        <H2
-          id={id}
-          className={twMerge("text-center", behaviors.list_paragraph?.heading_behavior === "hide" && "sr-only")}
-        >
+        <H2 id={id} className={cn("text-center", behaviors.list_paragraph?.heading_behavior === "hide" && "sr-only")}>
           {paragraph.suListHeadline}
         </H2>
       )}

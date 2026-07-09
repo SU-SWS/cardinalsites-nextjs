@@ -5,7 +5,7 @@ import {H2} from "@components/elements/headers"
 import {ElementType, HtmlHTMLAttributes} from "react"
 import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Link from "@components/elements/link"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -18,7 +18,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
   return (
     <GalleryWrapper
       {...props}
-      className={twMerge("centered mb-20 flex flex-col gap-10 @container xl:max-w-[1200px]", props.className)}
+      className={cn("centered mb-20 flex flex-col gap-10 @container xl:max-w-[1200px]", props.className)}
       aria-labelledby={paragraph.suGalleryHeadline ? id : undefined}
     >
       {paragraph.suGalleryHeadline && (

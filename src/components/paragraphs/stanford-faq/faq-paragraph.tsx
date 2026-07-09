@@ -3,7 +3,7 @@ import {ParagraphStanfordFaq} from "@lib/gql/__generated__/graphql"
 import {H2, H3, H4} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Accordion, {AccordionHeaderChoice} from "@components/elements/accordion"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import ExpandCollapseAll from "@components/paragraphs/stanford-faq/expand-collapse-all"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
 import {FAQParagraphBehaviors} from "drupal"
@@ -33,7 +33,7 @@ const FaqParagraph = ({paragraph, ...props}: Props) => {
   const id = getIdFromText(paragraph.suFaqHeadline)
 
   return (
-    <div {...props} className={twMerge("space-y-20", props.className)}>
+    <div {...props} className={cn("space-y-20", props.className)}>
       <div className="flex flex-col items-center justify-between gap-20 @3xl:flex-row">
         {heading && (
           <Header id={id} className="mb-0">

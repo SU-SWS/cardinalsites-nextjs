@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation"
 import ReactFocusLock from "react-focus-lock"
 import {XMarkIcon} from "@heroicons/react/24/solid"
 import {useEventListener, useScrollLock} from "usehooks-ts"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogElement>) => {
   const overlay = useRef<HTMLDialogElement>(null)
@@ -33,7 +33,7 @@ const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogEl
       returnFocus
       as="dialog"
       ref={overlay}
-      className={twMerge("fixed left-0 top-0 z-[10000] h-lvh w-screen bg-black-true bg-opacity-90", props.className)}
+      className={cn("fixed left-0 top-0 z-[10000] h-lvh w-screen bg-black-true bg-opacity-90", props.className)}
       onClick={onClick}
       lockProps={{open: true}}
       {...props}

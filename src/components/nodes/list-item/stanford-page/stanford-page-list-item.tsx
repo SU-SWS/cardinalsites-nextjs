@@ -3,7 +3,7 @@ import Image from "next/image"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPage} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -22,7 +22,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
   const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={id} className={twMerge("@container", props.className)}>
+    <article {...props} aria-labelledby={id} className={cn("@container", props.className)}>
       <div className="flex flex-col justify-between gap-20 @4xl:flex-row" {...props}>
         <div className="order-2 @4xl:order-1">
           <Heading id={id}>

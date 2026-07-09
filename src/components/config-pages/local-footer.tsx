@@ -22,7 +22,7 @@ import FacebookIcon from "@components/elements/icons/FacebookIcon"
 import {Maybe, StanfordLocalFooter} from "@lib/gql/__generated__/graphql"
 import {buildUrl} from "@lib/utils/utils"
 import {getConfigPage} from "@lib/gql/gql-queries"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import LinkedInIcon from "@components/elements/icons/LinkedInIcon"
 import InstagramIcon from "@components/elements/icons/InstagramIcon"
 import BlueSkyIcon from "@components/elements/icons/BlueSkyIcon"
@@ -54,7 +54,7 @@ const LocalFooter = async ({...props}: Props) => {
   }
 
   return (
-    <div {...props} className={twMerge("local-footer bg-foggy-light py-20", props.className)}>
+    <div {...props} className={cn("local-footer bg-foggy-light py-20", props.className)}>
       <div className="centered">
         <div className="mb-20">
           <FooterLockup {...lockupProps} />

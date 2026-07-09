@@ -1,8 +1,7 @@
 import Link from "@components/elements/link"
-import {clsx} from "clsx"
 import {BookLink, MenuItem as MenuItemType} from "@lib/gql/__generated__/graphql"
 import {HTMLAttributes} from "react"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HTMLAttributes<HTMLElement> & {
   /**
@@ -33,17 +32,14 @@ type MenuItemProps = (MenuItemType | BookLink) & {
 }
 
 const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: MenuItemProps) => {
-  const linkClasses = twMerge(
-    "w-full inline-block relative no-underline hocus:underline pl-10 py-5 font-normal",
-    clsx({
-      // Non-active state.
-      "text-digital-red hocus:text-black hocus:before:content-[''] hocus:before:block hocus:before:w-[6px] hocus:before:h-full hocus:before:bg-black hocus:before:absolute hocus:before:left-0 hocus:before:top-0 before:scale-y-[1] before:transition":
-        activeTrail.at(-1) !== id,
-      // Active state.
-      "text-black before:content-[''] before:block before:w-[6px] before:h-full before:bg-black before:absolute before:left-0 before:top-0":
-        activeTrail.at(-1) === id,
-    })
-  )
+  const linkClasses = cn("relative inline-block w-full py-5 pl-10 font-normal no-underline hocus:underline", {
+    // Non-active state.
+    "text-digital-red before:scale-y-[1] before:transition hocus:text-black hocus:before:absolute hocus:before:left-0 hocus:before:top-0 hocus:before:block hocus:before:h-full hocus:before:w-[6px] hocus:before:bg-black hocus:before:content-['']":
+      activeTrail.at(-1) !== id,
+    // Active state.
+    "text-black before:absolute before:left-0 before:top-0 before:block before:h-full before:w-[6px] before:bg-black before:content-['']":
+      activeTrail.at(-1) === id,
+  })
 
   return (
     <li className="m-0 border-b p-0 last:border-0">
@@ -52,15 +48,12 @@ const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: Menu
       </Link>
       {expanded && children && children.length > 0 && activeTrail.includes(id) && (
         <ul
-          className={twMerge(
-            "list-unstyled border-t",
-            clsx({
-              "pl-10": level === 0,
-              "pl-20": level === 1,
-              "pl-28": level === 2,
-              "pl-48": level === 3,
-            })
-          )}
+          className={cn("list-unstyled border-t", {
+            "pl-10": level === 0,
+            "pl-20": level === 1,
+            "pl-28": level === 2,
+            "pl-48": level === 3,
+          })}
         >
           {children.map(item => (
             <MenuItem key={item.id} {...item} level={level + 1} activeTrail={activeTrail} />

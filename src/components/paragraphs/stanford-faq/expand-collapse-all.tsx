@@ -4,7 +4,7 @@ import Button from "@components/elements/button"
 import {useBoolean} from "usehooks-ts"
 import {HTMLAttributes, useEffect, useRef} from "react"
 import {MinusIcon, PlusIcon} from "@heroicons/react/16/solid"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HTMLAttributes<HTMLButtonElement>
 
@@ -33,7 +33,7 @@ const ExpandCollapseAll = ({...props}: Props) => {
       onClick={toggle}
       secondary
       {...props}
-      className={twMerge("flex items-center gap-5 whitespace-nowrap", props.className)}
+      className={cn("flex items-center gap-5 whitespace-nowrap", props.className)}
     >
       {expand ? "Expand All" : "Collapse All"}
       {expand && <PlusIcon width={20} />}

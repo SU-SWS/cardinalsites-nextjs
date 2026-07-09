@@ -5,7 +5,7 @@ import {H2} from "@components/elements/headers"
 import {StanfordSuperFooter} from "@lib/gql/__generated__/graphql"
 import {getConfigPage} from "@lib/gql/gql-queries"
 import {HTMLAttributes} from "react"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HTMLAttributes<HTMLDivElement>
 
@@ -14,7 +14,7 @@ const SuperFooter = async ({...props}: Props) => {
   if (!superFooterConfig?.suSuperFootEnabled) return
 
   return (
-    <div {...props} className={twMerge("border-b border-black-20 bg-foggy-light py-20", props.className)}>
+    <div {...props} className={cn("border-b border-black-20 bg-foggy-light py-20", props.className)}>
       <div className="centered flex justify-between">
         <div className="flex-1">
           {superFooterConfig.suSuperFootTitle && <H2 className="type-3">{superFooterConfig.suSuperFootTitle}</H2>}

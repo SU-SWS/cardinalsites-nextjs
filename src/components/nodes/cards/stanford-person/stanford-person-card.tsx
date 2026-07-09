@@ -3,7 +3,7 @@ import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -17,11 +17,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
   const Heading = headingLevel === "h3" ? H3 : H2
   const id = getIdFromText(node.title)
   return (
-    <article
-      {...props}
-      aria-labelledby={id}
-      className={twMerge("mx-auto overflow-hidden text-center", props.className)}
-    >
+    <article {...props} aria-labelledby={id} className={cn("mx-auto overflow-hidden text-center", props.className)}>
       {imageUrl && (
         <div className="relative mx-auto mb-20 aspect-[1/1] w-3/5">
           <Image

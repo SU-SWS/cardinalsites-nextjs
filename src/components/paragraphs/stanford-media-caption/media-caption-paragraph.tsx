@@ -4,7 +4,7 @@ import Image from "next/image"
 import Oembed from "@components/elements/ombed"
 import Link from "@components/elements/link"
 import Wysiwyg from "@components/elements/wysiwyg"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -18,7 +18,7 @@ const MediaCaptionParagraph = async ({paragraph, ...props}: Props) => {
     paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo
 
   return (
-    <figure {...props} className={twMerge("centered xl:max-w-[1200px]", props.className)}>
+    <figure {...props} className={cn("centered xl:max-w-[1200px]", props.className)}>
       {image?.url && (
         <div className="relative aspect-[16/9] w-full">
           <Image

@@ -2,8 +2,8 @@
 
 import {useState} from "react"
 import {clearCache} from "./actions"
-import {clsx} from "clsx"
 import CheckboxButton from "@components/elements/inputs/checkbox-button"
+import cn from "@lib/utils/className"
 
 const CacheClearForm = () => {
   const [message, setMessage] = useState<{success: boolean; message: string} | null>(null)
@@ -56,7 +56,7 @@ const CacheClearForm = () => {
 
       {message && (
         <div
-          className={clsx("mt-4 rounded-md p-4 font-semibold text-white", {
+          className={cn("mt-4 rounded-md p-4 font-semibold text-white", {
             "bg-green-800": message.success,
             "bg-red-800": !message.success,
           })}

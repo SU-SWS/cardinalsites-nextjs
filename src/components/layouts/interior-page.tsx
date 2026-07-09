@@ -3,7 +3,7 @@ import SideNav from "@components/menu/side-nav"
 import {HtmlHTMLAttributes, ReactNode} from "react"
 import {BookLink, MenuAvailable, MenuItem} from "@lib/gql/__generated__/graphql"
 import {getMenuActiveTrail} from "@lib/utils/utils"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
@@ -24,7 +24,7 @@ const InteriorPage = async ({children, leftSideBar, hideSecondaryNav, currentPat
   const subTree = topMenuItem ? topMenuItem.children : []
 
   return (
-    <div {...props} className={twMerge("centered flex flex-col gap-20 lg:flex-row", props.className)}>
+    <div {...props} className={cn("centered flex flex-col gap-20 lg:flex-row", props.className)}>
       {(subTree.length > 1 || subTree[0]?.children || leftSideBar) && (
         <aside className="shrink-0 lg:w-1/4">
           {!hideSecondaryNav && (subTree.length > 1 || subTree[0]?.children) && (

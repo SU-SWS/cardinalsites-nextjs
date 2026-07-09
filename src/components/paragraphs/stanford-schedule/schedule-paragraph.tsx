@@ -4,7 +4,7 @@ import {H3} from "@components/elements/headers"
 import PersonCtaParagraph from "@components/paragraphs/stanford-person-cta/person-cta-paragraph"
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordSchedule} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordSchedule
@@ -23,7 +23,7 @@ const ScheduleParagraph = ({paragraph, ...props}: Props) => {
   }
 
   return (
-    <div {...props} className={twMerge("centered", props.className)}>
+    <div {...props} className={cn("centered", props.className)}>
       {start && <H3>{start}</H3>}
       {paragraph.suScheduleHeadline && <div>{paragraph.suScheduleHeadline}</div>}
 

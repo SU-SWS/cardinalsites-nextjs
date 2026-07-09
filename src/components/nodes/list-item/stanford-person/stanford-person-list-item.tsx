@@ -3,7 +3,7 @@ import Link from "@components/elements/link"
 import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -20,7 +20,7 @@ const StanfordPersonListItem = ({node, headingLevel, ...props}: Props) => {
     <article
       {...props}
       aria-labelledby={id}
-      className={twMerge("mx-auto w-full max-w-[500px] p-20 text-center shadow-lg", props.className)}
+      className={cn("mx-auto w-full max-w-[500px] p-20 text-center shadow-lg", props.className)}
     >
       {imageUrl && (
         <div className="relative mx-auto mb-20 aspect-[1/1] w-full">

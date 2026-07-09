@@ -4,7 +4,7 @@ import {H2, H3, H4} from "@components/elements/headers"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
 import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behaviors"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import HeroBanner from "@components/patterns/hero-banner"
 import {BannerParagraphBehaviors} from "drupal"
 import {getIdFromText} from "@lib/utils/text-tools"
@@ -43,7 +43,7 @@ const BannerParagraph = ({paragraph, eagerLoadImage, ...props}: Props) => {
           {paragraph.suBannerHeader && (
             <>
               {headerTag === "h2" && (
-                <H2 id={id} className={twMerge(headerClasses, "type-2 mb-0")}>
+                <H2 id={id} className={cn(headerClasses, "type-2 mb-0")}>
                   {paragraph.suBannerHeader}
                 </H2>
               )}

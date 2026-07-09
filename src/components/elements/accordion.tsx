@@ -4,8 +4,7 @@ import {HTMLAttributes, JSX, useId} from "react"
 import {useBoolean} from "usehooks-ts"
 import {H2, H3, H4, H5} from "@components/elements/headers"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import {clsx} from "clsx"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 export type AccordionHeaderChoice = "h2" | "h3" | "h4" | "h5"
 
@@ -88,23 +87,20 @@ const Accordion = ({
       <Heading id={`${id}-button`}>
         <button
           {...buttonProps}
-          className={twMerge("flex w-full items-center text-left hocus-visible:underline", buttonProps?.className)}
+          className={cn("flex w-full items-center text-left hocus-visible:underline", buttonProps?.className)}
           aria-expanded={isExpanded}
           aria-controls={`${id}-panel`}
           onClick={onButtonClick}
         >
           {button}
-          <ChevronDownIcon
-            height={30}
-            className={twMerge("ml-auto shrink-0 duration-150", clsx({"rotate-180": isExpanded}))}
-          />
+          <ChevronDownIcon height={30} className={cn("ml-auto shrink-0 duration-150", {"rotate-180": isExpanded})} />
         </button>
       </Heading>
 
       <div
         {...panelProps}
         id={`${id}-panel`}
-        className={twMerge(isExpanded ? "mb-20 block" : "hidden", panelProps?.className)}
+        className={cn("hidden", {"mb-20 block": isExpanded}, panelProps?.className)}
         role="region"
         aria-labelledby={`${id}-button`}
       >

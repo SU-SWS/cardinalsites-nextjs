@@ -1,9 +1,8 @@
 import React, {ElementType, HtmlHTMLAttributes} from "react"
 import Image from "next/image"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import {Maybe} from "@lib/gql/__generated__/graphql"
 import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
-import {clsx} from "clsx"
 import {OverlayColors} from "@lib/@types/drupal"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -46,16 +45,16 @@ const HeroBanner = async ({
   const BannerWrapper: ElementType = isSection ? "section" : "div"
 
   return (
-    <BannerWrapper {...props} className={twMerge("md:min-h-400 rs-mb-5 relative @container", props.className)}>
+    <BannerWrapper {...props} className={cn("md:min-h-400 rs-mb-5 relative @container", props.className)}>
       <div
-        className={clsx("w-full bg-cool-grey", {
+        className={cn("w-full bg-cool-grey", {
           "@6xl:aspect-auto relative aspect-[16/9] @6xl:absolute @6xl:h-full": overlayPosition !== "center",
           "aspect-auto absolute h-full": overlayPosition === "center",
         })}
       >
         {overlayPosition === "center" && (
           <div
-            className={clsx("relative z-10 size-full", {
+            className={cn("relative z-10 size-full", {
               "bg-black-true/80": !overlayColor || overlayColor === "#000000",
               "bg-plum/80": overlayColor === "#620059",
               "bg-sky-dark/80": overlayColor === "#016895",
@@ -80,16 +79,13 @@ const HeroBanner = async ({
 
       {children && (
         <div
-          className={twMerge(
-            "relative z-[11] flex size-full flex-col gap-10",
-            clsx({
-              "cc rs-py-4 items-center justify-center text-center text-white @6xl:max-w-800":
-                overlayPosition === "center",
-              "rs-p-2 shadow-lg @6xl:z-10 @6xl:my-24 @6xl:max-w-[550px] @6xl:bg-white": overlayPosition !== "center",
-              "@6xl:ml-auto @6xl:mr-20": overlayPosition === "right",
-              "@6xl:ml-20 @6xl:mr-auto": overlayPosition === "left",
-            })
-          )}
+          className={cn("relative z-[11] flex size-full flex-col gap-10", {
+            "cc rs-py-4 items-center justify-center text-center text-white @6xl:max-w-800":
+              overlayPosition === "center",
+            "rs-p-2 shadow-lg @6xl:z-10 @6xl:my-24 @6xl:max-w-[550px] @6xl:bg-white": overlayPosition !== "center",
+            "@6xl:ml-auto @6xl:mr-20": overlayPosition === "right",
+            "@6xl:ml-20 @6xl:mr-auto": overlayPosition === "left",
+          })}
         >
           {children}
         </div>

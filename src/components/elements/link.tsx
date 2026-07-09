@@ -5,7 +5,7 @@ import ActionLink from "@components/elements/action-link"
 import Button from "@components/elements/button"
 import {LinkProps as NextLinkProps} from "next/dist/client/link"
 import {ArrowUpRightIcon} from "@heroicons/react/16/solid"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 
 export type LinkProps = HtmlHTMLAttributes<HTMLAnchorElement | HTMLButtonElement> &
   NextLinkProps & {
@@ -84,7 +84,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   }
 
   return (
-    <Link prefetch={false} href={href} className={twMerge("group", className)} {...props}>
+    <Link prefetch={false} href={href} className={cn("group", className)} {...props}>
       {children}
       {href.startsWith("mailto") && <EnvelopeIcon width={20} className="ml-4 inline-block" />}
 

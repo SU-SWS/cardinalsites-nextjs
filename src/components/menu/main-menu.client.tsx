@@ -2,11 +2,10 @@
 
 import useOutsideClick from "@hooks/useOutsideClick"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import {clsx} from "clsx"
 import {useBoolean, useEventListener} from "usehooks-ts"
 import {HTMLAttributes, ReactNode, useCallback, useEffect, useRef} from "react"
 import {usePathname} from "next/navigation"
-import twMerge from "@lib/utils/twMerge"
+import cn from "@lib/utils/className"
 import Link, {LinkProps} from "@components/elements/link"
 import {RefObject} from "react"
 
@@ -43,31 +42,22 @@ export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLU
       >
         <span className="flex h-[30px] w-[30px] flex-col items-center justify-center">
           <span
-            className={twMerge(
-              "block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
-              clsx({
-                "translate-y-4 rotate-45": menuOpen,
-                "-translate-y-0.5": !menuOpen,
-              })
-            )}
+            className={cn("block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
+              "translate-y-4 rotate-45": menuOpen,
+              "-translate-y-0.5": !menuOpen,
+            })}
           />
           <span
-            className={twMerge(
-              "my-3 block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
-              clsx({
-                "opacity-0": menuOpen,
-                "opacity-100": !menuOpen,
-              })
-            )}
+            className={cn("my-3 block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
+              "opacity-0": menuOpen,
+              "opacity-100": !menuOpen,
+            })}
           />
           <span
-            className={twMerge(
-              "block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out",
-              clsx({
-                "-translate-y-4 -rotate-45": menuOpen,
-                "translate-y-0.5": !menuOpen,
-              })
-            )}
+            className={cn("block h-[3px] w-full rounded-sm bg-black-true transition-all duration-300 ease-out", {
+              "-translate-y-4 -rotate-45": menuOpen,
+              "translate-y-0.5": !menuOpen,
+            })}
           />
         </span>
         <span className="group-hocus-visible:underline" aria-hidden="true">
@@ -75,10 +65,9 @@ export const MainMenuClientWrapper = ({children, ...props}: HTMLAttributes<HTMLU
         </span>
       </button>
       <div
-        className={twMerge(
-          "top-100 absolute z-20 hidden w-full bg-black lg:relative lg:top-0 lg:block lg:bg-transparent",
-          clsx({block: menuOpen})
-        )}
+        className={cn("top-100 absolute z-20 hidden w-full bg-black lg:relative lg:top-0 lg:block lg:bg-transparent", {
+          block: menuOpen,
+        })}
       >
         {children}
       </div>
@@ -130,9 +119,9 @@ export const MainMenuItemClientWrapper = ({id, level, link, children, ...props}:
           >
             <ChevronDownIcon
               height={35}
-              className={twMerge(
+              className={cn(
                 "ml-auto transition duration-150 ease-in-out group-hocus-visible:scale-125 group-hocus-visible:text-black",
-                clsx({"rotate-180": submenuOpen})
+                {"rotate-180": submenuOpen}
               )}
             />
           </button>
