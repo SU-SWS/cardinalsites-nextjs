@@ -10,7 +10,7 @@ const PageFooter = ({...props}: Props) => {
       <SuperFooter />
       <LocalFooter />
 
-      <div className="bg-cardinal-red py-10 [&_a:hocus]:text-white [&_a]:text-white [&_a]:no-underline">
+      <div className="bg-cardinal-red py-10 [&_a:focus]:text-white [&_a:hover]:text-white [&_a]:text-white [&_a]:no-underline">
         <div className="centered lg:flex lg:items-start lg:gap-20">
           <div className="mb-10 text-center">
             <a className="logo type-3 text-white hocus:text-white" href="https://www.stanford.edu">

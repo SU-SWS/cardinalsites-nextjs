@@ -6,7 +6,7 @@ export const globalMessageStyles = ({addUtilities, theme}) =>{
         color: theme("colors.white"),
       },
       "a:hover, a:focus": {
-        color: theme("colors.black"),
+        color: theme("colors.black.DEFAULT"),
       },
     },
   })

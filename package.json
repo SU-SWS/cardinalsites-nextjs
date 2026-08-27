@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "DEV=true next dev --webpack",
-    "build": "next build --webpack",
-    "analyze": "ANALYZE=true next build",
-    "preview": "next build --webpack && next start",
+    "dev": "DEV=true next dev",
+    "build": "next build",
+    "preview": "next build && next start",
     "start": "next start",
     "lint": "eslint ./src ./app && tsc",
     "graphql": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.ts -r dotenv/config",
