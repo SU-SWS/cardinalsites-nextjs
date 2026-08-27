@@ -6,8 +6,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPublication} from "@lib/gql/__generated__/graphql"
 import {redirect} from "next/navigation"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getFirstText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -19,11 +17,6 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
   if (citationUrl) redirect(citationUrl)
   return (
     <article className="centered mb-20 pt-32" {...props}>
-      <NodePageMetadata
-        pageTitle={node.title}
-        metatags={node.metatag}
-        backupDescription={getFirstText(node.suPublicationComponents)}
-      />
       <ReverseVisualOrder className="gap-10">
         <H1>{node.title}</H1>
         <div>

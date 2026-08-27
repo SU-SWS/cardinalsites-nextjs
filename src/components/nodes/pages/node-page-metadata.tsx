@@ -3,10 +3,11 @@ import {
   MetaTagUnion,
   MetaTagValue as MetaTagValueType,
   MetaTagProperty as MetaTagPropertyType,
+  MetaTagScript as MetaTagScriptType,
   StanfordBasicSiteSetting,
   Maybe,
 } from "@lib/gql/__generated__/graphql"
-import {JSX} from "react"
+import {ElementType, JSX} from "react"
 
 type Props = {
   /**
@@ -66,6 +67,7 @@ const NodePageMetadata = async ({pageTitle, metatags, backupDescription, childre
 const MetaTag = ({tag}: {tag: MetaTagUnion}) => {
   if (tag.__typename === "MetaTagValue") return <MetaTagValue tag={tag} />
   if (tag.__typename === "MetaTagProperty") return <MetaTagProperty tag={tag} />
+  if (tag.__typename === "MetaTagScript") return <MetaTagScript tag={tag} />
 }
 
 const MetaTagValue = ({tag}: {tag: MetaTagValueType}) => {
@@ -78,6 +80,11 @@ const MetaTagProperty = ({tag}: {tag: MetaTagPropertyType}) => {
   const ignoreProperties = ["og:url", "og:title"]
   if (tag.attributes.property && tag.attributes.content && !ignoreProperties.includes(tag.attributes.property))
     return <meta property={tag.attributes.property} content={tag.attributes.content} />
+}
+
+const MetaTagScript = ({tag}: {tag: MetaTagScriptType}) => {
+  const TagElement = tag.tag as unknown as ElementType
+  return <TagElement {...tag.attributes}>{tag.content}</TagElement>
 }
 
 export default NodePageMetadata

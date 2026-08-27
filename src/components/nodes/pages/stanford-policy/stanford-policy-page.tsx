@@ -10,8 +10,6 @@ import Button from "@components/elements/button"
 import {ChevronLeftIcon} from "@heroicons/react/16/solid"
 import {ChevronRightIcon} from "@heroicons/react/20/solid"
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getCleanDescription} from "@lib/utils/text-tools"
 import {redirect} from "next/navigation"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -37,11 +35,6 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
 
   return (
     <article className="centered pt-32" {...props}>
-      <NodePageMetadata
-        pageTitle={node.title}
-        metatags={node.metatag}
-        backupDescription={getCleanDescription(node.body?.processed)}
-      />
       <div className="flex gap-5">
         <H1 className="flex-grow">{node.title}</H1>
         <div className="flex h-fit gap-5">

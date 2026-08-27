@@ -28,7 +28,6 @@ fragment FragmentNodePageInfo on Connection {
 }
 
 
-
 query AllNodes($first: Int = 1000, $nodeStanfordCourses: Cursor, $nodeStanfordEventSeriesItems: Cursor, $nodeStanfordEvents: Cursor, $nodeStanfordMediaItems: Cursor, $nodeStanfordNewsItems: Cursor, $nodeStanfordPages: Cursor, $nodeStanfordPeople: Cursor, $nodeStanfordPolicies: Cursor, $nodeStanfordPublications: Cursor) {
     nodeStanfordPages(first: $first, after: $nodeStanfordPages, sortKey: CREATED_AT) {
         ...FragmentNodePageInfo

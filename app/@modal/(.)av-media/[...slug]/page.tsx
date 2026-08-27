@@ -4,6 +4,7 @@ import InterceptionModal from "@components/elements/interception-modal"
 import Oembed from "@components/elements/ombed"
 import {notFound} from "next/navigation"
 import type {Slug} from "@lib/@types/types"
+import {H2} from "@components/elements/headers"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -13,12 +14,23 @@ const Page = async ({params}: {params: Promise<{slug: Array<string>}>}) => {
   const uuid = (await params).slug.at(-1)
   if (!uuid) notFound()
 
-  const media = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
-  if (media.media?.__typename !== "MediaVideo") return null
+  const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
+  if (!media) return null
 
   return (
     <InterceptionModal aria-labelledby={uuid}>
-      <Oembed url={media.media.mediaOembedVideo} />
+      <H2 id={uuid}>{media.name}</H2>
+      {media.__typename === "MediaVideo" && <Oembed url={media.mediaOembedVideo} />}
+
+      {media.__typename === "MediaSdr" && <Oembed url={media.sdrUrl} />}
+
+      {media.__typename === "MediaEmbeddable" && !media.mediaEmbeddableCode && media.mediaEmbeddableOembed && (
+        <Oembed url={media.mediaEmbeddableOembed} />
+      )}
+
+      {media.__typename === "MediaEmbeddable" && media.mediaEmbeddableCode && (
+        <div dangerouslySetInnerHTML={{__html: media.mediaEmbeddableCode}} />
+      )}
     </InterceptionModal>
   )
 }

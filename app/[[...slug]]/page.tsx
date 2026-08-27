@@ -4,6 +4,7 @@ import {getAllNodes, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-quer
 import {notFound, redirect} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
 import type {Slug, PageProps} from "@lib/@types/types"
+import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -19,7 +20,12 @@ const Page = async (props: PageProps) => {
   if (redirectPath) redirect(redirectPath)
   if (!entity) notFound()
 
-  return <NodePage node={entity} isHome={path === "/"} />
+  return (
+    <>
+      <NodePageMetadata pageTitle={path !== "/" ? entity.title : undefined} metatags={entity.metatag} />
+      <NodePage node={entity} isHome={path === "/"} />
+    </>
+  )
 }
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {

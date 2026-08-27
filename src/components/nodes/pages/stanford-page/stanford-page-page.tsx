@@ -5,8 +5,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPage} from "@lib/gql/__generated__/graphql"
 import BannerParagraph from "@components/paragraphs/stanford-banner/banner-paragraph"
 import PageTitleBannerParagraph from "@components/paragraphs/stanford-page-title-banner/page-title-banner-paragraph"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getFirstText} from "@lib/utils/text-tools"
 import Wysiwyg from "@components/elements/wysiwyg"
 import AnchorNav from "@components/elements/anchor-nav"
 import cn from "@lib/utils/className"
@@ -30,12 +28,6 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
 
   return (
     <article {...props}>
-      <NodePageMetadata
-        pageTitle={!isHome ? node.title : undefined}
-        metatags={node.metatag}
-        backupDescription={getFirstText(node.suPageComponents)}
-      />
-
       <ReverseVisualOrder>
         {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && (
           <H1 className={cn("centered mt-32", {"sr-only": isHome})}>{node.title}</H1>

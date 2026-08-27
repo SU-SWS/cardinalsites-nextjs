@@ -137,6 +137,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
     suMediaAudioVideo {
         ...FragmentMediaEmbeddable
         ...FragmentMediaVideo
+        ...FragmentMediaSdr
     }
     suMediaCategory
     suMediaDate {

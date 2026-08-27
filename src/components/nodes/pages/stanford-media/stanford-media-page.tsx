@@ -3,7 +3,6 @@ import {H1, H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes, Suspense} from "react"
 import {NodeStanfordMedia, StanfordMediaDocument, StanfordMediaQuery} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Button from "@components/elements/button"
 import Link from "@components/elements/link"
@@ -33,7 +32,6 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32 flex gap-20" {...props}>
-      <NodePageMetadata pageTitle={node.title} metatags={node.metatag} backupDescription={node.suMediaDek} />
       <div className="flex-grow">
         <ReverseVisualOrder className="mb-20 gap-20 border-b border-black-20 pb-20">
           <div className="flex">
@@ -90,6 +88,21 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
             {node.suMediaAudioVideo[0].__typename === "MediaVideo" && (
               <Oembed url={node.suMediaAudioVideo[0].mediaOembedVideo} />
             )}
+
+            {node.suMediaAudioVideo[0].__typename === "MediaSdr" && (
+              <Oembed url={node.suMediaAudioVideo[0].mediaEmbeddableOembed} />
+            )}
+
+            {node.suMediaAudioVideo[0].__typename === "MediaEmbeddable" &&
+              !node.suMediaAudioVideo[0].mediaEmbeddableCode &&
+              node.suMediaAudioVideo[0].mediaEmbeddableOembed && (
+                <Oembed url={node.suMediaAudioVideo[0].mediaEmbeddableOembed} />
+              )}
+
+            {node.suMediaAudioVideo[0].__typename === "MediaEmbeddable" &&
+              node.suMediaAudioVideo[0].mediaEmbeddableCode && (
+                <div dangerouslySetInnerHTML={{__html: node.suMediaAudioVideo[0].mediaEmbeddableCode}} />
+              )}
           </div>
         </ReverseVisualOrder>
 

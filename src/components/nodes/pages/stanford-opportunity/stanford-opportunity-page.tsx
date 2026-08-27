@@ -4,8 +4,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordOpportunity, TermOpportunityTagFilter} from "@lib/gql/__generated__/graphql"
 import Wysiwyg from "@components/elements/wysiwyg"
 import Image from "next/image"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getCleanDescription, getFirstText} from "@lib/utils/text-tools"
 import Link from "@components/elements/link"
 import Telephone from "@components/elements/telephone"
 import Button from "@components/elements/button"
@@ -21,15 +19,6 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
 
   return (
     <article className="centered mt-32" {...props}>
-      <NodePageMetadata
-        pageTitle={node.title}
-        metatags={node.metatag}
-        backupDescription={
-          getCleanDescription(node.suOppSummary?.processed, 2) ||
-          getCleanDescription(node.body?.processed) ||
-          getFirstText(node.suOppComponents)
-        }
-      />
       <div className="mx-auto mb-10 flex items-start lg:w-10/12">
         {node.suOppIcon && (
           <div className={`mr-10 shrink-0 text-[50px] ${node.suOppIcon.style} fa-${node.suOppIcon.iconName}`} />

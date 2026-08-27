@@ -19,8 +19,6 @@ import {
   StanfordPublicationsQuery,
 } from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getCleanDescription} from "@lib/utils/text-tools"
 import {redirect} from "next/navigation"
 import {graphqlClient} from "@lib/gql/gql-client"
 import NodeCard from "@components/nodes/cards/node-card"
@@ -38,11 +36,6 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
   return (
     <div>
       <article className="centered mt-32" {...props}>
-        <NodePageMetadata
-          pageTitle={node.title}
-          metatags={node.metatag}
-          backupDescription={node.suPersonFullTitle || getCleanDescription(node.body?.processed)}
-        />
         <div className="mb-32 flex flex-col gap-20 lg:flex-row">
           {imageUrl && (
             <div className="relative mx-auto aspect-[1/1] w-[250px] shrink-0 lg:mx-0">

@@ -11,6 +11,7 @@ import {
 import Oembed from "@components/elements/ombed"
 import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
+import {notFound} from "next/navigation"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -23,18 +24,29 @@ type Param = {slug: Array<string>}
 
 const Page = async ({params}: {params: Promise<Param>}) => {
   "use cache: remote"
+
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
   const nodePath = getPathFromContext(slug)
 
-  const media = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
-  if (media.media?.__typename !== "MediaVideo") return null
+  const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})
+  if (!media) notFound()
 
   return (
     <div className="centered my-32">
-      <H1>{media.media.name}</H1>
+      <H1>{media.name}</H1>
 
-      <Oembed url={media.media.mediaOembedVideo} />
+      {media.__typename === "MediaVideo" && <Oembed url={media.mediaOembedVideo} />}
+
+      {media.__typename === "MediaSdr" && <Oembed url={media.sdrUrl} />}
+
+      {media.__typename === "MediaEmbeddable" && !media.mediaEmbeddableCode && media.mediaEmbeddableOembed && (
+        <Oembed url={media.mediaEmbeddableOembed} />
+      )}
+
+      {media.__typename === "MediaEmbeddable" && media.mediaEmbeddableCode && (
+        <div dangerouslySetInnerHTML={{__html: media.mediaEmbeddableCode}} />
+      )}
 
       <Button href={nodePath} className="ml-auto mt-32 block">
         Back to content

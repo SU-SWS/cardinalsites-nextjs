@@ -2,7 +2,7 @@ import SiteSearchForm from "@components/search/site-search-form"
 import MainMenu from "@components/menu/main-menu"
 import GlobalMessage from "@components/config-pages/global-message"
 import Lockup from "@components/elements/lockup/lockup"
-import {HTMLAttributes} from "react"
+import {HTMLAttributes, Suspense} from "react"
 import cn from "@lib/utils/className"
 import UtilityNav from "@components/menu/utility-nav"
 import {getConfigPageField} from "@lib/gql/gql-queries"
@@ -55,7 +55,9 @@ const PageHeader = async ({...props}: Props) => {
           </div>
         </div>
 
-        <MainMenu hideSearch={hideSearch} />
+        <Suspense>
+          <MainMenu hideSearch={hideSearch} />
+        </Suspense>
       </div>
     </header>
   )

@@ -20,6 +20,7 @@ export const maxDuration = 30
 
 const Page = async (props: Props) => {
   "use cache: remote"
+
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
 

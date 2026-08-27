@@ -88,6 +88,11 @@ fragment FragmentMediaVideo on MediaVideo {
     suVideoDuration
 }
 
+fragment FragmentMediaSdr on MediaSdr {
+    ...FragmentMediaInterface
+    sdrUrl: mediaEmbeddableOembed
+}
+
 fragment FragmentMediaUnion on MediaUnion {
     ...FragmentMediaEmbeddable
     ...FragmentMediaFile
@@ -95,6 +100,7 @@ fragment FragmentMediaUnion on MediaUnion {
     ...FragmentMediaImage
     ...FragmentMediaStanfordGalleryImage
     ...FragmentMediaVideo
+    ...FragmentMediaSdr
 }
 
 fragment FragmentDateTime on DateTime {
@@ -144,6 +150,14 @@ fragment FragmentMetaTag on MetaTagUnion {
         attributes {
             property
             content
+        }
+    }
+    ... on MetaTagScript {
+        __typename
+        content
+        tag
+        attributes {
+            type
         }
     }
 }
