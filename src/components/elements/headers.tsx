@@ -15,7 +15,9 @@ export const H1 = ({children, className, ...props}: Props) => {
 }
 
 export const H2 = ({children, className, ...props}: Props) => {
-  const id = typeof children === "string" ? getIdFromText(children) : undefined
+  // Only generate an id when one wasn't given, otherwise the generated id is thrown away but still
+  // consumes a suffix for the next heading with the same text.
+  const id = !props.id && typeof children === "string" ? getIdFromText(children) : undefined
   return (
     <h2 id={id} className={cn(headingLinkClasses, "type-2", className)} {...props}>
       {children}
