@@ -55,15 +55,21 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
     }
   })
 
-  // Scan #page-content for h2 elements that have an id attribute
+  // Scan #page-content for visible h2 elements that have an id attribute and are not opted out
   const scanHeadings = useCallback(() => {
-    const pageContent = document.querySelector<HTMLElement>("#page-content")
+    const pageContent = document.querySelector<HTMLElement>("#main-content")
     if (!pageContent) return
-    const elements = pageContent.querySelectorAll<HTMLHeadingElement>("h2[id]:not(\\'.no-anchor\\')")
-    const items: HeadingItem[] = Array.from(elements).map(el => ({
-      id: el.id,
-      text: el.textContent?.trim() ?? "",
-    }))
+    const elements = pageContent.querySelectorAll<HTMLHeadingElement>("h2[id]")
+    const items: HeadingItem[] = Array.from(elements)
+      .filter(
+        el =>
+          !el.closest(".no-anchor, .sr-only") &&
+          el.checkVisibility({contentVisibilityAuto: true, opacityProperty: true, visibilityProperty: true})
+      )
+      .map(el => ({
+        id: el.id,
+        text: el.textContent?.trim() ?? "",
+      }))
     setHeadings(items)
   }, [])
 
@@ -154,8 +160,8 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
     <div ref={navRef} {...props} className={cn("mb-20 text-16", props.className)}>
       <nav
         aria-labelledby="anchor-nav"
-        className={cn("relative mx-auto w-fit items-center rounded border border-black-40 bg-black-10", {
-          "flex rounded-full": horizontal,
+        className={cn("relative mx-auto items-center rounded border border-black-40 bg-black-10", {
+          "flex w-fit rounded-full": horizontal,
         })}
       >
         {width && width < 768 && (
