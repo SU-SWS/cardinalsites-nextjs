@@ -12,6 +12,7 @@ import Oembed from "@components/elements/ombed"
 import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
 import {notFound} from "next/navigation"
+import {Suspense} from "react"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -22,7 +23,13 @@ export const maxDuration = 30
 
 type Param = {slug: Array<string>}
 
-const Page = async ({params}: {params: Promise<Param>}) => {
+const Page = ({params}: {params: Promise<Param>}) => (
+  <Suspense fallback={<MediaSkeleton />}>
+    <MediaContent params={params} />
+  </Suspense>
+)
+
+const MediaContent = async ({params}: {params: Promise<Param>}) => {
   "use cache: remote"
 
   const slug = (await params).slug.slice(0, -1)
@@ -54,6 +61,13 @@ const Page = async ({params}: {params: Promise<Param>}) => {
     </div>
   )
 }
+
+const MediaSkeleton = () => (
+  <div className="centered my-32">
+    <div className="mb-20 h-16 w-1/2 bg-black-10" />
+    <div className="aspect-[16/9] w-full bg-black-10" />
+  </div>
+)
 
 export const generateStaticParams = async () => {
   let fetchMore = true

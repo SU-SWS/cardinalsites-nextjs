@@ -3,6 +3,7 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import Image from "next/image"
+import {Suspense} from "react"
 
 export const metadata = {
   title: "Gallery Image",
@@ -18,7 +19,13 @@ type Props = {
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
-const Page = async (props: Props) => {
+const Page = (props: Props) => (
+  <Suspense fallback={<GallerySkeleton />}>
+    <GalleryContent params={props.params} />
+  </Suspense>
+)
+
+const GalleryContent = async (props: Props) => {
   "use cache: remote"
 
   const params = await props.params
@@ -56,6 +63,13 @@ const Page = async (props: Props) => {
     </div>
   )
 }
+
+const GallerySkeleton = () => (
+  <div className="centered mt-32">
+    <div className="mb-20 h-16 w-1/2 bg-black-10" />
+    <div className="aspect-[16/9] w-full bg-black-10" />
+  </div>
+)
 
 export const generateStaticParams = async (): Promise<Array<{uuid: string[]}>> => [{uuid: ["none"]}]
 

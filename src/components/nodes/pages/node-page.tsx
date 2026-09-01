@@ -41,4 +41,16 @@ const NodePage = ({node, isHome}: {node: NodeUnion; isHome?: boolean}) => {
       return <StanfordOpportunityPage node={node} {...itemProps} />
   }
 }
+
+export const NodePageSkeleton = () => {
+  return (
+    <div className="centered my-32">
+      <div className="mb-20 h-16 w-1/2 bg-black-10" />
+      <div className="mb-5 h-7 w-full bg-black-10" />
+      <div className="mb-5 h-7 w-full bg-black-10" />
+      <div className="h-7 w-1/3 bg-black-10" />
+    </div>
+  )
+}
+
 export default NodePage

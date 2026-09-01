@@ -137,7 +137,6 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
       )}
     >
       <Link
-        prefetch={level === 0}
         href={href}
         data-intrail={!isCurrent && browserUrl.includes(href) && href !== "/"}
         aria-current={isCurrent ? "page" : undefined}
