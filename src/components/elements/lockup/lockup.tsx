@@ -36,10 +36,10 @@ export const Lockup = async () => {
 
   if (!lockupSettingsConfig || lockupSettingsConfig.suLockupEnabled) {
     return (
-      <div className="py-10">
+      <div className="py-20">
         <Link href="/" className="flex no-underline">
           <div className="self-end">
-            <div className="mr-2 border-black pr-2 lg:inline-block lg:border-r">
+            <div className="mr-4 border-black pr-4 lg:inline-block lg:border-r">
               <LockupLogo {...lockupProps} />
             </div>
             <div className="type-2 font-normal text-black lg:inline-block">{siteName || "University"}</div>
@@ -89,8 +89,8 @@ export const Lockup = async () => {
     case "none":
     default:
       return (
-        <div className="py-10">
-          <Link href="/" className="flex flex-col gap-4 no-underline lg:flex-row">
+        <div className="py-20">
+          <Link href="/" className="flex flex-col gap-8 no-underline lg:flex-row">
             <LockupLogo {...lockupProps} />
             <span className="sr-only">{siteName}</span>
           </Link>

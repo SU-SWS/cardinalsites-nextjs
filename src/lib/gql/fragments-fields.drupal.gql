@@ -1,172 +1,172 @@
 # All the various fragments that could be used in the queries.
 fragment FragmentTextSummary on TextSummary {
-    processed
-    summary
+  processed
+  summary
 }
 fragment FragmentLink on Link {
-    url
-    title
+  url
+  title
 }
 fragment FragmentText on Text {
-    processed
+  processed
 }
 
 fragment FragmentSuPolicyLog on SuPolicyLog {
-    __typename
-    uuid
-    suPolicyDate {
-        ...FragmentDateTime
-    }
-    suPolicyNotes
-    suPolicyPublic
-    suPolicyTitle
+  __typename
+  uuid
+  suPolicyDate {
+    ...FragmentDateTime
+  }
+  suPolicyNotes
+  suPolicyPublic
+  suPolicyTitle
 }
 
 fragment FragmentTermInterface on TermInterface {
-    __typename
-    uuid
-    name
-    path
-    weight
-    parent {
-        ... on TermInterface {
-            uuid
-        }
+  __typename
+  uuid
+  name
+  path
+  weight
+  parent {
+    ... on TermInterface {
+      uuid
     }
+  }
 }
 
 fragment FragmentMediaInterface on MediaInterface {
-    __typename
-    uuid
-    name
+  __typename
+  uuid
+  name
 }
 
 fragment FragmentMediaFile on MediaFile {
-    ...FragmentMediaInterface
-    mediaFile {
-        url
-    }
+  ...FragmentMediaInterface
+  mediaFile {
+    url
+  }
 }
 
 fragment FragmentMediaEmbeddable on MediaEmbeddable {
-    ...FragmentMediaInterface
-    mediaEmbeddableCode
-    mediaEmbeddableOembed
+  ...FragmentMediaInterface
+  mediaEmbeddableCode
+  mediaEmbeddableOembed
 }
 
 fragment FragmentMediaGoogleForm on MediaGoogleForm {
-    ...FragmentMediaInterface
-    mediaGoogleForm
-    mediaGoogleForm
+  ...FragmentMediaInterface
+  mediaGoogleForm
+  mediaGoogleForm
 }
 
 fragment FragmentMediaImage on MediaImage {
-    ...FragmentMediaInterface
-    mediaImage {
-        url
-        alt
-        height
-        width
-    }
+  ...FragmentMediaInterface
+  mediaImage {
+    url
+    alt
+    height
+    width
+  }
 }
 
 fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
-    ...FragmentMediaInterface
-    suGalleryCaption
-    suGalleryImage {
-        url
-        alt
-        height
-        width
-    }
+  ...FragmentMediaInterface
+  suGalleryCaption
+  suGalleryImage {
+    url
+    alt
+    height
+    width
+  }
 }
 
 fragment FragmentMediaVideo on MediaVideo {
-    ...FragmentMediaInterface
-    mediaOembedVideo
-    suMediaDescription
-    suVideoDuration
+  ...FragmentMediaInterface
+  mediaOembedVideo
+  suMediaDescription
+  suVideoDuration
 }
 
 fragment FragmentMediaSdr on MediaSdr {
-    ...FragmentMediaInterface
-    sdrUrl: mediaEmbeddableOembed
+  ...FragmentMediaInterface
+  sdrUrl: mediaEmbeddableOembed
 }
 
 fragment FragmentMediaUnion on MediaUnion {
-    ...FragmentMediaEmbeddable
-    ...FragmentMediaFile
-    ...FragmentMediaGoogleForm
-    ...FragmentMediaImage
-    ...FragmentMediaStanfordGalleryImage
-    ...FragmentMediaVideo
-    ...FragmentMediaSdr
+  ...FragmentMediaEmbeddable
+  ...FragmentMediaFile
+  ...FragmentMediaGoogleForm
+  ...FragmentMediaImage
+  ...FragmentMediaStanfordGalleryImage
+  ...FragmentMediaVideo
+  ...FragmentMediaSdr
 }
 
 fragment FragmentDateTime on DateTime {
-    timezone
-    time
+  timezone
+  time
 }
 
 fragment FragmentSmartDateType on SmartDateType {
-    value
-    end_value
-    timezone
-    rrule_index
-    rrule
+  value
+  end_value
+  timezone
+  rrule_index
+  rrule
 }
 
 fragment FragmentAddressType on Address {
-    additionalName
-    addressLine1
-    addressLine2
-    administrativeArea
-    country {
-        name
-        code
-    }
-    dependentLocality
-    familyName
-    givenName
-    langcode
-    locality
-    organization
-    postalCode
-    sortingCode
+  additionalName
+  addressLine1
+  addressLine2
+  administrativeArea
+  country {
+    name
+    code
+  }
+  dependentLocality
+  familyName
+  givenName
+  langcode
+  locality
+  organization
+  postalCode
+  sortingCode
 }
 
 fragment FragmentMetaTag on MetaTagUnion {
-    ... on MetaTagValue {
-        __typename
-        tag
-        attributes {
-            name
-            content
-        }
+  ... on MetaTagValue {
+    __typename
+    tag
+    attributes {
+      name
+      content
     }
-    ... on MetaTagProperty {
-        __typename
-        tag
-        attributes {
-            property
-            content
-        }
+  }
+  ... on MetaTagProperty {
+    __typename
+    tag
+    attributes {
+      property
+      content
     }
-    ... on MetaTagScript {
-        __typename
-        content
-        tag
-        attributes {
-            type
-        }
+  }
+  ... on MetaTagScript {
+    __typename
+    content
+    tag
+    attributes {
+      type
     }
+  }
 }
 
 fragment NameField on NameType {
-    credentials
-    family
-    generational
-    given
-    middle
-    title
+  credentials
+  family
+  generational
+  given
+  middle
+  title
 }

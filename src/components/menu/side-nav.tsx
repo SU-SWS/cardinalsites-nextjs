@@ -16,7 +16,7 @@ type Props = HTMLAttributes<HTMLElement> & {
 
 const SideNav = ({menuItems, activeTrail, ...props}: Props) => {
   return (
-    <nav aria-label="Secondary Navigation" {...props}>
+    <nav aria-label="Secondary Navigation" {...props} className={cn("mb-20", props.className)}>
       <ul className="list-unstyled">
         {menuItems.map(item => (
           <MenuItem key={`sidenav--${item.id}`} {...item} activeTrail={activeTrail} level={0} />
@@ -32,12 +32,12 @@ type MenuItemProps = (MenuItemType | BookLink) & {
 }
 
 const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: MenuItemProps) => {
-  const linkClasses = cn("relative inline-block w-full py-5 pl-10 font-normal no-underline hocus:underline", {
+  const linkClasses = cn("relative inline-block w-full py-10 pl-20 font-normal no-underline hocus:underline", {
     // Non-active state.
-    "text-digital-red before:scale-y-[1] before:transition hocus:text-black hocus:before:absolute hocus:before:left-0 hocus:before:top-0 hocus:before:block hocus:before:h-full hocus:before:w-[6px] hocus:before:bg-black hocus:before:content-['']":
+    "text-digital-red before:scale-y-[1] before:transition hocus:text-black hocus:before:absolute hocus:before:top-0 hocus:before:left-0 hocus:before:block hocus:before:h-full hocus:before:w-6 hocus:before:bg-black hocus:before:content-['']":
       activeTrail.at(-1) !== id,
     // Active state.
-    "text-black before:absolute before:left-0 before:top-0 before:block before:h-full before:w-[6px] before:bg-black before:content-['']":
+    "text-black before:absolute before:top-0 before:left-0 before:block before:h-full before:w-6 before:bg-black before:content-['']":
       activeTrail.at(-1) === id,
   })
 
@@ -49,10 +49,10 @@ const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: Menu
       {expanded && children && children.length > 0 && activeTrail.includes(id) && (
         <ul
           className={cn("list-unstyled border-t", {
-            "pl-10": level === 0,
-            "pl-20": level === 1,
-            "pl-28": level === 2,
-            "pl-48": level === 3,
+            "pl-20": level === 0,
+            "pl-40": level === 1,
+            "pl-56": level === 2,
+            "pl-96": level === 3,
           })}
         >
           {children.map(item => (

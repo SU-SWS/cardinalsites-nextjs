@@ -57,13 +57,13 @@ export const Button = ({
   const standardClasses = cn({
     "mx-auto flex w-fit items-center": centered,
     "inline-block w-fit text-center": !centered,
-    "btn btn--big bg-digital-red px-12 py-6 text-5xl font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
+    "btn btn--big bg-digital-red px-24 py-12 text-5xl font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
       big && !secondary,
-    "btn btn--secondary border-2 border-digital-red px-8 py-4 font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
+    "btn btn--secondary border-2 border-digital-red px-16 py-8 font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
       !big && secondary,
-    "btn btn--big btn--secondary border-2 border-digital-red px-12 py-6 text-5xl font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
+    "btn btn--big btn--secondary border-2 border-digital-red px-24 py-12 text-5xl font-normal text-digital-red no-underline transition hocus:border-black hocus:underline":
       big && secondary,
-    "btn bg-digital-red px-8 py-4 font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
+    "btn bg-digital-red px-16 py-8 font-normal text-white no-underline transition hocus:bg-black hocus:text-white hocus:underline":
       !big && !secondary,
   })
 

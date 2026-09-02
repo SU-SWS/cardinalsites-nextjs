@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default async function CacheClearPage() {
   return (
-    <div className="centered my-32">
+    <div className="my-64 centered">
       <H1>Cache Management</H1>
       <CacheClearForm />
     </div>

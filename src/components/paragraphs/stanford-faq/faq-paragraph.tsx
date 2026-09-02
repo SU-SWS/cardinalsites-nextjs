@@ -34,7 +34,7 @@ const FaqParagraph = ({paragraph, ...props}: Props) => {
 
   return (
     <div {...props} className={cn("space-y-20", props.className)}>
-      <div className="flex flex-col items-center justify-between gap-20 @3xl:flex-row">
+      <div className="flex flex-col items-center justify-between gap-40 @3xl:flex-row">
         {heading && (
           <Header id={id} className="mb-0">
             {heading}
@@ -49,7 +49,7 @@ const FaqParagraph = ({paragraph, ...props}: Props) => {
         {paragraph.suFaqQuestions?.map(question => (
           <Accordion
             className="border-t border-black-40 last:border-b"
-            buttonProps={{className: "mt-6"}}
+            buttonProps={{className: "mt-12"}}
             key={question.uuid}
             button={question.suAccordionTitle}
             headingLevel={accordionHeadingLevel}

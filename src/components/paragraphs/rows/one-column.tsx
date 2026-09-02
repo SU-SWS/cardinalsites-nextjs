@@ -14,14 +14,14 @@ const OneColumn = ({items, config, className, ...props}: Props) => {
     <div
       {...props}
       className={cn(
-        "mb-32 space-y-16 @container",
+        "@container mb-64 space-y-16",
         {
-          "px-10 py-20": !!config?.bg_color,
+          "px-20 py-40": !!config?.bg_color,
           "pt-0": config?.top_padding === "none",
-          "pt-40": config?.top_padding === "more",
+          "pt-80": config?.top_padding === "more",
           "mb-0": config?.bottom_margin === "none",
           "pb-0": config?.bottom_padding === "none",
-          "bg-foggy-light": config?.bg_color === "f4f4f4",
+          "bg-fog-light": config?.bg_color === "f4f4f4",
           "bg-[#ebeae4]": config?.bg_color === "ebeae5",
           "bg-[#dcecef]": config?.bg_color === "dcecef",
           "bg-[#dcefec]": config?.bg_color === "dcefec",

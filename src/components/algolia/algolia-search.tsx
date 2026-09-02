@@ -79,7 +79,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
 
   return (
     <form
-      className="flex flex-col gap-10"
+      className="flex flex-col gap-20"
       action=""
       role="search"
       noValidate
@@ -106,7 +106,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
         </label>
         <input
           id="search-input"
-          className="type-2 h-20 max-w-xl rounded-full px-10 hocus:shadow-2xl"
+          className="h-20 max-w-xl rounded-full px-20 type-2 hocus:shadow-2xl"
           ref={inputRef}
           autoCorrect="on"
           spellCheck={false}
@@ -117,7 +117,7 @@ const SearchBox = (props?: UseSearchBoxProps) => {
           autoFocus
         />
       </div>
-      <div className="flex gap-10">
+      <div className="flex gap-20">
         <Button type="submit">Submit</Button>
         <Button secondary type="reset" className={query.length === 0 ? "hidden" : undefined}>
           Reset

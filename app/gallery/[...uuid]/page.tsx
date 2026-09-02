@@ -42,7 +42,7 @@ const GalleryContent = async (props: Props) => {
   galleryImages = galleryImages?.filter(image => !!image.suGalleryImage?.url)
 
   return (
-    <div className="centered mt-32">
+    <div className="mt-64 centered">
       <H1>{paragraph.suGalleryHeadline || "Media"}</H1>
       {galleryImages?.map(galleryImage => {
         if (!galleryImage.suGalleryImage?.url) return
@@ -65,8 +65,8 @@ const GalleryContent = async (props: Props) => {
 }
 
 const GallerySkeleton = () => (
-  <div className="centered mt-32">
-    <div className="mb-20 h-16 w-1/2 bg-black-10" />
+  <div className="mt-64 centered">
+    <div className="mb-40 h-16 w-1/2 bg-black-10" />
     <div className="aspect-[16/9] w-full bg-black-10" />
   </div>
 )

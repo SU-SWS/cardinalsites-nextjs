@@ -120,7 +120,7 @@ const options: HTMLReactParserOptions = {
         case "pre":
           nodeProps.className = cn(
             nodeProps.className,
-            "[&_code]:mb-5 [&_code]:block [&_code]:text-wrap [&_code]:rounded [&_code]:border [&_code]:border-black-20 [&_code]:bg-black-10 [&_code]:p-10 [&_code]:text-black"
+            "[&_code]:mb-10 [&_code]:block [&_code]:rounded-[0.3rem] [&_code]:border [&_code]:border-black-20 [&_code]:bg-black-10 [&_code]:p-20 [&_code]:text-wrap [&_code]:text-black"
           )
           return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
         case "code":
@@ -163,17 +163,17 @@ const fixClasses = (classes?: string | boolean): string => {
     .replaceAll(" text-align-center ", " text-center ")
     .replaceAll(" text-align-right ", " text-right ")
     .replaceAll(" align-center ", " mx-auto ")
-    .replaceAll(" align-left ", " float-left mr-10 mb-10 ")
-    .replaceAll(" align-right ", " float-right ml-10 mb-10 ")
+    .replaceAll(" align-left ", " float-left mr-20 mb-20 ")
+    .replaceAll(" align-right ", " float-right ml-20 mb-20 ")
     .replaceAll(" visually-hidden ", " sr-only ")
     .replaceAll(" font-splash ", " font-bold type-4 ")
     .replaceAll(" callout-text ", " font-bold type-2 ")
-    .replaceAll(" related-text ", " shadow-lg border border-black-20 p-16 ")
+    .replaceAll(" related-text ", " shadow-lg border border-black-20 p-32 ")
     .replaceAll(" intro-text ", " type-2 ")
-    .replaceAll(" quote-text ", " px-24 py-16 ml-32 type-3 border-l-3 border-black ")
+    .replaceAll(" quote-text ", " px-48 py-32 ml-64 type-3 border-l-3 border-black ")
     .replaceAll(
       " drop-cap ",
-      " type-2 first-letter:font-bold first-letter:type-6 first-letter:float-left first-letter:my-2 first-letter:mr-4 "
+      " type-2 first-letter:font-bold first-letter:type-6 first-letter:float-left first-letter:my-4 first-letter:mr-8 "
     )
     .replaceAll(/ tablesaw[\w-] /g, " ")
   return cn(classes)
@@ -284,7 +284,7 @@ const WysiwygImage = ({
   if (width && height) {
     return (
       <Image
-        className={cn(fixClasses(className), "mb-10")}
+        className={cn(fixClasses(className), "mb-20")}
         src={src.trim()}
         alt={alt ? alt.trim() : ""}
         height={parseInt(`${height}`)}
@@ -294,7 +294,7 @@ const WysiwygImage = ({
     )
   }
   return (
-    <div className="relative mb-10 aspect-[16/9] w-full overflow-hidden">
+    <div className="relative mb-20 aspect-video w-full overflow-hidden">
       <Image
         className="object-cover object-center"
         src={src.trim()}

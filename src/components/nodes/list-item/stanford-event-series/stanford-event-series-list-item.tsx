@@ -17,7 +17,7 @@ const StanfordEventSeriesListItem = ({node, headingLevel, ...props}: Props) => {
     <article
       {...props}
       aria-labelledby={id}
-      className={cn("mx-auto w-full max-w-[500px] border border-black-20 p-10 shadow-xl", props.className)}
+      className={cn("mx-auto w-full max-w-500 border border-black-20 p-20 shadow-xl", props.className)}
     >
       <Heading id={id}>
         <Link href={node.path || "#"}>{node.title}</Link>

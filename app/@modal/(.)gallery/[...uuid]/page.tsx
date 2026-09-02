@@ -39,8 +39,8 @@ const Page = async (props: Props) => {
 
         return (
           <div key={galleryImage.uuid} className="flex h-full flex-col">
-            <figure key={galleryImage.uuid} className="flex flex-grow flex-col">
-              <picture className="relative block h-full w-full flex-grow">
+            <figure key={galleryImage.uuid} className="flex grow flex-col">
+              <picture className="relative block h-full w-full grow">
                 <Image
                   src={galleryImage.suGalleryImage.url}
                   alt={galleryImage.suGalleryImage.alt || ""}
@@ -50,7 +50,7 @@ const Page = async (props: Props) => {
                 />
               </picture>
               {galleryImage.suGalleryCaption && (
-                <figcaption id={mediaUuid} className="m-0 mx-auto w-fit bg-white px-32 py-5">
+                <figcaption id={mediaUuid} className="m-0 mx-auto w-fit bg-white px-64 py-10">
                   {galleryImage.suGalleryCaption}
                 </figcaption>
               )}

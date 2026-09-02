@@ -18,10 +18,10 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
   const image = node.suOppImage?.mediaImage
 
   return (
-    <article className="centered mt-32" {...props}>
-      <div className="mx-auto mb-10 flex items-start lg:w-10/12">
+    <article className="mt-64 centered" {...props}>
+      <div className="mx-auto mb-20 flex items-start lg:w-10/12">
         {node.suOppIcon && (
-          <div className={`mr-10 shrink-0 text-[50px] ${node.suOppIcon.style} fa-${node.suOppIcon.iconName}`} />
+          <div className={`mr-20 shrink-0 text-50 ${node.suOppIcon.style} fa-${node.suOppIcon.iconName}`} />
         )}
         <div>
           <H1>{node.title}</H1>
@@ -30,7 +30,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
       </div>
 
       {image?.url && (
-        <div className="relative mb-20 aspect-[2/1]">
+        <div className="relative mb-40 aspect-2/1">
           <Image
             className="ed11y-ignore object-cover"
             src={image.url}
@@ -40,10 +40,10 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
           />
         </div>
       )}
-      <div className="mx-auto mb-20 flex flex-col gap-20 lg:w-10/12 lg:flex-row">
+      <div className="mx-auto mb-40 flex flex-col gap-40 lg:w-10/12 lg:flex-row">
         <div className="lg:w-9/12">
           {(node.suOppEligibility?.processed || node.suOppPrerequisites?.processed) && (
-            <div className="mb-20 flex flex-col gap-20 bg-black-10 bg-opacity-80 p-10">
+            <div className="mb-40 flex flex-col gap-40 bg-black-10/80 p-20">
               {node.suOppEligibility && (
                 <div>
                   <H2 className="text-3xl">Eligibility</H2>
@@ -64,7 +64,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
         </div>
         <div className="border-t border-black-30 lg:w-3/12">
           {(node.suOppType || node.suOppCourseCode || node.suOppUnits) && (
-            <div className="flex flex-col gap-8 border-b border-black-30 px-5 py-16">
+            <div className="flex flex-col gap-16 border-b border-black-30 px-10 py-32">
               {node.suOppType && (
                 <div className="font-semibold">{node.suOppType.map(type => type.name).join(", ")}</div>
               )}
@@ -82,7 +82,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
           )}
 
           {node.suOppApplicationDeadline && (
-            <div className="border-b border-black-30 px-5 py-16">
+            <div className="border-b border-black-30 px-10 py-32">
               <div className="font-semibold">Application Deadline</div>
               {new Date(node.suOppApplicationDeadline.time)
                 .toLocaleString("en-us", {
@@ -98,7 +98,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
           {node.suOppTags && <FilterTerms terms={node.suOppTags} />}
 
           {(node.suOppContactEmail || node.suOppContactPhone || node.suOppContactName || node.suOppContactUrl) && (
-            <div className="flex flex-col gap-2 px-5 py-16">
+            <div className="flex flex-col gap-4 px-10 py-32">
               {node.suOppContactEmail && <div>{node.suOppContactEmail}</div>}
               {node.suOppContactName && <div>{node.suOppContactName}</div>}
               {node.suOppContactPhone && <Telephone tel={node.suOppContactPhone}>{node.suOppContactPhone}</Telephone>}
@@ -106,7 +106,7 @@ const StanfordOpportunityPage = async ({node, ...props}: Props) => {
             </div>
           )}
           {node.suOppCtaUrl?.url && (
-            <div className="px-5 py-16">
+            <div className="px-10 py-32">
               <Button href={node.suOppCtaUrl.url}>{node.suOppCtaUrl.title}</Button>
             </div>
           )}
@@ -127,7 +127,7 @@ const FilterTerms = async ({terms}: {terms: TermOpportunityTagFilter[]}) => {
     }
   })
   return (
-    <div className="flex flex-col gap-8 border-b border-black-30 px-5 py-16">
+    <div className="flex flex-col gap-16 border-b border-black-30 px-10 py-32">
       {groups.map(group => (
         <div key={group.uuid}>
           <H2 className="text-3xl">{group.name}</H2>

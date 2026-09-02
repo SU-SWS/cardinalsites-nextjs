@@ -18,9 +18,9 @@ const CourseListView = async ({
 
     return (
       <FilteredListViewClient
-        ulProps={{className: "list-unstyled mb-20"}}
+        ulProps={{className: "list-unstyled mb-40"}}
         liProps={{
-          className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+          className: "border-b border-black-20 last-of-type:border-0 pb-20 last:pb-0 pt-20 first:pt-0",
         }}
         totalItems={totalItems}
         loadPage={loadPage}
@@ -41,9 +41,9 @@ const CourseListView = async ({
           Load More<span className="sr-only">&nbsp;courses</span>
         </>
       }
-      ulProps={{className: "list-unstyled mb-20"}}
+      ulProps={{className: "list-unstyled mb-40"}}
       liProps={{
-        className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+        className: "border-b border-black-20 last-of-type:border-0 pb-20 last:pb-0 pt-20 first:pt-0",
       }}
       totalItems={totalItems}
       loadPage={loadPage}

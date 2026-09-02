@@ -18,9 +18,9 @@ const MediaCaptionParagraph = async ({paragraph, ...props}: Props) => {
     paragraph.suMediaCaptionMedia?.__typename === "MediaVideo" && paragraph.suMediaCaptionMedia.mediaOembedVideo
 
   return (
-    <figure {...props} className={cn("centered xl:max-w-[1200px]", props.className)}>
+    <figure {...props} className={cn("centered xl:max-w-1200", props.className)}>
       {image?.url && (
-        <div className="relative aspect-[16/9] w-full">
+        <div className="relative aspect-video w-full">
           <Image
             className="object-cover"
             src={image.url}
@@ -33,7 +33,7 @@ const MediaCaptionParagraph = async ({paragraph, ...props}: Props) => {
       )}
       {videoUrl && <Oembed url={videoUrl} />}
 
-      <figcaption className="color type-0 text-right text-cool-grey">
+      <figcaption className="color text-right type-0 text-cool-grey">
         {paragraph.suMediaCaptionLink?.url && (
           <Link href={paragraph.suMediaCaptionLink.url}>{paragraph.suMediaCaptionLink.title}</Link>
         )}

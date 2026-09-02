@@ -34,16 +34,16 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
     <ImageCard {...props} aria-labelledby={id} isArticle>
       <div aria-hidden="true" className="flex max-w-lg items-center justify-between">
         <div className="flex w-fit flex-col items-start">
-          <div className="type-0 mb-2 w-full text-center font-semibold">{startMonth.toUpperCase()}</div>
-          <div className="type-4 w-full text-center font-bold">{startDay}</div>
+          <div className="mb-4 w-full text-center type-0 font-semibold">{startMonth.toUpperCase()}</div>
+          <div className="w-full text-center type-4 font-bold">{startDay}</div>
         </div>
 
         {(startMonth !== endMonth || startDay !== endDay) && (
           <>
-            <div className="mx-2">&mdash; to &mdash;</div>
+            <div className="mx-4">&mdash; to &mdash;</div>
             <div className="flex w-fit flex-col items-start">
-              <div className="type-0 mb-2 w-full text-center font-semibold">{endMonth.toUpperCase()}</div>
-              <div className="type-4 w-full text-center font-bold">{endDay}</div>
+              <div className="mb-4 w-full text-center type-0 font-semibold">{endMonth.toUpperCase()}</div>
+              <div className="w-full text-center type-4 font-bold">{endDay}</div>
             </div>
           </>
         )}
@@ -57,22 +57,22 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
         {node.suEventType && <div className="su-digital-red font-semibold">{node.suEventType[0].name}</div>}
       </ReverseVisualOrder>
 
-      {node.suEventSubheadline && <div className="type-2 mb-5 font-bold">{node.suEventSubheadline}</div>}
+      {node.suEventSubheadline && <div className="mb-10 type-1 font-semibold">{node.suEventSubheadline}</div>}
 
-      <time className="flex items-center gap-5" dateTime={start.toISOString()}>
+      <time className="flex items-center gap-10" dateTime={start.toISOString()}>
         <CalendarDaysIcon width={30} className="shrink-0" />
         {dateTimeString}
       </time>
 
       {node.suEventAltLoc && (
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-10">
           <MapPinIcon width={30} className="shrink-0" />
           {node.suEventAltLoc}
         </div>
       )}
 
       {node.suEventLocation && (
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-10">
           <MapPinIcon width={30} className="shrink-0" />
           <Address {...node.suEventLocation} />
         </div>

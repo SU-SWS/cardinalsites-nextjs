@@ -45,11 +45,11 @@ const HeroBanner = async ({
   const BannerWrapper: ElementType = isSection ? "section" : "div"
 
   return (
-    <BannerWrapper {...props} className={cn("md:min-h-400 rs-mb-5 relative @container", props.className)}>
+    <BannerWrapper {...props} className={cn("@container relative rs-mb-5 md:min-h-400", props.className)}>
       <div
         className={cn("w-full bg-cool-grey", {
-          "@6xl:aspect-auto relative aspect-[16/9] @6xl:absolute @6xl:h-full": overlayPosition !== "center",
-          "aspect-auto absolute h-full": overlayPosition === "center",
+          "relative aspect-video @6xl:absolute @6xl:aspect-auto @6xl:h-full": overlayPosition !== "center",
+          "absolute aspect-auto h-full": overlayPosition === "center",
         })}
       >
         {overlayPosition === "center" && (
@@ -79,12 +79,12 @@ const HeroBanner = async ({
 
       {children && (
         <div
-          className={cn("relative z-[11] flex size-full flex-col gap-10", {
-            "cc rs-py-4 items-center justify-center text-center text-white @6xl:max-w-800":
+          className={cn("relative z-11 flex size-full flex-col gap-20", {
+            "cc items-center justify-center rs-py-4 text-center text-white @6xl:max-w-800":
               overlayPosition === "center",
-            "rs-p-2 shadow-lg @6xl:z-10 @6xl:my-24 @6xl:max-w-[550px] @6xl:bg-white": overlayPosition !== "center",
-            "@6xl:ml-auto @6xl:mr-20": overlayPosition === "right",
-            "@6xl:ml-20 @6xl:mr-auto": overlayPosition === "left",
+            "rs-p-2 shadow-lg @6xl:z-10 @6xl:my-48 @6xl:max-w-550 @6xl:bg-white": overlayPosition !== "center",
+            "@6xl:mr-40 @6xl:ml-auto": overlayPosition === "right",
+            "@6xl:mr-auto @6xl:ml-40": overlayPosition === "left",
           })}
         >
           {children}

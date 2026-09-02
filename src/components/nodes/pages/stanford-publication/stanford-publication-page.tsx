@@ -16,8 +16,8 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
 
   if (citationUrl) redirect(citationUrl)
   return (
-    <article className="centered mb-20 pt-32" {...props}>
-      <ReverseVisualOrder className="gap-10">
+    <article className="centered mb-40 pt-64" {...props}>
+      <ReverseVisualOrder className="gap-20">
         <H1>{node.title}</H1>
         <div>
           {node.suPublicationCitation?.__typename === "CitationSuArticleNewspaper" && "Article Newspaper/Magazine "}
@@ -28,10 +28,10 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
         </div>
       </ReverseVisualOrder>
 
-      <div className="mb-20 flex flex-col gap-20 lg:flex-row">
-        <Rows components={node.suPublicationComponents} className="order-2 flex-grow lg:order-1" />
+      <div className="mb-40 flex flex-col gap-40 lg:flex-row">
+        <Rows components={node.suPublicationComponents} className="order-2 grow lg:order-1" />
 
-        <aside className="order-1 ml-auto flex h-fit shrink-0 flex-col gap-10 border-l border-black-20 pl-20 lg:order-2 lg:w-1/4">
+        <aside className="order-1 ml-auto flex h-fit shrink-0 flex-col gap-20 border-l border-black-20 pl-40 lg:order-2 lg:w-1/4">
           {node.suPublicationCitation && <Citation citation={node.suPublicationCitation} />}
 
           {node.suPublicationCta && <Button href={node.suPublicationCta.url}>{node.suPublicationCta.title}</Button>}
@@ -39,7 +39,7 @@ const StanfordPublicationPage = ({node, ...props}: Props) => {
       </div>
 
       {node.suPublicationTopics && (
-        <div className="border-t border-black-20 pt-10">
+        <div className="border-t border-black-20 pt-20">
           <strong>Related Topics</strong>
           <br />
           {node.suPublicationTopics.map(topic => topic.name).join(", ")}

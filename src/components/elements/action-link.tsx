@@ -13,9 +13,9 @@ type Props = HtmlHTMLAttributes<HTMLAnchorElement> & {
 
 const ActionLink = ({href, children, ...props}: Props) => {
   return (
-    <Link {...props} href={getLinkHref(href)} className={cn("group relative pr-[25px]", props.className)}>
+    <Link {...props} href={getLinkHref(href)} className={cn("group relative pr-25", props.className)}>
       {children}
-      <ChevronRightIcon height={25} className="ml-2 inline-block transition-all group-hocus-visible:translate-x-1" />
+      <ChevronRightIcon height={25} className="ml-4 inline-block transition-all group-hocus-visible:translate-x-1" />
     </Link>
   )
 }

@@ -30,9 +30,9 @@ const Page = async (props: {searchParams?: Promise<Record<string, string>>}) => 
   const [appId, indexName, apiKey] = await getAlgoliaCredential()
 
   return (
-    <div className="centered mt-32">
+    <div className="mt-64 centered">
       <div className="mx-auto 3xl:w-10/12">
-        <H1 className="mb-44" id="page-title">
+        <H1 className="mb-88" id="page-title">
           Search
         </H1>
 

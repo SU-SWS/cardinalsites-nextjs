@@ -4,10 +4,10 @@ import {FooterLockupProps} from "@components/config-pages/local-footer"
 
 const LockupO = ({line4, siteName, logoUrl}: FooterLockupProps) => {
   return (
-    <div className="py-10">
+    <div className="py-20">
       <Link href="/" className="text-black no-underline">
         <LockupLogo logoUrl={logoUrl} siteName={siteName} />
-        <div className="type-2 mt-1 font-semibold uppercase">{line4}</div>
+        <div className="mt-2 type-2 font-semibold uppercase">{line4}</div>
       </Link>
     </div>
   )

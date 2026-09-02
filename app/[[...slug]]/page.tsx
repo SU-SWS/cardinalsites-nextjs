@@ -1,7 +1,7 @@
 import NodePage, {NodePageSkeleton} from "@components/nodes/pages/node-page"
 import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import {getAllNodes, getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
-import {notFound, redirect} from "next/navigation"
+import {notFound, permanentRedirect, redirect} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
 import type {Slug, PageProps} from "@lib/@types/types"
 import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
@@ -19,11 +19,12 @@ const Page = (props: PageProps) => (
 const PageContent = async ({params}: {params: PageProps["params"]}) => {
   const path = getPathFromContext((await params).slug || "")
   const homePath = await getHomePagePath()
-  if (path === homePath) redirect("/")
+  if (path === homePath) permanentRedirect("/")
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path)
 
-  if (redirectPath) redirect(redirectPath)
+  if (redirectPath && redirectPath.permanent) permanentRedirect(redirectPath.url)
+  if (redirectPath && !redirectPath.permanent) redirect(redirectPath.url)
   if (!entity) notFound()
 
   return (

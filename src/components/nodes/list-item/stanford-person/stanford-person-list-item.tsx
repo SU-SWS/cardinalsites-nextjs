@@ -20,10 +20,10 @@ const StanfordPersonListItem = ({node, headingLevel, ...props}: Props) => {
     <article
       {...props}
       aria-labelledby={id}
-      className={cn("mx-auto w-full max-w-[500px] p-20 text-center shadow-lg", props.className)}
+      className={cn("mx-auto w-full max-w-500 p-40 text-center shadow-lg", props.className)}
     >
       {imageUrl && (
-        <div className="relative mx-auto mb-20 aspect-[1/1] w-full">
+        <div className="relative mx-auto mb-40 aspect-square w-full">
           <Image
             className="ed11y-ignore rounded-full object-cover"
             src={imageUrl}

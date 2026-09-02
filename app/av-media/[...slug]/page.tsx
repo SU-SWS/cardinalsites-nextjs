@@ -40,7 +40,7 @@ const MediaContent = async ({params}: {params: Promise<Param>}) => {
   if (!media) notFound()
 
   return (
-    <div className="centered my-32">
+    <div className="my-64 centered">
       <H1>{media.name}</H1>
 
       {media.__typename === "MediaVideo" && <Oembed url={media.mediaOembedVideo} />}
@@ -55,7 +55,7 @@ const MediaContent = async ({params}: {params: Promise<Param>}) => {
         <div dangerouslySetInnerHTML={{__html: media.mediaEmbeddableCode}} />
       )}
 
-      <Button href={nodePath} className="ml-auto mt-32 block">
+      <Button href={nodePath} className="mt-64 ml-auto block">
         Back to content
       </Button>
     </div>
@@ -63,8 +63,8 @@ const MediaContent = async ({params}: {params: Promise<Param>}) => {
 }
 
 const MediaSkeleton = () => (
-  <div className="centered my-32">
-    <div className="mb-20 h-16 w-1/2 bg-black-10" />
+  <div className="my-64 centered">
+    <div className="mb-40 h-16 w-1/2 bg-black-10" />
     <div className="aspect-[16/9] w-full bg-black-10" />
   </div>
 )

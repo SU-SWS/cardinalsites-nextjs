@@ -16,11 +16,11 @@ const UtilityNav = async () => {
   if (!headerButton && !headerLinks) return
 
   return (
-    <nav aria-label="Site utility navigation" className="mt-5 hidden lg:block">
-      <ul className="list-unstyled flex items-center gap-10">
+    <nav aria-label="Site utility navigation" className="mt-10 hidden lg:block">
+      <ul className="list-unstyled flex items-center gap-20">
         {headerLinks?.map((link, i) => (
           <li key={`utility-link-${i}`} className="mb-0">
-            <Link className="text-black no-underline hocus:underline" href={link.url || "#"}>
+            <Link className="text-black hocus:underline" href={link.url || "#"}>
               {link.title}
             </Link>
           </li>

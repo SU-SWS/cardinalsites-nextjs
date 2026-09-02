@@ -1,0 +1,36 @@
+/**
+ * Centered container.
+ *
+ * Max widths track Decanter's screen margins so the element always keeps a
+ * gutter, and `.centered` stops growing past the largest breakpoint.
+ *
+ * These are registered with `@utility` rather than `@layer components` so that
+ * variants such as `lg:centered` still generate CSS.
+ */
+@utility gutters {
+  width: 100%;
+  max-width: calc(100vw - (var(--screen-margin-sm) * 2));
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (min-width: 768px) {
+    max-width: calc(100vw - (var(--screen-margin-md) * 2));
+  }
+
+  @media (min-width: 992px) {
+    max-width: calc(100vw - (var(--screen-margin-lg) * 2));
+  }
+
+  @media (min-width: 1200px) {
+    max-width: calc(100vw - (var(--screen-margin-xl) * 2));
+  }
+}
+
+@utility centered {
+  @apply gutters;
+
+  /* Largest breakpoint (2000px) plus a gutter on either side (100px). */
+  @media only screen and (min-width: 2200px) {
+    max-width: 2000px;
+  }
+}

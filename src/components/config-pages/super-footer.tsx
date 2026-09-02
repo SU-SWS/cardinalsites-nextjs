@@ -14,16 +14,16 @@ const SuperFooter = async ({...props}: Props) => {
   if (!superFooterConfig?.suSuperFootEnabled) return
 
   return (
-    <div {...props} className={cn("border-b border-black-20 bg-foggy-light py-20", props.className)}>
+    <div {...props} className={cn("border-b border-black-20 bg-fog-light py-40", props.className)}>
       <div className="centered flex justify-between">
         <div className="flex-1">
-          {superFooterConfig.suSuperFootTitle && <H2 className="type-3">{superFooterConfig.suSuperFootTitle}</H2>}
+          {superFooterConfig.suSuperFootTitle && <H2 className="type-1">{superFooterConfig.suSuperFootTitle}</H2>}
 
           <Wysiwyg html={superFooterConfig.suSuperFootText?.processed} />
         </div>
 
         <div className="flex-1 text-right">
-          <div className="inline-block">
+          <div className="flex w-fit flex-wrap justify-end gap-40">
             {superFooterConfig.suSuperFootLink && (
               <>
                 {superFooterConfig.suSuperFootLink.map((link, index) => {
@@ -32,7 +32,7 @@ const SuperFooter = async ({...props}: Props) => {
                     <Link
                       key={`super-footer-link-${index}`}
                       href={link.url}
-                      className="mb-5 block border border-black-20 bg-white p-10 text-digital-red no-underline shadow-lg transition last:mb-0 hocus:bg-black hocus:text-white hocus:underline"
+                      className="mb-10 block border border-black-20 bg-white p-20 text-digital-red no-underline shadow-lg transition last:mb-0 hocus:bg-black hocus:text-white hocus:underline"
                     >
                       {link.title}
                     </Link>
@@ -44,10 +44,10 @@ const SuperFooter = async ({...props}: Props) => {
             {superFooterConfig.suSuperFootIntranet?.url && (
               <Link
                 href={superFooterConfig.suSuperFootIntranet.url}
-                className="flex items-center text-digital-red no-underline hocus:text-black hocus:underline"
+                className="ml-auto flex w-fit items-center text-digital-red no-underline hocus:text-black hocus:underline"
               >
                 {superFooterConfig.suSuperFootIntranet.title}
-                <LockClosedIcon width={20} className="ml-2" />
+                <LockClosedIcon width={20} className="ml-4" />
               </Link>
             )}
           </div>

@@ -35,10 +35,10 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
 
   return (
     <div>
-      <article className="centered mt-32" {...props}>
-        <div className="mb-32 flex flex-col gap-20 lg:flex-row">
+      <article className="mt-64 centered" {...props}>
+        <div className="mb-64 flex flex-col gap-40 lg:flex-row">
           {imageUrl && (
-            <div className="relative mx-auto aspect-[1/1] w-[250px] shrink-0 lg:mx-0">
+            <div className="relative mx-auto aspect-square w-250 shrink-0 lg:mx-0">
               <Image className="rounded-full object-cover" src={imageUrl} alt="" loading="eager" fill sizes="750px" />
             </div>
           )}
@@ -46,21 +46,21 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
           <div>
             <ReverseVisualOrder>
               <H1>{node.title}</H1>
-              {node.suPersonShortTitle && <div className="mb-10">{node.suPersonShortTitle}</div>}
+              {node.suPersonShortTitle && <div className="mb-20">{node.suPersonShortTitle}</div>}
             </ReverseVisualOrder>
 
             {node.suPersonFullTitle && <div className="type-2">{node.suPersonFullTitle}</div>}
           </div>
         </div>
 
-        <section className="flex flex-col gap-32 lg:flex-row">
-          <div className="flex-grow">
+        <section className="flex flex-col gap-64 lg:flex-row">
+          <div className="grow">
             <Wysiwyg html={node.body?.processed} />
 
             <Rows components={node.suPersonComponents} />
 
             {node.suPersonEducation && (
-              <div className="mb-10">
+              <div className="mb-20">
                 <H2 className="type-2">Education</H2>
                 {node.suPersonEducation.map((education, i) => (
                   <div key={`${node.uuid}-education-${i}`}>{education}</div>
@@ -69,9 +69,9 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             )}
 
             {node.suPersonResearch && (
-              <div className="mb-10">
+              <div className="mb-20">
                 <H2 className="type-2">Research</H2>
-                <div className="grid grid-cols-2 gap-10">
+                <div className="grid grid-cols-2 gap-20">
                   {node.suPersonResearch.map((research, i) => (
                     <Wysiwyg key={`${node.uuid}-research-${i}`} html={research.processed} />
                   ))}
@@ -80,9 +80,9 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             )}
 
             {node.suPersonAffiliations && (
-              <div className="mb-10">
+              <div className="mb-20">
                 <H2 className="type-2">Stanford Affiliations</H2>
-                <div className="flex flex-wrap gap-20">
+                <div className="flex flex-wrap gap-40">
                   {node.suPersonAffiliations.map((affiliation, i) => (
                     <div key={`${node.uuid}-affiliation-${i}`} className="min-w-fit">
                       <Button href={affiliation.url}>{affiliation.title}</Button>
@@ -98,41 +98,41 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
               node.suPersonFax ||
               node.suPersonEmail ||
               node.suPersonMailCode) && (
-              <div className="mb-20 flex items-start gap-10">
+              <div className="mb-40 flex items-start gap-20">
                 <PhoneIcon width={30} className="shrink-0" />
                 <div>
                   <H2 className="type-2">Contact</H2>
 
                   {node.suPersonTelephone && (
-                    <div className="mb-10">
+                    <div className="mb-20">
                       p: <Telephone tel={node.suPersonTelephone} />
                     </div>
                   )}
                   {node.suPersonMobilePhone && (
-                    <div className="mb-10">
+                    <div className="mb-20">
                       m: <Telephone tel={node.suPersonMobilePhone} />
                     </div>
                   )}
 
                   {node.suPersonFax && (
-                    <div className="mb-10">
+                    <div className="mb-20">
                       f: <Telephone tel={node.suPersonFax} />
                     </div>
                   )}
 
                   {node.suPersonEmail && (
-                    <div className="mb-10">
+                    <div className="mb-20">
                       <Email email={node.suPersonEmail} />
                     </div>
                   )}
 
-                  {node.suPersonMailCode && <div className="mb-10">Mail Code: {node.suPersonMailCode}</div>}
+                  {node.suPersonMailCode && <div className="mb-20">Mail Code: {node.suPersonMailCode}</div>}
                 </div>
               </div>
             )}
 
             {(node.suPersonLocationAddress || node.suPersonMapUrl) && (
-              <div className="mb-20 flex items-start gap-10">
+              <div className="mb-40 flex items-start gap-20">
                 <MapPinIcon width={30} className="shrink-0" />
                 <div>
                   <H2 className="type-2">Location</H2>
@@ -150,7 +150,7 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
             )}
 
             {node.suPersonLinks && (
-              <div className="mb-20 flex items-start gap-10">
+              <div className="mb-40 flex items-start gap-20">
                 <LinkIcon width={30} className="shrink-0" />
                 <div>
                   <H2 className="type-2">Links</H2>
@@ -186,9 +186,9 @@ const RelatedNews = async ({personId}: {personId: number}) => {
   const newsItems = await graphqlClient().request<StanfordNewsQuery>(StanfordNewsDocument, {filter: {person: personId}})
   if (!newsItems.stanfordNews?.results.length) return null
   return (
-    <div className="centered mb-20 @container">
+    <div className="@container centered mb-40">
       <H2>Related News</H2>
-      <div className="grid gap-40 @lg:grid-cols-3">
+      <div className="grid gap-80 @lg:grid-cols-3">
         {newsItems.stanfordNews.results.map(news => (
           <NodeCard key={news.uuid} node={news as NodeUnion} headingLevel="h3" />
         ))}
@@ -204,9 +204,9 @@ export const RelatedMedia = async ({personId}: {personId: number}) => {
   })
   if (!mediaItems.stanfordMedia?.results.length) return null
   return (
-    <div className="centered mb-20 @container">
+    <div className="@container centered mb-40">
       <H2>Related Media</H2>
-      <div className="grid gap-40 @lg:grid-cols-3">
+      <div className="grid gap-80 @lg:grid-cols-3">
         {mediaItems.stanfordMedia.results.map(media => (
           <NodeCard key={media.uuid} node={media as NodeUnion} headingLevel="h3" />
         ))}
@@ -222,9 +222,9 @@ export const RelatedPublications = async ({personId}: {personId: number}) => {
   })
   if (!pubItems.stanfordPublications?.results?.length) return null
   return (
-    <div className="centered mb-20 @container">
+    <div className="@container centered mb-40">
       <H2>Publications</H2>
-      <div className="grid gap-40 @lg:grid-cols-3">
+      <div className="grid gap-80 @lg:grid-cols-3">
         {pubItems.stanfordPublications.results.map(pub => (
           <NodeCard key={pub.uuid} node={pub as NodeUnion} headingLevel="h3" />
         ))}

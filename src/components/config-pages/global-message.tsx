@@ -16,15 +16,15 @@ const GlobalMessage = async () => {
   return (
     <WrapperElement
       aria-labelledby={id}
-      className={cn("py-10", {
+      className={cn("py-20", {
         "bg-digital-blue-dark text-white": globalMessageConfig.suGlobalMsgType === "info",
         "bg-illuminating-dark": globalMessageConfig.suGlobalMsgType === "warning",
         "bg-digital-green text-white": globalMessageConfig.suGlobalMsgType === "success",
-        "bg-foggy-light": globalMessageConfig.suGlobalMsgType === "plain",
+        "bg-fog-light": globalMessageConfig.suGlobalMsgType === "plain",
         "bg-digital-red text-white": globalMessageConfig.suGlobalMsgType === "error",
       })}
     >
-      <div className="centered flex flex-col gap-10 lg:flex-row">
+      <div className="centered flex flex-col gap-20 lg:flex-row">
         <div className="flex shrink-0 items-center leading-none">
           <MessageIcon messageType={globalMessageConfig.suGlobalMsgType} />
           {globalMessageConfig.suGlobalMsgLabel}:
@@ -34,11 +34,11 @@ const GlobalMessage = async () => {
 
           <Wysiwyg
             html={globalMessageConfig.suGlobalMsgMessage?.processed}
-            className={cn("[&_a.btn]:border-2 [&_a]:no-underline [&_a]:hocus:underline", {
-              "[&_a.btn]:border-white [&_a.btn]:bg-transparent [&_a]:text-white": !["warning", "plain"].includes(
+            className={cn("[&_a]:no-underline [&_a]:hocus:underline [&_a.btn]:border-2", {
+              "[&_a]:text-white [&_a.btn]:border-white [&_a.btn]:bg-transparent": !["warning", "plain"].includes(
                 globalMessageConfig.suGlobalMsgType
               ),
-              "[&_a.btn]:border-black [&_a.btn]:bg-transparent [&_a]:text-black [&_a]:hocus:text-black": [
+              "[&_a]:text-black [&_a]:hocus:text-black [&_a.btn]:border-black [&_a.btn]:bg-transparent": [
                 "warning",
                 "plain",
               ].includes(globalMessageConfig.suGlobalMsgType),

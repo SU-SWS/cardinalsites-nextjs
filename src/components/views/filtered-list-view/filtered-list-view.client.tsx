@@ -81,13 +81,13 @@ const FilteredListViewClient = ({
   return (
     <div {...props} className={cn("relative", props.className)}>
       {isPending && (
-        <div className="absolute left-0 top-0 z-20 h-full w-full bg-black-30 bg-opacity-80">
-          <div className="absolute bottom-20 left-1/2 -translate-x-[25px]">
+        <div className="absolute top-0 left-0 z-20 h-full w-full bg-black-30/80">
+          <div className="absolute bottom-20 left-1/2 -translate-x-25">
             <ArrowPathIcon className="animate-spin" width={50} />
           </div>
         </div>
       )}
-      <div className="flex flex-col gap-12 lg:flex-row">
+      <div className="flex flex-col gap-24 lg:flex-row">
         <form className="shrink-0 lg:w-1/4">
           {filters.map((filterGroup, i) => (
             <InputGroup
@@ -116,7 +116,7 @@ const FilteredListViewClient = ({
           ))}
         </form>
 
-        <div className="flex-grow">
+        <div className="grow">
           <ul {...ulProps}>
             {items.map((item, i) => (
               <li

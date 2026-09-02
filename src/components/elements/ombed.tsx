@@ -16,7 +16,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const Oembed = ({url, ...props}: Props) => {
   const {isIntersecting, ref} = useIntersectionObserver({freezeOnceVisible: true})
   return (
-    <div {...props} ref={ref} className={cn("relative aspect-[16/9] w-full", props.className)}>
+    <div {...props} ref={ref} className={cn("relative aspect-video w-full", props.className)}>
       {isIntersecting && <Embed url={url} LoadingFallbackElement={<Loading />} />}
     </div>
   )

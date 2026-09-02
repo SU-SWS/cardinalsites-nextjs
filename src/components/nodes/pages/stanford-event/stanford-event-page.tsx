@@ -26,7 +26,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
   const timeZone = node.suEventDateTime.timezone || "America/Los_Angeles"
 
   return (
-    <article className="centered mt-32 flex flex-col gap-20" {...props}>
+    <article className="mt-64 centered flex flex-col gap-40" {...props}>
       <ReverseVisualOrder>
         <H1>{node.title}</H1>
 
@@ -43,10 +43,10 @@ const StanfordEventPage = ({node, ...props}: Props) => {
         </div>
       )}
 
-      <div className="mx-auto border border-black-40 px-10 py-20 lg:w-3/4 lg:px-48">
+      <div className="mx-auto border border-black-40 px-20 py-40 lg:w-3/4 lg:px-96">
         <H2 className="type-3">Event Details:</H2>
-        <div className="grid items-start gap-20 lg:grid-cols-2">
-          <time className="flex items-center gap-5" dateTime={startTime.toISOString()}>
+        <div className="grid items-start gap-40 lg:grid-cols-2">
+          <time className="flex items-center gap-10" dateTime={startTime.toISOString()}>
             <CalendarDaysIcon width={30} className="shrink-0" />
             {getEventTimeString(startTime, endTime, timeZone)}
           </time>
@@ -72,7 +72,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           )}
 
           {(node.suEventLocation || node.suEventMapLink) && (
-            <div className="flex-col-2 flex items-start gap-5">
+            <div className="flex-col-2 flex items-start gap-10">
               <MapPinIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="type-2">Location</H3>
@@ -87,7 +87,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
           )}
 
           {node.suEventAudience && (
-            <div className="flex-col-2 flex items-start gap-5">
+            <div className="flex-col-2 flex items-start gap-10">
               <UserGroupIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="type-2">This event is open to:</H3>
@@ -100,7 +100,7 @@ const StanfordEventPage = ({node, ...props}: Props) => {
         </div>
 
         {node.suEventCta && (
-          <div className="mt-20">
+          <div className="mt-40">
             <Button href={node.suEventCta.url} centered>
               {node.suEventCta.title}
             </Button>

@@ -1,6 +1,6 @@
 "use client"
 
-import {useCallback, useState} from "react"
+import {useState} from "react"
 import {useRouter, useSearchParams} from "next/navigation"
 import {
   Tabs as BaseTabs,
@@ -43,24 +43,21 @@ const TabsInner = ({
     queryKey ? queryValue || defaultValue : defaultValue
   )
 
-  const handleValueChange = useCallback(
-    (newValue: TabsTab.Value, eventDetails: TabsRoot.ChangeEventDetails) => {
-      if (queryKey && newValue) {
-        const params = new URLSearchParams(searchParams.toString())
-        params.delete(queryKey)
-        if (newValue !== defaultValue) params.set(queryKey, String(newValue))
-        router.replace(`?${params.toString()}`, {scroll: false})
-        setActiveTab(newValue)
-      }
-      onValueChange?.(newValue, eventDetails)
-    },
-    [queryKey, onValueChange, router, searchParams, defaultValue]
-  )
+  const handleValueChange = (newValue: TabsTab.Value, eventDetails: TabsRoot.ChangeEventDetails) => {
+    if (queryKey && newValue) {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete(queryKey)
+      if (newValue !== defaultValue) params.set(queryKey, String(newValue))
+      router.replace(`?${params.toString()}`, {scroll: false})
+      setActiveTab(newValue)
+    }
+    onValueChange?.(newValue, eventDetails)
+  }
 
   return (
     <BaseTabs.Root
       {...props}
-      className={cn("centered flex gap-5", {"flex-col": !isVertical}, className)}
+      className={cn("centered flex gap-10", {"flex-col": !isVertical}, className)}
       value={activeTab}
       orientation={isVertical ? "vertical" : "horizontal"}
       onValueChange={handleValueChange}
@@ -95,7 +92,7 @@ export const Tab = ({className, children, ...props}: TabProps) => {
     <BaseTabs.Tab
       {...props}
       className={cn(
-        "w-fit border-transparent p-5 aria-selected:border-lagunita-dark data-[orientation=horizontal]:border-b-3 data-[orientation=vertical]:border-l-3 hocus:underline",
+        "w-fit border-transparent p-10 aria-selected:border-lagunita-dark data-[orientation=horizontal]:border-b-3 data-[orientation=vertical]:border-l-3 hocus:underline",
         {
           "bg-black-10": props.disabled,
         },

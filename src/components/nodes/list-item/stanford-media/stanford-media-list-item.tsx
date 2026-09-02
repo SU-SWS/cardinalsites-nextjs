@@ -31,7 +31,7 @@ const StanfordMediaListItem = ({node, headingLevel, ...props}: Props) => {
     <article {...props} aria-labelledby={id} className={cn("@container", props.className)}>
       <div className="flex w-full flex-col justify-between @3xl:flex-row">
         <div className="order-2 @3xl:order-1">
-          <ReverseVisualOrder className="gap-10">
+          <ReverseVisualOrder className="gap-20">
             <Heading className="font-bold" id={id}>
               <Link
                 href={node.suMediaSource?.url || node.path || "#"}
@@ -51,7 +51,7 @@ const StanfordMediaListItem = ({node, headingLevel, ...props}: Props) => {
 
         {image?.url && (
           <div className="order-1 w-full shrink-0 @3xl:w-1/4">
-            <div className="relative mb-10 aspect-[16/9] @3xl:order-2 @3xl:mb-0">
+            <div className="relative mb-20 aspect-video @3xl:order-2 @3xl:mb-0">
               <Image
                 className="ed11y-ignore object-cover"
                 src={image.url}

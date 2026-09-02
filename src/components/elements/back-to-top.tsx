@@ -28,13 +28,13 @@ const BackToTop = () => {
   return (
     <Button
       buttonElem
-      className={cn("fixed bottom-10 right-10 z-[100] transition-all duration-300", {
+      className={cn("fixed right-10 bottom-10 z-100 transition-all duration-300", {
         "visible opacity-100": value,
         "invisible opacity-0": !value,
       })}
       onClick={onButtonClick}
     >
-      <span className="flex items-center gap-2">
+      <span className="flex items-center gap-4">
         <ChevronUpIcon width={30} />
         Return to Top
       </span>

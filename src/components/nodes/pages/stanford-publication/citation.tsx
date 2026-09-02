@@ -15,7 +15,7 @@ const Citation = ({citation}: {citation: CitationUnion}) => {
   const pubDate = [month, day ? `${day},` : null, citation.suYear].filter(Boolean)
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-20">
       {citation.suAuthor && (
         <div>
           <strong>Author{citation.suAuthor.length > 1 ? "s" : ""}</strong>

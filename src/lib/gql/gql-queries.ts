@@ -59,7 +59,7 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   teaser?: boolean
 ): Promise<{
   entity?: T
-  redirect?: RouteRedirect["url"]
+  redirect?: {url: RouteRedirect["url"]; permanent: boolean}
 }> => {
   cacheTag("all-cache", "paths", `paths:${path}`)
   let query: RouteQuery
@@ -81,7 +81,8 @@ export const getEntityFromPath = async <T extends NodeUnion>(
     return {}
   }
 
-  if (query.route?.__typename === "RouteRedirect") return {redirect: query.route.url}
+  if (query.route?.__typename === "RouteRedirect")
+    return {redirect: {url: query.route.url, permanent: query.route.status === 301}}
 
   // RouteInternal carries the resolved Drupal entity; cast to the caller's expected node type.
   const entity: T | undefined =

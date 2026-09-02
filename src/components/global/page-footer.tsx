@@ -10,9 +10,9 @@ const PageFooter = ({...props}: Props) => {
       <SuperFooter />
       <LocalFooter />
 
-      <div className="bg-cardinal-red py-10 [&_a:focus]:text-white [&_a:hover]:text-white [&_a]:text-white [&_a]:no-underline">
-        <div className="centered lg:flex lg:items-start lg:gap-20">
-          <div className="mb-10 text-center">
+      <div className="bg-cardinal-red py-20 [&_a]:text-white [&_a]:no-underline [&_a:focus]:text-white [&_a:hover]:text-white">
+        <div className="centered lg:flex lg:items-start lg:gap-40">
+          <div className="mb-20 text-center">
             <a className="logo type-3 text-white hocus:text-white" href="https://www.stanford.edu">
               Stanford
               <br />
@@ -22,9 +22,9 @@ const PageFooter = ({...props}: Props) => {
           <div className="mx-auto lg:mx-0 [&_a:focus]:underline [&_a:hover]:underline">
             <nav
               aria-label="University Links"
-              className="mb-5 flex justify-center gap-20 sm:flex-col sm:gap-0 lg:justify-start"
+              className="mb-10 flex justify-center gap-40 sm:flex-col sm:gap-0 lg:justify-start"
             >
-              <ul className="list-unstyled justify-center text-2xl sm:flex sm:gap-10 md:text-3xl lg:justify-start">
+              <ul className="list-unstyled justify-center text-2xl sm:flex sm:gap-20 md:text-3xl lg:justify-start">
                 <li>
                   <a href="https://www.stanford.edu">Stanford Home</a>
                 </li>
@@ -39,7 +39,7 @@ const PageFooter = ({...props}: Props) => {
                 </li>
               </ul>
 
-              <ul className="list-unstyled justify-center text-2xl sm:flex sm:gap-10 sm:text-xl lg:justify-start lg:text-3xl">
+              <ul className="list-unstyled justify-center text-2xl sm:flex sm:gap-20 sm:text-xl lg:justify-start lg:text-3xl">
                 <li>
                   <a href="https://www.stanford.edu/site/terms/" title="Terms of use for sites" className="font-normal">
                     Terms of Use

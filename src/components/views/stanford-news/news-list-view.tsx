@@ -8,9 +8,9 @@ const NewsListView = ({items, headingLevel, totalItems, loadPage}: ViewDisplayPr
   return (
     <Suspense fallback={<NewsListSkeleton />}>
       <PagedList
-        ulProps={{className: "list-unstyled mb-20"}}
+        ulProps={{className: "list-unstyled mb-40"}}
         liProps={{
-          className: "border-b border-black-20 last-of-type:border-0 pb-10 last:pb-0 pt-10 first:pt-0",
+          className: "border-b border-black-20 last-of-type:border-0 pb-20 last:pb-0 pt-20 first:pt-0",
         }}
         pageKey="news"
         totalPages={Math.ceil(totalItems / 30)}
@@ -27,21 +27,21 @@ const NewsListView = ({items, headingLevel, totalItems, loadPage}: ViewDisplayPr
 export const NewsListSkeleton = () => {
   return (
     <div>
-      <div className="flex min-h-[200px] items-center justify-between border-b border-black-20 pb-10">
-        <div className="flex-grow">
-          <div className="mb-5 h-7 w-1/3 bg-black-10" />
-          <div className="mb-10 h-16 w-1/2 bg-black-10" />
-          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+      <div className="flex min-h-200 items-center justify-between border-b border-black-20 pb-20">
+        <div className="grow">
+          <div className="mb-10 h-7 w-1/3 bg-black-10" />
+          <div className="mb-20 h-16 w-1/2 bg-black-10" />
+          <div className="mb-10 h-7 w-1/3 bg-black-10" />
         </div>
-        <div className="relative order-1 mb-10 aspect-[16/9] shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
+        <div className="relative order-1 mb-20 aspect-video shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
       </div>
-      <div className="flex min-h-[150px] items-center justify-between pt-10">
-        <div className="flex-grow">
-          <div className="mb-5 h-7 w-1/3 bg-black-10" />
-          <div className="mb-10 h-16 w-1/2 bg-black-10" />
-          <div className="mb-5 h-7 w-1/3 bg-black-10" />
+      <div className="flex min-h-150 items-center justify-between pt-20">
+        <div className="grow">
+          <div className="mb-10 h-7 w-1/3 bg-black-10" />
+          <div className="mb-20 h-16 w-1/2 bg-black-10" />
+          <div className="mb-10 h-7 w-1/3 bg-black-10" />
         </div>
-        <div className="relative order-1 mb-10 aspect-[16/9] shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
+        <div className="relative order-1 mb-20 aspect-video shrink-0 bg-black-10 @3xl:order-2 @3xl:mb-0 @3xl:w-1/4" />
       </div>
     </div>
   )

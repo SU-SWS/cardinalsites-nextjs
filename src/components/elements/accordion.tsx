@@ -100,7 +100,7 @@ const Accordion = ({
       <div
         {...panelProps}
         id={`${id}-panel`}
-        className={cn("hidden", {"mb-20 block": isExpanded}, panelProps?.className)}
+        className={cn("hidden", {"mb-40 block": isExpanded}, panelProps?.className)}
         role="region"
         aria-labelledby={`${id}-button`}
       >

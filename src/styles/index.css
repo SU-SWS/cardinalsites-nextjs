@@ -1,9 +1,68 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Decanter 8 is a CSS-first Tailwind v4 preset; it pulls in Tailwind itself. */
+@import "decanter";
 
+@import "./centered-container.css";
+@import "./typography/global-message.css";
+@import "./typography/local-footer.css";
+@import "./typography/wysiwyg.css";
+
+/*
+  Decanter's `@import 'tailwindcss'` lives in node_modules, so point automatic
+  source detection back at the application code.
+*/
+@source "../../app";
+@source "../../src";
+
+@theme {
+  /* Decanter ships 3xl at 1700px; this project has always used 1600px. */
+  --breakpoint-3xl: 1600px;
+
+  /* Container query sizes above Tailwind's built-in 7xl (80rem). */
+  --container-8xl: 80rem;
+  --container-9xl: 90rem;
+  --container-10xl: 100rem;
+  --container-11xl: 110rem;
+  --container-12xl: 120rem;
+  --container-13xl: 130rem;
+  --container-14xl: 140rem;
+  --container-15xl: 150rem;
+
+  /* Two column layouts, e.g. grid-cols-1-2 => 33%/67%. */
+  --grid-template-columns-1-1: minmax(0, 1fr) minmax(0, 1fr);
+  --grid-template-columns-1-2: minmax(0, 1fr) minmax(0, 2fr);
+  --grid-template-columns-1-3: minmax(0, 1fr) minmax(0, 3fr);
+  --grid-template-columns-1-4: minmax(0, 1fr) minmax(0, 4fr);
+  --grid-template-columns-2-1: minmax(0, 2fr) minmax(0, 1fr);
+  --grid-template-columns-3-1: minmax(0, 3fr) minmax(0, 1fr);
+  --grid-template-columns-4-1: minmax(0, 4fr) minmax(0, 1fr);
+
+  /* Three column layouts, e.g. grid-cols-1-2-1. */
+  --grid-template-columns-1-1-1: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  --grid-template-columns-2-1-1: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  --grid-template-columns-3-1-1: minmax(0, 3fr) minmax(0, 1fr) minmax(0, 1fr);
+  --grid-template-columns-4-1-1: minmax(0, 4fr) minmax(0, 1fr) minmax(0, 1fr);
+  --grid-template-columns-1-2-1: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  --grid-template-columns-1-3-1: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+  --grid-template-columns-1-4-1: minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr);
+  --grid-template-columns-1-1-2: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+  --grid-template-columns-1-1-3: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 3fr);
+  --grid-template-columns-1-1-4: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 4fr);
+
+  /* List markers used by the wysiwyg component. */
+  --list-style-type-lower-alpha: lower-alpha;
+  --list-style-type-upper-alpha: upper-alpha;
+  --list-style-type-lower-roman: lower-roman;
+  --list-style-type-upper-roman: upper-roman;
+  --list-style-type-circle: circle;
+  --list-style-type-square: square;
+}
+
+/* Attribute variants that Tailwind does not provide out of the box. */
+@custom-variant aria-current (&[aria-current="true"]);
+@custom-variant aria-current-page (&[aria-current="page"]);
+@custom-variant data-intrail (&[data-intrail="true"]);
 
 /* Styles for react-tiny-oembed containers */
 .aspect-\[16\/9\] .__embed_column {

@@ -24,8 +24,8 @@ const UserPage = async () => {
 
   return (
     <InteriorPage>
-      <H1 className="mt-32">{userName}</H1>
-      <ul className="mb-20">
+      <H1 className="mt-64">{userName}</H1>
+      <ul className="mb-40">
         <li>User ID: {userId}</li>
         <li>Email: {userEmail}</li>
       </ul>

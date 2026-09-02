@@ -21,7 +21,7 @@ const StanfordCourseCard = ({node, headingLevel, ...props}: Props) => {
           <Link href={node.path || "#"}>{node.title}</Link>
         </Heading>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-10">
           {node.suCourseSubject && (
             <div className="font-bold">
               {node.suCourseSubject.name}

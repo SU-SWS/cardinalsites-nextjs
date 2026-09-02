@@ -27,7 +27,7 @@ const StanfordOpportunityCard = ({node, headingLevel, ...props}: Props) => {
       <Wysiwyg html={node.suOppSummary?.processed || node.body?.summary} />
       {node.suOppCardFooter && <Wysiwyg html={node.suOppCardFooter.processed} />}
       {node.suOppIcon && (
-        <div className={`mr-10 text-right text-[50px] ${node.suOppIcon.style} fa-${node.suOppIcon.iconName}`} />
+        <div className={`mr-20 text-right text-50 ${node.suOppIcon.style} fa-${node.suOppIcon.iconName}`} />
       )}
     </ImageCard>
   )

@@ -1,6 +1,7 @@
 import {getConfigPageField, getMenu} from "@lib/gql/gql-queries"
 import {MenuAvailable, StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import MainMenuClient from "@components/menu/main-menu.client"
+import {Suspense} from "react"
 
 type Props = {
   hideSearch?: boolean
@@ -14,7 +15,11 @@ const MainMenu = async ({hideSearch}: Props) => {
   )
   if (!menuItems.length && !headerLinks?.length && hideSearch) return null
 
-  return <MainMenuClient hideSearch={hideSearch} menuItems={menuItems} headerLinks={headerLinks} />
+  return (
+    <Suspense>
+      <MainMenuClient hideSearch={hideSearch} menuItems={menuItems} headerLinks={headerLinks} />
+    </Suspense>
+  )
 }
 
 export default MainMenu

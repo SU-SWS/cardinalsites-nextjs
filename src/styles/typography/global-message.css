@@ -1,0 +1,10 @@
+@utility global-message {
+  a {
+    color: var(--color-white);
+  }
+
+  a:hover,
+  a:focus {
+    color: var(--color-black);
+  }
+}

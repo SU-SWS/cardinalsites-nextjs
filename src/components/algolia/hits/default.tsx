@@ -19,7 +19,7 @@ const DefaultHit = ({hit}: {hit: HitType<DefaultAlgoliaHit>}) => {
     .replace(/\?.*/, "")
 
   return (
-    <article className="flex justify-between gap-20 py-12 @container">
+    <article className="@container flex justify-between gap-40 py-24">
       <div>
         <H2 className="type-3">
           <Link href={hit.url.replace(hitUrl.origin, "")}>{hit.title}</Link>
@@ -39,7 +39,7 @@ const DefaultHit = ({hit}: {hit: HitType<DefaultAlgoliaHit>}) => {
       </div>
 
       {imageUrl && (
-        <div className="relative hidden aspect-1 h-[150px] w-[150px] shrink-0 @6xl:block">
+        <div className="relative hidden aspect-square h-150 w-150 shrink-0 @6xl:block">
           <Image className="object-cover" src={imageUrl} alt="" fill unoptimized />
         </div>
       )}

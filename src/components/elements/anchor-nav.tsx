@@ -157,10 +157,10 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
   const hasOverflow = overflowHeadings.length > 0
 
   return (
-    <div ref={navRef} {...props} className={cn("mb-20 text-16", props.className)}>
+    <div ref={navRef} {...props} className={cn("mb-40 text-16", props.className)}>
       <nav
         aria-labelledby="anchor-nav"
-        className={cn("relative mx-auto items-center rounded border border-black-40 bg-black-10", {
+        className={cn("relative mx-auto items-center rounded-[0.3rem] border border-black-40 bg-black-10", {
           "flex w-fit rounded-full": horizontal,
         })}
       >
@@ -168,7 +168,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           <button
             ref={mobileButtonRef}
             id="anchor-nav"
-            className="no-anchor m-0 flex items-center gap-4 whitespace-nowrap p-5 pr-4 text-16 font-normal hocus:underline"
+            className="no-anchor m-0 flex items-center gap-6 p-10 pr-8 text-16 font-normal whitespace-nowrap hocus:underline"
             aria-expanded={mobileMenuOpen}
             aria-controls={mobilePanelId}
             onClick={toggleMobileMenu}
@@ -186,7 +186,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           <div
             ref={headingRef}
             id="anchor-nav"
-            className="m-0 flex items-center gap-4 whitespace-nowrap p-5 pr-4 text-16 font-normal"
+            className="m-0 flex items-center gap-8 p-10 pr-8 text-16 font-normal whitespace-nowrap"
           >
             <OnThisPageIcon className="w-10 text-black-40" />
             On This Page
@@ -197,9 +197,9 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           id={mobilePanelId}
           className={cn("list-unstyled", {
             "flex flex-row flex-nowrap items-center": horizontal,
-            "ml-14": !horizontal,
+            "ml-28": !horizontal,
             hidden: width && width < 768 && !mobileMenuOpen,
-            "absolute left-0 top-full z-10 block w-fit min-w-[300px] border-black-10 bg-white p-5 shadow-xl":
+            "absolute top-full left-0 z-10 block w-fit min-w-300 border-black-10 bg-white p-10 shadow-xl":
               width && width < 768 && mobileMenuOpen,
           })}
         >
@@ -208,7 +208,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
               <a
                 href={`#${id}`}
                 onClick={closeMobileMenu}
-                className={cn("nowrap block p-5 font-normal text-cardinal-red no-underline hocus:underline", {
+                className={cn("nowrap block p-10 font-normal text-cardinal-red no-underline hocus:underline", {
                   "whitespace-nowrap": horizontal && width && width >= 768,
                 })}
               >
@@ -221,7 +221,9 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           {horizontal && width && width >= 768 && (
             <li
               ref={overflowContainerRef}
-              className={cn("relative my-0 ml-auto mr-0 shrink-0 p-5", {"pointer-events-none invisible": !hasOverflow})}
+              className={cn("relative my-0 mr-0 ml-auto shrink-0 p-10", {
+                "pointer-events-none invisible": !hasOverflow,
+              })}
             >
               <button
                 ref={overflowBtnRef}
@@ -229,7 +231,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
                 aria-expanded={hasOverflow ? overflowOpen : undefined}
                 aria-controls={hasOverflow ? menuPanelId : undefined}
                 onClick={toggleOverflowOpen}
-                className="flex items-center gap-2 whitespace-nowrap hocus:underline"
+                className="flex items-center gap-4 whitespace-nowrap hocus:underline"
               >
                 See More
                 <ChevronDownIcon
@@ -243,14 +245,14 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
                 <ul
                   id={menuPanelId}
                   aria-labelledby={menuButtonId}
-                  className="absolute right-0 top-full z-10 m-0 min-w-48 list-none bg-white py-2 shadow-lg"
+                  className="absolute top-full right-0 z-10 m-0 min-w-48 list-none bg-white py-4 shadow-lg"
                 >
                   {overflowHeadings.map(({id, text}) => (
                     <li key={id}>
                       <a
                         href={`#${id}`}
                         onClick={closeOverflow}
-                        className={cn("block px-6 py-3 font-normal text-cardinal-red no-underline hocus:underline")}
+                        className={cn("block px-12 py-6 font-normal text-cardinal-red no-underline hocus:underline")}
                       >
                         {text}
                       </a>

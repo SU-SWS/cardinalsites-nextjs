@@ -7,7 +7,7 @@ This is a Next.js application that serves as a frontend for a Drupal backend CMS
 ## Technology Stack
 
 - **Frontend Framework**: Next.js (v16)
-- **Styling**: TailwindCSS (v3)
+- **Styling**: TailwindCSS (v4)
 - **Backend CMS**: Drupal (v11)
 - **Data Layer**: GraphQL
 - **Package Manager**: yarn
@@ -195,7 +195,7 @@ yarn lint
 
 ## Styling Guidelines
 
-**TailwindCSS Configuration**: `tailwind.config.ts`
+**TailwindCSS Configuration**: `src/styles/index.css` (CSS-first `@theme`; there is no `tailwind.config.ts`)
 
 **Custom Theme Extensions**:
 - Colors:
@@ -257,7 +257,7 @@ graphqlClient().request<TypescriptType>(QueryDocument, {variables})
 
 **Styling Issues**:
 - Run `yarn build` to rebuild TailwindCSS
-- Check purge/content configuration in tailwind.config.js
+- Check the `@source` directives in `src/styles/index.css`
 - Verify class names are not dynamically constructed
 
 ## Testing

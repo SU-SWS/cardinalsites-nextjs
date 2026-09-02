@@ -42,7 +42,7 @@ const FilteredListParagraph = async ({paragraph, ...props}: Props) => {
   return (
     <ListWrapper
       {...props}
-      className={cn("centered mb-20 flex flex-col gap-20", props.className)}
+      className={cn("centered mb-40 flex flex-col gap-40", props.className)}
       aria-labelledby={ListWrapper === "section" ? id : undefined}
       data-nosnippet
     >

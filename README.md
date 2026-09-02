@@ -117,7 +117,7 @@ nextCardinalSites/
 │
 ├── proxy.tsx                   # Next.js middleware: JWT auth gate + Basic Auth for /system
 ├── next.config.ts              # Next.js config: cache, images, redirects, robots headers
-├── tailwind.config.ts          # Tailwind theme extensions
+├── src/styles/index.css        # Tailwind v4 entry point and theme extensions
 ├── codegen.ts                  # GraphQL codegen config
 └── .env.example                # Template for all required environment variables
 ```

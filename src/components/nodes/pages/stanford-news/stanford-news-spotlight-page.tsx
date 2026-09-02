@@ -30,26 +30,26 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
   const imageAlt = node.suNewsFeaturedMedia?.mediaImage.alt || ""
 
   return (
-    <article className="centered mt-32" {...props}>
+    <article className="mt-64 centered" {...props}>
       <NodePageMetadata
         pageTitle={node.title}
         metatags={node.metatag}
         backupDescription={node.suNewsDek || getFirstText(node.suNewsComponents)}
       />
-      <div className="mx-auto mb-10 xl:w-11/12">
-        <div className="mb-20 flex flex-row-reverse items-start gap-20">
+      <div className="mx-auto mb-20 xl:w-11/12">
+        <div className="mb-40 flex flex-row-reverse items-start gap-40">
           <div className="w-9/12">
             <ReverseVisualOrder>
               <H1>{node.title}</H1>
               <div>Spotlight</div>
             </ReverseVisualOrder>
 
-            {node.suNewsQuote && <div className="mb-10">{node.suNewsQuote}</div>}
+            {node.suNewsQuote && <div className="mb-20">{node.suNewsQuote}</div>}
           </div>
 
           {imageUrl && (
             <figure className="w-3/12">
-              <div className="relative aspect-1 w-full">
+              <div className="relative aspect-square w-full">
                 <Image
                   className="object-cover"
                   src={imageUrl}
@@ -60,13 +60,13 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
                 />
               </div>
               {node.suNewsBannerMediaCaption && (
-                <figcaption className="px-20 text-center">{node.suNewsBannerMediaCaption}</figcaption>
+                <figcaption className="px-40 text-center">{node.suNewsBannerMediaCaption}</figcaption>
               )}
             </figure>
           )}
         </div>
 
-        <div className="mx-auto flex items-center gap-5 lg:max-w-1000">
+        <div className="mx-auto flex items-center gap-10 lg:max-w-1000">
           {node.suNewsPublishingDate && (
             <time dateTime={new Date(node.suNewsPublishingDate.time).toISOString().substring(0, 10)}>
               {publishDate}
@@ -76,7 +76,7 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
         </div>
       </div>
 
-      <Wysiwyg html={node.body?.processed} className="mx-auto mb-32 lg:max-w-1000" />
+      <Wysiwyg html={node.body?.processed} className="mx-auto mb-64 lg:max-w-1000" />
       <Rows components={node.suNewsComponents} />
     </article>
   )

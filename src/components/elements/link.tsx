@@ -75,7 +75,7 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
         {externalLink && (
           <ArrowUpRightIcon
             height={20}
-            className="ml-2 inline-block transition-all group-hocus-visible:translate-x-2"
+            className="ml-4 inline-block transition-all group-hocus-visible:translate-x-2"
           />
         )}
       </Button>
@@ -85,12 +85,12 @@ const DrupalLink = ({href, showExtLinkIcon, className, children, ...props}: Link
   return (
     <Link href={href} className={cn("group", className)} {...props}>
       {children}
-      {href.startsWith("mailto") && <EnvelopeIcon width={20} className="ml-4 inline-block" />}
+      {href.startsWith("mailto") && <EnvelopeIcon width={20} className="ml-8 inline-block" />}
 
       {externalLink && (
         <ArrowUpRightIcon
           height={20}
-          className="ml-2 inline-block transition-all group-hocus-visible:-translate-y-1 group-hocus-visible:translate-x-1"
+          className="ml-4 inline-block transition-all group-hocus-visible:translate-x-1 group-hocus-visible:-translate-y-1"
         />
       )}
     </Link>

@@ -61,7 +61,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
         "bg-lagunita": paragraph.suStatBgColor?.color === "007c92",
         "bg-palo-alto": paragraph.suStatBgColor?.color === "175e54",
         "bg-poppy": paragraph.suStatBgColor?.color === "e98300",
-        "bg-foggy-light": paragraph.suStatBgColor?.color === "f4f4f4",
+        "bg-fog-light": paragraph.suStatBgColor?.color === "f4f4f4",
         "bg-spirited": paragraph.suStatBgColor?.color === "e04f39",
       })}
       aria-labelledby={id}
@@ -97,7 +97,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
             <div className="block">
               <span
                 aria-hidden="true"
-                className={cn(`fa-${paragraph.suStatIcon.iconName} ${paragraph.suStatIcon.style} text-[60px]`, {
+                className={cn(`fa-${paragraph.suStatIcon.iconName} ${paragraph.suStatIcon.style} text-60`, {
                   "text-cardinal-red": allowTextColors && paragraph.suStatIconColor?.color === "8c1515",
                   "text-plum": allowTextColors && paragraph.suStatIconColor?.color === "620059",
                   "text-lagunita": allowTextColors && paragraph.suStatIconColor?.color === "007c92",
@@ -114,7 +114,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
               end={parseFloat(statMatches[1])}
               prefix={prefix}
               suffix={(statMatches && statMatches[2]) || undefined}
-              className={cn("text-[40px] font-bold @xl:text-[50px] @2xl:text-[60px]", {
+              className={cn("text-40 font-bold @xl:text-50 @2xl:text-60", {
                 "text-cardinal-red": allowTextColors && paragraph.suStatStatColor?.color === "8c1515",
                 "text-plum": allowTextColors && paragraph.suStatStatColor?.color === "620059",
                 "text-lagunita": allowTextColors && paragraph.suStatStatColor?.color === "007c92",
@@ -133,8 +133,8 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
       <Wysiwyg html={paragraph.suStatBody?.processed} />
       {paragraph.suStatButton?.url && (
         <Link
-          className={cn("group flex w-fit items-center gap-3 text-black no-underline hocus:underline", {
-            "border border-black px-7 py-5": paragraph.suStatLinkStyle === "button",
+          className={cn("group flex w-fit items-center gap-6 text-black no-underline hocus:underline", {
+            "border border-black px-14 py-10": paragraph.suStatLinkStyle === "button",
             "border-white text-white hocus:text-white": whiteText,
             "mx-auto": paragraph.suStatCentered,
           })}

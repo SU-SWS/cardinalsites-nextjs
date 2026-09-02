@@ -23,7 +23,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
   const id = getIdFromText(node.title)
   return (
     <article {...props} aria-labelledby={id} className={cn("@container", props.className)}>
-      <div className="flex flex-col justify-between gap-20 @4xl:flex-row" {...props}>
+      <div className="flex flex-col justify-between gap-40 @4xl:flex-row" {...props}>
         <div className="order-2 @4xl:order-1">
           <Heading id={id}>
             <Link href={node.path || "#"}>{node.title}</Link>
@@ -34,7 +34,7 @@ const StanfordPageListItem = ({node, headingLevel, ...props}: Props) => {
 
         {image && (
           <div className="order-1 w-full shrink-0 @3xl:w-1/4">
-            <div className="relative mb-10 aspect-[16/9] @3xl:order-2 @3xl:mb-0">
+            <div className="relative mb-20 aspect-video @3xl:order-2 @3xl:mb-0">
               <Image
                 className="object-cover"
                 src={image.url}

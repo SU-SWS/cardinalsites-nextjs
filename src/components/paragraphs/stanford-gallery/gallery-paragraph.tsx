@@ -18,7 +18,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
   return (
     <GalleryWrapper
       {...props}
-      className={cn("centered mb-20 flex flex-col gap-10 @container xl:max-w-[1200px]", props.className)}
+      className={cn("@container centered mb-40 flex flex-col gap-20 xl:max-w-1200", props.className)}
       aria-labelledby={paragraph.suGalleryHeadline ? id : undefined}
     >
       {paragraph.suGalleryHeadline && (
@@ -30,7 +30,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
       <Wysiwyg html={paragraph.suGalleryDescription?.processed} />
 
       {paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0 && (
-        <ul className="list-unstyled grid gap-20 @5xl:grid-cols-2 @9xl:grid-cols-3">
+        <ul className="list-unstyled grid gap-40 @5xl:grid-cols-2 @9xl:grid-cols-3">
           {paragraph.suGalleryImages.map(image => (
             <li key={image.uuid} className="m-0">
               <GalleryImage image={image} galleryId={paragraph.uuid} />
@@ -60,7 +60,7 @@ const GalleryImage = ({
 
   return (
     <figure>
-      <div className="relative aspect-[4/3] w-full">
+      <div className="relative aspect-4/3 w-full">
         <Link
           href={`/gallery/${galleryId}/${image.uuid}`}
           className="relative block h-full w-full"
@@ -78,7 +78,7 @@ const GalleryImage = ({
         </Link>
       </div>
 
-      {image.suGalleryCaption && <figcaption className="basefont-19 text-right">{image.suGalleryCaption}</figcaption>}
+      {image.suGalleryCaption && <figcaption className="text-right basefont-19">{image.suGalleryCaption}</figcaption>}
     </figure>
   )
 }

@@ -30,7 +30,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
     <article {...props}>
       <ReverseVisualOrder>
         {node.suPageBanner?.__typename !== "ParagraphStanfordPageTitleBanner" && (
-          <H1 className={cn("centered mt-32", {"sr-only": isHome})}>{node.title}</H1>
+          <H1 className={cn("mt-64 centered", {"sr-only": isHome})}>{node.title}</H1>
         )}
 
         {node.suPageBanner?.__typename === "ParagraphStanfordBanner" && (
@@ -52,7 +52,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
           hideSecondaryNav={hideSecondaryNav}
         >
           {anchorPosition === "top" && <AnchorNav horizontal />}
-          <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
+          <Wysiwyg html={node.body?.processed} className="centered mb-64 xl:max-w-980" />
           <Rows components={node.suPageComponents} />
         </InteriorPage>
       )}
@@ -60,7 +60,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
       {fullWidth && (
         <>
           {anchorPosition === "top" && <AnchorNav horizontal />}
-          <Wysiwyg html={node.body?.processed} className="centered mb-32 xl:max-w-[980px]" />
+          <Wysiwyg html={node.body?.processed} className="centered mb-64 xl:max-w-980" />
           <Rows components={node.suPageComponents} />
         </>
       )}

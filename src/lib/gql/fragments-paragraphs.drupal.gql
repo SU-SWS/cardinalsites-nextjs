@@ -1,228 +1,228 @@
 fragment FragmentParagraphInterface on ParagraphInterface {
-    __typename
-    uuid
-    behaviors
-    status
+  __typename
+  uuid
+  behaviors
+  status
 }
 
 fragment FragmentParagraphStanfordAccordion on ParagraphStanfordAccordion {
-    suAccordionBody {
-        ...FragmentText
-    }
-    suAccordionTitle
+  suAccordionBody {
+    ...FragmentText
+  }
+  suAccordionTitle
 }
 
 fragment FragmentParagraphStanfordBanner on ParagraphStanfordBanner {
-    suBannerHeader
-    suBannerBody {
-        ...FragmentText
-    }
-    suBannerSupHeader
-    suBannerButton {
-        url
-        title
-    }
-    suBannerImage {
-        ...FragmentMediaImage
-    }
+  suBannerHeader
+  suBannerBody {
+    ...FragmentText
+  }
+  suBannerSupHeader
+  suBannerButton {
+    url
+    title
+  }
+  suBannerImage {
+    ...FragmentMediaImage
+  }
 }
 
 fragment FragmentParagraphStanfordCard on ParagraphStanfordCard {
-    suCardHeader
-    suCardSuperHeader
-    suCardBody {
-        ...FragmentText
-    }
-    suCardLink {
-        url
-        title
-    }
-    suCardMedia {
-        ...FragmentMediaUnion
-    }
+  suCardHeader
+  suCardSuperHeader
+  suCardBody {
+    ...FragmentText
+  }
+  suCardLink {
+    url
+    title
+  }
+  suCardMedia {
+    ...FragmentMediaUnion
+  }
 }
 
 fragment FragmentParagraphStanfordEntity on ParagraphStanfordEntity {
-    suEntityHeadline
-    suEntityDescription {
-        ...FragmentText
-    }
-    suEntityButton {
-        url
-        title
-    }
-    suEntityItem {
-        ...FragmentNodeInterface
-    }
+  suEntityHeadline
+  suEntityDescription {
+    ...FragmentText
+  }
+  suEntityButton {
+    url
+    title
+  }
+  suEntityItem {
+    ...FragmentNodeInterface
+  }
 }
 
 fragment FragmentParagraphStanfordFaq on ParagraphStanfordFaq {
-    suFaqHeadline
-    suFaqDescription {
-        processed
-    }
-    suFaqQuestions {
-        ...FragmentParagraphInterface
-        ...FragmentParagraphStanfordAccordion
-    }
+  suFaqHeadline
+  suFaqDescription {
+    processed
+  }
+  suFaqQuestions {
+    ...FragmentParagraphInterface
+    ...FragmentParagraphStanfordAccordion
+  }
 }
 
 fragment FragmentParagraphStanfordFilteredList on ParagraphStanfordFilteredList {
-    suListHeadline
-    suListDescription {
-        ...FragmentText
-    }
-    suFilteredListView {
-        view
-        display
-        contextualFilter
-        pageSize
-    }
+  suListHeadline
+  suListDescription {
+    ...FragmentText
+  }
+  suFilteredListView {
+    view
+    display
+    contextualFilter
+    pageSize
+  }
 }
 
 fragment FragmentParagraphStanfordGallery on ParagraphStanfordGallery {
-    suGalleryHeadline
-    suGalleryDescription {
-        ...FragmentText
-    }
-    suGalleryButton {
-        url
-        title
-    }
-    suGalleryImages {
-        ...FragmentMediaStanfordGalleryImage
-    }
+  suGalleryHeadline
+  suGalleryDescription {
+    ...FragmentText
+  }
+  suGalleryButton {
+    url
+    title
+  }
+  suGalleryImages {
+    ...FragmentMediaStanfordGalleryImage
+  }
 }
 
 fragment FragmentParagraphStanfordLayout on ParagraphStanfordLayout {
-    ...FragmentParagraphInterface
+  ...FragmentParagraphInterface
 }
 
 fragment FragmentParagraphStanfordList on ParagraphStanfordList {
-    suListHeadline
-    suListDescription {
-        ...FragmentText
-    }
-    suListButton {
-        url
-        title
-    }
-    suListView {
-        view
-        display
-        contextualFilter
-        pageSize
-    }
+  suListHeadline
+  suListDescription {
+    ...FragmentText
+  }
+  suListButton {
+    url
+    title
+  }
+  suListView {
+    view
+    display
+    contextualFilter
+    pageSize
+  }
 }
 
 fragment FragmentParagraphStanfordMediaCaption on ParagraphStanfordMediaCaption {
-    suMediaCaptionMedia {
-        ...FragmentMediaUnion
-    }
-    suMediaCaptionLink {
-        url
-        title
-    }
-    suMediaCaptionCaption {
-        ...FragmentText
-    }
+  suMediaCaptionMedia {
+    ...FragmentMediaUnion
+  }
+  suMediaCaptionLink {
+    url
+    title
+  }
+  suMediaCaptionCaption {
+    ...FragmentText
+  }
 }
 
 fragment FragmentParagraphStanfordPageTitleBanner on ParagraphStanfordPageTitleBanner {
-    suTitleBannerImage {
-        ...FragmentMediaImage
-    }
+  suTitleBannerImage {
+    ...FragmentMediaImage
+  }
 }
 
 fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
-    suPersonCtaName
-    suPersonCtaTitle
-    suPersonCtaLink {
-        url
-        title
-    }
-    suPersonCtaImage {
-        ...FragmentMediaImage
-    }
+  suPersonCtaName
+  suPersonCtaTitle
+  suPersonCtaLink {
+    url
+    title
+  }
+  suPersonCtaImage {
+    ...FragmentMediaImage
+  }
 }
 
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
-    suScheduleHeadline
-    suScheduleDescription {
-        ...FragmentText
-    }
-    suScheduleDateTime {
-        ...FragmentSmartDateType
-    }
-    suScheduleLocation {
-        ...FragmentAddressType
-    }
-    suScheduleUrl {
-        url
-        title
-    }
-    suScheduleSpeaker {
-        ...FragmentParagraphInterface
-        ...FragmentParagraphStanfordPersonCtum
-    }
+  suScheduleHeadline
+  suScheduleDescription {
+    ...FragmentText
+  }
+  suScheduleDateTime {
+    ...FragmentSmartDateType
+  }
+  suScheduleLocation {
+    ...FragmentAddressType
+  }
+  suScheduleUrl {
+    url
+    title
+  }
+  suScheduleSpeaker {
+    ...FragmentParagraphInterface
+    ...FragmentParagraphStanfordPersonCtum
+  }
 }
 
 fragment FragmentParagraphStanfordSpacer on ParagraphStanfordSpacer {
-    suSpacerSize
+  suSpacerSize
 }
 
 fragment FragmentParagraphStanfordStatCard on ParagraphStanfordStatCard {
-    suStatBgColor {
-        color
-    }
-    suStatBody {
-        processed
-    }
-    suStatButton {
-        url
-        title
-    }
-    suStatCentered
-    suStatHeadline
-    suStatHeadlineLvl
-    suStatHeadingHide
-    suStatIcon {
-        iconName
-        style
-    }
-    suStatIconColor {
-        color
-    }
-    suStatImage {
-        ...FragmentMediaImage
-    }
-    suStatLinkStyle
-    suStatStat
-    suStatStatColor {
-        color
-    }
-    suStatSuperhead
+  suStatBgColor {
+    color
+  }
+  suStatBody {
+    processed
+  }
+  suStatButton {
+    url
+    title
+  }
+  suStatCentered
+  suStatHeadline
+  suStatHeadlineLvl
+  suStatHeadingHide
+  suStatIcon {
+    iconName
+    style
+  }
+  suStatIconColor {
+    color
+  }
+  suStatImage {
+    ...FragmentMediaImage
+  }
+  suStatLinkStyle
+  suStatStat
+  suStatStatColor {
+    color
+  }
+  suStatSuperhead
 }
 
 fragment FragmentParagraphStanfordWysiwyg on ParagraphStanfordWysiwyg {
-    suWysiwygText {
-        ...FragmentText
-    }
+  suWysiwygText {
+    ...FragmentText
+  }
 }
 
 fragment FragmentParagraphUnion on ParagraphUnion {
-    ...FragmentParagraphInterface
-    ...FragmentParagraphStanfordAccordion
-    ...FragmentParagraphStanfordFaq
-    ...FragmentParagraphStanfordBanner
-    ...FragmentParagraphStanfordCard
-    ...FragmentParagraphStanfordEntity
-    ...FragmentParagraphStanfordGallery
-    ...FragmentParagraphStanfordList
-    ...FragmentParagraphStanfordFilteredList
-    ...FragmentParagraphStanfordMediaCaption
-    ...FragmentParagraphStanfordSpacer
-    ...FragmentParagraphStanfordWysiwyg
-    ...FragmentParagraphStanfordLayout
-    ...FragmentParagraphStanfordStatCard
+  ...FragmentParagraphInterface
+  ...FragmentParagraphStanfordAccordion
+  ...FragmentParagraphStanfordFaq
+  ...FragmentParagraphStanfordBanner
+  ...FragmentParagraphStanfordCard
+  ...FragmentParagraphStanfordEntity
+  ...FragmentParagraphStanfordGallery
+  ...FragmentParagraphStanfordList
+  ...FragmentParagraphStanfordFilteredList
+  ...FragmentParagraphStanfordMediaCaption
+  ...FragmentParagraphStanfordSpacer
+  ...FragmentParagraphStanfordWysiwyg
+  ...FragmentParagraphStanfordLayout
+  ...FragmentParagraphStanfordStatCard
 }
