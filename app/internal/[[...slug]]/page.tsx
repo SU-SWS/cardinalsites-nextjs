@@ -20,7 +20,7 @@ const PageContent = async ({params}: {params: PageProps["params"]}) => {
 
   const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(`/internal/${path}`)
 
-  if (redirectPath) redirect(redirectPath)
+  if (redirectPath) redirect(redirectPath.url)
   if (!entity) notFound()
 
   return <NodePage node={entity} />

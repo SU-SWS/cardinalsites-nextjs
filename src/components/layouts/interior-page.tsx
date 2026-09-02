@@ -28,12 +28,12 @@ const InteriorPage = async ({children, leftSideBar, hideSecondaryNav, currentPat
       {(subTree.length > 1 || subTree[0]?.children || leftSideBar) && (
         <aside className="shrink-0 lg:w-1/4">
           {!hideSecondaryNav && (subTree.length > 1 || subTree[0]?.children) && (
-            <div className="hidden lg:block">
+            <>
               <a href="#page-content" className="skiplink">
                 Skip secondary navigation
               </a>
               <SideNav menuItems={subTree} activeTrail={activeTrail} />
-            </div>
+            </>
           )}
           {leftSideBar}
         </aside>

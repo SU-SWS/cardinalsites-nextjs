@@ -27,14 +27,17 @@ const PageHeader = async ({...props}: Props) => {
       <div className="bg-cardinal-red">
         <div className="centered flex items-center justify-between py-6">
           <Link
-            className="font-stanford text-20 leading-none font-normal text-white no-underline hocus:text-white hocus:underline"
+            className="font-stanford text-24 leading-none font-normal text-white no-underline hocus:text-white hocus:underline"
             href="https://www.stanford.edu"
           >
             Stanford University
           </Link>
 
           {headerButton?.url && (
-            <Link className="no-underline lg:hidden hocus:text-white" href={headerButton.url}>
+            <Link
+              className="text-white no-underline lg:hidden hocus:text-white hocus:underline"
+              href={headerButton.url}
+            >
               {headerButton.title}
             </Link>
           )}

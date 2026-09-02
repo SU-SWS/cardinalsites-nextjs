@@ -14,7 +14,7 @@ const SiteSearchForm = ({inputValue, ...props}: Props) => {
           Search this site
         </label>
         <input
-          className="h-45 w-full rounded-full px-16 text-19 lg:border-black-20"
+          className="h-45 w-full rounded-full border border-black-20 bg-white px-16 text-19"
           type="text"
           placeholder="Search this site"
           id={inputId}
@@ -22,7 +22,7 @@ const SiteSearchForm = ({inputValue, ...props}: Props) => {
           required
           defaultValue={inputValue}
         />
-        <button type="submit" className="absolute top-1/2 right-5 -translate-y-1/2">
+        <button type="submit" className="absolute top-1/2 right-7 -translate-y-1/2">
           <MagnifyingGlassIcon width={25} className="text-digital-red" />
           <span className="sr-only">Submit Search</span>
         </button>

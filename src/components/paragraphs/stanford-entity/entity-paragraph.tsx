@@ -67,7 +67,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 const EntityTeaser = async ({entityPath, headingLevel = "h2"}: {entityPath: string; headingLevel?: "h2" | "h3"}) => {
   "use cache: remote"
   cacheTag(`paths:${entityPath}`)
-  const {entity} = await getEntityFromPath(entityPath, false, true)
+  const {entity} = await getEntityFromPath(entityPath)
   if (!entity) return null
   return <NodeCard node={entity} headingLevel={headingLevel} />
 }

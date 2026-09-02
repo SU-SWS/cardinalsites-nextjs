@@ -3,12 +3,13 @@
 import useOutsideClick from "@hooks/useOutsideClick"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
 import {useBoolean, useEventListener} from "usehooks-ts"
-import {RefObject, useEffect, useRef} from "react"
+import {RefObject, useEffect, useId, useRef} from "react"
 import {usePathname} from "next/navigation"
 import cn from "@lib/utils/className"
 import Link from "@components/elements/link"
 import SiteSearchForm from "@components/search/site-search-form"
 import {MenuItem as MenuItemType, StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
+import Hamburger from "@components/menu/hamburger"
 
 type Props = {
   hideSearch?: boolean
@@ -21,6 +22,7 @@ const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
   const menuRef = useRef<HTMLDivElement>(null)
   const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
   const browserUrl = usePathname()
+  const id = useId()
   useOutsideClick(menuRef, closeMenu)
   useEffect(() => closeMenu(), [browserUrl, closeMenu])
 
@@ -34,39 +36,22 @@ const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
 
   return (
     <nav aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
-      <button
+      <Hamburger
         ref={buttonRef}
         className="group absolute top-5 right-10 z-10 flex flex-col items-center lg:hidden"
         onClick={toggleMenu}
+        open={menuOpen}
         aria-expanded={menuOpen}
         aria-label={menuOpen ? "Close Main Navigation Menu" : "Open Main Navigation Menu"}
+        aria-controls={id}
       >
-        <span className="flex h-30 w-25 flex-col items-center justify-center">
-          <span
-            className={cn("block h-3 w-full rounded-xs bg-black-true transition-all duration-300 ease-out", {
-              "translate-y-5 rotate-45": menuOpen,
-              "-translate-y-0.5": !menuOpen,
-            })}
-          />
-          <span
-            className={cn("my-6 block h-3 w-full rounded-xs bg-black-true transition-all duration-300 ease-out", {
-              "opacity-0": menuOpen,
-              "opacity-100": !menuOpen,
-            })}
-          />
-          <span
-            className={cn("block h-3 w-full rounded-xs bg-black-true transition-all duration-300 ease-out", {
-              "-translate-y-6 -rotate-45": menuOpen,
-              "translate-y-0.5": !menuOpen,
-            })}
-          />
-        </span>
         <span className="group-hocus-visible:underline" aria-hidden="true">
           {menuOpen ? "Close" : "Menu"}
         </span>
-      </button>
+      </Hamburger>
       <div
-        className={cn("absolute top-100 z-20 hidden w-full bg-black lg:relative lg:top-0 lg:block lg:bg-transparent", {
+        id={id}
+        className={cn("absolute top-full z-20 hidden w-full bg-black lg:relative lg:top-0 lg:block lg:bg-transparent", {
           block: menuOpen,
         })}
       >
@@ -129,6 +114,7 @@ const MenuItem = ({id, url, title, children, level}: MenuItemProps) => {
     >
       <Link
         href={href}
+        id={id}
         data-intrail={!isCurrent && browserUrl.includes(href) && href !== "/"}
         aria-current={isCurrent ? "page" : undefined}
         className={cn(
