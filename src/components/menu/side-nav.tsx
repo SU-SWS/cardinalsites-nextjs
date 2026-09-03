@@ -56,10 +56,18 @@ const SideNav = ({menuItems, activeTrail, ...props}: Props) => {
       <div
         id={id}
         className={cn(
-          "absolute top-full left-0 z-10 hidden w-full rounded-xl border border-black-20 bg-white p-20 shadow-2xl lg:relative lg:block lg:border-0 lg:p-0 lg:shadow-none",
+          "absolute top-full left-0 z-10 hidden w-full rounded-xl border border-black-20 bg-white p-20 shadow-2xl",
+          // Fade and slide the panel on mobile. `transition-discrete` keeps `display` in the
+          // transition, so the panel still lands on `hidden` -- and out of the tab order -- once the
+          // close animation finishes. `starting:` supplies the pre-open style that an element coming
+          // out of `display: none` would otherwise not have, which is what makes the open animate.
+          "max-lg:-translate-y-8 max-lg:opacity-0 max-lg:transition max-lg:transition-discrete max-lg:duration-300 max-lg:ease-out",
+          "max-lg:motion-reduce:transition-none max-lg:starting:-translate-y-8 max-lg:starting:opacity-0",
           {
-            block: menuOpen,
-          }
+            "block max-lg:translate-y-0 max-lg:opacity-100": menuOpen,
+          },
+          // Desktop renders the panel inline and unanimated.
+          "lg:relative lg:block lg:border-0 lg:p-0 lg:shadow-none"
         )}
       >
         <ul className="list-unstyled">
