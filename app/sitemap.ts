@@ -5,15 +5,34 @@ import {cacheLife} from "next/cache"
 
 const CHANGE_FREQUENCIES = ["always", "hourly", "daily", "weekly", "monthly", "yearly", "never"] as const
 
+/**
+ * Fetch Drupal's sitemap.xml. The sitemap is normally publicly available, so try it anonymously
+ * first and only fall back to the authenticated request when the anonymous one is rejected. The
+ * error is thrown rather than swallowed here so a failure is never written to the cache.
+ */
 const getSitemapDocument = async (): Promise<string> => {
   "use cache: remote"
   cacheLife("weeks")
 
-  const response = await fetch(buildUrl("/sitemap.xml"), {headers: buildHeaders({Accept: "application/xml"})})
-  if (!response.ok) {
-    throw new Error(`Drupal responded ${response.status} ${response.statusText} for /sitemap.xml`)
+  const headers = buildHeaders({Accept: "application/xml"})
+  // Keep any infrastructure headers (WAF bypass) but drop the credentials for the first attempt.
+  const anonymousHeaders = new Headers(headers)
+  anonymousHeaders.delete("Authorization")
+
+  const attempts = headers.has("Authorization") ? [anonymousHeaders, headers] : [anonymousHeaders]
+
+  let lastError = ""
+  for (const requestHeaders of attempts) {
+    try {
+      const response = await fetch(buildUrl("/sitemap.xml"), {headers: requestHeaders})
+      if (response.ok) return await response.text()
+      lastError = `Drupal responded ${response.status} ${response.statusText}`
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error)
+    }
   }
-  return await response.text()
+
+  throw new Error(`Unable to fetch /sitemap.xml: ${lastError}`)
 }
 
 const tagValue = (xml: string, tag: string): string | undefined =>
@@ -37,7 +56,13 @@ const toPublicUrl = (loc: string): string => {
 }
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const document = await getSitemapDocument()
+  let document = ""
+  try {
+    document = await getSitemapDocument()
+  } catch (error) {
+    // An unavailable backend sitemap shouldn't break the route: serve an empty sitemap instead.
+    console.warn(error instanceof Error ? error.message : error)
+  }
 
   return (document.match(/<url>[\s\S]*?<\/url>/g) ?? []).flatMap(entry => {
     const loc = tagValue(entry, "loc")
