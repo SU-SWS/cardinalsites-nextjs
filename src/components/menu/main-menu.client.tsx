@@ -2,7 +2,7 @@
 
 import useOutsideClick from "@hooks/useOutsideClick"
 import {ChevronDownIcon} from "@heroicons/react/20/solid"
-import {useBoolean, useEventListener} from "usehooks-ts"
+import {useBoolean, useEventListener, useScrollLock, useWindowSize} from "usehooks-ts"
 import {RefObject, useEffect, useId, useRef} from "react"
 import {usePathname} from "next/navigation"
 import cn from "@lib/utils/className"
@@ -10,6 +10,8 @@ import Link from "@components/elements/link"
 import SiteSearchForm from "@components/search/site-search-form"
 import {MenuItem as MenuItemType, StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import Hamburger from "@components/menu/hamburger"
+import ReactFocusLock from "react-focus-lock"
+import {XMarkIcon} from "@heroicons/react/24/solid"
 
 type Props = {
   hideSearch?: boolean
@@ -18,43 +20,80 @@ type Props = {
 }
 
 const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
+  const {width = 0} = useWindowSize({initializeWithValue: false})
+  const {lock: lockScroll, unlock: unlockScroll} = useScrollLock({autoLock: false})
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
-  const {value: menuOpen, setFalse: closeMenu, toggle: toggleMenu} = useBoolean(false)
+  const {value: menuOpen, setTrue: openMenu, setFalse: closeMenu} = useBoolean(false)
   const browserUrl = usePathname()
   const id = useId()
-  useOutsideClick(menuRef, closeMenu)
-  useEffect(() => closeMenu(), [browserUrl, closeMenu])
+  const urlRef = useRef(browserUrl)
+
+  useEffect(() => {
+    if (browserUrl !== urlRef.current) {
+      urlRef.current = browserUrl
+      unlockScroll()
+      closeMenu()
+    }
+  }, [browserUrl, closeMenu, unlockScroll])
+
+  const handleClose = () => {
+    closeMenu()
+    unlockScroll()
+    setTimeout(() => buttonRef.current?.focus(), 100)
+  }
 
   const handleEscape = (event: KeyboardEvent) => {
     if (event.key !== "Escape" || !menuOpen) return
-
-    closeMenu()
-    buttonRef.current?.focus()
+    handleClose()
   }
   useEventListener("keydown", handleEscape, menuRef as RefObject<HTMLDivElement>)
 
+  const isMobile = width < 992
   return (
-    <nav aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
+    <nav id={id} aria-label="Main Navigation" className="lg:centered" ref={menuRef}>
       <Hamburger
         ref={buttonRef}
         className="group absolute top-5 right-10 z-10 flex flex-col items-center lg:hidden"
-        onClick={toggleMenu}
+        onClick={() => {
+          openMenu()
+          lockScroll()
+        }}
         open={menuOpen}
         aria-expanded={menuOpen}
         aria-label={menuOpen ? "Close Main Navigation Menu" : "Open Main Navigation Menu"}
-        aria-controls={id}
+        aria-controls={`${id}-dialog`}
       >
         <span className="group-hocus-visible:underline" aria-hidden="true">
           {menuOpen ? "Close" : "Menu"}
         </span>
       </Hamburger>
-      <div
-        id={id}
-        className={cn("absolute top-full z-20 hidden w-full bg-black lg:relative lg:top-0 lg:block lg:bg-transparent", {
-          block: menuOpen,
-        })}
+      <ReactFocusLock
+        as={isMobile ? "dialog" : "div"}
+        autoFocus={isMobile}
+        returnFocus
+        disabled={!menuOpen || isMobile}
+        lockProps={{
+          id: `${id}-dialog`,
+          open: isMobile,
+          "aria-labelledby": isMobile ? id : undefined,
+          "aria-modal": isMobile,
+        }}
+        className={cn(
+          "fixed top-0 left-0 z-20 hidden h-dvh w-dvw overflow-auto bg-black lg:relative lg:top-0 lg:block lg:h-auto lg:w-auto lg:overflow-visible lg:bg-transparent",
+          {
+            block: menuOpen,
+          }
+        )}
       >
+        <button
+          onClick={handleClose}
+          className="mt-10 mr-10 ml-auto block rounded-full border-2 border-transparent p-3 transition-colors lg:hidden hocus-visible:border-digital-red"
+        >
+          <XMarkIcon width={30} className="text-white" />
+          <span className="sr-only">Close Menu Dialog</span>
+        </button>
+
         {!hideSearch && <SiteSearchForm className="px-20 lg:hidden" />}
         {headerLinks?.[0]?.url && (
           <ul className="list-unstyled mx-auto flex w-fit flex-wrap gap-20 pt-10 pl-32 lg:hidden">
@@ -72,7 +111,7 @@ const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
             <MenuItem key={item.id} {...item} level={0} />
           ))}
         </ul>
-      </div>
+      </ReactFocusLock>
     </nav>
   )
 }

@@ -24,6 +24,7 @@ const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogEl
   }
 
   useEventListener("keydown", onKeyDown)
+  if (!props["aria-labelledby"]) console.warn("No aria-labelledby found.")
 
   return (
     <ReactFocusLock
@@ -31,9 +32,7 @@ const InterceptionModal = ({children, ...props}: HtmlHTMLAttributes<HTMLDialogEl
       as="dialog"
       ref={overlay}
       className={cn("fixed top-0 left-0 z-10000 h-lvh w-screen bg-black-true/90", props.className)}
-      onClick={onClick}
-      lockProps={{open: true}}
-      {...props}
+      lockProps={{open: true, onClick, ...props}}
     >
       <div ref={wrapper} className="relative top-[8%] mx-auto h-5/6 w-10/12 max-w-12xl overflow-hidden md:w-3/4">
         {children}
