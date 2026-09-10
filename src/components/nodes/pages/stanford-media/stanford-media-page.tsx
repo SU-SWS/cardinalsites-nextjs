@@ -139,7 +139,8 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
 
 const NextMedia = async ({node}: {node: NodeStanfordMedia}) => {
   "use cache: remote"
-  cacheTag("paths", `paths:${node.path}`)
+
+  cacheTag("all-cache", "paths", `paths:${node.path}`)
   const upNextMediaQuery = node.suMediaSeries
     ? await graphqlClient().request<StanfordMediaQuery>(StanfordMediaDocument, {filter: {series: node.suMediaSeries}})
     : undefined

@@ -4,6 +4,7 @@ import Link from "@components/elements/link"
 import {ParagraphDocument, ParagraphQuery, ParagraphStanfordGallery} from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
 import {notFound} from "next/navigation"
+import {cacheTag} from "next/cache"
 
 type Props = {
   params: Promise<{uuid: string[]}>
@@ -16,6 +17,7 @@ const Page = async (props: Props) => {
   "use cache: remote"
   const params = await props.params
   const [paragraphId, mediaUuid] = params.uuid
+  cacheTag("all-cache", "paragraphs", `paragraph:${paragraphId}`)
 
   const paragraphQuery = await graphqlClient().request<ParagraphQuery>(ParagraphDocument, {uuid: paragraphId})
   if (paragraphQuery.paragraph?.__typename !== "ParagraphStanfordGallery") notFound()

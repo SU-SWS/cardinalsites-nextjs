@@ -1,18 +1,12 @@
-import {getConfigPageField} from "@lib/gql/gql-queries"
+import {getConfigPage} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import Button from "@components/elements/button"
 import Link from "@components/elements/link"
 
 const UtilityNav = async () => {
-  const headerButton = await getConfigPageField<
-    StanfordBasicSiteSetting,
-    StanfordBasicSiteSetting["suSiteHeaderButton"]
-  >("StanfordBasicSiteSetting", "suSiteHeaderButton")
-
-  const headerLinks = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteHeaderLinks"]>(
-    "StanfordBasicSiteSetting",
-    "suSiteHeaderLinks"
-  )
+  const siteSettings = await getConfigPage<StanfordBasicSiteSetting>("StanfordBasicSiteSetting")
+  const headerButton = siteSettings?.suSiteHeaderButton
+  const headerLinks = siteSettings?.suSiteHeaderLinks
   if (!headerButton && !headerLinks) return
 
   return (

@@ -18,10 +18,14 @@ const Page = (props: PageProps) => (
 
 const PageContent = async ({params}: {params: PageProps["params"]}) => {
   const path = getPathFromContext((await params).slug || "")
-  const homePath = await getHomePagePath()
-  if (path === homePath) permanentRedirect("/")
 
-  const {redirect: redirectPath, entity} = await getEntityFromPath<NodeUnion>(path)
+  // Independent lookups: resolving the home page alias doesn't gate fetching this path.
+  const [homePath, {redirect: redirectPath, entity}] = await Promise.all([
+    getHomePagePath(),
+    getEntityFromPath<NodeUnion>(path),
+  ])
+
+  if (path === homePath) permanentRedirect("/")
 
   if (redirectPath && redirectPath.permanent) permanentRedirect(redirectPath.url)
   if (redirectPath && !redirectPath.permanent) redirect(redirectPath.url)

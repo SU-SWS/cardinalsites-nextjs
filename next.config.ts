@@ -9,8 +9,9 @@ module.exports = async (_phase: string) => {
     env: {...(await vaultEnvVars())},
     cacheComponents: true,
     cacheLife: {
+      // Safety net for any `use cache` scope that doesn't name a profile.
       default: {
-        stale: undefined,
+        stale: INFINITE_CACHE,
         revalidate: INFINITE_CACHE,
         expire: INFINITE_CACHE,
       },
@@ -21,7 +22,7 @@ module.exports = async (_phase: string) => {
     },
     images: {
       minimumCacheTTL: 2678400,
-      dangerouslyAllowLocalIP: true,
+      dangerouslyAllowLocalIP: !process.env.VERCEL_ENV,
       remotePatterns: [
         {
           // Allow any stanford domain for images, but require https.
@@ -31,6 +32,8 @@ module.exports = async (_phase: string) => {
         {
           protocol: drupalUrl.protocol === "https:" ? "https" : "http",
           hostname: drupalUrl.hostname,
+          pathname: "/sites/**",
+          search: "",
         },
         {
           protocol: "https",

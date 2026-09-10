@@ -1,5 +1,3 @@
-"use cache: remote"
-
 import {
   AllNodesQuery,
   AllNodesQueryVariables,
@@ -44,6 +42,12 @@ import {cacheTag} from "next/cache"
 /** Drupal GraphQL errors include a `debugMessage` field in addition to the standard `message`. */
 type DrupalGraphqlError = GraphQLError & {debugMessage: string}
 
+/** Resolved result of a route lookup: an entity, a redirect, or neither when the lookup failed. */
+type RouteResult<T extends NodeUnion> = {
+  entity?: T
+  redirect?: {url: RouteRedirect["url"]; permanent: boolean}
+}
+
 /**
  * Resolve a Drupal path to its entity or a redirect URL.
  *
@@ -57,11 +61,27 @@ export const getEntityFromPath = async <T extends NodeUnion>(
   path: string,
   previewMode?: boolean,
   teaser?: boolean
-): Promise<{
-  entity?: T
-  redirect?: {url: RouteRedirect["url"]; permanent: boolean}
-}> => {
+): Promise<RouteResult<T>> =>
+  // Preview renders draft content, which changes on every editor save. Caching it would leave an
+  // editor looking at a stale draft until Drupal happened to fire a revalidation for that path, so
+  // preview requests go straight to Drupal and only published content is cached.
+  previewMode ? requestEntityFromPath<T>(path, true, teaser) : getCachedEntityFromPath<T>(path, teaser)
+
+const getCachedEntityFromPath = async <T extends NodeUnion>(
+  path: string,
+  teaser?: boolean
+): Promise<RouteResult<T>> => {
+  "use cache: remote"
+
   cacheTag("all-cache", "paths", `paths:${path}`)
+  return requestEntityFromPath<T>(path, false, teaser)
+}
+
+const requestEntityFromPath = async <T extends NodeUnion>(
+  path: string,
+  previewMode: boolean,
+  teaser?: boolean
+): Promise<RouteResult<T>> => {
   let query: RouteQuery
   try {
     query = await graphqlClient(undefined, previewMode).request<RouteQuery>(RouteDocument, {
@@ -92,6 +112,25 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 }
 
 /**
+ * Fetch every Drupal config-page bundle in a single request.
+ *
+ * This is the only cached step of the config-page chain, and it deliberately takes no
+ * arguments: the `ConfigPages` query is argument-less, so keying a cache entry per bundle or
+ * per field would issue the same request several times over and store near-duplicate copies of
+ * the response. Callers select the bundle they want from the shared result instead.
+ */
+const getAllConfigPages = async (): Promise<ConfigPagesQuery | undefined> => {
+  "use cache: remote"
+
+  cacheTag("all-cache", "config-pages")
+  try {
+    return await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
+  } catch (e) {
+    console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
+  }
+}
+
+/**
  * Fetch the first config-page node of the given Drupal bundle type.
  *
  * Config pages are singleton site-wide settings bundles (e.g. `StanfordBasicSiteSetting`).
@@ -104,14 +143,8 @@ export const getEntityFromPath = async <T extends NodeUnion>(
 export const getConfigPage = async <T extends ConfigPagesUnion>(
   configPageType: ConfigPagesUnion["__typename"]
 ): Promise<T | undefined> => {
-  cacheTag("all-cache", "config-pages")
-  let query: ConfigPagesQuery
-  try {
-    query = await graphqlClient().request<ConfigPagesQuery>(ConfigPagesDocument)
-  } catch (e) {
-    console.error("Unable to fetch config pages: " + (e instanceof Error && e.stack))
-    return
-  }
+  const query = await getAllConfigPages()
+  if (!query) return
 
   // Each key of ConfigPagesQuery is a bundle connection (e.g. `stanfordBasicSiteSettings`).
   // Skip `__typename` and find the first bundle whose leading node matches the requested type.
@@ -135,9 +168,29 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
   configPageType: ConfigPagesUnion["__typename"],
   fieldName: keyof T
 ): Promise<F | undefined> => {
-  cacheTag("all-cache", "config-pages")
   const configPage = await getConfigPage<T>(configPageType)
   return configPage?.[fieldName] as F
+}
+
+/**
+ * Fetch a raw Drupal menu tree.
+ *
+ * Only the menu name is an argument, because that is all the query varies on. Depth capping and
+ * cleanup happen in {@link getMenu} so that callers asking for different depths of the same menu
+ * share one cache entry rather than each fetching the full tree from Drupal.
+ */
+const fetchMenu = async (name?: MenuAvailable): Promise<MenuItem[]> => {
+  "use cache: remote"
+
+  cacheTag("all-cache", "menus", `menu:${name?.toLowerCase() ?? "main"}`)
+
+  try {
+    const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
+    return (menu.menu?.items ?? []) as MenuItem[]
+  } catch (_e) {
+    console.error("Unable to fetch menu")
+    return []
+  }
 }
 
 /**
@@ -151,33 +204,25 @@ export const getConfigPageField = async <T extends ConfigPagesUnion, F>(
  * @param maxLevels  Maximum nesting depth to return. `0` returns only top-level items.
  */
 export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise<MenuItem[]> => {
-  const homePath = await getHomePagePath()
-  const menuName = name?.toLowerCase() ?? "main"
-  cacheTag("all-cache", "menus", `menu:${menuName}`)
+  // Neither of these depends on the other, so don't make the menu wait on the home page lookup.
+  const [homePath, menuItems] = await Promise.all([getHomePagePath(), fetchMenu(name)])
 
-  let menuItems: MenuItem[] = []
-  try {
-    const menu = await graphqlClient().request<MenuQuery>(MenuDocument, {name})
-    menuItems = (menu.menu?.items ?? []) as MenuItem[]
-  } catch (_e) {
-    console.error("Unable to fetch menu")
-    return []
-  }
-
-  const filterInaccessible = (items: MenuItem[], level: number): MenuItem[] => {
+  // Rebuild the tree instead of mutating it in place: `menuItems` comes straight out of a cache
+  // entry, and the in-memory tier can hand the same objects to every caller.
+  const clean = (items: MenuItem[], level: number): MenuItem[] => {
     // Stop recursing once the caller's requested depth is reached.
     if ((maxLevels || maxLevels === 0) && level > maxLevels) return []
 
-    items = items.filter(item => item.title !== "Inaccessible")
-
-    // Normalise the home-page path alias so links always resolve to "/".
-    items.forEach(item => {
-      item.url = item.url === homePath ? "/" : item.url
-    })
-    items.forEach(item => (item.children = filterInaccessible(item.children, level + 1)))
     return items
+      .filter(item => item.title !== "Inaccessible")
+      .map(item => ({
+        ...item,
+        // Normalise the home-page path alias so links always resolve to "/".
+        url: item.url === homePath ? "/" : item.url,
+        children: clean(item.children, level + 1),
+      }))
   }
-  return filterInaccessible(menuItems, 0)
+  return clean(menuItems, 0)
 }
 
 /**
@@ -190,6 +235,8 @@ export const getMenu = async (name?: MenuAvailable, maxLevels?: number): Promise
  * @returns A flat array of all published `NodeUnion` nodes.
  */
 export const getAllNodes = async () => {
+  "use cache: remote"
+
   cacheTag("all-cache", "nodes")
   const nodes: NodeUnion[] = []
   let fetchMore = true
@@ -215,6 +262,8 @@ export const getAllNodes = async () => {
 }
 
 export const getAllRedirectPaths = async () => {
+  "use cache: remote"
+
   cacheTag("all-cache", "redirects")
 
   const paths: Array<string> = []
@@ -253,7 +302,6 @@ export const getAllRedirectPaths = async () => {
  * - `ALGOLIA_KEY`   — Search-only API key
  */
 export const getAlgoliaCredential = async () => {
-  cacheTag("all-cache", "config-pages")
   if (process.env.ALGOLIA_ID && process.env.ALGOLIA_INDEX && process.env.ALGOLIA_KEY) {
     return [process.env.ALGOLIA_ID, process.env.ALGOLIA_INDEX, process.env.ALGOLIA_KEY]
   }
@@ -276,8 +324,6 @@ export const getAlgoliaCredential = async () => {
  * of `/`.
  */
 export const getHomePagePath = async () => {
-  cacheTag("all-cache", "paths:/")
-
   const {entity} = await getEntityFromPath("/")
   return entity?.path
 }
@@ -292,6 +338,8 @@ export const getHomePagePath = async () => {
  * @param vocab  The vocabulary to query, as defined in {@link FilterVocabs}.
  */
 export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInterface>> => {
+  "use cache: remote"
+
   cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
   switch (vocab) {
     case FilterVocabs.Courses:
@@ -338,6 +386,8 @@ export const getFilterTerms = async (vocab: FilterVocabs): Promise<Array<TermInt
  * @returns An array of `FilterGroup` objects, each with a `label` and its child `options`.
  */
 export const getTermFilterGroups = async (vocab: FilterVocabs): Promise<Array<FilterGroup>> => {
+  "use cache: remote"
+
   cacheTag("all-cache", "taxonomy", `taxonomy:${vocab}`)
   const filterTerms = await getFilterTerms(vocab)
 

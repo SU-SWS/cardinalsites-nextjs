@@ -11,7 +11,6 @@ import EditorAlert from "@components/elements/editor-alert"
 import FaqParagraph from "@components/paragraphs/stanford-faq/faq-paragraph"
 import FilteredListParagraph from "@components/paragraphs/stanford-filtered-lists/filtered-list-paragraph"
 import StatCardParagraph from "@components/paragraphs/stanford-stat-card/stat-card-paragraph"
-import {Suspense} from "react"
 
 type Props = {
   /**
@@ -55,17 +54,9 @@ const ParagraphComponent = async ({paragraph}: Props) => {
     case "ParagraphStanfordStatCard":
       return <StatCardParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordList":
-      return (
-        <Suspense>
-          <ListParagraph paragraph={paragraph} {...itemProps} />
-        </Suspense>
-      )
+      return <ListParagraph paragraph={paragraph} {...itemProps} />
     case "ParagraphStanfordFilteredList":
-      return (
-        <Suspense>
-          <FilteredListParagraph paragraph={paragraph} {...itemProps} />
-        </Suspense>
-      )
+      return <FilteredListParagraph paragraph={paragraph} {...itemProps} />
   }
   console.warn(`Unknown paragraph ${paragraph.__typename}. Item ${paragraph.uuid}.`)
 }

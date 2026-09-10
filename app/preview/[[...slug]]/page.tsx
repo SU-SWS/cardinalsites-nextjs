@@ -22,9 +22,9 @@ const PreviewPage = (props: PageProps) => (
   </EditorAlert>
 )
 
+// Deliberately uncached: this renders draft content for an editor, so every request re-reads it
+// from Drupal. It streams inside the Suspense boundary above.
 const PreviewContent = async ({params}: {params: PageProps["params"]}) => {
-  "use cache: remote"
-
   const path = getPathFromContext((await params).slug || [])
   const {entity} = await getEntityFromPath<NodeUnion>(path, true)
 

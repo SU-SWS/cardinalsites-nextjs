@@ -16,12 +16,12 @@
     "@heroicons/react": "^2.2.0",
     "@next/third-parties": "16.3.4",
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/node": "26.5.0",
-    "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.7",
-    "algoliasearch": "^5.57.0",
+    "@types/node": "26.5.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "algoliasearch": "^5.59.0",
     "clsx": "^2.1.1",
-    "decanter": "8.0.0-beta.1",
+    "decanter": "8.0.0-beta.2",
     "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
     "graphql-tag": "^2.12.7",
@@ -36,9 +36,9 @@
     "plaiceholder": "^3.0.0",
     "postcss": "^8.5.28",
     "qs": "^6.16.0",
-    "react": "19.2.8",
+    "react": "19.3.0",
     "react-countup": "^6.5.3",
-    "react-dom": "19.2.8",
+    "react-dom": "19.3.0",
     "react-focus-lock": "^2.13.7",
     "react-instantsearch": "^7.49.0",
     "react-instantsearch-nextjs": "^1.4.8",
@@ -71,7 +71,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "react-docgen": "^8.0.3",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
-    "typescript-eslint": "^8.69.0"
+    "typescript-eslint": "^8.70.0"
   },
   "packageManager": "yarn@4.17.1"
 }

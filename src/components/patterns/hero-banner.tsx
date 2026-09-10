@@ -1,8 +1,7 @@
 import React, {ElementType, HtmlHTMLAttributes} from "react"
-import Image from "next/image"
 import cn from "@lib/utils/className"
 import {Maybe} from "@lib/gql/__generated__/graphql"
-import {getImagePlaceholder} from "@lib/utils/get-image-placeholder"
+import BlurImage from "@components/images/blur-image"
 import {OverlayColors} from "@lib/@types/drupal"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -32,7 +31,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   overlayColor?: OverlayColors
 }
 
-const HeroBanner = async ({
+const HeroBanner = ({
   imageUrl,
   imageAlt,
   eagerLoadImage,
@@ -65,14 +64,13 @@ const HeroBanner = async ({
           />
         )}
         {imageUrl && (
-          <Image
+          <BlurImage
             className="object-cover"
             src={imageUrl}
             alt={imageAlt || ""}
             loading={eagerLoadImage ? "eager" : "lazy"}
             fill
             sizes="100vw"
-            {...await getImagePlaceholder(imageUrl)}
           />
         )}
       </div>

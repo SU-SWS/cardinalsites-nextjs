@@ -3,7 +3,7 @@
 import {liteClient} from "algoliasearch/lite"
 import {useHits, useSearchBox} from "react-instantsearch"
 import {InstantSearchNext} from "react-instantsearch-nextjs"
-import {useRef} from "react"
+import {useMemo, useRef} from "react"
 import Button from "@components/elements/button"
 import {UseSearchBoxProps} from "react-instantsearch"
 import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default"
@@ -17,7 +17,8 @@ type Props = {
 
 const AlgoliaSearch = ({appId, searchIndex, searchApiKey}: Props) => {
   const pathname = usePathname()
-  const searchClient = liteClient(appId, searchApiKey)
+  // Memoised so InstantSearch isn't handed a brand new client on every render.
+  const searchClient = useMemo(() => liteClient(appId, searchApiKey), [appId, searchApiKey])
 
   return (
     <InstantSearchNext

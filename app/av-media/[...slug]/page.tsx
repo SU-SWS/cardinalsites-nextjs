@@ -13,6 +13,7 @@ import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
 import {notFound} from "next/navigation"
 import {Suspense} from "react"
+import {cacheTag} from "next/cache"
 
 export const metadata: Metadata = {
   robots: {index: false},
@@ -34,6 +35,7 @@ const MediaContent = async ({params}: {params: Promise<Param>}) => {
 
   const slug = (await params).slug.slice(0, -1)
   const uuid = (await params).slug.at(-1)
+  cacheTag("all-cache", "media", `media:${uuid}`)
   const nodePath = getPathFromContext(slug)
 
   const {media} = await graphqlClient().request<MediaQuery>(MediaDocument, {uuid})

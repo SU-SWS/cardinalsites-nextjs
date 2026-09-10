@@ -8,11 +8,13 @@ type Props = {
 }
 
 const MainMenu = async ({hideSearch}: Props) => {
-  const menuItems = await getMenu(MenuAvailable.Main, 3)
-  const headerLinks = await getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteHeaderLinks"]>(
-    "StanfordBasicSiteSetting",
-    "suSiteHeaderLinks"
-  )
+  const [menuItems, headerLinks] = await Promise.all([
+    getMenu(MenuAvailable.Main, 3),
+    getConfigPageField<StanfordBasicSiteSetting, StanfordBasicSiteSetting["suSiteHeaderLinks"]>(
+      "StanfordBasicSiteSetting",
+      "suSiteHeaderLinks"
+    ),
+  ])
   if (!menuItems.length && !headerLinks?.length && hideSearch) return null
 
   return (
