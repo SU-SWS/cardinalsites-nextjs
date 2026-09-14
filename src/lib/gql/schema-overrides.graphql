@@ -1,0 +1,61 @@
+# Nullability corrections layered over Drupal's introspected schema during `yarn graphql`.
+#
+# These definitions are merged into the remote schema, and a field declared non-null here is
+# promoted from the nullable version Drupal advertises. Only widen a field when the backend truly
+# cannot return null for it: codegen drops the null branch from every generated type, so nothing
+# downstream will be asked to guard it again.
+
+type Link {
+  # A link field always stores a uri, so the resolved url is never absent.
+  url: String!
+}
+
+# Every node resolves a url alias, so `path` is never absent.
+#
+# An interface field has to be promoted on each implementing type as well, or the interface
+# promises more than its implementors do. Nothing validates that here — codegen loads the merged
+# schema without checking it — so a node type added to Drupal has to be added to this list too,
+# otherwise its `path` silently stays nullable.
+interface NodeInterface {
+  path: String!
+}
+
+type NodeStanfordCourse {
+  path: String!
+}
+
+type NodeStanfordEvent {
+  path: String!
+}
+
+type NodeStanfordEventSeries {
+  path: String!
+}
+
+type NodeStanfordMedia {
+  path: String!
+}
+
+type NodeStanfordNews {
+  path: String!
+}
+
+type NodeStanfordOpportunity {
+  path: String!
+}
+
+type NodeStanfordPage {
+  path: String!
+}
+
+type NodeStanfordPerson {
+  path: String!
+}
+
+type NodeStanfordPolicy {
+  path: String!
+}
+
+type NodeStanfordPublication {
+  path: String!
+}

@@ -25,7 +25,7 @@ const StanfordPolicyCard = ({node, headingLevel, ...props}: Props) => {
   return (
     <ImageCard {...props} aria-labelledby={id} isArticle>
       <Heading id={id}>
-        <Link href={node.suPolicySource?.url || node.path || "#"}>{node.title}</Link>
+        <Link href={node.suPolicySource?.url || node.path}>{node.title}</Link>
       </Heading>
 
       {teaserSummary && <Wysiwyg html={teaserSummary} />}

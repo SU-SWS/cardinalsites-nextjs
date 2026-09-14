@@ -15,6 +15,8 @@ const config: CodegenConfig = {
         },
       },
     },
+    // Merged over the introspected schema to correct field nullability Drupal reports too loosely.
+    "src/lib/gql/schema-overrides.graphql",
   ],
   documents: "src/lib/gql/*.drupal.gql",
   generates: {

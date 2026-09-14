@@ -24,7 +24,7 @@ const StanfordOpportunityListItem = ({node, headingLevel, ...props}: Props) => {
           <ReverseVisualOrder>
             <Heading className="font-bold" id={id}>
               <Link
-                href={node.suOppSource?.url || node.path || "#"}
+                href={node.suOppSource?.url || node.path}
                 className="order-2 text-digital-red no-underline hocus:text-black hocus:underline"
               >
                 {node.title}

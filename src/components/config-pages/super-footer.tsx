@@ -22,36 +22,35 @@ const SuperFooter = async ({...props}: Props) => {
           <Wysiwyg html={superFooterConfig.suSuperFootText?.processed} />
         </div>
 
-        <div className="flex-1 text-right">
-          <div className="flex w-fit flex-wrap justify-end gap-40">
-            {superFooterConfig.suSuperFootLink && (
-              <>
-                {superFooterConfig.suSuperFootLink.map((link, index) => {
-                  if (!link.url) return
-                  return (
+        {(!!superFooterConfig.suSuperFootLink?.length || superFooterConfig.suSuperFootIntranet?.url) && (
+          <div className="flex-1 text-right">
+            <ul className="list-unstyled flex w-fit flex-wrap justify-end gap-40">
+              {!!superFooterConfig.suSuperFootLink?.length &&
+                superFooterConfig.suSuperFootLink.map((link, index) => (
+                  <li key={`super-footer-link-${index}`}>
                     <Link
-                      key={`super-footer-link-${index}`}
                       href={link.url}
                       className="mb-10 block border border-black-20 bg-white p-20 text-digital-red no-underline shadow-lg transition last:mb-0 hocus:bg-black hocus:text-white hocus:underline"
                     >
                       {link.title}
                     </Link>
-                  )
-                })}
-              </>
-            )}
+                  </li>
+                ))}
 
-            {superFooterConfig.suSuperFootIntranet?.url && (
-              <Link
-                href={superFooterConfig.suSuperFootIntranet.url}
-                className="ml-auto flex w-fit items-center text-digital-red no-underline hocus:text-black hocus:underline"
-              >
-                {superFooterConfig.suSuperFootIntranet.title}
-                <LockClosedIcon width={20} className="ml-4" />
-              </Link>
-            )}
+              {superFooterConfig.suSuperFootIntranet?.url && (
+                <li className="w-full">
+                  <Link
+                    href={superFooterConfig.suSuperFootIntranet.url}
+                    className="ml-auto flex w-fit items-center text-digital-red no-underline hocus:text-black hocus:underline"
+                  >
+                    {superFooterConfig.suSuperFootIntranet.title}
+                    <LockClosedIcon width={20} className="ml-4" />
+                  </Link>
+                </li>
+              )}
+            </ul>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

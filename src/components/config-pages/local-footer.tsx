@@ -73,35 +73,29 @@ const LocalFooter = async ({...props}: Props) => {
 
             {localFooterConfig.suLocalFootAction && (
               <ul className="list-unstyled">
-                {localFooterConfig.suLocalFootAction.map((link, index) => {
-                  if (!link.url) return
-                  return (
-                    <li key={`footer-action-link-${index}`} className="m-0 p-0">
-                      <ActionLink href={link.url} className="text-2xl">
-                        {link.title}
-                      </ActionLink>
-                    </li>
-                  )
-                })}
+                {localFooterConfig.suLocalFootAction.map((link, index) => (
+                  <li key={`footer-action-link-${index}`} className="m-0 p-0">
+                    <ActionLink href={link.url} className="text-2xl">
+                      {link.title}
+                    </ActionLink>
+                  </li>
+                ))}
               </ul>
             )}
 
             {localFooterConfig.suLocalFootSocial && (
               <ul className="list-unstyled flex flex-wrap gap-4">
-                {localFooterConfig.suLocalFootSocial.map((link, index) => {
-                  if (!link.url) return
-                  return (
-                    <li key={`footer-action-link-${index}`}>
-                      <Link
-                        href={link.url}
-                        className="block rounded-full border border-transparent p-4 hocus:border-digital-blue [&_svg]:fill-black hocus:[&_svg]:fill-digital-blue"
-                      >
-                        <SocialIcon url={link.url} />
-                        <span className="sr-only">{link.title}</span>
-                      </Link>
-                    </li>
-                  )
-                })}
+                {localFooterConfig.suLocalFootSocial.map((link, index) => (
+                  <li key={`footer-action-link-${index}`}>
+                    <Link
+                      href={link.url}
+                      className="block rounded-full border border-transparent p-4 hocus:border-digital-blue [&_svg]:fill-black hocus:[&_svg]:fill-digital-blue"
+                    >
+                      <SocialIcon url={link.url} />
+                      <span className="sr-only">{link.title}</span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )}
 
@@ -114,16 +108,13 @@ const LocalFooter = async ({...props}: Props) => {
             )}
             {!!localFooterConfig.suLocalFootPrimary?.length && (
               <ul className="list-unstyled">
-                {localFooterConfig.suLocalFootPrimary.map((link, index) => {
-                  if (!link.url) return
-                  return (
-                    <li key={`footer-primary-link-${index}`} className="m-0 p-0">
-                      <Link href={link.url} className="text-3xl">
-                        {link.title}
-                      </Link>
-                    </li>
-                  )
-                })}
+                {localFooterConfig.suLocalFootPrimary.map((link, index) => (
+                  <li key={`footer-primary-link-${index}`} className="m-0 p-0">
+                    <Link href={link.url} className="text-3xl">
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )}
             <Wysiwyg html={localFooterConfig.suLocalFootSeCo?.processed} className="[&_h2]:type-0" />
@@ -135,16 +126,13 @@ const LocalFooter = async ({...props}: Props) => {
             )}
             {!!localFooterConfig.suLocalFootSecond?.length && (
               <ul className="list-unstyled">
-                {localFooterConfig.suLocalFootSecond.map((link, index) => {
-                  if (!link.url) return
-                  return (
-                    <li key={`footer-second-link-${index}`} className="m-0 p-0">
-                      <Link href={link.url} className="text-3xl">
-                        {link.title}
-                      </Link>
-                    </li>
-                  )
-                })}
+                {localFooterConfig.suLocalFootSecond.map((link, index) => (
+                  <li key={`footer-second-link-${index}`} className="m-0 p-0">
+                    <Link href={link.url} className="text-3xl">
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             )}
 

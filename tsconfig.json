@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
+    "types": ["node"],
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,20 +22,11 @@
       }
     ],
     "paths": {
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@lib/*": [
-        "./src/lib/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ]
+      "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@hooks/*": ["./src/hooks/*"]
     },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/lib/@types"
-    ]
+    "typeRoots": ["./node_modules/@types", "./src/lib/@types"]
   },
   "include": [
     "next-env.d.ts",
@@ -49,7 +37,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

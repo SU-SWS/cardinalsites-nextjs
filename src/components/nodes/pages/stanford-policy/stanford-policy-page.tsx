@@ -10,14 +10,14 @@ import Button from "@components/elements/button"
 import {ChevronLeftIcon} from "@heroicons/react/16/solid"
 import {ChevronRightIcon} from "@heroicons/react/20/solid"
 import StanfordPolicyListItem from "@components/nodes/list-item/stanford-policy/stanford-policy-list-item"
-import {redirect} from "next/navigation"
+import {permanentRedirect} from "next/navigation"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPolicy
 }
 
 const StanfordPolicyPage = async ({node, ...props}: Props) => {
-  if (node.suPolicySource?.url) redirect(node.suPolicySource.url)
+  if (node.suPolicySource?.url) permanentRedirect(node.suPolicySource.url)
 
   const changeLog = node.suPolicyChangelog?.filter(change => change.suPolicyPublic) || []
 
@@ -52,7 +52,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
           )}
         </div>
       </div>
-      <InteriorPage currentPath={node.path || "#"} menuItems={node.book ? [node.book] : undefined}>
+      <InteriorPage currentPath={node.path} menuItems={node.book ? [node.book] : undefined}>
         <div className="flex flex-col gap-40">
           {(node.suPolicyAuthority || node.suPolicyUpdated || node.suPolicyEffective) && (
             <div>
@@ -118,7 +118,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
 
           <Wysiwyg html={node.body?.processed} />
 
-          {node.book && <ChildPages currentPath={node.path || "#"} bookItems={[node.book]} />}
+          {node.book && <ChildPages currentPath={node.path} bookItems={[node.book]} />}
         </div>
       </InteriorPage>
 
@@ -159,7 +159,8 @@ const ChildPages = ({bookItems, currentPath}: {bookItems: Array<BookLink>; curre
   )
 }
 
-const ChildTeaser = async ({path}: {path: NodeInterface["path"]}) => {
+// Fed a book link url rather than a node path, and a book link need not resolve to one.
+const ChildTeaser = async ({path}: {path: BookLink["url"]}) => {
   if (!path) return
   const queryResponse = await getEntityFromPath<NodeStanfordPolicy>(path, false, true)
   if (!queryResponse.entity) return

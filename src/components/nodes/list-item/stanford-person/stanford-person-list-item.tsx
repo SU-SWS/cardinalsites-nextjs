@@ -35,7 +35,7 @@ const StanfordPersonListItem = ({node, headingLevel, ...props}: Props) => {
       )}
 
       <Heading id={id}>
-        <Link href={node.suPersonSource?.url || node.path || "#"}>{node.title}</Link>
+        <Link href={node.suPersonSource?.url || node.path}>{node.title}</Link>
       </Heading>
 
       {node.suPersonFullTitle && <div>{node.suPersonFullTitle}</div>}

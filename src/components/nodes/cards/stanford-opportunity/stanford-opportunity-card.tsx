@@ -20,7 +20,7 @@ const StanfordOpportunityCard = ({node, headingLevel, ...props}: Props) => {
     <ImageCard {...props} aria-labelledby={id} imageUrl={image?.url} isArticle>
       <ReverseVisualOrder>
         <Heading className="[&_a]:text-black" id={id}>
-          <Link href={node.suOppSource?.url || node.path || "#"}>{node.title}</Link>
+          <Link href={node.suOppSource?.url || node.path}>{node.title}</Link>
         </Heading>
         {node.suOppType && <div>{node.suOppType?.map(type => type.name).join(", ")}</div>}
       </ReverseVisualOrder>

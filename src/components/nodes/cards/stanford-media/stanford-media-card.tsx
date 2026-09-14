@@ -30,7 +30,7 @@ const StanfordMediaCard = ({node, headingLevel, ...props}: Props) => {
     <ImageCard {...props} aria-labelledby={id} imageUrl={image?.url} isArticle>
       <ReverseVisualOrder>
         <Heading className="[&_a]:text-black" id={id}>
-          <Link href={node.suMediaSource?.url || node.path || "#"}>{node.title}</Link>
+          <Link href={node.suMediaSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
         {publishDate && <div>{publishDate}</div>}

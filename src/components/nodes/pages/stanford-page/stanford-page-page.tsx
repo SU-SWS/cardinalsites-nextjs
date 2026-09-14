@@ -47,7 +47,7 @@ const StanfordPagePage = ({node, isHome, ...props}: Props) => {
 
       {!fullWidth && (
         <InteriorPage
-          currentPath={node.path || "#"}
+          currentPath={node.path}
           leftSideBar={anchorPosition === "left" && <AnchorNav />}
           hideSecondaryNav={hideSecondaryNav}
         >

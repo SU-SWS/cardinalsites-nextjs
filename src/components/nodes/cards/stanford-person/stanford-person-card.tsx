@@ -31,7 +31,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
       )}
 
       <Heading id={id}>
-        <Link href={node.suPersonSource?.url || node.path || "#"}>{node.title}</Link>
+        <Link href={node.suPersonSource?.url || node.path}>{node.title}</Link>
       </Heading>
 
       {node.suPersonShortTitle && <div>{node.suPersonShortTitle}</div>}

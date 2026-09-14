@@ -48,7 +48,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
         <ReverseVisualOrder>
           <Heading id={id}>
             <Link
-              href={node.suEventSource?.url || node.path || "#"}
+              href={node.suEventSource?.url || node.path}
               className="text-digital-red no-underline hocus:text-black hocus:underline"
             >
               {node.title}

@@ -36,7 +36,7 @@ const StanfordNewsCard = ({node, headingLevel, ...props}: Props) => {
     >
       <ReverseVisualOrder>
         <Heading className="[&_a]:text-black" id={id}>
-          <Link href={node.suNewsSource?.url || node.path || "#"}>{node.title}</Link>
+          <Link href={node.suNewsSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
         {publishDate && <div>{publishDate}</div>}

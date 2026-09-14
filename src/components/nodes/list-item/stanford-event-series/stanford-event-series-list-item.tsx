@@ -20,7 +20,7 @@ const StanfordEventSeriesListItem = ({node, headingLevel, ...props}: Props) => {
       className={cn("mx-auto w-full max-w-500 border border-black-20 p-20 shadow-xl", props.className)}
     >
       <Heading id={id}>
-        <Link href={node.path || "#"}>{node.title}</Link>
+        <Link href={node.path}>{node.title}</Link>
       </Heading>
     </article>
   )

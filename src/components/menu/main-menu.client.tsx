@@ -99,7 +99,7 @@ const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
           <ul className="list-unstyled mx-auto flex w-fit flex-wrap gap-20 pt-10 pl-32 lg:hidden">
             {headerLinks.map((link, i) => (
               <li key={`utility-link-${i}`}>
-                <Link className="text-white no-underline hocus:text-white hocus:underline" href={link.url as string}>
+                <Link className="text-white no-underline hocus:text-white hocus:underline" href={link.url}>
                   {link.title}
                 </Link>
               </li>

@@ -46,7 +46,7 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
                   {node.suMediaPerson.map((person, i) => (
                     <span key={person.uuid}>
                       <Link
-                        href={person.suPersonProfileLink?.url || person.path || "#"}
+                        href={person.suPersonProfileLink?.url || person.path}
                         className="font-normal text-digital-red no-underline hocus:text-black hocus:underline"
                       >
                         {person.title}
@@ -170,7 +170,7 @@ const UpNextMedia = ({media}: {media: NodeStanfordMedia}) => {
     <article aria-labelledby={id}>
       <ReverseVisualOrder>
         <Link
-          href={media.suMediaSource?.url || media.path || "#"}
+          href={media.suMediaSource?.url || media.path}
           className="text-black no-underline hocus:text-digital-red hocus:underline"
         >
           <H3 id={id}>{media.title}</H3>
