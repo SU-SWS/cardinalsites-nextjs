@@ -1,9 +1,8 @@
 import {Table, Thead, Th, Tbody, Tr, Td} from "@components/elements/responsive-tables/tables"
 import Link from "@components/elements/link"
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
-import Image from "next/image"
 import Oembed from "@components/elements/ombed"
-import React, {HtmlHTMLAttributes, ReactElement} from "react"
+import React, {HtmlHTMLAttributes, ImgHTMLAttributes, ReactElement} from "react"
 import {H2, H3, H4, H5, H6} from "@components/elements/headers"
 import cn from "@lib/utils/className"
 import {Maybe} from "@lib/gql/__generated__/graphql"
@@ -268,43 +267,26 @@ const cleanMediaMarkup = (node: Element) => {
   return <NodeName {...nodeProps}>{domToReact(node.children as DOMNode[], options)}</NodeName>
 }
 
+/**
+ * Plain `<img>` rather than `next/image` on purpose.
+ *
+ * Editors embed an image *style* derivative, so the file has already been resized by Drupal for
+ * the context it appears in. Those urls carry a per-image `?itok=` hash, and Drupal returns 403
+ * for a derivative requested without a valid token until the file exists on disk, so the token has
+ * to survive to the browser intact. Sending it through the optimizer instead would mean either
+ * loosening `images.remotePatterns` to accept any query string or dropping the token, and the
+ * remaining win over an already-sized derivative is only the format conversion.
+ */
 const WysiwygImage = ({
   src,
   alt,
-  height,
-  width,
-  className,
-}: {
+  ...props
+}: ImgHTMLAttributes<HTMLImageElement> & {
   src: string
-  alt?: Maybe<string>
-  height?: Maybe<string | number>
-  width?: Maybe<string | number>
-  className?: string
-}) => {
-  if (width && height) {
-    return (
-      <Image
-        className={cn(fixClasses(className), "mb-20")}
-        src={src.trim()}
-        alt={alt ? alt.trim() : ""}
-        height={parseInt(`${height}`)}
-        width={parseInt(`${width}`)}
-        unoptimized
-      />
-    )
-  }
-  return (
-    <div className="relative mb-20 aspect-video w-full overflow-hidden">
-      <Image
-        className="object-cover object-center"
-        src={src.trim()}
-        alt={alt?.trim() || ""}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 900px) 50vw, (max-width: 1700px) 33vw, 1500px"
-      />
-    </div>
-  )
-}
+}) => (
+  // eslint-disable-next-line @next/next/no-img-element -- see above
+  <img src={src.trim()} alt={alt || ""} loading="lazy" decoding="async" {...props} />
+)
 
 const formatHtml = (html: string) => parse(html || "", options)
 

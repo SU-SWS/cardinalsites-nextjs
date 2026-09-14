@@ -221,7 +221,7 @@ graphqlClient().request<TypescriptType>(QueryDocument, {variables})
 
 ### Rendering Paragraphs
 
-```typescript
+```jsx
 // Example pattern for rendering paragraph entities
 <Paragraph paragraph={paragraph} />
 ```

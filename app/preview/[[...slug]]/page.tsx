@@ -4,19 +4,17 @@ import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import {getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 import {notFound} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
-import DrupalWindowSync from "@components/elements/drupal-window-sync"
-import Editorially from "@components/tools/editorially"
 import type {Slug, PageProps} from "@lib/@types/types"
 import {Suspense} from "react"
+import EditorTools from "./editor-tools"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
 
 const PreviewPage = (props: PageProps) => (
   <EditorAlert status={false} message="Preview Mode">
-    <DrupalWindowSync />
-    <Editorially />
     <Suspense fallback={<NodePageSkeleton />}>
+      <EditorTools />
       <PreviewContent params={props.params} />
     </Suspense>
   </EditorAlert>

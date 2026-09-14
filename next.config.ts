@@ -25,11 +25,8 @@ module.exports = async (_phase: string) => {
       dangerouslyAllowLocalIP: !process.env.VERCEL_ENV,
       remotePatterns: [
         {
-          // Allow any stanford domain for images, but require https.
-          protocol: "https",
-          hostname: "**.stanford.edu",
-        },
-        {
+          // Only original files arrive here; image style derivatives carry an `?itok=` hash and are
+          // rendered without the optimizer. @see components/elements/wysiwyg.tsx
           protocol: drupalUrl.protocol === "https:" ? "https" : "http",
           hostname: drupalUrl.hostname,
           pathname: "/sites/**",
@@ -38,6 +35,8 @@ module.exports = async (_phase: string) => {
         {
           protocol: "https",
           hostname: "localist-images.azureedge.net",
+          pathname: "/photos/**",
+          search: "",
         },
       ],
     },
