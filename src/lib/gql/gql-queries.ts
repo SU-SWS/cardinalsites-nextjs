@@ -32,15 +32,10 @@ import {
   AllRedirectsQuery,
   AllRedirectsDocument,
 } from "@lib/gql/__generated__/graphql"
-import {graphqlClient} from "@lib/gql/gql-client"
-import {ClientError} from "graphql-request"
-import {GraphQLError} from "graphql/error"
+import {ClientError, graphqlClient} from "@lib/gql/gql-client"
 import {FilterGroup} from "@components/views/filtered-list-view/filtered-list-view.client"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
 import {cacheTag} from "next/cache"
-
-/** Drupal GraphQL errors include a `debugMessage` field in addition to the standard `message`. */
-type DrupalGraphqlError = GraphQLError & {debugMessage: string}
 
 /** Resolved result of a route lookup: an entity, a redirect, or neither when the lookup failed. */
 type RouteResult<T extends NodeUnion> = {
@@ -92,8 +87,7 @@ const requestEntityFromPath = async <T extends NodeUnion>(
     if (e instanceof ClientError) {
       // The Drupal GraphQL module attaches a human-readable `debugMessage` alongside the
       // standard `message`. Deduplicate in case multiple errors carry the same text.
-      // @ts-expect-error Client error type doesn't define debugMessage, but Drupal includes it.
-      const messages = e.response.errors?.map((error: DrupalGraphqlError) => error.debugMessage || error.message)
+      const messages = e.response.errors?.map(error => error.debugMessage || error.message)
       console.warn([...new Set(messages)].join(" "))
     } else {
       console.warn(e instanceof Error ? e.message : "An error occurred")
