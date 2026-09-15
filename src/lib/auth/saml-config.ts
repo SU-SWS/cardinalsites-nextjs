@@ -1,4 +1,4 @@
-import {SamlConfig} from "passport-saml"
+import type {SamlConfig} from "passport-saml"
 
 export const getSamlConfig = async (origin: string): Promise<SamlConfig> => {
   try {

@@ -119,6 +119,25 @@ Returns the currently authenticated user's profile from the JWT cookie.
 
 ## Configuration
 
+### Optional Dependencies
+
+SAML support is opt-in. The packages it needs are declared in `optionalDependencies` so sites that
+serve only anonymous traffic don't have to carry them:
+
+| Package           | Used by                                |
+|-------------------|----------------------------------------|
+| `passport-saml`   | `login/route.tsx`, `metadata/route.tsx` (AuthnRequest + SP metadata) |
+| `xml-encryption`  | `src/lib/auth/manual-saml-decrypt.ts` (assertion decryption) |
+| `@xmldom/xmldom`  | `src/lib/auth/manual-saml-decrypt.ts` (XML parsing) |
+
+They are loaded lazily through `src/lib/auth/optional-saml.ts` and listed in
+`serverExternalPackages` (next.config.ts), so the application builds and runs without them. When
+they are missing, `/api/auth/login` and `/api/auth/metadata` respond `501` and the rest of the site
+is unaffected.
+
+> `jose` is **not** optional. `proxy.tsx` verifies the session JWT in the proxy/middleware on every
+> matched request, so it is always required.
+
 ### Environment Variables
 
 | Variable            | Required  | Description                                                                    |

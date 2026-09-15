@@ -1,8 +1,7 @@
 // Manual SAML decryption utility to work around passport-saml encrypted assertion issues
 // <reference path="../../@types/xml-encryption/index.d.ts" />
-import * as xmlenc from "xml-encryption"
-import {DOMParser} from "@xmldom/xmldom"
 import {UserProfile} from "@lib/auth/jwt-auth"
+import {SamlUnavailableError, loadDomParser, loadXmlEncryption} from "@lib/auth/optional-saml"
 
 export const manuallyDecryptSAMLResponse = async (
   encodedResponse: string,
@@ -13,6 +12,7 @@ export const manuallyDecryptSAMLResponse = async (
     const xmlResponse = Buffer.from(encodedResponse, "base64").toString("utf8")
 
     // Parse XML
+    const DOMParser = await loadDomParser()
     const parser = new DOMParser()
     const doc = parser.parseFromString(xmlResponse, "text/xml")
 
@@ -22,6 +22,8 @@ export const manuallyDecryptSAMLResponse = async (
     if (encryptedAssertions.length === 0) {
       return xmlResponse
     }
+
+    const xmlenc = await loadXmlEncryption()
 
     // Try to decrypt using xml-encryption directly
     return new Promise((resolve, _reject) => {
@@ -44,14 +46,16 @@ export const manuallyDecryptSAMLResponse = async (
       })
     })
   } catch (error) {
+    if (error instanceof SamlUnavailableError) throw error
     console.error("❌ Manual decryption error:", error instanceof Error ? error.message : error)
     console.error("❌ Full error:", error)
     return null
   }
 }
 
-export const extractProfileFromDecryptedXML = (decryptedXML: string): UserProfile | null => {
+export const extractProfileFromDecryptedXML = async (decryptedXML: string): Promise<UserProfile | null> => {
   try {
+    const DOMParser = await loadDomParser()
     const parser = new DOMParser()
     const doc = parser.parseFromString(decryptedXML, "text/xml")
 
@@ -88,6 +92,7 @@ export const extractProfileFromDecryptedXML = (decryptedXML: string): UserProfil
       eduPersonAffiliation: profileAttributes.get("eduPersonAffiliation"),
     }
   } catch (error) {
+    if (error instanceof SamlUnavailableError) throw error
     if (error instanceof Error) {
       console.error("❌ Profile extraction error:", error.message)
     }

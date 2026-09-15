@@ -1,6 +1,6 @@
-import {SAML} from "passport-saml/lib/node-saml"
 import {NextRequest, NextResponse} from "next/server"
 import {getSamlConfig} from "@lib/auth/saml-config"
+import {SamlUnavailableError, loadSaml} from "@lib/auth/optional-saml"
 
 /**
  * GET /api/auth/login
@@ -34,6 +34,7 @@ export const GET = async (req: NextRequest) => {
     // Priority: explicit `destination` param > Referer header pathname > root.
     const refer = req.headers.get("referer")
     const relayState = req.nextUrl.searchParams.get("destination") || (refer ? new URL(refer).pathname : "/")
+    const SAML = await loadSaml()
     const saml = new SAML(samlConfig)
 
     // Generate the SAML AuthnRequest and build the redirect URL for the IdP.
@@ -47,6 +48,11 @@ export const GET = async (req: NextRequest) => {
     // Redirect the browser to the IdP so the user can authenticate.
     return NextResponse.redirect(loginUrl)
   } catch (error) {
+    if (error instanceof SamlUnavailableError) {
+      console.error(error.message)
+      return NextResponse.json({error: "SAML authentication is not enabled on this site"}, {status: 501})
+    }
+
     console.error("❌ SAML login error occurred:")
 
     if (error instanceof Error) {

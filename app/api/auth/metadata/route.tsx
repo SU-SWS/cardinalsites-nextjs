@@ -1,6 +1,6 @@
-import {SAML} from "passport-saml/lib/node-saml"
 import {NextRequest, NextResponse} from "next/server"
 import {getSamlConfig} from "@lib/auth/saml-config"
+import {SamlUnavailableError, loadSaml} from "@lib/auth/optional-saml"
 
 /**
  * GET /api/auth/metadata
@@ -18,6 +18,7 @@ export const GET = async (req: NextRequest) => {
   try {
     const signingCert = process.env.SAML_SIGNING_CERT
     if (!signingCert) throw Error("No signing cert available")
+    const SAML = await loadSaml()
     const saml = new SAML(samlConfig)
 
     // Certificates are passed as arguments rather than embedded in the config
@@ -31,6 +32,11 @@ export const GET = async (req: NextRequest) => {
       },
     })
   } catch (error) {
+    if (error instanceof SamlUnavailableError) {
+      console.error(error.message)
+      return NextResponse.json({error: "SAML authentication is not enabled on this site"}, {status: 501})
+    }
+
     console.error("❌ Failed to generate SAML metadata:", error)
     return NextResponse.json({error: "Failed to generate metadata"}, {status: 500})
   }

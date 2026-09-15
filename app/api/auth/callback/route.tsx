@@ -56,7 +56,7 @@ export const POST = async (req: NextRequest) => {
   }
 
   if (decryptedXML) {
-    const profile = extractProfileFromDecryptedXML(decryptedXML)
+    const profile = await extractProfileFromDecryptedXML(decryptedXML)
     if (profile) {
       // Generate JWT token from the SAML profile
       const jwtToken = await generateJWT(profile)

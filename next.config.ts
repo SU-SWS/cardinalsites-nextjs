@@ -8,6 +8,9 @@ module.exports = async (_phase: string) => {
   const nextConfig: NextConfig = {
     env: {...(await vaultEnvVars())},
     cacheComponents: true,
+    // Optional SAML packages: resolved with a runtime `require` instead of being bundled, so a
+    // site that installs without the optionalDependencies still builds. @see lib/auth/optional-saml.ts
+    serverExternalPackages: ["passport-saml", "xml-encryption", "@xmldom/xmldom"],
     cacheLife: {
       // Safety net for any `use cache` scope that doesn't name a profile.
       default: {
