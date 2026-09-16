@@ -1,7 +1,7 @@
 import {graphqlClient} from "@lib/gql/gql-client"
 import {MediaDocument, MediaQuery} from "@lib/gql/__generated__/graphql"
 import InterceptionModal from "@components/elements/interception-modal"
-import Oembed from "@components/elements/ombed"
+import Oembed from "@components/elements/oembed"
 import {notFound} from "next/navigation"
 import type {Slug} from "@lib/@types/types"
 import {H2} from "@components/elements/headers"

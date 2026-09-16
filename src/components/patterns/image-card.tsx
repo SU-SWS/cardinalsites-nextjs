@@ -1,6 +1,6 @@
 import cn from "@lib/utils/className"
 import Image from "next/image"
-import Oembed from "@components/elements/ombed"
+import Oembed from "@components/elements/oembed"
 import {ElementType, HTMLAttributes} from "react"
 import {Maybe} from "@lib/gql/__generated__/graphql"
 

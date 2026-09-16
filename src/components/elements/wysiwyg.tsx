@@ -1,268 +1,329 @@
 import {Table, Thead, Th, Tbody, Tr, Td} from "@components/elements/responsive-tables/tables"
 import Link from "@components/elements/link"
 import parse, {HTMLReactParserOptions, Element, domToReact, attributesToProps, DOMNode} from "html-react-parser"
-import Oembed from "@components/elements/ombed"
+import Oembed from "@components/elements/oembed"
 import React, {HtmlHTMLAttributes, ImgHTMLAttributes, ReactElement} from "react"
 import {H2, H3, H4, H5, H6} from "@components/elements/headers"
 import cn from "@lib/utils/className"
 import {Maybe} from "@lib/gql/__generated__/graphql"
 import Mathjax from "@components/tools/mathjax"
 import Script from "next/script"
+import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   /**
    * HTML string.
    */
   html?: Maybe<string>
+  /**
+   * Lowercase tag names to keep. Any other tag is stripped, but its contents are kept. When
+   * omitted, every tag is kept.
+   */
+  allowedTags?: Array<string>
 }
 
-const Wysiwyg = ({html, className, ...props}: Props): ReactElement | undefined => {
-  if (!html) return
-  // Remove comments and empty lines.
-  html = html.replaceAll(/<!--[\s\S]*?-->/g, "").replaceAll(/(^(\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$/gm, "")
+// Display math ($$...$$) and inline math (\[...\] or \(...\)) both need the mathjax library.
+const mathJaxDelimiters = /\$\$[\s\S]*\$\$|\\\[[\s\S]*\\\]|\\\([\s\S]*\\\)/
 
-  const addMathJax = html.match(/\$\$.*\$\$/) || html.match(/\\\[.*\\\]/) || html.match(/\\\(.*\\\)/)
+const Wysiwyg = ({html, allowedTags, className, ...props}: Props): ReactElement | undefined => {
+  if (!html) return
+
+  // Remove blank lines, which the parser would otherwise keep as stray whitespace text nodes.
+  // Comments need no such treatment because the parser drops comment nodes on its own.
+  const cleanHtml = html.replaceAll(/^\s*\n/gm, "")
+
   return (
     <div className={cn("wysiwyg", className)} {...props}>
-      {addMathJax && <Mathjax />}
-      {formatHtml(html)}
+      {mathJaxDelimiters.test(cleanHtml) && <Mathjax />}
+      {convertHtml(cleanHtml, allowedTags)}
     </div>
   )
 }
 
-const fixProps = (props: Record<PropertyKey, string | boolean>) => {
-  if (!props.className) delete props.className
+/**
+ * Tags rendered by a react component instead of the plain html element.
+ *
+ * `h1` is deliberately demoted: the page supplies its own h1, so a second one in editor content
+ * breaks the heading outline.
+ */
+const componentMap: Record<string, React.ElementType> = {
+  h1: H2,
+  h2: H2,
+  h3: H3,
+  h4: H4,
+  h5: H5,
+  h6: H6,
+  table: Table,
+  thead: Thead,
+  tbody: Tbody,
+  tr: Tr,
+  th: Th,
+  td: Td,
+}
+
+const headingTags = new Set(["h1", "h2", "h3", "h4", "h5", "h6"])
+
+/**
+ * Tags that must never be given children.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+ */
+const voidTags = new Set([
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "source",
+  "track",
+  "wbr",
+])
+
+/**
+ * Tags that carry code rather than content, so stripping one has to take its children with it.
+ * Unwrapping them instead would print the javascript/css into the page as visible text.
+ */
+const strippedWithContents = new Set(["script", "style", "iframe", "object", "embed", "noscript", "template"])
+
+/**
+ * Text of a node and all of its descendants. Used for heading anchor ids.
+ */
+const textContent = (node: Element): string =>
+  node.children
+    .map(child => {
+      if (child instanceof Element) return textContent(child)
+      return "data" in child && child.type !== "comment" ? child.data : ""
+    })
+    .join("")
+
+/**
+ * React props for a dom node: drupal classes translated to tailwind, editor bookkeeping removed.
+ *
+ * `className` is merged ahead of the node's own classes so that author classes win a conflict.
+ */
+const getNodeProps = (node: Element, className?: string) => {
+  const props = attributesToProps(node.attribs)
+
+  const classes = cn(className, fixClasses(props.className))
+  if (classes) props.className = classes
+  else delete props.className
 
   delete props["data-entity-substitution"]
   delete props["data-entity-type"]
   delete props["data-entity-uuid"]
+
+  return props
 }
 
-const options: HTMLReactParserOptions = {
-  replace: domNode => {
-    if (domNode instanceof Element) {
-      const nodeProps = attributesToProps(domNode.attribs)
-      nodeProps.className = fixClasses(nodeProps.className)
-      fixProps(nodeProps)
+/**
+ * Build the parser options.
+ *
+ * `allowedTags` is a lowercase tag name allowlist. When omitted, every tag is kept. When provided,
+ * any other tag is removed but its children are still rendered, so text inside an unwanted wrapper
+ * survives the strip.
+ */
+const createOptions = (allowedTags?: Array<string>): HTMLReactParserOptions => {
+  const allowed = allowedTags ? new Set(allowedTags.map(tag => tag.toLowerCase())) : undefined
 
-      const NodeName = domNode.name as React.ElementType
-      const children: DOMNode[] = domNode.children as DOMNode[]
+  const options: HTMLReactParserOptions = {
+    replace: domNode => {
+      if (!(domNode instanceof Element)) return
+
+      if (allowed && !allowed.has(domNode.name)) {
+        if (strippedWithContents.has(domNode.name)) return <></>
+        return <>{domToReact(domNode.children as DOMNode[], options)}</>
+      }
+
+      const children = domNode.children as DOMNode[]
+      const NodeName: React.ElementType = componentMap[domNode.name] || (domNode.name as React.ElementType)
 
       switch (domNode.name) {
-        case "a":
+        case "a": {
+          const {href, ...props} = getNodeProps(domNode)
+          // Legacy jump targets (`<a id="place"></a>`) carry no href, and a link to "#" would be a
+          // tabbable no-op, so leave them as the plain anchors they are.
+          if (!href) return <NodeName {...props}>{domToReact(children, options)}</NodeName>
+
+          if ((href as string).startsWith("#")) {
+            return (
+              <a href={href as string} {...props}>
+                {domToReact(children, options)}
+              </a>
+            )
+          }
+
           return (
-            <Link href={nodeProps.href as string} {...nodeProps}>
+            <Link href={href as string} {...props}>
               {domToReact(children, options)}
             </Link>
           )
+        }
 
         case "div":
-        case "article":
-          delete nodeProps.role
-          if (nodeProps.className?.includes("media-entity-wrapper")) {
-            return cleanMediaMarkup(domNode)
+        case "article": {
+          if (domNode.attribs.class?.includes("media-entity-wrapper")) {
+            return cleanMediaMarkup(domNode, options)
           }
-          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
+          const props = getNodeProps(domNode)
+          delete props.role
+          return <NodeName {...props}>{domToReact(children, options)}</NodeName>
+        }
 
         case "figure":
-          return cleanMediaMarkup(domNode)
+          return cleanMediaMarkup(domNode, options)
 
         case "p":
-          nodeProps.className = cn("max-w-[100ch] text-21 leading-[1.7]", nodeProps.className)
-          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
+          return (
+            <NodeName {...getNodeProps(domNode, "max-w-[100ch] text-21 leading-[1.7]")}>
+              {domToReact(children, options)}
+            </NodeName>
+          )
 
         case "script":
-          return <Script {...nodeProps}>{domToReact(children, options)}</Script>
+          return <Script {...getNodeProps(domNode)}>{domToReact(children, options)}</Script>
 
-        case "h2":
-          return <H2 {...nodeProps}>{domToReact(children, options)}</H2>
-        case "h3":
-          return <H3 {...nodeProps}>{domToReact(children, options)}</H3>
-        case "h4":
-          return <H4 {...nodeProps}>{domToReact(children, options)}</H4>
-        case "h5":
-          return <H5 {...nodeProps}>{domToReact(children, options)}</H5>
-        case "h6":
-          return <H6 {...nodeProps}>{domToReact(children, options)}</H6>
-        case "table":
-          return <Table {...nodeProps}>{domToReact(children, options)}</Table>
-        case "thead":
-          return <Thead {...nodeProps}>{domToReact(children, options)}</Thead>
-        case "tbody":
-          return <Tbody {...nodeProps}>{domToReact(children, options)}</Tbody>
-        case "th":
-          return <Th {...nodeProps}>{domToReact(children, options)}</Th>
-        case "td":
-          return <Td {...nodeProps}>{domToReact(children, options)}</Td>
-        case "tr":
-          return <Tr {...nodeProps}>{domToReact(children, options)}</Tr>
-        case "ul":
-          // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
-          nodeProps.className = cn(nodeProps.className, {
-            "list-circle": nodeProps?.type === "circle",
-            "list-square": nodeProps?.type === "square",
+        // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
+        case "ul": {
+          const marker = cn({
+            "list-circle": domNode.attribs.type === "circle",
+            "list-square": domNode.attribs.type === "square",
           })
-          fixProps(nodeProps)
-          return <ul {...nodeProps}>{domToReact(children, options)}</ul>
-        case "ol":
-          // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
-          nodeProps.className = cn(nodeProps.className, {
-            "list-lower-alpha": nodeProps?.type === "a",
-            "list-upper-alpha": nodeProps?.type === "A",
-            "list-lower-roman": nodeProps?.type === "i",
-            "list-upper-roman": nodeProps?.type === "I",
+          return <NodeName {...getNodeProps(domNode, marker)}>{domToReact(children, options)}</NodeName>
+        }
+
+        // https://v3.tailwindcss.com/docs/preflight#lists-are-unstyled
+        case "ol": {
+          const marker = cn({
+            "list-lower-alpha": domNode.attribs.type === "a",
+            "list-upper-alpha": domNode.attribs.type === "A",
+            "list-lower-roman": domNode.attribs.type === "i",
+            "list-upper-roman": domNode.attribs.type === "I",
           })
-          fixProps(nodeProps)
-          return <ol {...nodeProps}>{domToReact(children, options)}</ol>
+          return <NodeName {...getNodeProps(domNode, marker)}>{domToReact(children, options)}</NodeName>
+        }
+
         case "hr":
-          return <hr className="border-black" />
-        case "pre":
-          nodeProps.className = cn(
-            nodeProps.className,
-            "[&_code]:mb-10 [&_code]:block [&_code]:rounded-[0.3rem] [&_code]:border [&_code]:border-black-20 [&_code]:bg-black-10 [&_code]:p-20 [&_code]:text-wrap [&_code]:text-black"
-          )
-          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
-        case "code":
-        case "tfoot":
-        case "b":
-        case "cite":
-        case "dt":
-        case "dl":
-        case "dd":
-        case "i":
-        case "aside":
-        case "abbr":
-        case "span":
-        case "blockquote":
-        case "li":
-        case "strong":
-        case "em":
-        case "s":
-        case "sub":
-        case "sup":
-        case "caption":
-          return <NodeName {...nodeProps}>{domToReact(children, options)}</NodeName>
+          return <NodeName {...getNodeProps(domNode, "border-black")} />
 
-        // Void element tags like <br>, <hr>, <source>, etc.
-        // @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
-        default:
-          return <NodeName {...nodeProps} />
+        case "pre": {
+          const codeStyles =
+            "[&_code]:mb-10 [&_code]:block [&_code]:rounded-[0.3rem] [&_code]:border [&_code]:border-black-20 [&_code]:bg-black-10 [&_code]:p-20 [&_code]:text-wrap [&_code]:text-black"
+          return <NodeName {...getNodeProps(domNode, codeStyles)}>{domToReact(children, options)}</NodeName>
+        }
+
+        default: {
+          const props = getNodeProps(domNode)
+          if (voidTags.has(domNode.name)) return <NodeName {...props} />
+
+          // Give every editor heading an anchor target, not only the ones whose children parse to a
+          // plain string.
+          if (headingTags.has(domNode.name) && !props.id) {
+            const id = getIdFromText(textContent(domNode))
+            if (id) props.id = id
+          }
+
+          return <NodeName {...props}>{domToReact(children, options)}</NodeName>
+        }
       }
-    }
-  },
+    },
+  }
+
+  return options
+}
+
+/**
+ * Drupal and decanter class names mapped to their tailwind equivalents.
+ *
+ * Keys are matched after the `su-` prefix is dropped, so `su-intro-text` and `intro-text` both map.
+ */
+const classMap: Record<string, string> = {
+  "text-align-center": "text-center mx-auto",
+  "text-align-right": "text-right",
+  "align-center": "mx-auto",
+  "align-left": "float-left mr-20 mb-20",
+  "align-right": "float-right ml-20 mb-20",
+  "visually-hidden": "sr-only",
+  "font-splash": "font-bold type-4",
+  "callout-text": "font-bold type-2",
+  "related-text": "shadow-lg border border-black-20 p-32",
+  "intro-text": "type-2",
+  "quote-text": "px-48 py-32 ml-64 type-3 border-l-3 border-black",
+  "drop-cap":
+    "type-2 first-letter:font-bold first-letter:type-6 first-letter:float-left first-letter:my-4 first-letter:mr-8",
 }
 
 const fixClasses = (classes?: string | boolean): string => {
-  if (!classes) return ""
-  // Pad the classes so that we can easily replace a whole class instead of parts of them.
-  classes = ` ${classes} `
+  if (typeof classes !== "string") return ""
 
-  classes = classes
-    .replaceAll(" su-", " ")
-    .replaceAll(" text-align-center ", " text-center ")
-    .replaceAll(" text-align-right ", " text-right ")
-    .replaceAll(" align-center ", " mx-auto ")
-    .replaceAll(" align-left ", " float-left mr-20 mb-20 ")
-    .replaceAll(" align-right ", " float-right ml-20 mb-20 ")
-    .replaceAll(" visually-hidden ", " sr-only ")
-    .replaceAll(" font-splash ", " font-bold type-4 ")
-    .replaceAll(" callout-text ", " font-bold type-2 ")
-    .replaceAll(" related-text ", " shadow-lg border border-black-20 p-32 ")
-    .replaceAll(" intro-text ", " type-2 ")
-    .replaceAll(" quote-text ", " px-48 py-32 ml-64 type-3 border-l-3 border-black ")
-    .replaceAll(
-      " drop-cap ",
-      " type-2 first-letter:font-bold first-letter:type-6 first-letter:float-left first-letter:my-4 first-letter:mr-8 "
-    )
-    .replaceAll(/ tablesaw[\w-] /g, " ")
-  return cn(classes)
+  return cn(
+    classes
+      .split(/\s+/)
+      .map(className => className.replace(/^su-/, ""))
+      // Tablesaw styled the old drupal tables; the responsive table component handles that now.
+      .filter(className => className && !className.startsWith("tablesaw"))
+      .map(className => classMap[className] || className)
+  )
 }
 
-const cleanMediaMarkup = (node: Element) => {
-  const nodeProps = attributesToProps(node.attribs)
-  nodeProps.className = fixClasses(nodeProps.className)
+/**
+ * Depth first search for the first element matching `match`, starting with `node` itself.
+ */
+const findElement = (node: Element, match: (node: Element) => boolean): Element | undefined => {
+  if (match(node)) return node
 
-  const getImage = (node: Element): Record<string, string> | undefined => {
-    let img
-    if (node.name === "img") {
-      const attribs = node.attribs
-      attribs.width = attribs.width || attribs["data-width"]
-      attribs.height = attribs.height || attribs["data-height"]
-      return attribs
-    }
-    if (node.children.length > 0) {
-      let child
-      for (child of node.children) {
-        if (child instanceof Element) {
-          img = getImage(child)
-          if (img) return img
-        }
-      }
+  for (const child of node.children) {
+    if (child instanceof Element) {
+      const found = findElement(child, match)
+      if (found) return found
     }
   }
-  const getFigCaption = (node: Element): DOMNode[] | undefined => {
-    let caption
-    if (node.name === "figcaption") {
-      return node.children as DOMNode[]
-    }
-    if (node.children.length > 0) {
-      let child
-      for (child of node.children) {
-        if (child instanceof Element) {
-          caption = getFigCaption(child)
-          if (caption) return caption
-        }
-      }
-    }
+}
+
+const getMediaSrc = (node: Element): string => node.attribs.src || node.attribs["data-src"] || ""
+
+const cleanMediaMarkup = (node: Element, options: HTMLReactParserOptions) => {
+  const nodeProps = getNodeProps(node)
+  delete nodeProps.role
+
+  // Special handling of Oembeds.
+  const oembed = findElement(node, child => getMediaSrc(child).includes("/media/oembed"))
+  if (oembed) {
+    // Drupal's own params (max_width, max_height, hash) sit alongside the media url in the src, so
+    // let the url parser pull out just the one we want.
+    const src = new URL(getMediaSrc(oembed), process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || "http://localhost")
+    const url = src.searchParams.get("url")
+    if (url) return <Oembed url={url} />
   }
 
-  const getOembedUrl = (node: Element): string | undefined => {
-    const src = node.attribs?.src || node.attribs["data-src"]
-    if (src?.includes("/media/oembed")) {
-      return decodeURIComponent(src).replace(/^.*url=(.*)?&.*$/, "$1")
-    }
-    if (node.children.length > 0) {
-      let child
-      for (child of node.children) {
-        if (child instanceof Element) {
-          const url: string | undefined = getOembedUrl(child)
-          if (url) return url
-        }
-      }
-    }
-  }
-
-  // Special handling of Oembeds
-  const oembedUrl = getOembedUrl(node)
-  if (oembedUrl) {
-    return <Oembed url={oembedUrl} />
-  }
-
-  const image = getImage(node)
+  const image = findElement(node, child => child.name === "img")
   if (image) {
-    let {src} = image
-    const {alt, width, height} = image
+    let {src} = image.attribs
     if (!src) return
 
-    if (src?.startsWith("/")) src = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + src
+    if (src.startsWith("/")) src = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + src
 
-    const figCaption = getFigCaption(node)
+    const {alt} = image.attribs
+    const width = image.attribs.width || image.attribs["data-width"]
+    const height = image.attribs.height || image.attribs["data-height"]
 
-    if (figCaption) {
-      nodeProps.className = cn("table", nodeProps.className)
-      if (nodeProps.className?.includes("mx-auto")) nodeProps.className += " w-full"
-      delete nodeProps.role
+    const caption = findElement(node, child => child.name === "figcaption")
+
+    if (caption) {
+      // `w-fit` shrinks the figure to the image so that the caption wraps at the image width.
       return (
-        <figure {...nodeProps}>
+        <figure {...nodeProps} className={cn("w-fit", nodeProps.className)}>
           <WysiwygImage src={src} alt={alt} height={height} width={width} />
-          <figcaption className="table-caption caption-bottom text-center">
-            {domToReact(figCaption, options)}
-          </figcaption>
+          <figcaption className="text-center">{domToReact(caption.children as DOMNode[], options)}</figcaption>
         </figure>
       )
     }
     return <WysiwygImage src={src} alt={alt} height={height} width={width} {...nodeProps} />
   }
+
   const NodeName: React.ElementType = node.name as React.ElementType
   return <NodeName {...nodeProps}>{domToReact(node.children as DOMNode[], options)}</NodeName>
 }
@@ -288,6 +349,24 @@ const WysiwygImage = ({
   <img src={src.trim()} alt={alt || ""} loading="lazy" decoding="async" {...props} />
 )
 
-const formatHtml = (html: string) => parse(html || "", options)
+const defaultOptions = createOptions()
 
+/**
+ * Turn a Drupal html string into react elements.
+ *
+ * Use this when the markup has to render without the `wysiwyg` wrapper div, such as inside a
+ * heading, a table cell, or a card teaser. Anything that wants the wrapper and its typography
+ * should use the `Wysiwyg` component instead.
+ *
+ * Drupal classes are translated to their tailwind equivalents, editor bookkeeping attributes are
+ * dropped, and links, media, tables and headings are swapped for their react components.
+ *
+ * @param html - Html string from Drupal.
+ * @param allowedTags - Lowercase tag names to keep. Any other tag is stripped, but its contents are
+ *   kept, so `["strong"]` reduces markup to text plus bold. Tags that hold code instead of content,
+ *   like `<script>`, are removed along with their contents. When omitted, every tag is kept.
+ */
+export const convertHtml = (html?: Maybe<string>, allowedTags?: Array<string>) => {
+  return parse(html || "", allowedTags ? createOptions(allowedTags) : defaultOptions)
+}
 export default Wysiwyg

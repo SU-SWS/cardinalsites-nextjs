@@ -8,7 +8,7 @@ import {
   MediaDocument,
   MediaQuery,
 } from "@lib/gql/__generated__/graphql"
-import Oembed from "@components/elements/ombed"
+import Oembed from "@components/elements/oembed"
 import {H1} from "@components/elements/headers"
 import Button from "@components/elements/button"
 import {notFound} from "next/navigation"
