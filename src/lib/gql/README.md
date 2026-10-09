@@ -243,10 +243,31 @@ Supported `viewId--displayId` combinations:
 | `stanford_shared_tags`                                       | `card_grid`                                                                                          |
 | `media_content` / `media_filtered`                           | `list`, `card_grid`, `default_list`                                                                  |
 
-### `loadViewPage(...)`
+### `loadViewPage(signedConfig, page?, filter?)`
 
-Server action wrapper that calls `getViewPagedItems` and returns a rendered `<View>` JSX element. Used by
-`ParagraphStanfordFilteredList` for client-side page transitions.
+Server action (in `src/components/views/view.tsx`) that calls `getViewPagedItems` and returns a rendered
+`<View>` JSX element. Used by the list and filtered-list paragraphs and the site search for "load more" and
+filter changes.
+
+A server action is a public POST endpoint that anyone can call with any arguments, and every distinct
+argument set is a Drupal query and a cache entry. So:
+
+- The list's configuration (view, display, contextual filters, headline, page size) is **signed by the
+  server** with `signViewConfig()` (`src/lib/utils/view-config.ts`, an HMAC keyed from
+  `DRUPAL_REVALIDATE_SECRET`) and bound to the action. Requests without a valid signature render nothing.
+- Only `page` and `filter` come from the browser. `sanitizeViewRequest()` allows only supported displays,
+  clamps `page` (max 100) and `pageSize`, and keeps only known filter keys: a short `key` keyword (trimmed,
+  lowercased) and `filter` / `filters` / `spotlight` term-id lists (deduplicated, sorted, max 50).
+- Results with a keyword or term filters are cached for hours rather than forever.
+
+Bind it with a signed config rather than raw arguments:
+
+```tsx
+const signedConfig = signViewConfig({viewId, displayId, contextualFilter, hasHeadline, pageSize: VIEW_PAGE_SIZE})
+<View loadPage={signedConfig ? loadViewPage.bind(null, signedConfig) : undefined} ... />
+```
+
+If `DRUPAL_REVALIDATE_SECRET` is not set, nothing is signed and "load more" is not offered.
 
 ---
 

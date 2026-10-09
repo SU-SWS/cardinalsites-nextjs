@@ -25,7 +25,8 @@ import {
 } from "@lib/gql/__generated__/graphql"
 import OpportunitiesCardView from "@components/views/stanford-opportunities/opportunities-card-view"
 import OpportunitiesListView from "@components/views/stanford-opportunities/opportunities-list-view"
-import {getViewPagedItems, VIEW_PAGE_SIZE, ViewFilter} from "@lib/gql/gql-views"
+import {getViewPagedItems, sanitizeViewRequest, ViewFilter} from "@lib/gql/gql-views"
+import {verifyViewConfig} from "@lib/utils/view-config"
 import MediaListView from "@components/views/stanford-media/media-list-view"
 import MediaCardView from "@components/views/stanford-media/media-card-view"
 
@@ -176,45 +177,39 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
 }
 
 /**
- * Server action that fetches a single page of view items and returns a
- * rendered {@link View} element.
+ * Server action that fetches one page of a Drupal view and renders it.
  *
- * This function is designed to be partially applied with `.bind()` so it can
- * be passed as the `loadPage` prop to a display component. The display
- * component then calls the bound version with only `page` and `filter`,
- * keeping the view identity and configuration stable across pager interactions.
+ * Bound by list paragraphs and the site search to load subsequent pages on the client. The list's
+ * configuration (view, display, contextual filters, headline, page size) arrives signed by the server
+ * (see signViewConfig); only the page number and filter values come from the browser, and both are
+ * validated.
  *
- * @param viewId - Drupal machine name of the view (e.g. `"stanford_news"`).
- * @param displayId - Drupal machine name of the display (e.g. `"vertical_cards"`).
- * @param hasHeadline - When `true` the rendered view sits beneath a headline,
- *   so node titles are demoted to `<h3>`; otherwise they render as `<h2>`.
- * @param pageSize - Number of items to request per page. Defaults to
- *   {@link VIEW_PAGE_SIZE}. The actual fetch rounds up to the nearest multiple
- *   of 3 as required by the Drupal view configuration.
- * @param contextualFilter - Optional list of contextual filter values passed
- *   directly to the Drupal view query.
+ * @param signedConfig - The list configuration from {@link signViewConfig}.
  * @param page - Zero-based page index to fetch.
  * @param filter - Optional key/value filter map forwarded to the GraphQL query.
- * @returns A rendered `<View>` element for the requested page.
+ * @returns A rendered `<View>` element for the requested page, or nothing for an invalid request.
  */
 export const loadViewPage = async (
-  viewId: string,
-  displayId: string,
-  hasHeadline: boolean,
-  pageSize: number = VIEW_PAGE_SIZE,
-  contextualFilter?: Maybe<string[]>,
+  signedConfig: string,
   page?: Maybe<number>,
   filter?: ViewFilter
 ): Promise<JSX.Element> => {
   "use server"
 
-  const {items, totalItems} = await getViewPagedItems(viewId, displayId, pageSize, contextualFilter, page, filter)
+  // Server actions are public POST endpoints: any caller can send any arguments.
+  const config = verifyViewConfig(signedConfig)
+  const request =
+    config &&
+    sanitizeViewRequest(config.viewId, config.displayId, config.pageSize, config.contextualFilter, page, filter)
+  if (!config || !request) return <></>
+
+  const {items, totalItems} = await getViewPagedItems(...request)
   return (
     <View
-      viewId={viewId}
-      displayId={displayId}
+      viewId={config.viewId}
+      displayId={config.displayId}
       items={items}
-      headingLevel={hasHeadline ? "h3" : "h2"}
+      headingLevel={config.hasHeadline ? "h3" : "h2"}
       totalItems={totalItems}
     />
   )

@@ -4,6 +4,7 @@ import NodeListItem from "@components/nodes/list-item/node-list-item"
 import SiteSearchForm from "@components/search/site-search-form"
 import {Maybe} from "@lib/gql/__generated__/graphql"
 import {loadViewPage} from "@components/views/view"
+import {signViewConfig} from "@lib/utils/view-config"
 
 type Props = {
   search: string | Promise<string>
@@ -15,9 +16,14 @@ const SiteSearch = async ({search}: Props) => {
   })
   const loadMore = async (page?: Maybe<number>, _filter?: ViewFilter) => {
     "use server"
-    return loadViewPage("search", "search", false, 12, [], page, {
-      key,
+    const config = signViewConfig({
+      viewId: "search",
+      displayId: "search",
+      contextualFilter: [],
+      hasHeadline: false,
+      pageSize: 12,
     })
+    return config ? loadViewPage(config, page, {key}) : <></>
   }
 
   return (

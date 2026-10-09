@@ -7,6 +7,7 @@ import {getParagraphBehaviors} from "@components/paragraphs/get-paragraph-behavi
 import cn from "@lib/utils/className"
 import {ListParagraphBehaviors} from "drupal"
 import {getViewPagedItems, VIEW_PAGE_SIZE} from "@lib/gql/gql-views"
+import {signViewConfig} from "@lib/utils/view-config"
 import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -39,6 +40,18 @@ const FilteredListParagraph = async ({paragraph, ...props}: Props) => {
 
   const id = getIdFromText(paragraph.suListHeadline)
 
+  // Signed so the public "load more" action can't be called with arbitrary views or filters.
+  const signedConfig =
+    addLoadMore && viewId && displayId
+      ? signViewConfig({
+          viewId,
+          displayId,
+          contextualFilter: paragraph.suFilteredListView?.contextualFilter || [],
+          hasHeadline: !!paragraph.suListHeadline,
+          pageSize: VIEW_PAGE_SIZE,
+        })
+      : undefined
+
   return (
     <ListWrapper
       {...props}
@@ -60,18 +73,7 @@ const FilteredListParagraph = async ({paragraph, ...props}: Props) => {
           displayId={displayId}
           items={viewItems}
           headingLevel={paragraph.suListHeadline ? "h3" : "h2"}
-          loadPage={
-            addLoadMore
-              ? loadViewPage.bind(
-                  null,
-                  viewId,
-                  displayId,
-                  !!paragraph.suListHeadline,
-                  VIEW_PAGE_SIZE,
-                  paragraph.suFilteredListView?.contextualFilter || []
-                )
-              : undefined
-          }
+          loadPage={signedConfig ? loadViewPage.bind(null, signedConfig) : undefined}
           totalItems={totalItems}
         />
       )}

@@ -46,12 +46,120 @@ import {
   SearchFilterInput,
 } from "@lib/gql/__generated__/graphql"
 import {graphqlClient} from "@lib/gql/gql-client"
-import {cacheTag} from "next/cache"
+import {cacheLife, cacheTag} from "next/cache"
 import {cacheFailure} from "@lib/gql/gql-queries"
 
 export const VIEW_PAGE_SIZE = 21
 
 export type ViewFilter = Maybe<Record<string, string | number | Array<string | number>>>
+
+/** Every view display this site queries. Anything else is rejected before it reaches Drupal or the cache. */
+const SUPPORTED_DISPLAYS = new Set([
+  "search--search",
+  "stanford_basic_pages--card_grid_alpha",
+  "stanford_basic_pages--basic_page_type_list",
+  "stanford_basic_pages--viewfield_block_1",
+  "stanford_courses--default_list_viewfield_block",
+  "stanford_courses--vertical_teaser_viewfield_block",
+  "courses_filtered--list",
+  "courses_filtered--card_grid",
+  "stanford_events--cards",
+  "stanford_events--list_page",
+  "stanford_events--past_events_list_block",
+  "stanford_news_filtered--spotlight_cards",
+  "stanford_news--block_1",
+  "stanford_news--vertical_cards",
+  "stanford_news--spotlight_card_grid",
+  "stanford_news--spotlight_card_grid_no_date",
+  "stanford_opportunities--cards",
+  "stanford_opportunities--list",
+  "stanford_opportunities_filtered--list_page",
+  "stanford_opportunities_filtered--cards",
+  "stanford_person--grid_list_all",
+  "people_filtered--grid_list_all",
+  "stanford_publications--apa_list",
+  "stanford_publications--chicago_list",
+  "stanford_shared_tags--card_grid",
+  "media_content--list",
+  "media_content--card_grid",
+  "media_filtered--default_list",
+  "media_filtered--card_grid",
+])
+
+/** The free-text search keyword, and the term-id filters the filtered lists send (see `filterKey`). */
+const TEXT_FILTER = "key"
+const TERM_FILTERS = ["filter", "filters", "spotlight"]
+const MAX_PAGE = 100
+const MAX_TEXT_LENGTH = 100
+const MAX_CONTEXTUAL_FILTERS = 4
+const MAX_TERMS = 50
+// Drupal term ids: numeric ids or uuids. Anything else is not a real filter option.
+const TERM_ID = /^[\w-]{1,64}$/
+
+/** Whether a request carries visitor-chosen filters, whose combinations are too many to cache forever. */
+const hasVisitorFilter = (filter?: ViewFilter) =>
+  !!filter &&
+  ((typeof filter[TEXT_FILTER] === "string" && filter[TEXT_FILTER].length > 0) ||
+    TERM_FILTERS.some(key => Array.isArray(filter[key]) && (filter[key] as unknown[]).length > 0))
+
+/**
+ * Validate a view request that came from the browser.
+ *
+ * The "load more" server action is a public endpoint, and every distinct set of arguments is a Drupal
+ * query and a cache entry. Only displays the site uses are allowed, numbers are clamped, and filters are
+ * limited to known keys: a short keyword (trimmed and lowercased, so equivalent searches share a cache
+ * entry) and lists of term ids.
+ *
+ * @returns The arguments to pass to {@link getViewPagedItems}, or `undefined` to reject the request.
+ */
+export const sanitizeViewRequest = (
+  viewId: unknown,
+  displayId: unknown,
+  pageSize: unknown,
+  contextualFilter: unknown,
+  page: unknown,
+  filter: unknown
+): Parameters<typeof getViewPagedItems> | undefined => {
+  if (typeof viewId !== "string" || typeof displayId !== "string") return
+  if (!SUPPORTED_DISPLAYS.has(`${viewId}--${displayId}`)) return
+
+  const toInt = (value: unknown, min: number, max: number, fallback: number) =>
+    typeof value === "number" && Number.isFinite(value) ? Math.min(Math.max(Math.trunc(value), min), max) : fallback
+
+  const contextual = Array.isArray(contextualFilter)
+    ? contextualFilter
+        .slice(0, MAX_CONTEXTUAL_FILTERS)
+        .filter((value): value is string => typeof value === "string")
+        .map(value => value.trim().slice(0, MAX_TEXT_LENGTH))
+    : undefined
+
+  let cleanFilter: Record<string, string | string[]> | undefined
+  if (filter && typeof filter === "object") {
+    const input = filter as Record<string, unknown>
+    cleanFilter = {}
+
+    const keyword = input[TEXT_FILTER]
+    if (typeof keyword === "string" && keyword.trim()) {
+      cleanFilter[TEXT_FILTER] = keyword.trim().slice(0, MAX_TEXT_LENGTH).toLowerCase()
+    }
+
+    for (const key of TERM_FILTERS) {
+      const values = input[key]
+      if (!Array.isArray(values)) continue
+      const ids = [...new Set(values.map(String).filter(id => TERM_ID.test(id)))].sort().slice(0, MAX_TERMS)
+      if (ids.length) cleanFilter[key] = ids
+    }
+  }
+
+  return [
+    viewId,
+    displayId,
+    toInt(pageSize, 1, VIEW_PAGE_SIZE, VIEW_PAGE_SIZE),
+    contextual,
+    toInt(page, 0, MAX_PAGE, 0),
+    cleanFilter,
+  ]
+}
 
 export const getViewPagedItems = async (
   viewId: string,
@@ -269,6 +377,8 @@ export const getViewPagedItems = async (
     return {items: [], totalItems: 0}
   }
 
+  // A visitor's keyword or filter choices have too many combinations to keep forever: cache them for hours.
+  if (hasVisitorFilter(filter)) cacheLife("hours")
   return {items, totalItems}
 }
 
