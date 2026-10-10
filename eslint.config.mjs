@@ -23,6 +23,11 @@ const esLintConfig = defineConfig([
       "no-restricted-syntax": [
         "error",
         {selector: "Literal[value=/text-m[\\d]/i]", message: "text-m# is outdated and not supported."},
+        {
+          selector: "Literal[value=/\\bscroll-smooth\\b/]",
+          // eslint-disable-next-line no-restricted-syntax
+          message: "scroll-smooth interferes with page navigation. Remove this class or CSS property.",
+        },
       ],
       "no-restricted-imports": [
         "error",
