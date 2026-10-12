@@ -4401,7 +4401,6 @@ __metadata:
     react-dom: "npm:19.3.0"
     react-focus-lock: "npm:^2.13.7"
     react-instantsearch: "npm:^7.51.0"
-    react-instantsearch-nextjs: "npm:^1.4.12"
     react-slick: "npm:^0.31.0"
     react-super-responsive-table: "npm:^6.0.2"
     react-tiny-oembed: "npm:^1.1.0"
@@ -7804,18 +7803,6 @@ __metadata:
     algoliasearch: ">= 3.1 < 6"
     react: ">= 16.8.0 < 20"
   checksum: 10c0/0bc8c0cd856e3946bbb6ecc1610d17cd9c2d46db66d9a77250e761035ca4df34f575c9cf11bd6707dd1cad22b8ed7a1bf7702e34061553c31ab7de3e655e44c8
-  languageName: node
-  linkType: hard
-
-"react-instantsearch-nextjs@npm:^1.4.12":
-  version: 1.4.12
-  resolution: "react-instantsearch-nextjs@npm:1.4.12"
-  dependencies:
-    "@swc/helpers": "npm:0.5.18"
-  peerDependencies:
-    next: ">= 13.4 < 17"
-    react-instantsearch: ">= 7.1.0 < 8"
-  checksum: 10c0/74c7420bdbbb6dd907cdc33cbd50b41a95c270cbe300cd4d426e5738cc2617adb12fabe2bc7d75f31c456af1a5b17f4f0d35c3a886e5332b616c9297fbc55fb8
   languageName: node
   linkType: hard
 
