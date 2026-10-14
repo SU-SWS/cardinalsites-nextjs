@@ -3,7 +3,7 @@
 import {liteClient} from "algoliasearch/lite"
 import {history} from "instantsearch.js/es/lib/routers"
 import {InstantSearch, useInfiniteHits, useInstantSearch, useSearchBox} from "react-instantsearch"
-import {useEffect, useMemo, useRef} from "react"
+import {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react"
 import Button from "@components/elements/button"
 import DefaultHit, {DefaultAlgoliaHit} from "@components/algolia/hits/default"
 
@@ -17,7 +17,22 @@ type Props = {
   searchApiKey: string
 }
 
-const AlgoliaInstantSearch = ({appId, searchIndex, searchApiKey}: Props) => {
+const AlgoliaInstantSearch = (props: Props) => {
+  // With Cache Components, Next.js keeps a visited route mounted inside a hidden React <Activity> and reveals it on
+  // back/forward or a link back to /search. Hiding the route disposes the InstantSearch instance and its router, and
+  // restarting that disposed instance leaves the form unable to search. Mount a fresh instance each time the route is
+  // revealed again so it reads the current URL and starts clean. Effects re-run on reveal, but refs persist.
+  const [instanceKey, setInstanceKey] = useState(0)
+  const hasActivatedRef = useRef(false)
+  useLayoutEffect(() => {
+    if (hasActivatedRef.current) setInstanceKey(key => key + 1)
+    hasActivatedRef.current = true
+  }, [])
+
+  return <Search key={instanceKey} {...props} />
+}
+
+const Search = ({appId, searchIndex, searchApiKey}: Props) => {
   // Memoised so InstantSearch isn't handed a brand new client on every render.
   const searchClient = useMemo(() => liteClient(appId, searchApiKey), [appId, searchApiKey])
 

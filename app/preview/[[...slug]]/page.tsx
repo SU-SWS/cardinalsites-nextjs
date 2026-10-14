@@ -4,7 +4,7 @@ import {NodeUnion} from "@lib/gql/__generated__/graphql"
 import {getEntityFromPath, getHomePagePath} from "@lib/gql/gql-queries"
 import {notFound} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
-import type {Slug, PageProps} from "@lib/@types/types"
+import type {PageProps} from "@lib/@types/types"
 import {Suspense} from "react"
 import EditorTools from "./editor-tools"
 
@@ -36,7 +36,5 @@ const PreviewContent = async ({params}: {params: PageProps["params"]}) => {
     </EditorAlert>
   )
 }
-
-export const generateStaticParams = async (): Promise<Array<Slug>> => [{slug: ["home"]}]
 
 export default PreviewPage
