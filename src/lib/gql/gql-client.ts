@@ -17,6 +17,12 @@ const REQUEST_TIMEOUT_MS = 15000
 export class ClientError extends Error {
   // Names are literal strings: production builds minify class names, which would turn logs into "f: ...".
   name = "ClientError"
+  /**
+   * Stable code for the failure cause. Next keeps a digest an error already has instead of hashing it, and the
+   * digest is the only part of a server error that reaches the error page in production. So the cause shows in
+   * the 500 response body (see app/error.tsx), e.g. `curl -s /path | grep DRUPAL_`.
+   */
+  digest = "DRUPAL_ERROR"
 }
 
 /** Drupal could not be reached: connection refused, DNS failure, or no answer within the timeout. */
@@ -29,6 +35,7 @@ export class NetworkError extends ClientError {
     options?: ErrorOptions
   ) {
     super(message, options)
+    this.digest = timedOut ? "DRUPAL_TIMEOUT" : "DRUPAL_UNREACHABLE"
   }
 }
 
@@ -42,6 +49,7 @@ export class HttpError extends ClientError {
     readonly errors?: DrupalGraphqlError[]
   ) {
     super(message)
+    this.digest = `DRUPAL_HTTP_${status}`
   }
 }
 
@@ -54,6 +62,7 @@ export class GraphqlError extends ClientError {
     readonly errors: DrupalGraphqlError[] = []
   ) {
     super(message)
+    this.digest = "DRUPAL_GRAPHQL"
   }
 }
 

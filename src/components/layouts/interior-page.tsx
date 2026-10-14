@@ -15,7 +15,25 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   hideSecondaryNav?: boolean
 }
 
-const InteriorPage = async ({children, leftSideBar, hideSecondaryNav, currentPath, menuItems, ...props}: Props) => {
+const InteriorPage = ({children, leftSideBar, hideSecondaryNav, currentPath, menuItems, ...props}: Props) => (
+  <div {...props} className={cn("centered flex flex-col gap-40 lg:flex-row", props.className)}>
+    {/* The menu lookup lives in its own component, so the page content renders alongside it instead of waiting. */}
+    <InteriorSideBar hideSecondaryNav={hideSecondaryNav} currentPath={currentPath} menuItems={menuItems}>
+      {leftSideBar}
+    </InteriorSideBar>
+
+    <div id="page-content" className="min-w-0 grow">
+      {children}
+    </div>
+  </div>
+)
+
+const InteriorSideBar = async ({
+  children,
+  hideSecondaryNav,
+  currentPath,
+  menuItems,
+}: Pick<Props, "children" | "hideSecondaryNav" | "currentPath" | "menuItems">) => {
   const menu = menuItems || (await getMenu(MenuAvailable.Main, 4))
   const activeTrail: string[] = getMenuActiveTrail(menu, currentPath)
 
@@ -23,26 +41,20 @@ const InteriorPage = async ({children, leftSideBar, hideSecondaryNav, currentPat
   const topMenuItem = activeTrail.length > 0 ? menu.find(item => item.id === activeTrail[0]) : undefined
   const subTree = topMenuItem ? topMenuItem.children : []
 
-  return (
-    <div {...props} className={cn("centered flex flex-col gap-40 lg:flex-row", props.className)}>
-      {(subTree.length > 1 || subTree[0]?.children || leftSideBar) && (
-        <aside className="shrink-0 lg:w-1/4">
-          {!hideSecondaryNav && (subTree.length > 1 || subTree[0]?.children) && (
-            <>
-              <a href="#page-content" className="skiplink">
-                Skip secondary navigation
-              </a>
-              <SideNav menuItems={subTree} activeTrail={activeTrail} />
-            </>
-          )}
-          {leftSideBar}
-        </aside>
-      )}
+  if (!(subTree.length > 1 || subTree[0]?.children || children)) return null
 
-      <div id="page-content" className="min-w-0 grow">
-        {children}
-      </div>
-    </div>
+  return (
+    <aside className="shrink-0 lg:w-1/4">
+      {!hideSecondaryNav && (subTree.length > 1 || subTree[0]?.children) && (
+        <>
+          <a href="#page-content" className="skiplink">
+            Skip secondary navigation
+          </a>
+          <SideNav menuItems={subTree} activeTrail={activeTrail} />
+        </>
+      )}
+      {children}
+    </aside>
   )
 }
 
