@@ -165,7 +165,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
 
   const visibleHeadings = visibleCount !== null ? headings.slice(0, visibleCount) : headings
   const overflowHeadings = visibleCount !== null ? headings.slice(visibleCount) : []
-  const hasOverflow = overflowHeadings.length > 0
+  const hasOverflow = !!overflowHeadings.length
 
   return (
     <div ref={navRef} {...props} className={cn("mb-40 text-16", props.className)}>

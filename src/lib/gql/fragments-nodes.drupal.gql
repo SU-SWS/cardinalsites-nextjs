@@ -138,6 +138,11 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
     ...FragmentMediaVideo
     ...FragmentMediaSdr
   }
+  suMediaClips {
+    ...FragmentNodeInterface
+    suMediaDuration
+    suMediaDek
+  }
   suMediaCategory
   suMediaDate {
     time

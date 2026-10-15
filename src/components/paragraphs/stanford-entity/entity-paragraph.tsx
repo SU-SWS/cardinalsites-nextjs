@@ -42,6 +42,7 @@ const EntityParagraph = async ({paragraph, ...props}: Props) => {
 
       {!!paragraph.suEntityItem?.length && (
         <div
+          data-nosnippet
           className={cn("mb-40 grid gap-40 [&>*]:w-full", {
             "@5xl:grid-cols-2": paragraph.suEntityItem.length === 2,
             "@8xl:grid-cols-3": paragraph.suEntityItem.length >= 3,

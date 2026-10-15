@@ -1469,9 +1469,11 @@ export type NodeStanfordMedia = EdgeNode & MetaTagInterface & NodeInterface & {
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
   /** Audio/Video */
-  suMediaAudioVideo: Array<NodeStanfordMediaSuMediaAudioVideoUnion>;
+  suMediaAudioVideo: NodeStanfordMediaSuMediaAudioVideoUnion;
   /** Media Category */
   suMediaCategory?: Maybe<Scalars['String']['output']>;
+  /** Additional Videos/Clips */
+  suMediaClips?: Maybe<Array<NodeStanfordMedia>>;
   /** Published Date */
   suMediaDate?: Maybe<DateTime>;
   /** Dek */
@@ -5015,11 +5017,11 @@ export type NodeQuery = { __typename?: 'Query', node?:
         | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
         | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
         | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-      >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo: Array<
+      >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo:
         | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
         | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
         | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-      >, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -5557,11 +5559,11 @@ export type AudioVisualQueryVariables = Exact<{
 }>;
 
 
-export type AudioVisualQuery = { __typename?: 'Query', nodeStanfordMediaItems: { __typename?: 'NodeStanfordMediaConnection', nodes: Array<{ __typename?: 'NodeStanfordMedia', uuid: string, path: string, suMediaAudioVideo: Array<
+export type AudioVisualQuery = { __typename?: 'Query', nodeStanfordMediaItems: { __typename?: 'NodeStanfordMediaConnection', nodes: Array<{ __typename?: 'NodeStanfordMedia', uuid: string, path: string, suMediaAudioVideo:
         | { __typename?: 'MediaEmbeddable', uuid: string }
         | { __typename?: 'MediaSdr', uuid: string }
         | { __typename?: 'MediaVideo', uuid: string }
-      >, changed: { __typename?: 'DateTime', time: string } }>, pageInfo: { __typename?: 'ConnectionPageInfo', hasNextPage: boolean, endCursor?: string | null } } };
+      , changed: { __typename?: 'DateTime', time: string } }>, pageInfo: { __typename?: 'ConnectionPageInfo', hasNextPage: boolean, endCursor?: string | null } } };
 
 export type CoursesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -8193,11 +8195,11 @@ export type FragmentNodeStanfordEventSeriesFragment = { __typename?: 'NodeStanfo
       | { __typename?: 'TermSuCourseTag', uuid: string }
      | null }> | null };
 
-export type FragmentNodeStanfordMediaFragment = { __typename?: 'NodeStanfordMedia', suMediaCategory?: string | null, suMediaDek?: string | null, suMediaDuration?: number | null, suMediaEpisode?: string | null, suMediaSeason?: string | null, suMediaSeries?: string | null, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo: Array<
+export type FragmentNodeStanfordMediaFragment = { __typename?: 'NodeStanfordMedia', suMediaCategory?: string | null, suMediaDek?: string | null, suMediaDuration?: number | null, suMediaEpisode?: string | null, suMediaSeason?: string | null, suMediaSeries?: string | null, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo:
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  >, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8844,11 +8846,11 @@ type FragmentNodeUnion_NodeStanfordMedia_Fragment = { __typename: 'NodeStanfordM
     | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
     | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
     | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-  >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo: Array<
+  >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo:
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  >, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -10235,11 +10237,11 @@ export type RouteQuery = { __typename?: 'Query', route?:
             | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
             | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
             | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-          >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo: Array<
+          >, body?: { __typename?: 'TextSummary', processed?: string | null } | null, suMediaAudioVideo:
             | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
             | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
             | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-          >, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+          , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -13491,6 +13493,10 @@ export const FragmentNodeStanfordMediaFragmentDoc = new TypedDocumentString(`
     ...FragmentMediaVideo
     ...FragmentMediaSdr
   }
+  suMediaClips {
+    ...FragmentNodeInterface
+    suMediaDuration
+  }
   suMediaCategory
   suMediaDate {
     time
@@ -15661,6 +15667,10 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
     ...FragmentMediaVideo
     ...FragmentMediaSdr
   }
+  suMediaClips {
+    ...FragmentNodeInterface
+    suMediaDuration
+  }
   suMediaCategory
   suMediaDate {
     time
@@ -17140,6 +17150,10 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
     ...FragmentMediaEmbeddable
     ...FragmentMediaVideo
     ...FragmentMediaSdr
+  }
+  suMediaClips {
+    ...FragmentNodeInterface
+    suMediaDuration
   }
   suMediaCategory
   suMediaDate {
@@ -21201,6 +21215,10 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
     ...FragmentMediaEmbeddable
     ...FragmentMediaVideo
     ...FragmentMediaSdr
+  }
+  suMediaClips {
+    ...FragmentNodeInterface
+    suMediaDuration
   }
   suMediaCategory
   suMediaDate {

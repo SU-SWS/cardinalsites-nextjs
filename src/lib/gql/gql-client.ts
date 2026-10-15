@@ -11,7 +11,7 @@ export type DrupalGraphqlError = {
 type GraphqlResponseBody<TResult> = {data?: TResult | null; errors?: DrupalGraphqlError[]}
 
 /** Drupal is given this long to answer before the request is abandoned, so a hung backend can't stall a render. */
-const REQUEST_TIMEOUT_MS = 15000
+const REQUEST_TIMEOUT_MS = 30000
 
 /** Base class for every failed GraphQL request. Check for a subclass to tell the causes apart. */
 export class ClientError extends Error {

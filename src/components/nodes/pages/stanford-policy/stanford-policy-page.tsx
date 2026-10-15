@@ -89,7 +89,7 @@ const StanfordPolicyPage = async ({node, ...props}: Props) => {
             </div>
           )}
 
-          {changeLog.length > 0 && (
+          {!!changeLog.length && (
             <div className="mb-20 border border-black-40 bg-black-10 p-40">
               <H2 className="type-2">Change log:</H2>
 

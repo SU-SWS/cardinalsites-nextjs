@@ -29,7 +29,7 @@ const GalleryParagraph = ({paragraph, ...props}: Props) => {
 
       <Wysiwyg html={paragraph.suGalleryDescription?.processed} />
 
-      {paragraph.suGalleryImages && paragraph.suGalleryImages?.length > 0 && (
+      {paragraph.suGalleryImages && !!paragraph.suGalleryImages?.length && (
         <ul className="list-unstyled grid gap-40 @5xl:grid-cols-2 @9xl:grid-cols-3">
           {paragraph.suGalleryImages.map(image => (
             <li key={image.uuid} className="m-0">

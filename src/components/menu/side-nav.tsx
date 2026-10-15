@@ -101,7 +101,7 @@ const MenuItem = ({id, url, title, children, activeTrail, level, expanded}: Menu
     >
       {title}
     </Link>
-    {expanded && children && children.length > 0 && activeTrail.includes(id) && (
+    {expanded && children && !!children.length && activeTrail.includes(id) && (
       <ul
         className={cn("list-unstyled border-t", {
           "pl-20": level === 0,

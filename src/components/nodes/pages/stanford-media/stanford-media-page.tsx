@@ -86,45 +86,39 @@ const StanfordMediaPage = async ({node, ...props}: Props) => {
             )}
           </div>
           <div>
-            {node.suMediaAudioVideo[0].__typename === "MediaVideo" && (
-              <Oembed url={node.suMediaAudioVideo[0].mediaOembedVideo} />
+            {node.suMediaAudioVideo.__typename === "MediaVideo" && (
+              <Oembed url={node.suMediaAudioVideo.mediaOembedVideo} />
             )}
 
-            {node.suMediaAudioVideo[0].__typename === "MediaSdr" && (
-              <Oembed url={node.suMediaAudioVideo[0].mediaEmbeddableOembed} />
+            {node.suMediaAudioVideo.__typename === "MediaSdr" && (
+              <Oembed url={node.suMediaAudioVideo.mediaEmbeddableOembed} />
             )}
 
-            {node.suMediaAudioVideo[0].__typename === "MediaEmbeddable" &&
-              !node.suMediaAudioVideo[0].mediaEmbeddableCode &&
-              node.suMediaAudioVideo[0].mediaEmbeddableOembed && (
-                <Oembed url={node.suMediaAudioVideo[0].mediaEmbeddableOembed} />
+            {node.suMediaAudioVideo.__typename === "MediaEmbeddable" &&
+              !node.suMediaAudioVideo.mediaEmbeddableCode &&
+              node.suMediaAudioVideo.mediaEmbeddableOembed && (
+                <Oembed url={node.suMediaAudioVideo.mediaEmbeddableOembed} />
               )}
 
-            {node.suMediaAudioVideo[0].__typename === "MediaEmbeddable" &&
-              node.suMediaAudioVideo[0].mediaEmbeddableCode && (
-                <div dangerouslySetInnerHTML={{__html: node.suMediaAudioVideo[0].mediaEmbeddableCode}} />
-              )}
+            {node.suMediaAudioVideo.__typename === "MediaEmbeddable" && node.suMediaAudioVideo.mediaEmbeddableCode && (
+              <div dangerouslySetInnerHTML={{__html: node.suMediaAudioVideo.mediaEmbeddableCode}} />
+            )}
           </div>
         </ReverseVisualOrder>
 
         <Wysiwyg html={node.body?.processed} className="centered mb-64 xl:max-w-980" />
 
-        {node.suMediaAudioVideo.length > 1 && (
+        {!!node.suMediaClips?.length && (
           <div>
             <H2>Video clips from: {node.title}</H2>
             <ul className="list-unstyled">
-              {node.suMediaAudioVideo.slice(1).map(clip => (
+              {node.suMediaClips.map(clip => (
                 <li key={clip.uuid} className="mt-20 border-t border-black-20 pt-20">
-                  <Link
-                    href={`/av-media${node.path}/${clip.uuid}`}
-                    className="text-digital-red no-underline hocus:text-black hocus:underline"
-                  >
-                    {clip.name}
+                  <Link href={clip.path} className="text-digital-red no-underline hocus:text-black hocus:underline">
+                    {clip.title}
                   </Link>
-                  {clip.__typename === "MediaVideo" && clip.suVideoDuration && (
-                    <div>{getTimeDuration(clip.suVideoDuration)}</div>
-                  )}
-                  {clip.__typename === "MediaVideo" && clip.suMediaDescription && <div>{clip.suMediaDescription}</div>}
+                  {clip.suMediaDuration && <div>{getTimeDuration(clip.suMediaDuration)}</div>}
+                  {clip.suMediaDek && <div>{clip.suMediaDek}</div>}
                 </li>
               ))}
             </ul>

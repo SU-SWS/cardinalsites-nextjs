@@ -38,7 +38,7 @@ const InteriorSideBar = async ({
   const activeTrail: string[] = getMenuActiveTrail(menu, currentPath)
 
   // Peel off the menu items from the parent.
-  const topMenuItem = activeTrail.length > 0 ? menu.find(item => item.id === activeTrail[0]) : undefined
+  const topMenuItem = !!activeTrail.length ? menu.find(item => item.id === activeTrail[0]) : undefined
   const subTree = topMenuItem ? topMenuItem.children : []
 
   if (!(subTree.length > 1 || subTree[0]?.children || children)) return null
