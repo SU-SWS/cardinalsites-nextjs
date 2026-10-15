@@ -2,7 +2,6 @@
 
 import {useLayoutEffect, useRef, HtmlHTMLAttributes, useEffect, JSX, useState, useCallback} from "react"
 import {useBoolean, useCounter} from "usehooks-ts"
-import {useSearchParams} from "next/navigation"
 import usePagination from "@hooks/usePagination"
 import useFocusOnRender from "@hooks/useFocusOnRender"
 import {ArrowLongLeftIcon, ArrowLongRightIcon} from "@heroicons/react/20/solid"
@@ -50,18 +49,16 @@ const PagedList = ({
 }: Props) => {
   const ref = useRef(false)
   const [items, setItems] = useState<JSX.Element[]>(Array.isArray(children) ? children : [children])
-  const searchParams = useSearchParams()
-
-  // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
-  // outside the range, fix the value, so it works as expected.
-  const {count: currentPage, setCount: setPage} = useCounter(parseInt(pageKey ? searchParams.get(pageKey) || "1" : "1"))
+  // The URL is read from `window.location` after hydration rather than `useSearchParams()`. Reading search params
+  // during render bails the list out of the static prerender, leaving only a Suspense fallback in the HTML.
+  const {count: currentPage, setCount: setPage} = useCounter(1)
   const {value: focusOnElement, setTrue: enableFocusElement, setFalse: disableFocusElement} = useBoolean(false)
 
   const afterAction = useCallback(() => {
     if (!pageKey) return
 
     // Use search params to retain any other parameters.
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(window.location.search)
     if (params.get(pageKey) === currentPage.toString() || (params.get(pageKey) === null && currentPage === 1)) return
 
     params.delete(pageKey)
@@ -70,7 +67,7 @@ const PagedList = ({
     // The native History API syncs with useSearchParams without a router navigation, which would request the page's
     // RSC payload from the server for a change that is only reflected client side.
     window.history.replaceState(null, "", `?${params.toString()}${window.location.hash || ""}`)
-  }, [currentPage, pageKey, searchParams])
+  }, [currentPage, pageKey])
 
   const [runAction, isRunning] = useServerAction<[number], JSX.Element>(loadPage, afterAction)
 
@@ -102,11 +99,15 @@ const PagedList = ({
     if (focusOnElement) setFocusOnItem()
   }, [focusOnElement, setFocusOnItem])
 
+  // Use the GET param for page, but make sure that it is between 1 and the last page. If it's a string or a number
+  // outside the range, fix the value, so it works as expected.
   useEffect(() => {
-    const initialPage = Math.min(totalPages, Math.max(1, parseInt((pageKey && searchParams.get(pageKey)) || "1")))
-    if (initialPage > 1 && !ref.current) goToPage(initialPage, true)
+    if (ref.current) return
     ref.current = true
-  }, [totalPages, searchParams, pageKey, currentPage, goToPage])
+    const urlPage = pageKey ? new URLSearchParams(window.location.search).get(pageKey) : null
+    const initialPage = Math.min(totalPages, Math.max(1, parseInt(urlPage || "1") || 1))
+    if (initialPage > 1) goToPage(initialPage, true)
+  }, [totalPages, pageKey, goToPage])
 
   const paginationButtons = usePagination(totalPages * items.length, currentPage, items.length, pagerSiblingCount)
 

@@ -5,7 +5,6 @@ import StanfordMediaListItem from "@components/nodes/list-item/stanford-media/st
 import {getTermFilterGroups} from "@lib/gql/gql-queries"
 import {FilterVocabs} from "@lib/gql/filter-vocabs"
 import FilteredListViewClient from "@components/views/filtered-list-view/filtered-list-view.client"
-import {Suspense} from "react"
 
 const MediaListView = async ({
   items,
@@ -36,21 +35,19 @@ const MediaListView = async ({
   }
 
   return (
-    <Suspense fallback={<MediaListSkeleton />}>
-      <PagedList
-        ulProps={{className: "list-unstyled mb-40"}}
-        liProps={{
-          className: "border-b border-black-20 last-of-type:border-0 pb-20 last:pb-0 pt-20 first:pt-0",
-        }}
-        pageKey="news"
-        totalPages={Math.ceil(totalItems / 30)}
-        loadPage={loadPage}
-      >
-        {items.map(item => (
-          <StanfordMediaListItem key={item.uuid} node={item} headingLevel={headingLevel} />
-        ))}
-      </PagedList>
-    </Suspense>
+    <PagedList
+      ulProps={{className: "list-unstyled mb-40"}}
+      liProps={{
+        className: "border-b border-black-20 last-of-type:border-0 pb-20 last:pb-0 pt-20 first:pt-0",
+      }}
+      pageKey="news"
+      totalPages={Math.ceil(totalItems / 30)}
+      loadPage={loadPage}
+    >
+      {items.map(item => (
+        <StanfordMediaListItem key={item.uuid} node={item} headingLevel={headingLevel} />
+      ))}
+    </PagedList>
   )
 }
 
