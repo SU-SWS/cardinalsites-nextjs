@@ -4,7 +4,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPublication} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPublication
@@ -20,11 +19,10 @@ const StanfordPublicationCard = ({node, headingLevel, ...props}: Props) => {
     CitationSuBook: "Book",
     CitationSuThesi: "Thesis",
   }
-  const id = getIdFromText(node.title)
   return (
-    <ImageCard {...props} aria-labelledby={id} isArticle>
+    <ImageCard {...props} aria-label={node.title} isArticle>
       <ReverseVisualOrder>
-        <Heading className="[&_a]:text-black [&_a]:hocus:text-digital-red" id={id}>
+        <Heading className="[&_a]:text-black [&_a]:hocus:text-digital-red">
           <Link href={citationUrl || node.path}>{node.title}</Link>
         </Heading>
         <div className="font-bold">

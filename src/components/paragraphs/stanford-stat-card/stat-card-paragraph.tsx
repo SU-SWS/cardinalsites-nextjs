@@ -45,7 +45,7 @@ const StatCardParagraph = ({paragraph, ...props}: Props) => {
   const allowTextColors = !paragraph.suStatBgColor?.color || ["f4f4f4"].includes(paragraph.suStatBgColor?.color)
   const whiteText =
     paragraph.suStatBgColor?.color && !["f4f4f4", "e98300", "e04f39"].includes(paragraph.suStatBgColor?.color)
-  const id = getIdFromText(paragraph.suStatHeadline)
+  const id = headerTag !== "div" ? getIdFromText(paragraph.suStatHeadline) : undefined
 
   return (
     <ImageCard

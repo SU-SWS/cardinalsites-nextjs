@@ -5,6 +5,7 @@ import {notFound, redirect} from "next/navigation"
 import {getPathFromContext} from "@lib/utils/utils"
 import type {Slug, PageProps} from "@lib/@types/types"
 import {Suspense} from "react"
+import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -23,7 +24,12 @@ const PageContent = async ({params}: {params: PageProps["params"]}) => {
   if (redirectPath) redirect(redirectPath.url)
   if (!entity) notFound()
 
-  return <NodePage node={entity} />
+  return (
+    <>
+      <NodePageMetadata pageTitle={entity.title} metatags={entity.metatag} />
+      <NodePage node={entity} />
+    </>
+  )
 }
 
 export const generateStaticParams = async (): Promise<Array<Slug>> => {

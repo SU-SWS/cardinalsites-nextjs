@@ -14,7 +14,7 @@ type GraphqlResponseBody<TResult> = {data?: TResult | null; errors?: DrupalGraph
  * Drupal is given this long to answer before the request is abandoned, so a hung backend can't stall a render.
  * CI builds against a freshly synced Drupal with cold caches, so they are given longer.
  */
-const REQUEST_TIMEOUT_MS = process.env.CI ? 60000 : 30000
+const REQUEST_TIMEOUT_MS = process.env.NODE_ENV === "development" || process.env.CI ? 60000 : 15000
 
 /** Base class for every failed GraphQL request. Check for a subclass to tell the causes apart. */
 export class ClientError extends Error {

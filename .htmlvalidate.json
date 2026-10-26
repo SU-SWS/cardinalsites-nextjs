@@ -1,0 +1,23 @@
+{
+  "$schema": "https://html-validate.org/schemas/config.json",
+  "root": true,
+  "extends": ["html-validate:standard"],
+  "elements": [
+    "html5",
+    {
+      "form": {
+        "attributes": {
+          "action": {
+            "enum": [
+              "/^\\s*\\S+\\s*$/",
+              "/^javascript:throw new Error\\(&#x27;React form unexpectedly submitted\\.&#x27;\\)$/"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "rules": {
+    "no-deprecated-attr": "off"
+  }
+}

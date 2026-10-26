@@ -4,7 +4,6 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
 import cn from "@lib/utils/className"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -15,9 +14,8 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
   const imageUrl = node.suPersonPhoto?.mediaImage.url
 
   const Heading = headingLevel === "h3" ? H3 : H2
-  const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={id} className={cn("mx-auto overflow-hidden text-center", props.className)}>
+    <article {...props} aria-label={node.title} className={cn("mx-auto overflow-hidden text-center", props.className)}>
       {imageUrl && (
         <div className="relative mx-auto mb-40 aspect-square w-3/5">
           <Image
@@ -30,7 +28,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
         </div>
       )}
 
-      <Heading id={id}>
+      <Heading>
         <Link href={node.suPersonSource?.url || node.path}>{node.title}</Link>
       </Heading>
 

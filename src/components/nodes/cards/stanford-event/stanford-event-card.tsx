@@ -6,7 +6,6 @@ import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import Address from "@components/elements/address"
 import ImageCard from "@components/patterns/image-card"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -29,9 +28,8 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ")
   const Heading = headingLevel === "h3" ? H3 : H2
 
-  const id = getIdFromText(node.title)
   return (
-    <ImageCard {...props} aria-labelledby={id} isArticle>
+    <ImageCard {...props} aria-label={node.title} isArticle>
       <div aria-hidden="true" className="flex max-w-lg items-center justify-between">
         <div className="flex w-fit flex-col items-start">
           <div className="mb-4 w-full text-center type-0 font-semibold">{startMonth.toUpperCase()}</div>
@@ -50,7 +48,7 @@ const StanfordEventCard = ({node, headingLevel, ...props}: Props) => {
       </div>
 
       <ReverseVisualOrder>
-        <Heading className="[&_a]:text-black [&_a]:hocus:text-digital-red" id={id}>
+        <Heading className="[&_a]:text-black [&_a]:hocus:text-digital-red">
           <Link href={node.suEventSource?.url || node.path}>{node.title}</Link>
         </Heading>
 

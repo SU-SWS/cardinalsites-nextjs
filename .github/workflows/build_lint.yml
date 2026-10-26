@@ -89,3 +89,7 @@ jobs:
           cd $GITHUB_WORKSPACE/frontend &&
           yarn &&
           yarn build
+      - name: Validate HTML
+        run: |
+          cd $GITHUB_WORKSPACE/frontend &&
+          yarn validate:html

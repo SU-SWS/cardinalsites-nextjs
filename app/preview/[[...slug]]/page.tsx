@@ -7,6 +7,7 @@ import {getPathFromContext} from "@lib/utils/utils"
 import type {PageProps} from "@lib/@types/types"
 import {Suspense} from "react"
 import EditorTools from "./editor-tools"
+import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
 
 // Vercel max execution. See https://vercel.com/docs/functions/configuring-functions/duration
 export const maxDuration = 30
@@ -32,6 +33,7 @@ const PreviewContent = async ({params}: {params: PageProps["params"]}) => {
 
   return (
     <EditorAlert status={entity.status} message="Unpublished Page">
+      <NodePageMetadata pageTitle={path !== homePath ? entity.title : undefined} metatags={entity.metatag} />
       <NodePage node={entity} isHome={path === homePath} />
     </EditorAlert>
   )

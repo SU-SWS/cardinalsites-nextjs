@@ -7,7 +7,6 @@ import {NodeStanfordEvent} from "@lib/gql/__generated__/graphql"
 import {getEventTimeString} from "@components/nodes/cards/stanford-event/stanford-event-card"
 import cn from "@lib/utils/className"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordEvent
@@ -28,10 +27,9 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
   // Fix difference between server side render and client side render. Replace any strange characters.
   const dateTimeString = getEventTimeString(start, end, timeZone).replace(/[^a-zA-Z0-9 ,:\-|]/, " ")
   const Heading = headingLevel === "h3" ? H3 : H2
-  const id = getIdFromText(node.title)
 
   return (
-    <article {...props} aria-labelledby={id} className={cn("mx-auto flex w-full gap-20", props.className)}>
+    <article {...props} aria-label={node.title} className={cn("mx-auto flex w-full gap-20", props.className)}>
       <div aria-hidden="true" className="flex w-fit flex-col items-start">
         <div className="mb-4 w-full text-center type-0 font-semibold">{startMonth.toUpperCase()}</div>
         <div className="w-full text-center type-4 font-bold">{startDay}</div>
@@ -46,7 +44,7 @@ const StanfordEventListItem = ({node, headingLevel, ...props}: Props) => {
       </div>
       <div>
         <ReverseVisualOrder>
-          <Heading id={id}>
+          <Heading>
             <Link
               href={node.suEventSource?.url || node.path}
               className="text-digital-red no-underline hocus:text-black hocus:underline"

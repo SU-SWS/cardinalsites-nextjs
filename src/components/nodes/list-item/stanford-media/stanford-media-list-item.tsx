@@ -5,7 +5,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordMedia} from "@lib/gql/__generated__/graphql"
 import cn from "@lib/utils/className"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -26,13 +25,12 @@ const StanfordMediaListItem = ({node, headingLevel, ...props}: Props) => {
         timeZone: node.suMediaDate.timezone,
       })
     : undefined
-  const id = getIdFromText(node.title)
   return (
-    <article {...props} aria-labelledby={id} className={cn("@container", props.className)}>
+    <article {...props} aria-label={node.title} className={cn("@container", props.className)}>
       <div className="flex w-full flex-col justify-between @3xl:flex-row">
         <div className="order-2 @3xl:order-1">
           <ReverseVisualOrder className="gap-20">
-            <Heading className="font-bold" id={id}>
+            <Heading className="font-bold">
               <Link
                 href={node.suMediaSource?.url || node.path}
                 className="order-2 text-digital-red no-underline hocus:text-black hocus:underline"

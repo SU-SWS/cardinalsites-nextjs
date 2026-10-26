@@ -206,6 +206,22 @@ const createOptions = (allowedTags?: Array<string>): HTMLReactParserOptions => {
           return <NodeName {...getNodeProps(domNode, marker)}>{domToReact(children, options)}</NodeName>
         }
 
+        case "iframe": {
+          const props = getNodeProps(domNode)
+          // Embed codes often use `width="100%"`, but the attributes only accept pixel integers. Percentages move to
+          // inline styles instead.
+          for (const dimension of ["width", "height"]) {
+            const value = props[dimension]
+            if (typeof value === "string" && value.endsWith("%")) {
+              props.style = {...props.style, [dimension]: value}
+              delete props[dimension]
+            }
+          }
+          // Obsolete, preflight already removes iframe borders.
+          delete props.frameBorder
+          return <NodeName {...props}>{domToReact(children, options)}</NodeName>
+        }
+
         case "hr":
           return <NodeName {...getNodeProps(domNode, "border-black")} />
 

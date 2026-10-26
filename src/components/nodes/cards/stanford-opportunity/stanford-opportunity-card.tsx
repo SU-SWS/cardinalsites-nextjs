@@ -5,7 +5,6 @@ import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import Wysiwyg from "@components/elements/wysiwyg"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordOpportunity
@@ -15,11 +14,10 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordOpportunityCard = ({node, headingLevel, ...props}: Props) => {
   const image = node.suOppImage?.mediaImage
   const Heading = headingLevel === "h3" ? H3 : H2
-  const id = getIdFromText(node.title)
   return (
-    <ImageCard {...props} aria-labelledby={id} imageUrl={image?.url} isArticle squareImage>
+    <ImageCard {...props} aria-label={node.title} imageUrl={image?.url} isArticle squareImage>
       <ReverseVisualOrder>
-        <Heading className="[&_a]:text-black" id={id}>
+        <Heading className="[&_a]:text-black">
           <Link href={node.suOppSource?.url || node.path}>{node.title}</Link>
         </Heading>
         {node.suOppType && <div>{node.suOppType?.map(type => type.name).join(", ")}</div>}

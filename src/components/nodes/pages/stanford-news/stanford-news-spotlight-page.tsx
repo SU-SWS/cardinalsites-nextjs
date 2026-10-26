@@ -5,8 +5,6 @@ import {H1} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordNews} from "@lib/gql/__generated__/graphql"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import NodePageMetadata from "@components/nodes/pages/node-page-metadata"
-import {getFirstText} from "@lib/utils/text-tools"
 import Wysiwyg from "@components/elements/wysiwyg"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
@@ -31,11 +29,6 @@ const StanfordNewsSpotlightPage = ({node, ...props}: Props) => {
 
   return (
     <article className="mt-64 centered" {...props}>
-      <NodePageMetadata
-        pageTitle={node.title}
-        metatags={node.metatag}
-        backupDescription={node.suNewsDek || getFirstText(node.suNewsComponents)}
-      />
       <div className="mx-auto mb-20 xl:w-11/12">
         <div className="mb-40 flex flex-row-reverse items-start gap-40">
           <div className="w-9/12">

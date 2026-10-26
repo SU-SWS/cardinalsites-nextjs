@@ -4,7 +4,6 @@ import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordMedia} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
-import {getIdFromText} from "@lib/utils/text-tools"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordMedia
@@ -25,11 +24,10 @@ const StanfordMediaCard = ({node, headingLevel, ...props}: Props) => {
         timeZone: node.suMediaDate.timezone,
       })
     : undefined
-  const id = getIdFromText(node.title)
   return (
-    <ImageCard {...props} aria-labelledby={id} imageUrl={image?.url} isArticle>
+    <ImageCard {...props} aria-label={node.title} imageUrl={image?.url} isArticle>
       <ReverseVisualOrder>
-        <Heading className="[&_a]:text-black" id={id}>
+        <Heading className="[&_a]:text-black">
           <Link href={node.suMediaSource?.url || node.path}>{node.title}</Link>
         </Heading>
 
