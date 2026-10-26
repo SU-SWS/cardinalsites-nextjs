@@ -69,6 +69,7 @@ jobs:
       - name: Sync Site
         run: |
           git config --system --add safe.directory '*' &&
+          printf '[client]\nskip-ssl-verify-server-cert\n' > /etc/mysql/conf.d/ci.cnf &&
           mysql -h mysql -P 3306 -u root -pdrupal -e 'SET GLOBAL max_allowed_packet=67108864;' &&
           rm -rf /var/www/html &&
           ln -snf $GITHUB_WORKSPACE /var/www/html &&
