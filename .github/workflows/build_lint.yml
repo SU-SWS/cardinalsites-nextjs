@@ -30,7 +30,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     container:
-      image: pookmish/drupal8ci:php8.3
+      image: pookmish/drupal8ci:php8.4
       env:
         BUILD_PAGES: 100
         SITENAME: sitedir
@@ -89,6 +89,10 @@ jobs:
           cd $GITHUB_WORKSPACE/frontend &&
           yarn &&
           yarn build
+      # html-validate needs a newer node than the drupal8ci image ships.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
       - name: Validate HTML
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
