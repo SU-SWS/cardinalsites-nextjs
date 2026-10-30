@@ -34,8 +34,8 @@ export const metadata = {
 
 const RootLayout = async ({children, modal}: {children: React.ReactNode; modal: React.ReactNode}) => (
   <html lang="en" className={twJoin(sourceSans3.className, stanford.variable)}>
-    <UserAnalytics />
     <body>
+      <UserAnalytics />
       <nav aria-label="Skip Links">
         <a href="#main-content" className="skiplink">
           Skip to main content

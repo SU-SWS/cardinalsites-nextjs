@@ -1,3 +1,4 @@
+import {Suspense} from "react"
 import {getConfigPageField} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
 import UserAnalyticsScripts from "@components/elements/user-analytics/user-analytics.client"
@@ -18,6 +19,11 @@ const UserAnalytics = async () => {
     .map(ga4ID => ga4ID.trim())
     .filter(Boolean)
 
-  return <UserAnalyticsScripts ga4Ids={ga4Ids} gtmId={gtm} />
+  // The client component reads the pathname, which is only known at request time.
+  return (
+    <Suspense>
+      <UserAnalyticsScripts ga4Ids={ga4Ids} gtmId={gtm} />
+    </Suspense>
+  )
 }
 export default UserAnalytics
