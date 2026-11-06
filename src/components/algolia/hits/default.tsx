@@ -40,7 +40,7 @@ const DefaultHit = ({hit}: {hit: HitType<DefaultAlgoliaHit>}) => {
 
       {imageUrl && (
         <div className="relative hidden aspect-square h-150 w-150 shrink-0 @6xl:block">
-          <Image className="object-cover" src={imageUrl} alt="" fill unoptimized />
+          <Image className="object-cover" src={imageUrl} alt="" fill sizes="150px" unoptimized />
         </div>
       )}
     </article>

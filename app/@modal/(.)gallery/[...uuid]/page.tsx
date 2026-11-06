@@ -59,6 +59,7 @@ const Page = async (props: Props) => {
                   src={getImageStyle(galleryImage.suGalleryImage, "fullStyle")?.url || galleryImage.suGalleryImage.url}
                   alt={galleryImage.suGalleryImage.alt || ""}
                   fill
+                  sizes="100vw"
                   className="object-contain"
                   unoptimized
                 />

@@ -181,6 +181,7 @@ const UpNextMedia = ({media}: {media: NodeStanfordMedia}) => {
               src={media.suMediaImage.mediaImage.url}
               alt={media.suMediaImage.mediaImage.alt || ""}
               fill
+              sizes="(max-width: 768px) 25vw, 350px"
               className="object-fill"
             />
           </div>

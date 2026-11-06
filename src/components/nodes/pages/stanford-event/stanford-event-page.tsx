@@ -34,12 +34,12 @@ const StanfordEventPage = ({node, ...props}: Props) => {
       </ReverseVisualOrder>
       {node.suEventSubheadline && <div className="type-3 font-bold">{node.suEventSubheadline}</div>}
       {node.suEventDek && <div>{node.suEventDek}</div>}
+      <hr />
 
       {node.suEventSponsor && (
         <div>
-          {node.suEventSponsor.map((sponsor, i) => (
-            <div key={`${node.uuid}-sponsor-${i}`}>{sponsor}</div>
-          ))}
+          <strong>Sponsored by </strong>
+          {node.suEventSponsor.join(",")}
         </div>
       )}
 
@@ -51,34 +51,35 @@ const StanfordEventPage = ({node, ...props}: Props) => {
             {getEventTimeString(startTime, endTime, timeZone)}
           </time>
 
-          {(node.suEventEmail || node.suEventTelephone) && (
+          {(node.suEventEmail || node.suEventTelephone || node.suEventContactInfo) && (
             <div className="flex-col-2 flex items-start gap-lg">
               <PhoneIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="type-2">Contact</H3>
-
-                {node.suEventEmail && (
-                  <Email email={node.suEventEmail} className="block">
-                    {node.suEventEmail}
-                  </Email>
-                )}
                 {node.suEventTelephone && (
                   <Telephone tel={node.suEventTelephone} className="block">
                     {node.suEventTelephone}
                   </Telephone>
                 )}
+                {node.suEventEmail && (
+                  <Email email={node.suEventEmail} className="block">
+                    {node.suEventEmail}
+                  </Email>
+                )}
+                {node.suEventContactInfo && <p>{node.suEventContactInfo}</p>}
               </div>
             </div>
           )}
 
-          {(node.suEventLocation || node.suEventMapLink) && (
+          {(node.suEventLocation || node.suEventMapLink || node.suEventAltLoc) && (
             <div className="flex-col-2 flex items-start gap-10">
               <MapPinIcon width={30} className="shrink-0" />
               <div>
                 <H3 className="type-2">Location</H3>
-
                 <div>
                   {node.suEventLocation && <Address {...node.suEventLocation} />}
+
+                  {node.suEventAltLoc && <p>{node.suEventAltLoc}</p>}
 
                   {node.suEventMapLink?.url && <Link href={node.suEventMapLink.url}>{node.suEventMapLink.title}</Link>}
                 </div>
