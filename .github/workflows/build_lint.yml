@@ -45,6 +45,9 @@ jobs:
         ports:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      chrome:
+        image: selenium/standalone-chrome:130.0
+        options: --shm-size=2g
     steps:
       - uses: actions/checkout@v7
         with:
@@ -80,6 +83,7 @@ jobs:
           drush drupal:install -n &&
           drush sqlq 'truncate config_pages__su_site_algolia_id'
       - name: Build Frontend
+        id: build
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
           cp .env.example .env.local &&
@@ -98,3 +102,20 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
           yarn validate:html
+      # Chrome runs in the selenium service container, so it reaches the Next server by this container's IP rather than
+      # localhost. Next has to listen on all interfaces for that to work.
+      - name: Accessibility
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: |
+          cd $GITHUB_WORKSPACE/frontend &&
+          (yarn start -H 0.0.0.0 -p 3000 > next-start.log 2>&1 &) &&
+          A11Y_BASE_URL=http://$(hostname -i | awk '{print $1}'):3000 SELENIUM_URL=http://chrome:4444 yarn validate:a11y
+      - name: Upload Accessibility Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-report
+          path: |
+            frontend/a11y-report.json
+            frontend/next-start.log
+          if-no-files-found: ignore
