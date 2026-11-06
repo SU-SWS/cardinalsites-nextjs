@@ -82,6 +82,17 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    # Width-scaled derivatives so the gallery thumbnails and lightbox don't load the original upload.
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 

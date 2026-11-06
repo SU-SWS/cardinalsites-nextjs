@@ -239,6 +239,14 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      # Square derivative so the 250px page photo doesn't load the original upload.
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -603,6 +611,19 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      # Square derivatives so person cards and list items don't load the original upload.
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -666,6 +687,14 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      # Square derivative so opportunity cards and list items don't load the original upload.
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText

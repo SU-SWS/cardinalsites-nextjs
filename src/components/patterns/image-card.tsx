@@ -25,9 +25,23 @@ type Props = HTMLAttributes<HTMLElement | HTMLDivElement> & {
    * If the image aspect ratio should be 1:1 instead of 16:9
    */
   squareImage?: Maybe<boolean>
+  /**
+   * Load the image straight from the source instead of through the image optimizer. Use for Drupal image style
+   * derivatives, which are already sized and carry an `?itok=` token.
+   */
+  imageUnoptimized?: boolean
 }
 
-const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, squareImage, children, ...props}: Props) => {
+const ImageCard = ({
+  imageUrl,
+  imageAlt,
+  imageUnoptimized,
+  videoUrl,
+  isArticle,
+  squareImage,
+  children,
+  ...props
+}: Props) => {
   const CardWrapper: ElementType = isArticle ? "article" : "div"
 
   return (
@@ -46,6 +60,7 @@ const ImageCard = ({imageUrl, imageAlt, videoUrl, isArticle, squareImage, childr
             alt={imageAlt || ""}
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
+            unoptimized={imageUnoptimized}
           />
         </div>
       )}

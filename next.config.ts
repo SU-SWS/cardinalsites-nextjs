@@ -19,6 +19,13 @@ const DOCUMENT_FILE_PATH = `(?:${FILE_PATH_DIRECTORY})*${FILE_PATH_SEGMENT}\\.(?
 module.exports = async (_phase: string) => {
   const nextConfig: NextConfig = {
     env: {...(await vaultEnvVars())},
+    experimental: {
+      // By default `use cache` keys include the deployment id, so every deploy starts with an empty remote cache and
+      // re-fetches everything from Drupal. This keys entries on a hash of the cached function's code, the Next.js version,
+      // and the env vars it reads instead, so Vercel's Runtime Cache entries carry over until that code changes. On-demand
+      // revalidation still expires them by tag. Turbopack only.
+      durableUseCacheEntries: true,
+    },
     cacheComponents: true,
     partialPrefetching: false,
     // Optional SAML packages: resolved with a runtime `require` instead of being bundled, so a

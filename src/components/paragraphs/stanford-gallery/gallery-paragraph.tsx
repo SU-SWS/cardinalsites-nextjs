@@ -7,6 +7,7 @@ import {MediaStanfordGalleryImage, ParagraphStanfordGallery} from "@lib/gql/__ge
 import Link from "@components/elements/link"
 import cn from "@lib/utils/className"
 import {getIdFromText} from "@lib/utils/text-tools"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordGallery
@@ -55,7 +56,8 @@ const GalleryImage = ({
   image: MediaStanfordGalleryImage
   galleryId: ParagraphStanfordGallery["id"]
 }) => {
-  const imageUrl = image.suGalleryImage?.url
+  const thumbImage = getImageStyle(image.suGalleryImage, "thumbStyle")
+  const imageUrl = thumbImage?.url || image.suGalleryImage?.url
   if (!imageUrl) return
 
   return (
@@ -73,6 +75,7 @@ const GalleryImage = ({
             alt={image.suGalleryImage?.alt || ""}
             fill
             sizes="(max-width: 768px) 100vw, 500px"
+            unoptimized={!!thumbImage}
           />
           <span className="sr-only">Opens a dialog of this image.</span>
         </Link>

@@ -1448,7 +1448,7 @@ export type NodeStanfordEventSuEventComponentsUnion = ParagraphStanfordBanner | 
 /** Entity type node. */
 export type NodeStanfordMedia = EdgeNode & MetaTagInterface & NodeInterface & {
   __typename?: 'NodeStanfordMedia';
-  /** Body */
+  /** Additional details, show notes, or context about this item. The optional summary is used on cards and lists when no Dek is provided. This field is optional. */
   body?: Maybe<TextSummary>;
   /** The time that the node was last edited. */
   changed: DateTime;
@@ -1468,37 +1468,37 @@ export type NodeStanfordMedia = EdgeNode & MetaTagInterface & NodeInterface & {
   status: Scalars['Boolean']['output'];
   /** Sticky at top of lists */
   sticky: Scalars['Boolean']['output'];
-  /** Audio/Video */
+  /** The main audio or video for this page. Select or add a video (e.g., YouTube or Vimeo), an embed, or an item from the Stanford Digital Repository. */
   suMediaAudioVideo: NodeStanfordMediaSuMediaAudioVideoUnion;
-  /** Media Category */
+  /** The label shown on cards and lists to indicate what kind of item this is: Video, Podcast, Audio, or Media. This field is optional. */
   suMediaCategory?: Maybe<Scalars['String']['output']>;
-  /** Additional Videos/Clips */
+  /** Other Audio/Visual items to show after the main audio or video, such as clips or related segments. Each clip's own page links back to this one. This field is optional. */
   suMediaClips?: Maybe<Array<NodeStanfordMedia>>;
-  /** Published Date */
+  /** The date this audio or video was originally released. This field is optional. */
   suMediaDate?: Maybe<DateTime>;
-  /** Dek */
+  /** A one- or two-sentence summary displayed below the title. Also used as the description when the page is shared on social media or shown in search results. This field is optional. */
   suMediaDek?: Maybe<Scalars['String']['output']>;
-  /** Total length of the primary Audio/Video in seconds. */
+  /** The total length of the main audio or video. Enter hours, minutes, and seconds. This field is optional. */
   suMediaDuration?: Maybe<Scalars['Int']['output']>;
-  /** Episode */
+  /** The episode number or name within the season, if applicable. This field is optional. */
   suMediaEpisode?: Maybe<Scalars['String']['output']>;
-  /** Audio/Visual Filters */
+  /** Categories used as filters in the Filtered Lists Paragraph for Audio/Visual content. Not displayed on this page. This field is optional. */
   suMediaFilters?: Maybe<Array<TermMediaContentFilter>>;
-  /** Featured Image */
+  /** The image shown on cards and lists, and when the page is shared on social media. Use an image at least 1192 × 596 pixels. This field is optional. */
   suMediaImage?: Maybe<MediaImage>;
-  /** Related Person */
+  /** People featured in or who contributed to this item. They are listed as contributors on this page, and this item appears on their Person page. This field is optional. */
   suMediaPerson?: Maybe<Array<NodeStanfordPerson>>;
-  /** Season */
+  /** The season number or name within the series, if applicable. This field is optional. */
   suMediaSeason?: Maybe<Scalars['String']['output']>;
-  /** Series */
+  /** The name of the series this item belongs to (e.g., a podcast or video series). Items with exactly the same Series name are shown together as Related Series. This field is optional. */
   suMediaSeries?: Maybe<Scalars['String']['output']>;
-  /** External Source */
+  /** A link to where this item is hosted (e.g., Apple Podcasts or YouTube). If this field is filled in, this item in Lists, Teaser, and Filtered Lists will link out to this URL, instead of to the item on this site. This field is optional. */
   suMediaSource?: Maybe<Link>;
-  /** Subtitles */
+  /** Upload an .srt caption file (5 MB max). A text transcript is created from it automatically and displayed on the page. Removing the file removes the transcript. This field is optional. */
   suMediaSubtitles?: Maybe<File>;
   /** Full Transcript */
   suMediaTranscript?: Maybe<Text>;
-  /** Audio/Visual Types */
+  /** Broad categories that classify this item. Used to filter Lists Paragraphs. This field is optional. */
   suMediaTypes?: Maybe<Array<TermMediaContentType>>;
   /** Title */
   title: Scalars['String']['output'];
@@ -1521,7 +1521,7 @@ export type NodeStanfordMediaEdge = Edge & {
   node: NodeStanfordMedia;
 };
 
-/** Audio/Video */
+/** The main audio or video for this page. Select or add a video (e.g., YouTube or Vimeo), an embed, or an item from the Stanford Digital Repository. */
 export type NodeStanfordMediaSuMediaAudioVideoUnion = MediaEmbeddable | MediaSdr | MediaVideo;
 
 /** Entity type node. */
@@ -3825,7 +3825,7 @@ export type Subscription = {
   _: Scalars['Boolean']['output'];
 };
 
-/** Broad categories that specify a type of Basic Page. (i.e. Research Projects) */
+/** Broad categories that classify Basic Pages (e.g., Research Project). Use these terms to filter Lists Paragraphs. */
 export type TermBasicPageType = MetaTagInterface & TermInterface & {
   __typename?: 'TermBasicPageType';
   /** The time that the term was last edited. */
@@ -3852,7 +3852,7 @@ export type TermBasicPageType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Courses. Use these terms with the Filtered Lists Paragraph for Courses. */
 export type TermCourseFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermCourseFilter';
   /** The time that the term was last edited. */
@@ -3894,7 +3894,7 @@ export type TermCourseFilterEdge = Edge & {
   node: TermCourseFilter;
 };
 
-/** A curated list of groups that an Event is open to. */
+/** Groups of people an Event is open to. Imported from Stanford Events (Localist). */
 export type TermEventAudience = MetaTagInterface & TermInterface & {
   __typename?: 'TermEventAudience';
   /** The time that the term was last edited. */
@@ -3921,7 +3921,7 @@ export type TermEventAudience = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Events. Not displayed on the Event page or teaser. Use these terms with the Filtered Lists Paragraph for Events. */
 export type TermEventFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermEventFilter';
   /** The time that the term was last edited. */
@@ -3989,7 +3989,7 @@ export type TermInterface = {
   weight: Scalars['Int']['output'];
 };
 
-/** For Audio/Visual Content */
+/** Site-defined categories applied to Audio/Visual content. Use these terms with the Filtered Lists Paragraph for Audio/Visual content. */
 export type TermMediaContentFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermMediaContentFilter';
   /** The time that the term was last edited. */
@@ -4031,7 +4031,7 @@ export type TermMediaContentFilterEdge = Edge & {
   node: TermMediaContentFilter;
 };
 
-/** For Audio/Visual Content */
+/** Broad categories that classify Audio/Visual content. Use these terms to filter Lists Paragraphs. */
 export type TermMediaContentType = MetaTagInterface & TermInterface & {
   __typename?: 'TermMediaContentType';
   /** The time that the term was last edited. */
@@ -4058,7 +4058,7 @@ export type TermMediaContentType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Organizations or groups that sponsor an Opportunity. */
 export type TermOpportunitySponsor = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunitySponsor';
   /** The time that the term was last edited. */
@@ -4085,7 +4085,7 @@ export type TermOpportunitySponsor = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Opportunities. Displayed in the Opportunity sidebar. Use these terms with the Filtered Lists Paragraph for Opportunities. */
 export type TermOpportunityTagFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityTagFilter';
   /** The time that the term was last edited. */
@@ -4127,7 +4127,7 @@ export type TermOpportunityTagFilterEdge = Edge & {
   node: TermOpportunityTagFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Broad categories that classify Opportunities (e.g., Job, Grant, Fellowship). Displayed on Opportunity cards and pages. Use these terms to filter Lists Paragraphs. */
 export type TermOpportunityType = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityType';
   /** The time that the term was last edited. */
@@ -4154,7 +4154,7 @@ export type TermOpportunityType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Academic credit units an Opportunity provides. Displayed in the Opportunity sidebar; use Opportunity Filters for filtering. */
 export type TermOpportunityUnit = MetaTagInterface & TermInterface & {
   __typename?: 'TermOpportunityUnit';
   /** The time that the term was last edited. */
@@ -4181,7 +4181,7 @@ export type TermOpportunityUnit = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to People. Use these terms with the Filtered Lists Paragraph for People. */
 export type TermPersonFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermPersonFilter';
   /** The time that the term was last edited. */
@@ -4223,7 +4223,7 @@ export type TermPersonFilterEdge = Edge & {
   node: TermPersonFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to Publications. Reserved for a future Filtered Lists Paragraph for Publications. */
 export type TermPublicationFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermPublicationFilter';
   /** The time that the term was last edited. */
@@ -4265,7 +4265,7 @@ export type TermPublicationFilterEdge = Edge & {
   node: TermPublicationFilter;
 };
 
-/** Entity type taxonomy_term. */
+/** Departments and groups that host Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventGroup = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventGroup';
   /** The time that the term was last edited. */
@@ -4292,7 +4292,7 @@ export type TermStanfordEventGroup = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Keywords and tags that describe Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventKeyword = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventKeyword';
   /** The time that the term was last edited. */
@@ -4319,7 +4319,7 @@ export type TermStanfordEventKeyword = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Subject areas of Events. Imported from Stanford Events (Localist). */
 export type TermStanfordEventSubject = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventSubject';
   /** The time that the term was last edited. */
@@ -4346,7 +4346,7 @@ export type TermStanfordEventSubject = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Broad categories that specify a type of Event. (i.e. Lecture) */
+/** Broad categories that classify Events and Event Series (e.g., Lecture). Imported from Stanford Events (Localist). Use these terms to drive the pre-built Events list pages and to filter Lists Paragraphs. */
 export type TermStanfordEventType = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordEventType';
   /** The time that the term was last edited. */
@@ -4373,7 +4373,7 @@ export type TermStanfordEventType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Entity type taxonomy_term. */
+/** Site-defined categories applied to News Spotlights. Displayed on the Spotlight page. Use these terms with the Filtered Lists Paragraph for News. */
 export type TermStanfordNewsSpotlightFilter = EdgeNode & MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordNewsSpotlightFilter';
   /** The time that the term was last edited. */
@@ -4415,7 +4415,7 @@ export type TermStanfordNewsSpotlightFilterEdge = Edge & {
   node: TermStanfordNewsSpotlightFilter;
 };
 
-/** Broad categories that specify a type of News article. (i.e. Blog) */
+/** Broad categories that classify News articles (e.g., Blog). Use these terms to drive the pre-built News list pages and to filter Lists Paragraphs. */
 export type TermStanfordNewsTopic = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordNewsTopic';
   /** The time that the term was last edited. */
@@ -4442,7 +4442,7 @@ export type TermStanfordNewsTopic = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Terms to support grouping of People. */
+/** Types and groups used to organize People. Use these terms to drive the pre-built People list pages and to filter Lists Paragraphs. */
 export type TermStanfordPersonType = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordPersonType';
   /** The time that the term was last edited. */
@@ -4469,7 +4469,7 @@ export type TermStanfordPersonType = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Broad categories that specify a type of Publication. (i.e. white-paper) */
+/** Broad categories that classify Publications (e.g., White Paper). Use these terms to drive the pre-built Publications list pages and to filter Lists Paragraphs. */
 export type TermStanfordPublicationTopic = MetaTagInterface & TermInterface & {
   __typename?: 'TermStanfordPublicationTopic';
   /** The time that the term was last edited. */
@@ -4496,7 +4496,7 @@ export type TermStanfordPublicationTopic = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Quarters offered for courses, via ExploreCourses */
+/** Academic quarters in which Courses are offered. Imported from ExploreCourses. */
 export type TermSuCourseQuarter = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseQuarter';
   /** The time that the term was last edited. */
@@ -4523,7 +4523,7 @@ export type TermSuCourseQuarter = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Course subjects from ExploreCourses */
+/** Subjects that Courses belong to. Imported from ExploreCourses. */
 export type TermSuCourseSubject = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseSubject';
   /** The time that the term was last edited. */
@@ -4552,7 +4552,7 @@ export type TermSuCourseSubject = MetaTagInterface & TermInterface & {
   weight: Scalars['Int']['output'];
 };
 
-/** Tags from ExploreCourses */
+/** Tags assigned to Courses in ExploreCourses. Imported from ExploreCourses. */
 export type TermSuCourseTag = MetaTagInterface & TermInterface & {
   __typename?: 'TermSuCourseTag';
   /** The time that the term was last edited. */
@@ -4824,7 +4824,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -4881,7 +4881,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
           | { __typename?: 'TermSuCourseQuarter', uuid: string }
           | { __typename?: 'TermSuCourseSubject', uuid: string }
           | { __typename?: 'TermSuCourseTag', uuid: string }
-         | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
+         | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -4954,7 +4954,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5021,7 +5021,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
         | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
         | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
         | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-      , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -5073,7 +5073,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5131,7 +5131,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5289,7 +5289,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
         | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5324,7 +5324,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5333,7 +5333,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
            | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
         | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
         | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-      > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, pageStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -5369,7 +5369,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
         | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
         | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
         | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-      >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
+      >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
         | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerHeader?: string | null, suBannerSupHeader?: string | null, suBannerBody?: { __typename?: 'Text', processed?: string | null } | null, suBannerButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
         | { __typename: 'ParagraphStanfordCard', uuid: string, behaviors?: string | null, status: boolean, suCardHeader?: string | null, suCardSuperHeader?: string | null, suCardBody?: { __typename?: 'Text', processed?: string | null } | null, suCardLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suCardMedia?:
             | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
@@ -5388,7 +5388,7 @@ export type NodeQuery = { __typename?: 'Query', node?:
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5670,7 +5670,7 @@ export type EventSeriesQuery = { __typename?: 'Query', nodeStanfordEventSeriesIt
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5778,7 +5778,7 @@ export type EventsQuery = { __typename?: 'Query', nodeStanfordEvents: { __typena
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -5835,7 +5835,7 @@ export type EventsQuery = { __typename?: 'Query', nodeStanfordEvents: { __typena
           | { __typename?: 'TermSuCourseQuarter', uuid: string }
           | { __typename?: 'TermSuCourseSubject', uuid: string }
           | { __typename?: 'TermSuCourseTag', uuid: string }
-         | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
+         | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -5913,7 +5913,7 @@ export type NewsQuery = { __typename?: 'Query', nodeStanfordNewsItems: { __typen
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -6001,7 +6001,7 @@ export type BasicPagesQuery = { __typename?: 'Query', nodeStanfordPages: { __typ
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
         | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -6038,7 +6038,7 @@ export type PeopleQuery = { __typename?: 'Query', nodeStanfordPeople: { __typena
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -6047,7 +6047,7 @@ export type PeopleQuery = { __typename?: 'Query', nodeStanfordPeople: { __typena
            | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
         | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
         | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-      > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, pageStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
           | { __typename?: 'TermBasicPageType', uuid: string }
           | { __typename?: 'TermCourseFilter', uuid: string }
           | { __typename?: 'TermEventAudience', uuid: string }
@@ -6087,7 +6087,7 @@ export type PublicationsQueryVariables = Exact<{
 }>;
 
 
-export type PublicationsQuery = { __typename?: 'Query', nodeStanfordPublications: { __typename?: 'NodeStanfordPublicationConnection', nodes: Array<{ __typename?: 'NodeStanfordPublication', uuid: string, path: string, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
+export type PublicationsQuery = { __typename?: 'Query', nodeStanfordPublications: { __typename?: 'NodeStanfordPublicationConnection', nodes: Array<{ __typename?: 'NodeStanfordPublication', uuid: string, path: string, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
         | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerHeader?: string | null, suBannerSupHeader?: string | null, suBannerBody?: { __typename?: 'Text', processed?: string | null } | null, suBannerButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
         | { __typename: 'ParagraphStanfordCard', uuid: string, behaviors?: string | null, status: boolean, suCardHeader?: string | null, suCardSuperHeader?: string | null, suCardBody?: { __typename?: 'Text', processed?: string | null } | null, suCardLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suCardMedia?:
             | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
@@ -6106,7 +6106,7 @@ export type PublicationsQuery = { __typename?: 'Query', nodeStanfordPublications
             | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
           > | null }
         | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+        | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
         | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
         | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
         | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -6158,7 +6158,7 @@ export type MediaQuery = { __typename?: 'Query', media?:
     | { __typename: 'MediaGoogleForm', mediaGoogleForm: string, uuid: string, name: string }
     | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
-    | { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }
+    | { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
    | null };
 
@@ -6974,7 +6974,7 @@ export type ParagraphQuery = { __typename?: 'Query', paragraph?:
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
     | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -7665,7 +7665,7 @@ export type FragmentMediaGoogleFormFragment = { __typename: 'MediaGoogleForm', m
 
 export type FragmentMediaImageFragment = { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } };
 
-export type FragmentMediaStanfordGalleryImageFragment = { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null };
+export type FragmentMediaStanfordGalleryImageFragment = { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null };
 
 export type FragmentMediaVideoFragment = { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string };
 
@@ -7681,7 +7681,7 @@ type FragmentMediaUnion_MediaImage_Fragment = { __typename: 'MediaImage', uuid: 
 
 type FragmentMediaUnion_MediaSdr_Fragment = { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string };
 
-type FragmentMediaUnion_MediaStanfordGalleryImage_Fragment = { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null };
+type FragmentMediaUnion_MediaStanfordGalleryImage_Fragment = { __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null };
 
 type FragmentMediaUnion_MediaVideo_Fragment = { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string };
 
@@ -7881,7 +7881,7 @@ export type FragmentNodeStanfordPageFragment = { __typename?: 'NodeStanfordPage'
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
     | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8010,7 +8010,7 @@ export type FragmentNodeStanfordEventFragment = { __typename?: 'NodeStanfordEven
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8067,7 +8067,7 @@ export type FragmentNodeStanfordEventFragment = { __typename?: 'NodeStanfordEven
       | { __typename?: 'TermSuCourseQuarter', uuid: string }
       | { __typename?: 'TermSuCourseSubject', uuid: string }
       | { __typename?: 'TermSuCourseTag', uuid: string }
-     | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
+     | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8136,7 +8136,7 @@ export type FragmentNodeStanfordEventSeriesFragment = { __typename?: 'NodeStanfo
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8199,7 +8199,7 @@ export type FragmentNodeStanfordMediaFragment = { __typename?: 'NodeStanfordMedi
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8247,7 +8247,7 @@ export type FragmentNodeStanfordNewsFragment = { __typename?: 'NodeStanfordNews'
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8301,7 +8301,7 @@ export type FragmentNodeStanfordPersonFragment = { __typename?: 'NodeStanfordPer
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8310,7 +8310,7 @@ export type FragmentNodeStanfordPersonFragment = { __typename?: 'NodeStanfordPer
        | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
     | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
     | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-  > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, pageStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8338,7 +8338,7 @@ export type FragmentNodeStanfordPersonFragment = { __typename?: 'NodeStanfordPer
 
 export type FragmentNodeStanfordPolicyFragment = { __typename?: 'NodeStanfordPolicy', suPolicyAuthority?: string | null, suPolicyAutoPrefix?: boolean | null, suPolicyChapter?: string | null, suPolicyPolicyNum?: string | null, suPolicySubchapter?: string | null, suPolicyTitle: string, body?: { __typename?: 'TextSummary', processed?: string | null, summary?: string | null } | null, suPolicyChangelog?: Array<{ __typename: 'SuPolicyLog', uuid: string, suPolicyNotes: string, suPolicyPublic?: boolean | null, suPolicyTitle: string, suPolicyDate: { __typename?: 'DateTime', timezone: string, time: string } }> | null, suPolicyEffective?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicyRelated?: Array<{ __typename?: 'NodeStanfordPolicy', uuid: string, path: string }> | null, suPolicyUpdated?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicySource?: { __typename?: 'Link', url: string } | null, book?: { __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean, children: Array<{ __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean, children: Array<{ __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean, children: Array<{ __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean, children: Array<{ __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean, children: Array<{ __typename?: 'BookLink', id: string, title: string, url?: string | null, expanded: boolean }> }> }> }> }> } | null };
 
-export type FragmentNodeStanfordPublicationFragment = { __typename?: 'NodeStanfordPublication', suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
+export type FragmentNodeStanfordPublicationFragment = { __typename?: 'NodeStanfordPublication', suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
     | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerHeader?: string | null, suBannerSupHeader?: string | null, suBannerBody?: { __typename?: 'Text', processed?: string | null } | null, suBannerButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
     | { __typename: 'ParagraphStanfordCard', uuid: string, behaviors?: string | null, status: boolean, suCardHeader?: string | null, suCardSuperHeader?: string | null, suCardBody?: { __typename?: 'Text', processed?: string | null } | null, suCardLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suCardMedia?:
         | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
@@ -8357,7 +8357,7 @@ export type FragmentNodeStanfordPublicationFragment = { __typename?: 'NodeStanfo
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8417,7 +8417,7 @@ export type FragmentNodeStanfordOpportunityFragment = { __typename?: 'NodeStanfo
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8651,7 +8651,7 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = { __typename: 'NodeStanfordE
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8708,7 +8708,7 @@ type FragmentNodeUnion_NodeStanfordEvent_Fragment = { __typename: 'NodeStanfordE
       | { __typename?: 'TermSuCourseQuarter', uuid: string }
       | { __typename?: 'TermSuCourseSubject', uuid: string }
       | { __typename?: 'TermSuCourseTag', uuid: string }
-     | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
+     | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8782,7 +8782,7 @@ type FragmentNodeUnion_NodeStanfordEventSeries_Fragment = { __typename: 'NodeSta
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8850,7 +8850,7 @@ type FragmentNodeUnion_NodeStanfordMedia_Fragment = { __typename: 'NodeStanfordM
     | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
     | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
     | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -8903,7 +8903,7 @@ type FragmentNodeUnion_NodeStanfordNews_Fragment = { __typename: 'NodeStanfordNe
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -8962,7 +8962,7 @@ type FragmentNodeUnion_NodeStanfordOpportunity_Fragment = { __typename: 'NodeSta
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -9121,7 +9121,7 @@ type FragmentNodeUnion_NodeStanfordPage_Fragment = { __typename: 'NodeStanfordPa
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
     | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -9157,7 +9157,7 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = { __typename: 'NodeStanford
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -9166,7 +9166,7 @@ type FragmentNodeUnion_NodeStanfordPerson_Fragment = { __typename: 'NodeStanford
        | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
     | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
     | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-  > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+  > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, pageStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -9204,7 +9204,7 @@ type FragmentNodeUnion_NodeStanfordPublication_Fragment = { __typename: 'NodeSta
     | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
     | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
     | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-  >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
+  >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
     | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerHeader?: string | null, suBannerSupHeader?: string | null, suBannerBody?: { __typename?: 'Text', processed?: string | null } | null, suBannerButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
     | { __typename: 'ParagraphStanfordCard', uuid: string, behaviors?: string | null, status: boolean, suCardHeader?: string | null, suCardSuperHeader?: string | null, suCardBody?: { __typename?: 'Text', processed?: string | null } | null, suCardLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suCardMedia?:
         | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
@@ -9223,7 +9223,7 @@ type FragmentNodeUnion_NodeStanfordPublication_Fragment = { __typename: 'NodeSta
         | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
       > | null }
     | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+    | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
     | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
     | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
     | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -9412,7 +9412,7 @@ export type FragmentNodeStanfordPageTeaserFragment = { __typename?: 'NodeStanfor
     | { __typename: 'ParagraphStanfordPageTitleBanner', uuid: string, behaviors?: string | null, status: boolean, suTitleBannerImage: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } }
    | null };
 
-export type FragmentNodeStanfordPersonTeaserFragment = { __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null };
+export type FragmentNodeStanfordPersonTeaserFragment = { __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null };
 
 export type FragmentNodeStanfordPolicyTeaserFragment = { __typename?: 'NodeStanfordPolicy', body?: { __typename?: 'TextSummary', processed?: string | null, summary?: string | null } | null, suPolicyUpdated?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicySource?: { __typename?: 'Link', url: string } | null };
 
@@ -9448,7 +9448,7 @@ export type FragmentNodeStanfordPublicationTeaserFragment = { __typename?: 'Node
     | { __typename: 'CitationSuThesi', apa?: string | null, chicago?: string | null, uuid: string, title: string }
    | null };
 
-export type FragmentNodeStanfordOpportunityTeaserFragment = { __typename?: 'NodeStanfordOpportunity', suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+export type FragmentNodeStanfordOpportunityTeaserFragment = { __typename?: 'NodeStanfordOpportunity', suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -9628,7 +9628,7 @@ type FragmentNodeTeaserUnion_NodeStanfordNews_Fragment = { __typename: 'NodeStan
       | { __typename?: 'TermSuCourseTag', uuid: string }
      | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: string, time: string } | null, suNewsSource?: { __typename?: 'Link', url: string } | null, layoutSelection?: { __typename?: 'LayoutLibrary', id: string } | null };
 
-type FragmentNodeTeaserUnion_NodeStanfordOpportunity_Fragment = { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+type FragmentNodeTeaserUnion_NodeStanfordOpportunity_Fragment = { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
       | { __typename?: 'TermBasicPageType', uuid: string }
       | { __typename?: 'TermCourseFilter', uuid: string }
       | { __typename?: 'TermEventAudience', uuid: string }
@@ -9683,7 +9683,7 @@ type FragmentNodeTeaserUnion_NodeStanfordPage_Fragment = { __typename: 'NodeStan
     | { __typename: 'ParagraphStanfordPageTitleBanner', uuid: string, behaviors?: string | null, status: boolean, suTitleBannerImage: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } }
    | null };
 
-type FragmentNodeTeaserUnion_NodeStanfordPerson_Fragment = { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null };
+type FragmentNodeTeaserUnion_NodeStanfordPerson_Fragment = { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null };
 
 type FragmentNodeTeaserUnion_NodeStanfordPolicy_Fragment = { __typename: 'NodeStanfordPolicy', id: string, uuid: string, title: string, path: string, body?: { __typename?: 'TextSummary', processed?: string | null, summary?: string | null } | null, suPolicyUpdated?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicySource?: { __typename?: 'Link', url: string } | null };
 
@@ -9809,7 +9809,7 @@ export type FragmentParagraphStanfordFaqFragment = { __typename?: 'ParagraphStan
 
 export type FragmentParagraphStanfordFilteredListFragment = { __typename?: 'ParagraphStanfordFilteredList', suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null };
 
-export type FragmentParagraphStanfordGalleryFragment = { __typename?: 'ParagraphStanfordGallery', suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null };
+export type FragmentParagraphStanfordGalleryFragment = { __typename?: 'ParagraphStanfordGallery', suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null };
 
 export type FragmentParagraphStanfordLayoutFragment = { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean };
 
@@ -9822,9 +9822,9 @@ export type FragmentParagraphStanfordMediaCaptionFragment = { __typename?: 'Para
 
 export type FragmentParagraphStanfordPageTitleBannerFragment = { __typename?: 'ParagraphStanfordPageTitleBanner', suTitleBannerImage: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } };
 
-export type FragmentParagraphStanfordPersonCtumFragment = { __typename?: 'ParagraphStanfordPersonCtum', suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null };
+export type FragmentParagraphStanfordPersonCtumFragment = { __typename?: 'ParagraphStanfordPersonCtum', suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null };
 
-export type FragmentParagraphStanfordScheduleFragment = { __typename?: 'ParagraphStanfordSchedule', suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null };
+export type FragmentParagraphStanfordScheduleFragment = { __typename?: 'ParagraphStanfordSchedule', suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null };
 
 export type FragmentParagraphStanfordSpacerFragment = { __typename?: 'ParagraphStanfordSpacer', suSpacerSize?: string | null };
 
@@ -9858,7 +9858,7 @@ type FragmentParagraphUnion_ParagraphStanfordFaq_Fragment = { __typename: 'Parag
 
 type FragmentParagraphUnion_ParagraphStanfordFilteredList_Fragment = { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null };
 
-type FragmentParagraphUnion_ParagraphStanfordGallery_Fragment = { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null };
+type FragmentParagraphUnion_ParagraphStanfordGallery_Fragment = { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null };
 
 type FragmentParagraphUnion_ParagraphStanfordLayout_Fragment = { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean };
 
@@ -10044,7 +10044,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10101,7 +10101,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
               | { __typename?: 'TermSuCourseQuarter', uuid: string }
               | { __typename?: 'TermSuCourseSubject', uuid: string }
               | { __typename?: 'TermSuCourseTag', uuid: string }
-             | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
+             | null }> | null, suEventLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suEventMapLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSchedule?: Array<{ __typename: 'ParagraphStanfordSchedule', uuid: string, behaviors?: string | null, status: boolean, suScheduleHeadline?: string | null, suScheduleDescription?: { __typename?: 'Text', processed?: string | null } | null, suScheduleDateTime?: { __typename?: 'SmartDateType', value: string, end_value: string, timezone?: string | null, rrule_index?: number | null, rrule?: number | null } | null, suScheduleLocation?: { __typename?: 'Address', additionalName?: string | null, addressLine1?: string | null, addressLine2?: string | null, administrativeArea?: string | null, dependentLocality?: string | null, familyName?: string | null, givenName?: string | null, langcode?: string | null, locality?: string | null, organization?: string | null, postalCode?: string | null, sortingCode?: string | null, country?: { __typename?: 'AddressCountry', name?: string | null, code?: string | null } | null } | null, suScheduleUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suScheduleSpeaker?: Array<{ __typename: 'ParagraphStanfordPersonCtum', uuid: string, behaviors?: string | null, status: boolean, suPersonCtaName?: string | null, suPersonCtaTitle?: string | null, suPersonCtaLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonCtaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, ctaStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }> | null }> | null, suEventSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suEventSubject?: Array<{ __typename: 'TermStanfordEventSubject', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -10174,7 +10174,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10241,7 +10241,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
             | { __typename: 'MediaEmbeddable', mediaEmbeddableCode?: string | null, mediaEmbeddableOembed?: string | null, uuid: string, name: string }
             | { __typename: 'MediaSdr', uuid: string, name: string, sdrUrl: string }
             | { __typename: 'MediaVideo', mediaOembedVideo: string, suMediaDescription?: string | null, suVideoDuration?: number | null, uuid: string, name: string }
-          , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+          , suMediaClips?: Array<{ __typename: 'NodeStanfordMedia', suMediaDuration?: number | null, suMediaDek?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaDate?: { __typename?: 'DateTime', time: string, timezone: string } | null, suMediaImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suMediaPerson?: Array<{ __typename: 'NodeStanfordPerson', suPersonShortTitle?: string | null, id: string, uuid: string, title: string, path: string }> | null, suMediaSource?: { __typename?: 'Link', url: string } | null, suMediaTranscript?: { __typename?: 'Text', processed?: string | null } | null, suMediaTypes?: Array<{ __typename: 'TermMediaContentType', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -10293,7 +10293,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10351,7 +10351,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10360,7 +10360,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
             | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
             | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-          > | null, suOppContactUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppCtaUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppEligibility?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppPrerequisites?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+          > | null, suOppContactUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppCtaUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppEligibility?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppPrerequisites?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string, title?: string | null } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -10509,7 +10509,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
             | { __typename: 'ParagraphStanfordFilteredList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suFilteredListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10544,7 +10544,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -10553,7 +10553,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                | null, suMediaCaptionLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suMediaCaptionCaption?: { __typename?: 'Text', processed?: string | null } | null }
             | { __typename: 'ParagraphStanfordSpacer', uuid: string, behaviors?: string | null, status: boolean, suSpacerSize?: string | null }
             | { __typename: 'ParagraphStanfordWysiwyg', uuid: string, behaviors?: string | null, status: boolean, suWysiwygText?: { __typename?: 'Text', processed?: string | null } | null }
-          > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
+          > | null, suPersonLinks?: Array<{ __typename?: 'Link', url: string, title?: string | null }> | null, suPersonLocationAddress?: { __typename?: 'Text', processed?: string | null } | null, suPersonMapUrl?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, pageStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonProfileLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suPersonResearch?: Array<{ __typename?: 'Text', processed?: string | null }> | null, suPersonSource?: { __typename?: 'Link', url: string } | null, suPersonScholarlyInterests?: { __typename?: 'Text', processed?: string | null } | null, suPersonTypeGroup?: Array<{ __typename: 'TermStanfordPersonType', uuid: string, name: string, path?: string | null, weight: number, parent?:
               | { __typename?: 'TermBasicPageType', uuid: string }
               | { __typename?: 'TermCourseFilter', uuid: string }
               | { __typename?: 'TermEventAudience', uuid: string }
@@ -10589,7 +10589,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
             | { __typename: 'MetaTagProperty', tag: string, attributes: { __typename?: 'MetaTagPropertyAttributes', property?: string | null, content?: string | null } }
             | { __typename: 'MetaTagScript', content?: string | null, tag: string, attributes: { __typename?: 'MetaTagScriptAttributes', type?: string | null } }
             | { __typename: 'MetaTagValue', tag: string, attributes: { __typename?: 'MetaTagValueAttributes', name?: string | null, content?: string | null } }
-          >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
+          >, suPublicationAuthorRef?: Array<{ __typename?: 'NodeStanfordPerson', suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }> | null, suPublicationComponents?: Array<
             | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerHeader?: string | null, suBannerSupHeader?: string | null, suBannerBody?: { __typename?: 'Text', processed?: string | null } | null, suBannerButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
             | { __typename: 'ParagraphStanfordCard', uuid: string, behaviors?: string | null, status: boolean, suCardHeader?: string | null, suCardSuperHeader?: string | null, suCardBody?: { __typename?: 'Text', processed?: string | null } | null, suCardLink?: { __typename?: 'Link', url: string, title?: string | null } | null, suCardMedia?:
                 | { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } }
@@ -10608,7 +10608,7 @@ export type RouteQuery = { __typename?: 'Query', route?:
                 | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
               > | null }
             | { __typename: 'ParagraphStanfordFaq', uuid: string, behaviors?: string | null, status: boolean, suFaqHeadline?: string | null, suFaqDescription?: { __typename?: 'Text', processed?: string | null } | null, suFaqQuestions?: Array<{ __typename: 'ParagraphStanfordAccordion', uuid: string, behaviors?: string | null, status: boolean, suAccordionTitle: string, suAccordionBody: { __typename?: 'Text', processed?: string | null } }> | null }
-            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number } | null }> | null }
+            | { __typename: 'ParagraphStanfordGallery', uuid: string, behaviors?: string | null, status: boolean, suGalleryHeadline?: string | null, suGalleryDescription?: { __typename?: 'Text', processed?: string | null } | null, suGalleryButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suGalleryImages?: Array<{ __typename: 'MediaStanfordGalleryImage', suGalleryCaption?: string | null, uuid: string, name: string, suGalleryImage?: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, thumbStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, fullStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null } | null }> | null }
             | { __typename: 'ParagraphStanfordLayout', uuid: string, behaviors?: string | null, status: boolean }
             | { __typename: 'ParagraphStanfordList', uuid: string, behaviors?: string | null, status: boolean, suListHeadline: string, suListDescription?: { __typename?: 'Text', processed?: string | null } | null, suListButton?: { __typename?: 'Link', url: string, title?: string | null } | null, suListView?: { __typename?: 'ViewReference', view: string, display: string, contextualFilter?: Array<string> | null, pageSize?: number | null } | null }
             | { __typename: 'ParagraphStanfordMediaCaption', uuid: string, behaviors?: string | null, status: boolean, suMediaCaptionMedia?:
@@ -11016,7 +11016,7 @@ export type StanfordOpportunitiesQuery = { __typename?: 'Query', stanfordOpportu
       | { __typename: 'NodeStanfordEventSeries', id: string, uuid: string, title: string, path: string }
       | { __typename: 'NodeStanfordMedia', id: string, uuid: string, title: string, path: string }
       | { __typename: 'NodeStanfordNews', id: string, uuid: string, title: string, path: string }
-      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
             | { __typename?: 'TermBasicPageType', uuid: string }
             | { __typename?: 'TermCourseFilter', uuid: string }
             | { __typename?: 'TermEventAudience', uuid: string }
@@ -11088,7 +11088,7 @@ export type StanfordPersonQuery = { __typename?: 'Query', stanfordPerson?: { __t
       | { __typename: 'NodeStanfordNews', id: string, uuid: string, title: string, path: string }
       | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string }
       | { __typename: 'NodeStanfordPage', id: string, uuid: string, title: string, path: string }
-      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
+      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
       | { __typename: 'NodeStanfordPolicy', id: string, uuid: string, title: string, path: string }
       | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string }
     >, pageInfo: { __typename?: 'ViewPageInfo', page: number, total: number } } | null };
@@ -11279,7 +11279,7 @@ export type StanfordSharedTagsQuery = { __typename?: 'Query', stanfordSharedTags
             | { __typename?: 'TermSuCourseSubject', uuid: string }
             | { __typename?: 'TermSuCourseTag', uuid: string }
            | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: string, time: string } | null, suNewsSource?: { __typename?: 'Link', url: string } | null, layoutSelection?: { __typename?: 'LayoutLibrary', id: string } | null }
-      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
             | { __typename?: 'TermBasicPageType', uuid: string }
             | { __typename?: 'TermCourseFilter', uuid: string }
             | { __typename?: 'TermEventAudience', uuid: string }
@@ -11332,7 +11332,7 @@ export type StanfordSharedTagsQuery = { __typename?: 'Query', stanfordSharedTags
           | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
           | { __typename: 'ParagraphStanfordPageTitleBanner', uuid: string, behaviors?: string | null, status: boolean, suTitleBannerImage: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } }
          | null }
-      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
+      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
       | { __typename: 'NodeStanfordPolicy', id: string, uuid: string, title: string, path: string, body?: { __typename?: 'TextSummary', processed?: string | null, summary?: string | null } | null, suPolicyUpdated?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicySource?: { __typename?: 'Link', url: string } | null }
       | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string, suPublicationTopics?: Array<{ __typename: 'TermStanfordPublicationTopic', uuid: string, name: string, path?: string | null, weight: number, parent?:
             | { __typename?: 'TermBasicPageType', uuid: string }
@@ -11501,7 +11501,7 @@ export type SearchQuery = { __typename?: 'Query', search?: { __typename?: 'Searc
             | { __typename?: 'TermSuCourseSubject', uuid: string }
             | { __typename?: 'TermSuCourseTag', uuid: string }
            | null }> | null, suNewsPublishingDate?: { __typename?: 'DateTime', timezone: string, time: string } | null, suNewsSource?: { __typename?: 'Link', url: string } | null, layoutSelection?: { __typename?: 'LayoutLibrary', id: string } | null }
-      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
+      | { __typename: 'NodeStanfordOpportunity', id: string, uuid: string, title: string, path: string, suOppCardFooter?: { __typename?: 'Text', processed?: string | null } | null, suOppIcon?: { __typename?: 'FontawesomeIconType', iconName: string, style: string } | null, suOppImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, squareStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suOppSummary?: { __typename?: 'Text', processed?: string | null } | null, suOppSource?: { __typename?: 'Link', url: string } | null, suOppSponsor?: Array<{ __typename: 'TermOpportunitySponsor', uuid: string, name: string, path?: string | null, weight: number, parent?:
             | { __typename?: 'TermBasicPageType', uuid: string }
             | { __typename?: 'TermCourseFilter', uuid: string }
             | { __typename?: 'TermEventAudience', uuid: string }
@@ -11554,7 +11554,7 @@ export type SearchQuery = { __typename?: 'Query', search?: { __typename?: 'Searc
           | { __typename: 'ParagraphStanfordBanner', uuid: string, behaviors?: string | null, status: boolean, suBannerImage?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null }
           | { __typename: 'ParagraphStanfordPageTitleBanner', uuid: string, behaviors?: string | null, status: boolean, suTitleBannerImage: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } }
          | null }
-      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
+      | { __typename: 'NodeStanfordPerson', id: string, uuid: string, title: string, path: string, suPersonFullTitle?: string | null, suPersonShortTitle?: string | null, suPersonPhoto?: { __typename: 'MediaImage', uuid: string, name: string, mediaImage: { __typename?: 'Image', url: string, alt?: string | null, height: number, width: number, cardStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, listStyle?: Array<{ __typename?: 'ImageStyleDerivative', url: string, width: number, height: number }> | null, variations?: Array<{ __typename?: 'ImageStyleDerivative', url: string }> | null } } | null, suPersonSource?: { __typename?: 'Link', url: string } | null }
       | { __typename: 'NodeStanfordPolicy', id: string, uuid: string, title: string, path: string, body?: { __typename?: 'TextSummary', processed?: string | null, summary?: string | null } | null, suPolicyUpdated?: { __typename?: 'DateTime', timezone: string, time: string } | null, suPolicySource?: { __typename?: 'Link', url: string } | null }
       | { __typename: 'NodeStanfordPublication', id: string, uuid: string, title: string, path: string, suPublicationTopics?: Array<{ __typename: 'TermStanfordPublicationTopic', uuid: string, name: string, path?: string | null, weight: number, parent?:
             | { __typename?: 'TermBasicPageType', uuid: string }
@@ -11932,6 +11932,16 @@ export const FragmentMediaStanfordGalleryImageFragmentDoc = new TypedDocumentStr
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
     fragment FragmentMediaInterface on MediaInterface {
@@ -12012,6 +12022,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -12083,6 +12103,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -12158,6 +12188,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }`, {"fragmentName":"FragmentParagraphStanfordGallery"}) as unknown as TypedDocumentString<FragmentParagraphStanfordGalleryFragment, unknown>;
 export const FragmentParagraphStanfordListFragmentDoc = new TypedDocumentString(`
@@ -12253,6 +12293,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -12409,6 +12459,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -12635,6 +12695,13 @@ export const FragmentParagraphStanfordPersonCtumFragmentDoc = new TypedDocumentS
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
     fragment FragmentMediaInterface on MediaInterface {
@@ -12735,6 +12802,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }`, {"fragmentName":"FragmentParagraphStanfordSchedule"}) as unknown as TypedDocumentString<FragmentParagraphStanfordScheduleFragment, unknown>;
 export const FragmentNodeStanfordEventFragmentDoc = new TypedDocumentString(`
@@ -12850,6 +12924,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -13031,6 +13115,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
@@ -13236,6 +13327,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -13496,6 +13597,7 @@ export const FragmentNodeStanfordMediaFragmentDoc = new TypedDocumentString(`
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -13670,6 +13772,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -14003,6 +14115,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -14313,6 +14435,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -14557,6 +14689,13 @@ export const FragmentNodeStanfordPersonFragmentDoc = new TypedDocumentString(`
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -14639,6 +14778,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -14945,6 +15094,18 @@ export const FragmentNodeStanfordPersonTeaserFragmentDoc = new TypedDocumentStri
     fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -15140,6 +15301,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -15179,6 +15350,18 @@ fragment FragmentNodeInterface on NodeInterface {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -15449,6 +15632,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -15670,6 +15863,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -15765,6 +15959,13 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -16029,6 +16230,18 @@ fragment FragmentNodeStanfordEventTeaser on NodeStanfordEvent {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -16169,6 +16382,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
@@ -16405,6 +16625,13 @@ export const FragmentNodeStanfordOpportunityTeaserFragmentDoc = new TypedDocumen
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText
@@ -16744,6 +16971,18 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -16804,6 +17043,13 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText
@@ -16933,6 +17179,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -17154,6 +17410,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -17249,6 +17506,13 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -17526,6 +17790,18 @@ fragment FragmentNodeStanfordEventTeaser on NodeStanfordEvent {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -17666,6 +17942,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
@@ -18010,6 +18293,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -18358,6 +18651,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -18591,6 +18894,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
@@ -18753,6 +19063,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -19076,6 +19396,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -19395,6 +19725,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -19458,6 +19798,13 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -19854,6 +20201,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -19993,6 +20350,18 @@ fragment FragmentNodeStanfordPublication on NodeStanfordPublication {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -20222,6 +20591,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -20479,6 +20858,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -20998,6 +21387,16 @@ fragment FragmentMediaStanfordGalleryImage on MediaStanfordGalleryImage {
     alt
     height
     width
+    thumbStyle: variations(styles: [BREAKPOINT_SM2X]) {
+      url
+      width
+      height
+    }
+    fullStyle: variations(styles: [RESPONSIVE_LARGE]) {
+      url
+      width
+      height
+    }
   }
 }
 fragment FragmentMediaVideo on MediaVideo {
@@ -21219,6 +21618,7 @@ fragment FragmentNodeStanfordMedia on NodeStanfordMedia {
   suMediaClips {
     ...FragmentNodeInterface
     suMediaDuration
+    suMediaDek
   }
   suMediaCategory
   suMediaDate {
@@ -21314,6 +21714,13 @@ fragment FragmentNodeStanfordPerson on NodeStanfordPerson {
   suPersonMobilePhone
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      pageStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonProfileLink {
     url
@@ -21667,6 +22074,18 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -21727,6 +22146,13 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText
@@ -21887,6 +22313,13 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 fragment FragmentParagraphStanfordSchedule on ParagraphStanfordSchedule {
@@ -22543,6 +22976,13 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText
@@ -22609,6 +23049,18 @@ fragment FragmentNodeInterface on NodeInterface {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -22886,6 +23338,18 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -22946,6 +23410,13 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText
@@ -23173,6 +23644,18 @@ fragment FragmentNodeStanfordPageTeaser on NodeStanfordPage {
 fragment FragmentNodeStanfordPersonTeaser on NodeStanfordPerson {
   suPersonPhoto {
     ...FragmentMediaImage
+    mediaImage {
+      cardStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+      listStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suPersonFullTitle
   suPersonShortTitle
@@ -23233,6 +23716,13 @@ fragment FragmentNodeStanfordOpportunityTeaser on NodeStanfordOpportunity {
   }
   suOppImage {
     ...FragmentMediaImage
+    mediaImage {
+      squareStyle: variations(styles: [SQUARE956]) {
+        url
+        width
+        height
+      }
+    }
   }
   suOppSummary {
     ...FragmentText

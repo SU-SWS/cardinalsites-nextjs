@@ -6,6 +6,7 @@ import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import cn from "@lib/utils/className"
 import Wysiwyg from "@components/elements/wysiwyg"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordOpportunity
@@ -14,6 +15,7 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordOpportunityListItem = ({node, headingLevel, ...props}: Props) => {
   const image = node.suOppImage?.mediaImage
+  const squareImage = getImageStyle(image, "squareStyle")
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
     <article {...props} aria-label={node.title} className={cn("@container", props.className)}>
@@ -45,10 +47,11 @@ const StanfordOpportunityListItem = ({node, headingLevel, ...props}: Props) => {
             <div className="relative mb-20 aspect-square @3xl:order-2 @3xl:mb-0">
               <Image
                 className="ed11y-ignore object-cover"
-                src={image.url}
+                src={squareImage?.url || image.url}
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 500px"
+                unoptimized={!!squareImage}
               />
             </div>
           </div>

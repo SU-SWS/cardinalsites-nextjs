@@ -1,7 +1,7 @@
-import {Suspense} from "react"
+import Script from "next/script"
+import {GoogleAnalytics, GoogleTagManager} from "@next/third-parties/google"
 import {getConfigPageField} from "@lib/gql/gql-queries"
 import {StanfordBasicSiteSetting} from "@lib/gql/__generated__/graphql"
-import UserAnalyticsScripts from "@components/elements/user-analytics/user-analytics.client"
 
 const UserAnalytics = async () => {
   if (process.env.VERCEL_ENV !== "production") return
@@ -19,11 +19,14 @@ const UserAnalytics = async () => {
     .map(ga4ID => ga4ID.trim())
     .filter(Boolean)
 
-  // The client component reads the pathname, which is only known at request time.
   return (
-    <Suspense>
-      <UserAnalyticsScripts ga4Ids={ga4Ids} gtmId={gtm} />
-    </Suspense>
+    <>
+      <Script async src="https://siteimproveanalytics.com/js/siteanalyze_6343745.js" />
+      {ga4Ids.map(ga4ID => (
+        <GoogleAnalytics key={ga4ID} gaId={ga4ID} />
+      ))}
+      {gtm && <GoogleTagManager gtmId={gtm} />}
+    </>
   )
 }
 export default UserAnalytics

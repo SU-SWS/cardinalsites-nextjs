@@ -5,6 +5,7 @@ import {NodeStanfordOpportunity} from "@lib/gql/__generated__/graphql"
 import ImageCard from "@components/patterns/image-card"
 import Wysiwyg from "@components/elements/wysiwyg"
 import ReverseVisualOrder from "@components/elements/reverse-visual-order"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordOpportunity
@@ -13,9 +14,17 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const StanfordOpportunityCard = ({node, headingLevel, ...props}: Props) => {
   const image = node.suOppImage?.mediaImage
+  const squareImage = getImageStyle(image, "squareStyle")
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
-    <ImageCard {...props} aria-label={node.title} imageUrl={image?.url} isArticle squareImage>
+    <ImageCard
+      {...props}
+      aria-label={node.title}
+      imageUrl={squareImage?.url || image?.url}
+      imageUnoptimized={!!squareImage}
+      isArticle
+      squareImage
+    >
       <ReverseVisualOrder>
         <Heading className="[&_a]:text-black">
           <Link href={node.suOppSource?.url || node.path}>{node.title}</Link>

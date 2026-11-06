@@ -4,6 +4,7 @@ import {H2, H3} from "@components/elements/headers"
 import {HtmlHTMLAttributes} from "react"
 import {NodeStanfordPerson} from "@lib/gql/__generated__/graphql"
 import cn from "@lib/utils/className"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -11,7 +12,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 }
 
 const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
-  const imageUrl = node.suPersonPhoto?.mediaImage.url
+  const cardImage = getImageStyle(node.suPersonPhoto?.mediaImage, "cardStyle")
+  const imageUrl = cardImage?.url || node.suPersonPhoto?.mediaImage.url
 
   const Heading = headingLevel === "h3" ? H3 : H2
   return (
@@ -24,6 +26,7 @@ const StanfordPersonCard = ({node, headingLevel, ...props}: Props) => {
             alt=""
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 900px) 75vw, 1000px"
+            unoptimized={!!cardImage}
           />
         </div>
       )}

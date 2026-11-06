@@ -24,6 +24,7 @@ import {graphqlClient} from "@lib/gql/gql-client"
 import NodeCard from "@components/nodes/cards/node-card"
 import {cacheLife} from "next/cache"
 import {cacheFailure} from "@lib/gql/gql-queries"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   node: NodeStanfordPerson
@@ -32,7 +33,8 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 const StanfordPersonPage = ({node, ...props}: Props) => {
   if (node.suPersonSource?.url) redirect(node.suPersonSource.url)
 
-  const imageUrl = node.suPersonPhoto?.mediaImage.url
+  const pageImage = getImageStyle(node.suPersonPhoto?.mediaImage, "pageStyle")
+  const imageUrl = pageImage?.url || node.suPersonPhoto?.mediaImage.url
 
   return (
     <div>
@@ -40,7 +42,15 @@ const StanfordPersonPage = ({node, ...props}: Props) => {
         <div className="mb-64 flex flex-col gap-40 lg:flex-row">
           {imageUrl && (
             <div className="relative mx-auto aspect-square w-250 shrink-0 lg:mx-0">
-              <Image className="rounded-full object-cover" src={imageUrl} alt="" loading="eager" fill sizes="750px" />
+              <Image
+                className="rounded-full object-cover"
+                src={imageUrl}
+                alt=""
+                loading="eager"
+                fill
+                sizes="250px"
+                unoptimized={!!pageImage}
+              />
             </div>
           )}
 

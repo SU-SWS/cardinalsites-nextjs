@@ -143,6 +143,14 @@ fragment FragmentParagraphStanfordPersonCtum on ParagraphStanfordPersonCtum {
   }
   suPersonCtaImage {
     ...FragmentMediaImage
+    mediaImage {
+      # Square derivative so the 200px photo doesn't load the original upload.
+      ctaStyle: variations(styles: [LARGE_SQUARE]) {
+        url
+        width
+        height
+      }
+    }
   }
 }
 

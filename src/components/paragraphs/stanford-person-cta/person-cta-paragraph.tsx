@@ -3,6 +3,7 @@ import Link from "@components/elements/link"
 import {HtmlHTMLAttributes} from "react"
 import {ParagraphStanfordPersonCtum} from "@lib/gql/__generated__/graphql"
 import cn from "@lib/utils/className"
+import {getImageStyle} from "@lib/utils/image-style"
 
 type Props = HtmlHTMLAttributes<HTMLDivElement> & {
   paragraph: ParagraphStanfordPersonCtum
@@ -10,16 +11,18 @@ type Props = HtmlHTMLAttributes<HTMLDivElement> & {
 
 const PersonCtaParagraph = ({paragraph, ...props}: Props) => {
   const image = paragraph.suPersonCtaImage?.mediaImage
+  const ctaImage = getImageStyle(image, "ctaStyle")
   return (
     <div {...props} className={cn("centered flex gap-20", props.className)}>
       {image?.url && (
         <div className="relative aspect-square w-200">
           <Image
             className="rounded-full"
-            src={image.url}
+            src={ctaImage?.url || image.url}
             alt={image.alt || ""}
             fill
-            sizes="(max-width: 768px) 100vw, 1000px"
+            sizes="200px"
+            unoptimized={!!ctaImage}
           />
         </div>
       )}
