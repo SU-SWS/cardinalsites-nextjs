@@ -66,6 +66,8 @@ const SUPPORTED_DISPLAYS = new Set([
   "stanford_events--cards",
   "stanford_events--list_page",
   "stanford_events--past_events_list_block",
+  "stanford_events_filtered--card_grid",
+  "stanford_events_filtered--list",
   "stanford_news_filtered--spotlight_cards",
   "stanford_news--block_1",
   "stanford_news--vertical_cards",
@@ -88,7 +90,7 @@ const SUPPORTED_DISPLAYS = new Set([
 
 /** The free-text search keyword, and the term-id filters the filtered lists send (see `filterKey`). */
 const TEXT_FILTER = "key"
-const TERM_FILTERS = ["filter", "filters", "spotlight"]
+const TERM_FILTERS = ["filter", "filters", "spotlight", "event_tags"]
 const MAX_PAGE = 100
 const MAX_TEXT_LENGTH = 100
 const MAX_CONTEXTUAL_FILTERS = 4
@@ -182,6 +184,7 @@ export const getViewPagedItems = async (
     stanford_basic_pages: "views:stanford_page",
     stanford_courses: "views:stanford_course",
     stanford_events: "views:stanford_event",
+    stanford_events_filtered: "views:stanford_event",
     stanford_news: "views:stanford_news",
     stanford_person: "views:stanford_person",
     stanford_publications: "views:stanford_publication",
@@ -243,6 +246,8 @@ export const getViewPagedItems = async (
 
       case "stanford_events--cards":
       case "stanford_events--list_page":
+      case "stanford_events_filtered--card_grid":
+      case "stanford_events_filtered--list":
         contextualFilters = getContextualFilters(
           [
             "term_node_taxonomy_name_depth",
@@ -256,6 +261,7 @@ export const getViewPagedItems = async (
           StanfordEventsDocument,
           {
             contextualFilters,
+            filter,
             pageSize: itemsPerPage,
             page,
           }

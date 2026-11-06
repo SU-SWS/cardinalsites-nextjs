@@ -128,10 +128,12 @@ const View = async ({viewId, displayId, items, totalItems, loadPage, headingLeve
       return <PersonCardView items={items as NodeStanfordPerson[]} {...viewProps} />
 
     case "stanford_events--cards":
+    case "stanford_events_filtered--card_grid":
       return <EventsCardView items={items as NodeStanfordEvent[]} {...viewProps} />
 
     case "stanford_events--past_events_list_block":
     case "stanford_events--list_page":
+    case "stanford_events_filtered--list":
       return <EventsListView items={items as NodeStanfordEvent[]} {...viewProps} />
 
     case "stanford_basic_pages--viewfield_block_1":

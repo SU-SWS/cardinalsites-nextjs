@@ -2768,6 +2768,7 @@ export type QueryStanfordCoursesArgs = {
 /** The schema's entry-point for queries. */
 export type QueryStanfordEventsArgs = {
   contextualFilter?: InputMaybe<StanfordEventsContextualFilterInput>;
+  filter?: InputMaybe<StanfordEventsFilterInput>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
@@ -3301,6 +3302,11 @@ export type StanfordEventsContextualFilterInput = {
   term_node_taxonomy_name_depth_1?: InputMaybe<Scalars['String']['input']>;
   term_node_taxonomy_name_depth_2?: InputMaybe<Scalars['String']['input']>;
   term_node_taxonomy_name_depth_3?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type StanfordEventsFilterInput = {
+  /** Event Tags  */
+  event_tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type StanfordEventsPastEventsContextualFilterInput = {
@@ -10820,6 +10826,7 @@ export type StanfordCoursesQuery = { __typename?: 'Query', stanfordCourses?: { _
 
 export type StanfordEventsQueryVariables = Exact<{
   contextualFilters?: InputMaybe<StanfordEventsContextualFilterInput>;
+  filter?: InputMaybe<StanfordEventsFilterInput>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
@@ -22565,9 +22572,10 @@ fragment FragmentView on View {
   }
 }`) as unknown as TypedDocumentString<StanfordCoursesQuery, StanfordCoursesQueryVariables>;
 export const StanfordEventsDocument = new TypedDocumentString(`
-    query stanfordEvents($contextualFilters: StanfordEventsContextualFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
+    query stanfordEvents($contextualFilters: StanfordEventsContextualFilterInput, $filter: StanfordEventsFilterInput, $pageSize: Int, $page: Int = -1, $offset: Int) {
   stanfordEvents(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset

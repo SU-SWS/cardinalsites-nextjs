@@ -59,12 +59,14 @@ query stanfordCourses(
 
 query stanfordEvents(
   $contextualFilters: StanfordEventsContextualFilterInput
+  $filter: StanfordEventsFilterInput
   $pageSize: Int
   $page: Int = -1
   $offset: Int
 ) {
   stanfordEvents(
     contextualFilter: $contextualFilters
+    filter: $filter
     pageSize: $pageSize
     page: $page
     offset: $offset
