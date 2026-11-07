@@ -22,6 +22,33 @@ const SKIP_ROUTES = ["/user", "/system/cache-clear"]
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+// The server HTML is not what users end up with: client components re-render after hydration (ie the main menu swaps
+// its mobile <dialog> for a desktop <div> once it knows the window width). Wait until the DOM has had no mutations for
+// SETTLE_QUIET ms, so axe checks the hydrated page. Give up after SETTLE_MAX ms in case something animates forever.
+const SETTLE_QUIET = 1000
+const SETTLE_MAX = 10_000
+const waitForSettledDom = driver =>
+  driver.executeAsyncScript(
+    (quiet, max, done) => {
+      let timer
+      const finish = () => {
+        observer.disconnect()
+        clearTimeout(timer)
+        clearTimeout(cap)
+        done()
+      }
+      const observer = new MutationObserver(() => {
+        clearTimeout(timer)
+        timer = setTimeout(finish, quiet)
+      })
+      observer.observe(document.documentElement, {subtree: true, childList: true, attributes: true, characterData: true})
+      timer = setTimeout(finish, quiet)
+      const cap = setTimeout(finish, max)
+    },
+    SETTLE_QUIET,
+    SETTLE_MAX
+  )
+
 /**
  * Retry `fn` until it resolves or `timeout` ms pass. Services in CI can take a few seconds to accept connections.
  */
@@ -61,6 +88,7 @@ for (const route of routes) {
   try {
     await driver.get(url)
     await driver.wait(() => driver.executeScript("return document.readyState === 'complete'"), PAGE_TIMEOUT)
+    await waitForSettledDom(driver)
     const {violations} = await new AxeBuilder(driver).withTags(WCAG_TAGS).analyze()
     pages.push({route, violations})
     console.log(`${violations.length ? "✖" : "✔"} ${route}${violations.length ? ` (${violations.length} rules)` : ""}`)
