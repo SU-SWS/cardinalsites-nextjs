@@ -16,6 +16,9 @@ const SELENIUM_URL = process.env.SELENIUM_URL || "http://localhost:4444"
 const REPORT_PATH = process.env.A11Y_REPORT || "a11y-report.json"
 const WCAG_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]
 const PAGE_TIMEOUT = 30_000
+// Content the codebase can't fix: author-entered WYSIWYG HTML, and third party oembed iframes. Axe skips these elements
+// and everything inside them.
+const EXCLUDE_SELECTORS = [".wysiwyg", ".oembed"]
 
 // Routes behind a login. In the browser they redirect to the SAML or basic auth prompt, not to the page itself.
 const SKIP_ROUTES = ["/user", "/system/cache-clear"]
@@ -94,7 +97,9 @@ for (const route of routes) {
     await driver.get(url)
     await driver.wait(() => driver.executeScript("return document.readyState === 'complete'"), PAGE_TIMEOUT)
     await waitForSettledDom(driver)
-    const {violations} = await new AxeBuilder(driver).withTags(WCAG_TAGS).analyze()
+    const axe = new AxeBuilder(driver).withTags(WCAG_TAGS)
+    EXCLUDE_SELECTORS.forEach(selector => axe.exclude(selector))
+    const {violations} = await axe.analyze()
     pages.push({route, violations})
     console.log(`${violations.length ? "✖" : "✔"} ${route}${violations.length ? ` (${violations.length} rules)` : ""}`)
   } catch (error) {
@@ -147,7 +152,7 @@ for (const {route, error} of erroredPages) console.log(`Could not check ${route}
 writeFileSync(
   REPORT_PATH,
   JSON.stringify(
-    {baseUrl: BASE_URL, tags: WCAG_TAGS, checked: pages.length, rules: sortedRules, errors: erroredPages},
+    {baseUrl: BASE_URL, tags: WCAG_TAGS, excluded: EXCLUDE_SELECTORS, checked: pages.length, rules: sortedRules, errors: erroredPages},
     null,
     2
   )
