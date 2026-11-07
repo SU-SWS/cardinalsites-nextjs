@@ -1,28 +1,12 @@
 // Validates the HTML that `next build` prerendered into `.next/server/app`. Rules live in `.htmlvalidate.json`.
-import {existsSync, readFileSync, readdirSync} from "node:fs"
-import {join} from "node:path"
 import {FileSystemConfigLoader, HtmlValidate, Reporter, formatterFactory} from "html-validate"
-
-const BUILD_DIR = ".next/server/app"
+import {BUILD_DIR, getPrerenderedFiles} from "./prerendered-pages.mjs"
 
 // Ids that third party embed codes require exactly as written, since their scripts look the element up by it. An editor
 // can also place the same embed twice on a page.
 const VENDOR_IDS = ["25Live Location Request"]
 
-// Routes that redirect or 404 during prerendering aren't pages. Next writes them as an empty `__next_error__` shell, or
-// as the layout with a redirect or not found fallback in place of the content when it happens inside a Suspense boundary.
-const isErrorShell = file => {
-  const html = readFileSync(file, "utf8")
-  return html.includes('<html id="__next_error__"') || /NEXT_REDIRECT;|NEXT_HTTP_ERROR_FALLBACK;/.test(html)
-}
-
-// Fallback shells for dynamic params, ie `[[...slug]].html`. Their content, including the <title>, streams in at request time.
-const isFallbackShell = file => file.includes("[")
-
-const files = (existsSync(BUILD_DIR) ? readdirSync(BUILD_DIR, {recursive: true}) : [])
-  .filter(file => file.endsWith(".html"))
-  .map(file => join(BUILD_DIR, file))
-  .filter(file => !isFallbackShell(file) && !isErrorShell(file))
+const files = getPrerenderedFiles()
 
 if (!files.length) {
   console.error(`No prerendered HTML found in ${BUILD_DIR}. Run \`yarn build\` first.`)

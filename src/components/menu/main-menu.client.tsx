@@ -72,12 +72,14 @@ const MainMenuClient = ({hideSearch, menuItems, headerLinks}: Props) => {
         as={isMobile ? "dialog" : "div"}
         autoFocus={isMobile}
         returnFocus
-        disabled={!menuOpen || isMobile}
+        // Trap focus only while the mobile dialog is open. On desktop the menu is inline navigation.
+        disabled={!menuOpen || !isMobile}
         lockProps={{
           id: `${id}-dialog`,
           open: isMobile,
           "aria-labelledby": isMobile ? id : undefined,
-          "aria-modal": isMobile,
+          // aria-modal is only valid on a dialog role. Omit it on desktop, where this renders as a div.
+          "aria-modal": isMobile || undefined,
         }}
         className={cn(
           "fixed top-0 left-0 z-20 hidden h-dvh w-dvw overflow-auto bg-black lg:relative lg:top-0 lg:block lg:h-auto lg:w-auto lg:overflow-visible lg:bg-transparent",
