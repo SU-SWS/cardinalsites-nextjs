@@ -41,7 +41,12 @@ const waitForSettledDom = driver =>
         clearTimeout(timer)
         timer = setTimeout(finish, quiet)
       })
-      observer.observe(document.documentElement, {subtree: true, childList: true, attributes: true, characterData: true})
+      observer.observe(document.documentElement, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        characterData: true,
+      })
       timer = setTimeout(finish, quiet)
       const cap = setTimeout(finish, max)
     },
