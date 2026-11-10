@@ -20,16 +20,15 @@ export async function clearCache(formData: FormData) {
       cleared.push("global footer")
     }
 
-    if (paths) {
-      paths
-        .trim()
-        .split(" ")
-        .map(path => {
-          revalidateTag(`paths:/${path.trim()}`, "max")
-          revalidateTag(path.trim(), "max")
-          cleared.push(path)
-        })
-    }
+    // Space separated paths and/or cache tags. A path may be entered with or without its leading
+    // slash (`/about` or `about`); a value without one is also cleared as a raw cache tag, e.g.
+    // `views:stanford_news`. Repeated spaces must not produce empty values, which would clear `/`.
+    const values = (paths || "").split(/\s+/).filter(value => !!value)
+    values.forEach(value => {
+      revalidateTag(`paths:/${value.replace(/^\/+/, "")}`, "max")
+      if (!value.startsWith("/")) revalidateTag(value, "max")
+      cleared.push(value)
+    })
 
     if (cleared.length > 0) {
       return {

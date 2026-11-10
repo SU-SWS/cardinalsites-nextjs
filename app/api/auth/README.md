@@ -44,10 +44,14 @@ Initiates the SAML authentication flow by redirecting the browser to the IdP's S
 
 **Flow:**
 
-1. Loads SAML config (certificates fetched from Vault).
-2. Validates that `SAML_ISSUER` and `SAML_ENTRY_POINT` are set.
+1. Loads the SAML config from environment variables (`getSamlConfig()`).
+2. Validates that the issuer (`SAML_ENTITY_ID`) and `SAML_ENTRY_POINT` are set, or responds `500`. (The log message
+   names the issuer `SAML_ISSUER`, but the variable is `SAML_ENTITY_ID`.)
 3. Generates a SAML `AuthnRequest` via `passport-saml`, encoding `destination` as `RelayState`.
-4. Issues a `302` redirect to the IdP login URL.
+4. Issues a redirect to the IdP login URL.
+
+Only paths on this site are accepted as `destination` (or `Referer`), so the login can't be used to send users off
+site. Responds `501` if the optional SAML packages aren't installed.
 
 ---
 
@@ -100,7 +104,8 @@ Returns the SP's SAML metadata XML, used to register this application with the I
 
 **Response:** `application/xml` — standard SAML SP metadata including entity ID, ACS URL, and signing certificate.
 
-The signing certificate is loaed with environment variables using the `SAML_SIGNING_CERT` variable.
+The signing certificate is loaded from the `SAML_SIGNING_CERT` environment variable. Responds `501` if the optional
+SAML packages aren't installed.
 
 ---
 
@@ -144,20 +149,31 @@ is unaffected.
 
 | Variable            | Required  | Description                                                                    |
 |---------------------|-----------|--------------------------------------------------------------------------------|
-| `VAULT_ROLE_ID`     | For Vault | Vault AppRole role IDL                                                         |
+| `VAULT_ROLE_ID`     | For Vault | Vault AppRole role ID                                                          |
 | `VAULT_SECRET_ID`   | For Vault | Vault AppRole secret ID                                                        |
-| `VAULT_PATH`        | For Vault | Vault path to the secrets in vault                                             |                                            |
-| `JWT_SECRET`        | For auth  | Secret key for signing/verifying JWT session cookies                           |
+| `VAULT_PATH`        | For Vault | Vault path to read secrets from                                                |
+| `JWT_SECRET`        | For auth  | Secret key for signing/verifying JWT session cookies. Auth is disabled without it. |
 | `SAML_ENTRY_POINT`  | For auth  | IdP SSO URL (e.g. `https://login.stanford.edu/idp/profile/SAML2/Redirect/SSO`) |
-| `SAML_ENTITY_ID`    | For auth  | SP entity ID sent in SAML AuthnRequests                                        |
-| `SAML_IDP_CERT`     | For auth  | IDP Certificate                                                                |
-| `SAML_PRIVATE_KEY`  | For auth  | IDP Certificate key                                                            |
-| `SAML_SIGNING_CERT` | For auth  | SP Signing certificate                                                         |
+| `SAML_ENTITY_ID`    | For auth  | SP entity ID, sent as the issuer and checked as the assertion audience          |
+| `SAML_IDP_CERT`     | For auth  | IdP signing certificate. May hold several PEM blocks for a certificate rollover. |
+| `SAML_PRIVATE_KEY`  | For auth  | SP private key, used to decrypt assertions                                     |
+| `SAML_SIGNING_CERT` | For auth  | SP certificate published in the SAML metadata                                  |
 
-### SAML Configuration (`src/lib/auth/saml-config.tsx`)
+Any of these can be stored in Vault. Vault values are loaded into the Next.js `env` config **at build time** (see the
+root README), so after rotating a certificate or key, redeploy. Certificates pasted with literal `\n` escapes or odd
+wrapping are normalized by `parseCertificates()`.
 
-The `getSamlConfig()` function assembles the `passport-saml` `SamlConfig` object at runtime. Certificates are fetched
-from HashiCorp Vault on every call; results are cached under the `"saml"` Next.js cache tag.
+### SAML Configuration (`src/lib/auth/saml-config.ts`)
+
+The `getSamlConfig()` function assembles the `passport-saml` `SamlConfig` object from environment variables on each
+call. It isn't cached.
+
+| Field                | Value                                                 |
+|----------------------|-------------------------------------------------------|
+| `entryPoint`         | `SAML_ENTRY_POINT`                                    |
+| `issuer`, `audience` | `SAML_ENTITY_ID`                                      |
+| `cert`               | `SAML_IDP_CERT`, parsed into one entry per certificate |
+| `privateKey`, `decryptionPvk` | `SAML_PRIVATE_KEY`                           |
 
 | Field                | Value                                                 |
 |----------------------|-------------------------------------------------------|
@@ -224,7 +240,8 @@ than relying on `passport-saml`'s built-in decryption, which has compatibility i
 
 | Path                                             | Purpose                                           |
 |--------------------------------------------------|---------------------------------------------------|
-| `src/lib/auth/saml-config.tsx`                   | Assembles `passport-saml` config from env + Vault |
+| `src/lib/auth/saml-config.ts`                    | Assembles `passport-saml` config from env vars    |
+| `src/lib/auth/optional-saml.ts`                  | Lazy loader for the optional SAML packages        |
 | `src/lib/auth/jwt-auth.ts`                       | JWT generation, verification, and cookie helpers  |
 | `src/lib/auth/manual-saml-decrypt.ts`            | Custom XML decryption and profile extraction      |
 | `src/components/elements/auth/login-button.tsx`  | UI component linking to `/api/auth/login`         |

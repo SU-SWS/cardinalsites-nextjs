@@ -8,9 +8,9 @@ fetch data from the Drupal GraphQL API.
 ```
 src/lib/gql/
 ├── *.drupal.gql            # GraphQL query/fragment definitions (hand-authored)
-├── gql-client.tsx          # GraphQLClient factory with auth header logic
-├── gql-queries.tsx         # Cached server-side data fetching helpers
-├── gql-views.tsx           # Cached view/listing page fetchers
+├── gql-client.ts           # Fetch-based GraphQL client with auth headers, timeouts and typed errors
+├── gql-queries.ts          # Cached server-side data fetching helpers
+├── gql-views.ts            # Cached view/listing page fetchers
 ├── filter-vocabs.ts        # Enum of Drupal taxonomy vocabulary IDs used for filtering
 └── __generated__/          # Auto-generated — do not edit by hand
     ├── graphql.ts          # All schema types + TypedDocumentNode per operation
@@ -119,9 +119,10 @@ Primitive field fragments reused across node and paragraph fragments: `FragmentT
 
 ---
 
-## Client (`gql-client.tsx`)
+## Client (`gql-client.ts`)
 
-`graphqlClient()` returns a configured [`GraphQLClient`](https://github.com/jasonkuhrt/graphql-request) instance.
+`graphqlClient()` returns a small fetch-based client (not `graphql-request`) with a typed `request()` method. It POSTs
+to `$NEXT_PUBLIC_DRUPAL_BASE_URL/graphql`.
 
 ```ts
 import {graphqlClient} from "@lib/gql/gql-client"
@@ -137,11 +138,23 @@ Authentication precedence:
 
 - Preview mode → `DRUPAL_BASIC_AUTH_ADMIN` → fallback to `DRUPAL_BASIC_AUTH`
 - Standard mode → `DRUPAL_BASIC_AUTH`
-- `DRUPAL_REQUEST_HEADERS` entries are merged in before the Authorization header.
+- `DRUPAL_REQUEST_HEADERS` entries are merged in before the Authorization header. Invalid JSON is skipped with a
+  warning.
+
+Requests time out after 30 seconds (60 seconds when `NODE_ENV=development` or `CI` is set). Failures throw a subclass
+of `ClientError`, and each sets an error `digest` that the production error page shows (`app/error.tsx`):
+
+| Error          | Digest                                  | Cause                                         |
+|----------------|-----------------------------------------|-----------------------------------------------|
+| `NetworkError` | `DRUPAL_TIMEOUT` / `DRUPAL_UNREACHABLE` | Timeout, connection refused, or DNS failure   |
+| `HttpError`    | `DRUPAL_HTTP_<status>`                  | Non-2xx response (for example a 403 from a WAF or bad credentials) |
+| `GraphqlError` | `DRUPAL_GRAPHQL`                        | Drupal returned GraphQL `errors`              |
+
+`describeError(error)` returns a readable summary for logs, preferring Drupal's `debugMessage`.
 
 ---
 
-## Query Helpers (`gql-queries.tsx`)
+## Query Helpers (`gql-queries.ts`)
 
 All functions are annotated `` and use Next.js [
 `cacheTag`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) + `cacheLife("max")` for fine-grained
@@ -218,7 +231,7 @@ become selectable options.
 
 ---
 
-## View Helpers (`gql-views.tsx`)
+## View Helpers (`gql-views.ts`)
 
 ### `getViewPagedItems(viewId, displayId, pageSize?, contextualFilter?, page?, filter?)`
 
@@ -326,9 +339,8 @@ FilterVocabs.Publications // "publication_filters"
 4. **Add cache tags** if wrapping in a `` function:
 
    ```ts
-   import {cacheTag} from "next/dist/server/use-cache/cache-tag"
-   import {cacheLife} from "next/dist/server/use-cache/cache-life"
+   import {cacheLife, cacheTag} from "next/cache"
 
-   cacheTag("my-content")
+   cacheTag("all-cache", "my-content")
    cacheLife("max")
    ```

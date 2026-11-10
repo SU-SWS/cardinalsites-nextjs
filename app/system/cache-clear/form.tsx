@@ -42,7 +42,9 @@ const CacheClearForm = () => {
             <span className="block font-semibold">Specific Path</span>
             <input type="text" name="path" placeholder="/example-path" size={20} className="max-w-300 text-4xl" />
           </label>
-          <p className="text-lg italic">Enter a path to revalidate (e.g., /about).</p>
+          <p className="text-lg italic">
+            Enter one or more paths or cache tags, separated by spaces (e.g., /about views:stanford_news).
+          </p>
         </div>
 
         <button
