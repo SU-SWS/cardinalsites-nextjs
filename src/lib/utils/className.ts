@@ -31,6 +31,8 @@ const customTwMerge = extendTailwindMerge({
       py: [(value: string) => value.startsWith("rs-py-")],
       ps: [(value: string) => value.startsWith("rs-ps-")],
       pe: [(value: string) => value.startsWith("rs-pe-")],
+      // Custom ratio column layouts from src/styles/index.css, e.g. grid-cols-1-2, grid-cols-1-2-1.
+      "grid-cols": [{"grid-cols": [(value: string) => /^\d+(-\d+)+$/.test(value)]}],
     },
   },
 })
