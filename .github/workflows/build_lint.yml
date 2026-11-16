@@ -10,6 +10,9 @@ env:
   # Drupal codebase the frontend builds against.
   DRUPAL_REPO: SU-SWS/ace-stanfordlagunita
   DRUPAL_REF: 4.x
+  # 'true' builds against the Drupal branch with the same name as this branch when one exists, otherwise DRUPAL_REF.
+  # `N.x` branches always use DRUPAL_REF, since both repositories use those names for unrelated major versions.
+  DRUPAL_MATCH_BRANCH: 'false'
   # Directory in docroot/sites. Also the `--site` option for drush drupal:sync and drupal:install.
   DRUPAL_SITE: default
   # Where the database comes from when there's no cached copy: "sync" copies production over SSH (needs the SSH_KEY and
@@ -24,6 +27,7 @@ env:
   # Number of pages `next build` prerenders, and so how many pages the HTML and accessibility checks cover.
   BUILD_PAGES: 100
   NODE_VERSION: 24
+  # Anything else this project's build needs, ie API keys from secrets.
 
 jobs:
   lint:
@@ -83,10 +87,22 @@ jobs:
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           if_key_exists: fail
+      - name: Find Drupal Branch
+        id: drupal-branch
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          REF=$DRUPAL_REF
+          if [ "$DRUPAL_MATCH_BRANCH" = "true" ] && ! echo "$BRANCH" | grep -qE '^[0-9]+\.x$' &&
+            git ls-remote --exit-code --heads "https://github.com/$DRUPAL_REPO.git" "$BRANCH" > /dev/null 2>&1; then
+            REF="$BRANCH"
+          fi
+          echo "Building against $DRUPAL_REPO $REF"
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
         with:
           repository: ${{ env.DRUPAL_REPO }}
-          ref: ${{ env.DRUPAL_REF }}
+          ref: ${{ steps.drupal-branch.outputs.ref }}
       - uses: actions/checkout@v7
         with:
           path: frontend
@@ -107,7 +123,10 @@ jobs:
             composer-${{ hashFiles('drush/drush.yml') }}-
       - name: Database Cache Key
         id: db-key
-        run: echo "key=db-${DRUPAL_SITE}-${DRUPAL_DB_SOURCE}-$(date -u +"$DRUPAL_DB_CACHE_PERIOD")" >> "$GITHUB_OUTPUT"
+        env:
+          DRUPAL_BRANCH: ${{ steps.drupal-branch.outputs.ref }}
+        # Keyed by Drupal branch too: a dump made on another branch already has that branch's updates applied.
+        run: echo "key=db-${DRUPAL_SITE}-${DRUPAL_DB_SOURCE}-${DRUPAL_BRANCH}-$(date -u +"$DRUPAL_DB_CACHE_PERIOD")" >> "$GITHUB_OUTPUT"
       # A sanitized copy of the database, reused for DRUPAL_DB_CACHE_PERIOD. Copying it from Acquia is the slowest part of
       # the job. To force a fresh copy sooner, delete the cache with `gh cache delete <key>`; the key is in this step's log.
       - name: Restore Database Cache
@@ -147,7 +166,9 @@ jobs:
           fi &&
           if [ -n "$DRUPAL_CI_SQL" ]; then
             drush --uri=$DRUPAL_SITE sqlq "$DRUPAL_CI_SQL"
-          fi
+          fi &&
+          # Warm Drupal's caches before the frontend build's first GraphQL requests.
+          curl --silent --output /dev/null http://localhost
       - name: Save Composer Cache
         if: steps.composer-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
