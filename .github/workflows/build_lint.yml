@@ -1,39 +1,65 @@
-
 name: Build & Lint
 on: [push]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Project settings. To reuse this workflow in another decoupled site, copy it along with `scripts/` and the
+# `validate:html` and `validate:a11y` package.json scripts, then update these values.
+env:
+  # Drupal codebase the frontend builds against.
+  DRUPAL_REPO: SU-SWS/ace-stanfordlagunita
+  DRUPAL_REF: 4.x
+  # Directory in docroot/sites. Also the `--site` option for drush drupal:sync and drupal:install.
+  DRUPAL_SITE: default
+  # Where the database comes from when there's no cached copy: "sync" copies production over SSH (needs the SSH_KEY and
+  # KNOWN_HOSTS secrets), "install" does a fresh `drush drupal:install`.
+  DRUPAL_DB_SOURCE: install
+  # How long a cached database is reused, as a `date` format: `%F` is daily, `%G-W%V` is weekly.
+  DRUPAL_DB_CACHE_PERIOD: '%F'
+  # SQL to run after the database is ready, ie to blank out third party keys. Leave empty for none.
+  DRUPAL_CI_SQL: 'truncate config_pages__su_site_algolia_id'
+  # Drush command that prints the .env lines the frontend needs to connect to Drupal.
+  DRUPAL_NEXT_CONNECT: stanford-decoupled:connect-next
+  # Number of pages `next build` prerenders, and so how many pages the HTML and accessibility checks cover.
+  BUILD_PAGES: 100
+  NODE_VERSION: 24
+
 jobs:
   lint:
     name: Lint & TS Check
     runs-on: ubuntu-latest
-    container:
-      image: node:24
-      env:
-        NEXT_PUBLIC_DRUPAL_BASE_URL: http://localhost
+    env:
+      NEXT_PUBLIC_DRUPAL_BASE_URL: http://localhost
     steps:
       - uses: actions/checkout@v7
-      - name: Restore Cache
-        uses: actions/cache@v5
+      - uses: actions/setup-node@v7
         with:
-          path: |
-            node_modules
-            .next
-          key: lint-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            lint-${{ hashFiles('package.json') }}-${{ hashFiles('yarn.lock') }}
-            lint-${{ hashFiles('package.json') }}-
-      - name: Lint
+          node-version: ${{ env.NODE_VERSION }}
+      # Restore and save are separate steps so the install is cached even when lint fails.
+      - name: Restore node_modules
+        id: modules-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: node_modules
+          key: lint-modules-${{ env.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Install
         run: |
           yarn
           yarn next telemetry disable
-          yarn lint
+      - name: Save node_modules
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: node_modules
+          key: lint-modules-${{ env.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Lint
+        run: yarn lint
   build:
     name: Build
     runs-on: ubuntu-latest
     container:
       image: pookmish/drupal8ci:php8.4
-      env:
-        BUILD_PAGES: 100
-        SITENAME: sitedir
     services:
       mysql:
         image: mysql:8.0
@@ -49,28 +75,52 @@ jobs:
         image: selenium/standalone-chrome:130.0
         options: --shm-size=2g
     steps:
+      - name: Install SSH key
+        if: env.DRUPAL_DB_SOURCE == 'sync'
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          if_key_exists: fail
       - uses: actions/checkout@v7
         with:
-          repository: "SU-SWS/ace-stanfordlagunita"
+          repository: ${{ env.DRUPAL_REPO }}
+          ref: ${{ env.DRUPAL_REF }}
       - uses: actions/checkout@v7
         with:
           path: frontend
-      - name: Restore Cache
-        uses: actions/cache@v5
+      # Every cache below is restored and saved in separate steps, so a failing HTML or accessibility check later in the
+      # job doesn't stop them from being saved.
+      - name: Restore Composer Cache
+        id: composer-cache
+        uses: actions/cache/restore@v6
         with:
           path: |
             vendor
             docroot/core
             docroot/libraries
             docroot/modules/contrib
-            frontend/node_modules
-          key: build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
+          key: composer-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
           restore-keys: |
-            build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
-            build-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-
-            build-${{ hashFiles('drush/drush.yml') }}-
-      - name: Sync Site
+            composer-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-
+            composer-${{ hashFiles('drush/drush.yml') }}-
+      - name: Database Cache Key
+        id: db-key
+        run: echo "key=db-${DRUPAL_SITE}-${DRUPAL_DB_SOURCE}-$(date -u +"$DRUPAL_DB_CACHE_PERIOD")" >> "$GITHUB_OUTPUT"
+      # A sanitized copy of the database, reused for DRUPAL_DB_CACHE_PERIOD. Copying it from Acquia is the slowest part of
+      # the job. To force a fresh copy sooner, delete the cache with `gh cache delete <key>`; the key is in this step's log.
+      - name: Restore Database Cache
+        id: db-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: db/${{ env.DRUPAL_SITE }}.sql.gz
+          key: ${{ steps.db-key.outputs.key }}
+      # In CI every site in docroot/sites shares the one `drupal` database, so `--uri` only picks the site's settings and
+      # config directory.
+      - name: Set Up Drupal
         run: |
+          DB_DUMP=$GITHUB_WORKSPACE/db/$DRUPAL_SITE.sql &&
           git config --system --add safe.directory '*' &&
           printf '[client]\nskip-ssl-verify-server-cert\n' > /etc/mysql/conf.d/ci.cnf &&
           mysql -h mysql -P 3306 -u root -pdrupal -e 'SET GLOBAL max_allowed_packet=67108864;' &&
@@ -78,26 +128,85 @@ jobs:
           ln -snf $GITHUB_WORKSPACE /var/www/html &&
           mkdir -p docroot/sites/default/files &&
           chmod -R 777 docroot/sites/default/files/ &&
+          if [ "$DRUPAL_SITE" != "default" ]; then
+            rm -rf docroot/sites/$DRUPAL_SITE/files &&
+            ln -sL ../default/files/ docroot/sites/$DRUPAL_SITE/files
+          fi &&
           apachectl stop && apachectl start &&
           composer install -n &&
-          drush drupal:install -n &&
-          drush sqlq 'truncate config_pages__su_site_algolia_id'
+          if [ -f $DB_DUMP.gz ]; then
+            drush --uri=$DRUPAL_SITE sql:drop -y &&
+            gunzip -c $DB_DUMP.gz | drush --uri=$DRUPAL_SITE sql:cli &&
+            # The Drupal code may have changed since the dump was made.
+            drush --uri=$DRUPAL_SITE deploy -y
+          else
+            drush drupal:$DRUPAL_DB_SOURCE --site=$DRUPAL_SITE -n &&
+            mkdir -p db &&
+            drush --uri=$DRUPAL_SITE sql:dump --gzip --result-file=$DB_DUMP &&
+            ls -lh $DB_DUMP.gz
+          fi &&
+          if [ -n "$DRUPAL_CI_SQL" ]; then
+            drush --uri=$DRUPAL_SITE sqlq "$DRUPAL_CI_SQL"
+          fi
+      - name: Save Composer Cache
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            vendor
+            docroot/core
+            docroot/libraries
+            docroot/modules/contrib
+          key: composer-${{ hashFiles('drush/drush.yml') }}-${{ hashFiles('composer.json') }}-${{ hashFiles('composer.lock') }}
+      - name: Save Database Cache
+        if: steps.db-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: db/${{ env.DRUPAL_SITE }}.sql.gz
+          key: ${{ steps.db-key.outputs.key }}
+      - name: Restore node_modules
+        id: modules-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: frontend/node_modules
+          key: build-modules-${{ hashFiles('frontend/yarn.lock') }}
+      # Turbopack's compile cache. Only this part of `.next/cache` is kept: the fetch cache would serve old GraphQL
+      # responses and hide problems with the current Drupal data.
+      - name: Restore Turbopack Cache
+        uses: actions/cache/restore@v6
+        with:
+          path: frontend/.next/cache/turbopack
+          key: turbopack-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            turbopack-${{ hashFiles('frontend/yarn.lock') }}-
+            turbopack-
       - name: Build Frontend
         id: build
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
           cp .env.example .env.local &&
           sed -i -r "s|NEXT_PUBLIC_DRUPAL_BASE_URL.*|NEXT_PUBLIC_DRUPAL_BASE_URL=http://localhost|g" .env.local &&
-          sed -i -r 's/BUILD_PAGES=.*/BUILD_PAGES=-1/g' .env.local &&
           cd $GITHUB_WORKSPACE &&
-          drush stanford-decoupled:connect-next >> $GITHUB_WORKSPACE/frontend/.env.local &&
+          drush $DRUPAL_NEXT_CONNECT >> $GITHUB_WORKSPACE/frontend/.env.local &&
           cd $GITHUB_WORKSPACE/frontend &&
           yarn &&
           yarn build
+      - name: Save node_modules
+        if: steps.modules-cache.outputs.cache-hit != 'true' && steps.build.outcome == 'success'
+        uses: actions/cache/save@v6
+        with:
+          path: frontend/node_modules
+          key: build-modules-${{ hashFiles('frontend/yarn.lock') }}
+      - name: Save Turbopack Cache
+        if: steps.build.outcome == 'success'
+        uses: actions/cache/save@v6
+        with:
+          path: frontend/.next/cache/turbopack
+          key: turbopack-${{ hashFiles('frontend/yarn.lock') }}-${{ github.sha }}
       # html-validate needs a newer node than the drupal8ci image ships.
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
       - name: Validate HTML
         run: |
           cd $GITHUB_WORKSPACE/frontend &&
