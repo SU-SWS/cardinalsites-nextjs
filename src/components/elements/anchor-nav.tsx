@@ -12,6 +12,8 @@ type HeadingItem = {
   text: string
 }
 
+const ANCHOR_NAV_BREAK = 768
+
 type Props = HTMLAttributes<HTMLDivElement> & {
   /**
    * Display links horizontally with overflow into a "More" dropdown.
@@ -32,7 +34,8 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
   const overflowContainerRef = useRef<HTMLLIElement>(null)
   const overflowBtnRef = useRef<HTMLButtonElement>(null)
   const itemWidthsRef = useRef<number[]>([])
-  const measuredRef = useRef(false)
+  // The headings array the stored widths belong to, so a new set of headings triggers a fresh measurement.
+  const measuredRef = useRef<HeadingItem[] | null>(null)
 
   const menuButtonId = useId()
   const menuPanelId = useId()
@@ -97,8 +100,12 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
 
     const headingWidth = headingRef.current?.offsetWidth || 0
     const totalItemsWidth = widths.reduce((a, b) => a + b, 0)
-    // The "See More" item is always rendered (invisibly when unused), so it takes up room either way.
-    const overflowBtnWidth = overflowContainerRef.current?.offsetWidth ?? 80
+    // The "See More" item is always rendered (invisibly when unused), so it takes up room either way. offsetWidth
+    // leaves out its right margin, so add that. The left margin is auto and only absorbs leftover space.
+    const overflowContainer = overflowContainerRef.current
+    const overflowBtnWidth = overflowContainer
+      ? overflowContainer.offsetWidth + parseFloat(getComputedStyle(overflowContainer).marginRight)
+      : 80
 
     if (headingWidth + totalItemsWidth + overflowBtnWidth <= containerWidth) {
       setVisibleCount(null)
@@ -121,45 +128,67 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
     setVisibleCount(Math.max(0, count))
   }, [horizontal])
 
-  // Reset measurements when headings change so all items render for re-measurement
-  const resetMeasurements = useCallback(() => {
-    measuredRef.current = false
-    itemWidthsRef.current = []
-    setVisibleCount(null)
-  }, [])
-
-  useEffect(() => {
-    resetMeasurements() // eslint-disable-line react-hooks/set-state-in-effect
-  }, [headings, resetMeasurements])
-
-  // Measure all item widths before paint, then calculate overflow.
+  // Reset, measure and calculate in one step. Measuring needs every item rendered, so if the list is currently
+  // sliced, clear the stored widths and render all items; the layout effect below then measures before paint.
   // Wrapped in useCallback so the direct call site in useLayoutEffect isn't a bare setState.
   const measureAndCalculate = useCallback(() => {
-    if (!listRef.current || measuredRef.current) return
+    if (!horizontal || !listRef.current || headings.length === 0) return
+    // Below the breakpoint the list is the mobile dropdown, so its widths don't apply to the horizontal bar.
+    if (window.innerWidth < ANCHOR_NAV_BREAK) return
     const items = Array.from(listRef.current.querySelectorAll<HTMLLIElement>("[data-nav-item]"))
-    if (items.length === 0 || items.length !== headings.length) return
-    itemWidthsRef.current = items.map(item => item.offsetWidth)
-    measuredRef.current = true
-    calculateOverflow()
-  }, [headings.length, calculateOverflow])
 
+    if (items.length !== headings.length) {
+      measuredRef.current = null
+      itemWidthsRef.current = []
+      setVisibleCount(null)
+      return
+    }
+
+    const widths = items.map(item => item.offsetWidth)
+    // Items measure 0 while the nav is hidden (e.g. during a client-side route transition). Keep nothing stored so
+    // the next layout effect or resize measures again instead of trusting empty widths.
+    if (widths.every(itemWidth => itemWidth === 0)) {
+      measuredRef.current = null
+      itemWidthsRef.current = []
+      return
+    }
+
+    itemWidthsRef.current = widths
+    measuredRef.current = headings
+    calculateOverflow()
+  }, [horizontal, headings, calculateOverflow])
+
+  // Intentionally runs after every render; the guard keeps it to one measurement per set of headings.
   useLayoutEffect(() => {
-    if (!horizontal) return
+    if (measuredRef.current === headings) return
     measureAndCalculate()
   })
 
-  // Recalculate on container resize using stored widths (no DOM re-measurement needed)
+  // Recalculate on container resize using stored widths, or measure again if there are none yet.
   useEffect(() => {
     if (!horizontal || !navRef.current) return
 
     const observer = new ResizeObserver(() => {
       if (itemWidthsRef.current.length > 0) calculateOverflow()
+      else measureAndCalculate()
     })
 
     observer.observe(navRef.current)
     return () => observer.disconnect()
     // The nav only mounts once headings are found, so re-run to attach the observer after that.
-  }, [horizontal, calculateOverflow, headings.length])
+  }, [horizontal, calculateOverflow, measureAndCalculate])
+
+  // The first measurement can happen with the fallback font, so measure again once web fonts have loaded.
+  useEffect(() => {
+    if (!horizontal) return
+    let cancelled = false
+    document.fonts.ready.then(() => {
+      if (!cancelled) measureAndCalculate()
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [horizontal, measureAndCalculate])
 
   if (headings.length === 0) return null
 
@@ -175,7 +204,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           "flex w-fit rounded-full": horizontal,
         })}
       >
-        {width && width < 768 && (
+        {width && width < ANCHOR_NAV_BREAK && (
           <button
             ref={mobileButtonRef}
             id="anchor-nav"
@@ -193,7 +222,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
             />
           </button>
         )}
-        {(!width || width >= 768) && (
+        {(!width || width >= ANCHOR_NAV_BREAK) && (
           <div
             ref={headingRef}
             id="anchor-nav"
@@ -209,18 +238,18 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           className={cn("list-unstyled", {
             "flex flex-row flex-nowrap items-center": horizontal,
             "ml-28": !horizontal,
-            hidden: width && width < 768 && !mobileMenuOpen,
+            hidden: width && width < ANCHOR_NAV_BREAK && !mobileMenuOpen,
             "absolute top-full left-0 z-10 block w-fit min-w-300 border-black-10 bg-white p-10 shadow-xl":
-              width && width < 768 && mobileMenuOpen,
+              width && width < ANCHOR_NAV_BREAK && mobileMenuOpen,
           })}
         >
-          {(width && width < 768 ? headings : visibleHeadings).map(({id, text}) => (
+          {(width && width < ANCHOR_NAV_BREAK ? headings : visibleHeadings).map(({id, text}) => (
             <li key={id} data-nav-item className="m-0">
               <a
                 href={`#${id}`}
                 onClick={closeMobileMenu}
                 className={cn("nowrap block p-10 font-normal text-cardinal-red no-underline hocus:underline", {
-                  "whitespace-nowrap": horizontal && width && width >= 768,
+                  "whitespace-nowrap": horizontal && width && width >= ANCHOR_NAV_BREAK,
                 })}
               >
                 {text}
@@ -229,7 +258,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
           ))}
 
           {/* Overflow button — always rendered when horizontal so its width can be measured */}
-          {horizontal && width && width >= 768 && (
+          {horizontal && width && width >= ANCHOR_NAV_BREAK && (
             <li
               ref={overflowContainerRef}
               className={cn("relative my-0 mr-0 ml-auto shrink-0 p-10", {
@@ -252,7 +281,7 @@ const AnchorNav = ({horizontal = false, ...props}: Props) => {
                 />
               </button>
 
-              {width && width >= 768 && hasOverflow && overflowOpen && (
+              {width && width >= ANCHOR_NAV_BREAK && hasOverflow && overflowOpen && (
                 <ul
                   id={menuPanelId}
                   aria-labelledby={menuButtonId}
